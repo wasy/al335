@@ -1252,6 +1252,14 @@ void AddBattlegroundScripts()
 
 #ifdef SCRIPTS
 /* This is where custom scripts' loading functions should be declared. */
+// custom
+void AddSC_custom_pvpevent();
+void AddSC_custom_totalizator();
+void AddSC_npc_arena_honor();
+void AddSC_npc_customize();
+void AddSC_npc_lottery();
+void AddSC_npc_gurubashi_theme();
+void AddSC_custom_goldperlevel();
 
 #endif
 
@@ -1267,5 +1275,13 @@ void AddCustomScripts()
     AddSC_DuelReset();
     AddSC_npc_mount();		
     AddSC_ArgentTournament();
+	// custom
+    AddSC_custom_pvpevent();
+    AddSC_custom_totalizator();
+    AddSC_npc_arena_honor();
+    AddSC_npc_customize();
+    AddSC_npc_lottery();
+    AddSC_npc_gurubashi_theme();
+    AddSC_custom_goldperlevel();
 #endif
 }

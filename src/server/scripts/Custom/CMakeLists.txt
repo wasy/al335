@@ -13,6 +13,14 @@ set(scripts_STAT_SRCS
   Custom/hunterpet_vendor.cpp
   Custom/npc_mount.cpp 
   Custom/argent_tournament.cpp
+  Custom/custom_pvpevent.cpp
+  Custom/custom_totalizator.cpp
+  Custom/npc_arena_honor.cpp
+  Custom/npc_customize.cpp
+  Custom/npc_lottery.cpp
+  Custom/npc_teleport.cpp
+  Custom/npc_gurubashi_theme.cpp
+  Custom/custom_goldperlevel.cpp
 )
 
 message("  -> Prepared: Custom")
