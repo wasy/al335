@@ -397,7 +397,15 @@ bool AuthSocket::_HandleLogonChallenge()
             else
                 sLog->outStaticDebug("[AuthChallenge] Account '%s' is not locked to ip", _login.c_str());
 
-            if (!locked)
+            bool deactivated = false;
+            if(!fields[7].GetUInt8())
+            {
+                deactivated = true;
+                sLog->outStaticDebug("[AuthChallenge] Account %s is deativated!", _login.c_str());
+                pkt << (uint8) WOW_FAIL_SUSPENDED;
+            }
+
+            if (!locked && !deactivated)
             {
                 //set expired bans to inactive
                 LoginDatabase.Execute(LoginDatabase.GetPreparedStatement(LOGIN_SET_EXPIREDACCBANS));
