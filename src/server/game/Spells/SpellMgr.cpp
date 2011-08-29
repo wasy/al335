@@ -2962,12 +2962,6 @@ void SpellMgr::LoadDbcDataCorrections()
             case 2825:  // Bloodlust
                 spellInfo->excludeCasterAuraSpell = 57724; // Sated
                 break;
-            // Fiery Payback hack
-            case 44440:
-            case 44441:
-                spellInfo->CasterAuraStateNot = AURA_STATE_NONE;
-                //++count;
-                break;
             case 20335: // Heart of the Crusader
             case 20336:
             case 20337:
@@ -3037,12 +3031,9 @@ void SpellMgr::LoadDbcDataCorrections()
             case 54172: // Divine Storm (heal)
             case 29213: // Curse of the Plaguebringer - Noth
             case 28542: // Life Drain - Sapphiron
+            case 66588: // Flaming Spear
             case 54171: // Divine Storm
                 spellInfo->MaxAffectedTargets = 3;
-                break;
-            case 66588: // Flaming Spear
-                spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_TARGET_ENEMY;
-                spellInfo->EffectImplicitTargetA[1] = TARGET_UNIT_TARGET_ENEMY;
                 break;
             case 38310: // Multi-Shot
             case 53385: // Divine Storm (Damage)
@@ -3075,7 +3066,6 @@ void SpellMgr::LoadDbcDataCorrections()
             case 17941: // Shadow Trance
             case 22008: // Netherwind Focus
             case 31834: // Light's Grace
-            case 34477: // Misdirection
             case 34754: // Clearcasting
             case 34936: // Backlash
             case 48108: // Hot Streak
