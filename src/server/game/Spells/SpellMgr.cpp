@@ -1,4 +1,4 @@
-/*
+    /*
  * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
@@ -103,8 +103,11 @@ DiminishingGroup GetDiminishingReturnsGroupForSpell(SpellInfo const* spellproto,
         }
         case SPELLFAMILY_WARRIOR:
         {
+            // Hamstring - limit duration to 10s in PvP
+            if (spellproto->SpellFamilyFlags[0] & 0x2)
+                return DIMINISHING_LIMITONLY;
             // Improved Hamstring
-            if (spellproto->AttributesEx3 & 0x80000 && spellproto->SpellIconID == 23)
+            else if (spellproto->AttributesEx3 & 0x80000 && spellproto->SpellIconID == 23)
                 return DIMINISHING_ROOT;
             // Charge Stun (own diminishing)
             else if (spellproto->SpellFamilyFlags[0] & 0x01000000)
@@ -116,6 +119,9 @@ DiminishingGroup GetDiminishingReturnsGroupForSpell(SpellInfo const* spellproto,
             // Death Coil
             if (spellproto->SpellFamilyFlags[0] & 0x80000)
                 return DIMINISHING_HORROR;
+            // Curses/etc
+            else if ((spellproto->SpellFamilyFlags[0] & 0x80000000) || (spellproto->SpellFamilyFlags[1] & 0x200))
+                return DIMINISHING_LIMITONLY;
             // Seduction
             else if (spellproto->SpellFamilyFlags[1] & 0x10000000)
                 return DIMINISHING_FEAR;
@@ -140,6 +146,9 @@ DiminishingGroup GetDiminishingReturnsGroupForSpell(SpellInfo const* spellproto,
             // Nature's Grasp
             else if (spellproto->SpellFamilyFlags[0] & 0x00000200)
                 return DIMINISHING_CONTROLLED_ROOT;
+            // Faerie Fire
+            else if (spellproto->SpellFamilyFlags[0] & 0x400)
+                return DIMINISHING_LIMITONLY;
             break;
         }
         case SPELLFAMILY_ROGUE:
@@ -153,12 +162,18 @@ DiminishingGroup GetDiminishingReturnsGroupForSpell(SpellInfo const* spellproto,
             // Cheap Shot
             else if (spellproto->SpellFamilyFlags[0] & 0x400)
                 return DIMINISHING_OPENING_STUN;
+            // Crippling poison - Limit to 10 seconds in PvP (No SpellFamilyFlags)
+            else if (spellproto->SpellIconID == 163)
+                return DIMINISHING_LIMITONLY;
             break;
         }
         case SPELLFAMILY_HUNTER:
         {
+            // Hunter's mark
+            if ((spellproto->SpellFamilyFlags[0] & 0x400) && spellproto->SpellIconID == 538)
+                return DIMINISHING_LIMITONLY;
             // Scatter Shot (own diminishing)
-            if ((spellproto->SpellFamilyFlags[0] & 0x40000) && spellproto->SpellIconID == 132)
+            else if ((spellproto->SpellFamilyFlags[0] & 0x40000) && spellproto->SpellIconID == 132)
                 return DIMINISHING_SCATTER_SHOT;
             // Entrapment (own diminishing)
             else if (spellproto->SpellVisual[0] == 7484 && spellproto->SpellIconID == 20)
@@ -173,8 +188,11 @@ DiminishingGroup GetDiminishingReturnsGroupForSpell(SpellInfo const* spellproto,
         }
         case SPELLFAMILY_PALADIN:
         {
+            // Judgement of Justice - limit duration to 10s in PvP
+            if (spellproto->SpellFamilyFlags[0] & 0x100000)
+                return DIMINISHING_LIMITONLY;
             // Turn Evil
-            if ((spellproto->SpellFamilyFlags[1] & 0x804000) && spellproto->SpellIconID == 309)
+            else if ((spellproto->SpellFamilyFlags[1] & 0x804000) && spellproto->SpellIconID == 309)
                 return DIMINISHING_FEAR;
             break;
         }
@@ -183,6 +201,9 @@ DiminishingGroup GetDiminishingReturnsGroupForSpell(SpellInfo const* spellproto,
             // Hungering Cold (no flags)
             if (spellproto->SpellIconID == 2797)
                 return DIMINISHING_DISORIENT;
+            // Mark of Blood
+            else if ((spellproto->SpellFamilyFlags[0] & 0x10000000) && spellproto->SpellIconID == 2285)
+                return DIMINISHING_LIMITONLY;
             break;
         }
         default:
@@ -227,6 +248,9 @@ DiminishingReturnsType GetDiminishingReturnsGroupType(DiminishingGroup group)
         case DIMINISHING_CYCLONE:
         case DIMINISHING_CHARGE:
             return DRTYPE_ALL;
+        case DIMINISHING_LIMITONLY:
+        case DIMINISHING_NONE:
+            return DRTYPE_NONE;
         default:
             return DRTYPE_PLAYER;
     }
@@ -1297,7 +1321,7 @@ void SpellMgr::LoadSpellLearnSkills()
 
     // search auto-learned skills and add its to map also for use in unlearn spells/talents
     uint32 dbc_count = 0;
-    for (uint32 spell = 0; spell < sSpellMgr->GetSpellInfoStoreSize(); ++spell)
+    for (uint32 spell = 0; spell < GetSpellInfoStoreSize(); ++spell)
     {
         SpellInfo const* entry = GetSpellInfo(spell);
 
@@ -2633,6 +2657,7 @@ void SpellMgr::LoadSpellCustomAttr()
                     spellInfo->AttributesCu |= SPELL_ATTR0_CU_AURA_CC;
                     break;
             }
+
             switch (spellInfo->Effects[j].Effect)
             {
                 case SPELL_EFFECT_SCHOOL_DAMAGE:
@@ -2668,7 +2693,7 @@ void SpellMgr::LoadSpellCustomAttr()
                             if (enchant->type[s] != ITEM_ENCHANTMENT_TYPE_COMBAT_SPELL)
                                 continue;
 
-                            SpellInfo* procInfo = (SpellInfo*)sSpellMgr->GetSpellInfo(enchant->spellid[s]);
+                            SpellInfo* procInfo = (SpellInfo*)GetSpellInfo(enchant->spellid[s]);
                             if (!procInfo)
                                 continue;
 
@@ -2811,14 +2836,14 @@ void SpellMgr::LoadSpellCustomAttr()
             case 67860: // Impale
             case 69293: // Wing Buffet
             case 74439: // Machine Gun
-                spellInfo->AttributesCu |= SPELL_ATTR0_CU_IGNORE_ARMOR;
-                break;
             case 63278: // Mark of the Faceless (General Vezax)
                 spellInfo->AttributesCu |= SPELL_ATTR0_CU_IGNORE_ARMOR;
                 break;
             case 64422: // Sonic Screech (Auriaya)
                 spellInfo->AttributesCu |= SPELL_ATTR0_CU_SHARE_DAMAGE;
                 spellInfo->AttributesCu |= SPELL_ATTR0_CU_IGNORE_ARMOR;
+                break;
+            default:
                 break;
         }
 
@@ -2872,16 +2897,6 @@ void SpellMgr::LoadDbcDataCorrections()
                     if (SpellImplicitTargetInfo::IsPosition(spellInfo->EffectImplicitTargetA[j]) ||
                         spellInfo->Targets & (TARGET_FLAG_SOURCE_LOCATION | TARGET_FLAG_DEST_LOCATION))
                         spellInfo->Effect[j] = SPELL_EFFECT_TRIGGER_MISSILE;
-                    break;
-            }
-
-            switch (SpellImplicitTargetInfo::Type[spellInfo->EffectImplicitTargetA[j]])
-            {
-                case TARGET_TYPE_UNIT_TARGET:
-                case TARGET_TYPE_DEST_TARGET:
-                    spellInfo->Targets |= TARGET_FLAG_UNIT;
-                    break;
-                default:
                     break;
             }
         }
@@ -2940,7 +2955,6 @@ void SpellMgr::LoadDbcDataCorrections()
             case 45524: // Chains of Ice
                 // this will fix self-damage caused by Glyph of Chains of Ice
                 spellInfo->EffectImplicitTargetA[2] = TARGET_UNIT_TARGET_ENEMY;
-                //++count;
                 break;
             case 32182: // Heroism
                 spellInfo->excludeCasterAuraSpell = 57723; // Exhaustion
@@ -2974,13 +2988,11 @@ void SpellMgr::LoadDbcDataCorrections()
             case 63944:                             // Renewed Hope hack
                 spellInfo->EffectApplyAuraName[0] = 87;
                 spellInfo->EffectMiscValue[0] = 127;
-                //++count;
                 break;
             case 71189: // Dreamwalker's Rage
                 spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_CASTER;
                 spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_SRC_AREA_ENEMY;
                 spellInfo->EffectRadiusIndex[0] = 12;
-                //++count;
                 break;
             case 70127: // Mystic Buffet
             case 72528:
@@ -2988,7 +3000,6 @@ void SpellMgr::LoadDbcDataCorrections()
             case 72530:
                 spellInfo->EffectImplicitTargetA[1] = TARGET_SRC_CASTER;
                 spellInfo->EffectImplicitTargetB[1] = TARGET_UNIT_SRC_AREA_ENEMY;
-                //++count;
                 break;
             case 44978: case 45001: case 45002: // Wild Magic
             case 45004: case 45006: case 45010: // Wild Magic
@@ -3079,7 +3090,6 @@ void SpellMgr::LoadDbcDataCorrections()
             case 53257: // Cobra Strikes
                 spellInfo->procCharges = 2;
                 spellInfo->StackAmount = 0;
-                //count++;
                 break;
             case 44544: // Fingers of Frost
                 spellInfo->EffectSpellClassMask[0] = flag96(685904631, 1151048, 0);
@@ -3133,11 +3143,9 @@ void SpellMgr::LoadDbcDataCorrections()
             // some dummy spell only has dest, should push caster in this case
             case 62324: // Throw Passenger
                 spellInfo->Targets |= TARGET_FLAG_UNIT_ALLY;
-                //++count;
                 break;
             case 66665: // Burning Breath
                 spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_TARGET_ENEMY;
-                //++count;
                 break;
             case 16834: // Natural shapeshifter
             case 16835:
@@ -3149,7 +3157,7 @@ void SpellMgr::LoadDbcDataCorrections()
                 spellInfo->AttributesEx3 |= SPELL_ATTR3_STACK_FOR_DIFF_CASTERS;
                 spellInfo->SpellFamilyFlags[2] = 0x10;
                 break;
-            case 41013: // Parasitic Shadowfiend Passive
+            case 41913: // Parasitic Shadowfiend Passive
                 spellInfo->EffectApplyAuraName[0] = 4; // proc debuff, and summon infinite fiends
                 break;
             case 27892: // To Anchor 1
@@ -3173,11 +3181,9 @@ void SpellMgr::LoadDbcDataCorrections()
                 break;
             case 12051: // Evocation - now we can interrupt this
                 spellInfo->InterruptFlags |= SPELL_INTERRUPT_FLAG_INTERRUPT;
-                //++count;
                 break;
             case 42650: // Army of the Dead - now we can interrupt this
                 spellInfo->InterruptFlags = SPELL_INTERRUPT_FLAG_INTERRUPT;
-                //++count;
                 break;
             case 57994: // Wind Shear - improper data for EFFECT_1 in 3.3.5 DBC, but is correct in 4.x
                 spellInfo->Effect[EFFECT_1] = SPELL_EFFECT_MODIFY_THREAT_PERCENT;
@@ -3189,18 +3195,15 @@ void SpellMgr::LoadDbcDataCorrections()
             case 20331: // Seals of the Pure (Rank 4)
             case 20332: // Seals of the Pure (Rank 5)
                 spellInfo->EffectSpellClassMask[EFFECT_0][1] = 0x20400800;
-                //++count;
                 break;
             case 63675: // Improved Devouring Plague
                 spellInfo->AttributesEx3 |= SPELL_ATTR3_NO_DONE_BONUS;
                 break;
             case 33206: // Pain Suppression
                 spellInfo->AttributesEx5 &= ~SPELL_ATTR5_USABLE_WHILE_STUNNED;
-                //++count;
                 break;
             case 56278: // Read Pronouncement, missing EffectApplyAuraName
                 spellInfo->Effect[0] = SPELL_EFFECT_DUMMY;
-                //count++;
                 break;
             case 8145: // Tremor Totem (instant pulse)
             case 6474: // Earthbind Totem (instant pulse)
@@ -3241,6 +3244,9 @@ void SpellMgr::LoadDbcDataCorrections()
             case 61719: // Easter Lay Noblegarden Egg Aura - Interrupt flags copied from aura which this aura is linked with
                 spellInfo->AuraInterruptFlags = AURA_INTERRUPT_FLAG_HITBYSPELL | AURA_INTERRUPT_FLAG_TAKE_DAMAGE;
                 break;
+            case 49206: // Summon Gargoyle
+                spellInfo->DurationIndex = 587;
+                break;
             // ULDUAR SPELLS
             //
             case 63342: // Focused Eyebeam Summon Trigger (Kologarn)
@@ -3250,11 +3256,9 @@ void SpellMgr::LoadDbcDataCorrections()
             case 63882: // Death Ray Warning Visual
             case 63886: // Death Ray Damage Visual
                 spellInfo->AttributesEx3 |= SPELL_ATTR3_STACK_FOR_DIFF_CASTERS;
-                //++count;
                 break;
             case 64172: // Titanic Storm
                 spellInfo->excludeTargetAuraSpell = 65294; // Empowered
-                //++count;
                 break;
             case 63830: // Malady of the Mind
             case 63881: // Malady of the Mind proc
@@ -3262,16 +3266,13 @@ void SpellMgr::LoadDbcDataCorrections()
                 spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_TARGET_ANY;
                 spellInfo->EffectImplicitTargetB[1] = TARGET_UNIT_TARGET_ANY;
                 spellInfo->EffectImplicitTargetB[2] = TARGET_UNIT_TARGET_ANY;
-                //++count;
                 break;
             case 63802: // Brain Link
                 spellInfo->MaxAffectedTargets = 2;
                 spellInfo->EffectRadiusIndex[0] = 12; // 100 yard
-                //++count;
                 break;
             case 63050: // Sanity
                 spellInfo->AttributesEx3 |= SPELL_ATTR3_DEATH_PERSISTENT;
-                //++count;
                 break;
             case 62716: // Growth of Nature (Freya)
             case 65584: // Growth of Nature (Freya)
@@ -3419,23 +3420,17 @@ void SpellMgr::LoadDbcDataCorrections()
                 spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_TARGET_ANY;
                 spellInfo->Effect[1] = 0;
                 break;
-            case 49206: // Summon Gargoyle
-                spellInfo->DurationIndex = 587;
-                //++count;
-                break;
             case 51590: // Toss Ice Boulder
                 spellInfo->MaxAffectedTargets = 1;
-                //++count;
                 break;
             case 74412: // Emergency Recall [Final]
                 for (int8 i = 0; i < 3; ++i)
                     spellInfo->EffectImplicitTargetB[i] = TARGET_UNIT_TARGET_ANY;
-                //++count;
                 break;
-            case 75545: case 75536: // Explosion (prevent error message in console)
+            case 75536: // Explosion (prevent error message in console)
+            case 75545: // Explosion (prevent error message in console)
             case 75553:             // Emergency Recall [Camera trigger]
                 spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_TARGET_ANY;
-                //++count;
                 break;
             //Lich King custom script spells
             case 72762:
@@ -3499,8 +3494,6 @@ void SpellMgr::LoadDbcDataCorrections()
                 // Starfall Target Selection
                 if (spellInfo->SpellFamilyFlags[2] & 0x100)
                     spellInfo->MaxAffectedTargets = 2;
-                else
-                    break;
                 break;
             case SPELLFAMILY_PRIEST:
                 // Twin Disciplines should affect at Prayer of Mending
@@ -3516,8 +3509,6 @@ void SpellMgr::LoadDbcDataCorrections()
                 // Seals of the Pure should affect Seal of Righteousness
                 if (spellInfo->SpellIconID == 25 && spellInfo->Attributes & SPELL_ATTR0_PASSIVE)
                     spellInfo->EffectSpellClassMask[0][1] |= 0x20000000;
-                else
-                    break;
                 break;
             case SPELLFAMILY_DEATHKNIGHT:
                 // Icy Touch - extend FamilyFlags (unused value) for Sigil of the Frozen Conscience to use

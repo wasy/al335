@@ -9,3 +9,4 @@ win/
 *.kdev*
 *.bak
 *.patch
+*.diff

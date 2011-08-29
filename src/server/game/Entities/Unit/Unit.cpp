@@ -620,7 +620,7 @@ bool Unit::HasAuraTypeWithFamilyFlags(AuraType auraType, uint32 familyName, uint
 
 void Unit::DealDamageMods(Unit* victim, uint32 &damage, uint32* absorb)
 {
-    if (!victim->isAlive() || victim->HasUnitState(UNIT_STAT_IN_FLIGHT) || (victim->GetTypeId() == TYPEID_UNIT && victim->ToCreature()->IsInEvadeMode()))
+    if (!victim || !victim->isAlive() || victim->HasUnitState(UNIT_STAT_IN_FLIGHT) || (victim->GetTypeId() == TYPEID_UNIT && victim->ToCreature()->IsInEvadeMode()))
     {
         if (absorb)
             *absorb += damage;
@@ -5024,10 +5024,6 @@ bool Unit::HandleHasteAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
         return false;
     }
 
-    // default case
-    if ((!target && triggerEntry->IsRequiringSelectedTarget()) || (target && target != this && !target->isAlive()))
-        return false;
-
     if (cooldown && GetTypeId() == TYPEID_PLAYER && ToPlayer()->HasSpellCooldown(triggered_spell_id))
         return false;
 
@@ -5261,20 +5257,6 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
 
                     target = this;
                     triggered_spell_id = 33494;
-                    break;
-                }
-		//Item - Icecrown 25 Normal Tank Weapon Proc
-		case 71871:
-                {
-                    triggered_spell_id = 71870;
-                    target = this;
-                    break;
-                }
-		//Item - Icecrown 25 Heroic Tank Weapon Proc
-		case 71873:
-                {
-                    triggered_spell_id = 71872;
-                    target = this;
                     break;
                 }
                 // Twisted Reflection (boss spell)
@@ -5687,16 +5669,6 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                     }
                     else if (player->GetQuestStatus(24547) == QUEST_STATUS_INCOMPLETE)  // A Feast of Souls
                         triggered_spell_id = 71203;
-                    break;
-                }
-                // Gaseous Bloat (Professor Putricide add)
-                case 70215:
-                case 72858:
-                case 72859:
-                case 72860:
-                {
-                    target = getVictim();
-                    triggered_spell_id = 70701;
                     break;
                 }
                 // Essence of the Blood Queen
@@ -7893,10 +7865,6 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
         return false;
     }
 
-    // default case
-    if ((!target && triggerEntry->IsRequiringSelectedTarget()) || (target && target != this && !target->isAlive()))
-        return false;
-
     if (cooldown_spell_id == 0)
         cooldown_spell_id = triggered_spell_id;
 
@@ -7955,10 +7923,6 @@ bool Unit::HandleObsModEnergyAuraProc(Unit* victim, uint32 /*damage*/, AuraEffec
         return false;
     }
 
-    // default case
-    if ((!target && triggerEntry->IsRequiringSelectedTarget()) || (target && target != this && !target->isAlive()))
-        return false;
-
     if (cooldown && GetTypeId() == TYPEID_PLAYER && ToPlayer()->HasSpellCooldown(triggered_spell_id))
         return false;
     if (basepoints0)
@@ -8012,10 +7976,6 @@ bool Unit::HandleModDamagePctTakenAuraProc(Unit* victim, uint32 /*damage*/, Aura
         return false;
     }
 
-    // default case
-    if ((!target && triggerEntry->IsRequiringSelectedTarget()) || (target && target != this && !target->isAlive()))
-        return false;
-
     if (cooldown && GetTypeId() == TYPEID_PLAYER && ToPlayer()->HasSpellCooldown(triggered_spell_id))
         return false;
 
@@ -8046,6 +8006,27 @@ bool Unit::HandleAuraProc(Unit* victim, uint32 damage, Aura* triggeredByAura, Sp
                     RemoveAuraFromStack(71564);
                     *handled = true;
                     break;
+                // Gaseous Bloat
+                case 70672:
+                case 72455:
+                case 72832:
+                case 72833:
+                {
+                    *handled = true;
+                    uint32 stack = triggeredByAura->GetStackAmount();
+                    int32 const mod = (GetMap()->GetSpawnMode() & 1) ? 1500 : 1250;
+                    int32 dmg = 0;
+                    for (uint8 i = 1; i < stack; ++i)
+                        dmg += mod * stack;
+                    if (Unit* caster = triggeredByAura->GetCaster())
+                    {
+                        caster->CastCustomSpell(70701, SPELLVALUE_BASE_POINT0, dmg);
+                        if (Creature* creature = caster->ToCreature())
+                            creature->DespawnOrUnsummon(1);
+                    }
+                    break;
+                }
+                // Ball of Flames Proc
                 case 71756:
                 case 72782:
                 case 72783:
@@ -8178,6 +8159,10 @@ bool Unit::HandleAuraProc(Unit* victim, uint32 damage, Aura* triggeredByAura, Sp
                     if (plr->getClass() != CLASS_DEATH_KNIGHT)
                         return false;
 
+                    RuneType rune = ToPlayer()->GetLastUsedRune();
+                    // can't proc from death rune use
+                    if (rune == RUNE_DEATH)
+                        return false;
                     AuraEffect* aurEff = triggeredByAura->GetEffect(EFFECT_0);
                     if (!aurEff)
                         return false;
@@ -9227,10 +9212,6 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, AuraEffect* trigg
     // try detect target manually if not set
     if (target == NULL)
         target = !(procFlags & (PROC_FLAG_DONE_SPELL_MAGIC_DMG_CLASS_POS | PROC_FLAG_DONE_SPELL_NONE_DMG_CLASS_POS)) && triggerEntry && triggerEntry->IsPositive() ? this : victim;
-
-    // default case
-    if ((!target && triggerEntry->IsRequiringSelectedTarget()) || (target && target != this && !target->isAlive()))
-        return false;
 
     if (basepoints0)
         CastCustomSpell(target, trigger_spell_id, &basepoints0, NULL, NULL, true, castItem, triggeredByAura);
@@ -12437,6 +12418,9 @@ void Unit::ClearInCombat()
 
 bool Unit::isTargetableForAttack(bool checkFakeDeath) const
 {
+    if (!isAlive())
+        return false;
+
     if (HasFlag(UNIT_FIELD_FLAGS,
         UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE))
         return false;
@@ -13472,7 +13456,8 @@ float Unit::GetSpellMaxRangeForTarget(Unit* target, SpellInfo const* spellInfo)
     if (spellInfo->RangeEntry->maxRangeFriend == spellInfo->RangeEntry->maxRangeHostile)
         return spellInfo->GetMaxRange();
     return spellInfo->GetMaxRange(!IsHostileTo(target));
-};
+}
+
 float Unit::GetSpellMinRangeForTarget(Unit* target, SpellInfo const* spellInfo)
 {
     if (!spellInfo->RangeEntry)
@@ -13480,7 +13465,7 @@ float Unit::GetSpellMinRangeForTarget(Unit* target, SpellInfo const* spellInfo)
     if (spellInfo->RangeEntry->minRangeFriend == spellInfo->RangeEntry->minRangeHostile)
         return spellInfo->GetMinRange();
     return spellInfo->GetMinRange(!IsHostileTo(target));
-};
+}
 
 Unit* Unit::GetUnit(WorldObject& object, uint64 guid)
 {

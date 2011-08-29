@@ -811,4 +811,14 @@ INSERT INTO `spell_script_names` VALUES
 DELETE FROM `spell_script_names` WHERE `spell_id`= 47496;
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (47496, 'spell_dk_ghoul_explode');
- 
+
+-- Scripts/UtgardePinnacle: Fixed harpoon
+delete from `conditions` where `SourceEntry` = 56578 and `ConditionValue2` = 26693;
+insert into `conditions` (`SourceTypeOrReferenceId`,`SourceEntry`,`ConditionTypeOrReference`,`ConditionValue1`,`ConditionValue2`) values (13, 56578, 18, 1, 26693);
+
+-- Fixed spells 71871 & 71873
+replace into `spell_proc_event` (`entry`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `procFlags`, `procEx`, `ppmRate`, `CustomChance`, `Cooldown`) values('71873','1','0','0','0','0','20','3','0','37','10');
+replace into `spell_proc_event` (`entry`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `procFlags`, `procEx`, `ppmRate`, `CustomChance`, `Cooldown`) values('71871','1','10','0','0','0','20','3','0','37','10');
+
+-- Fix spell 44525
+replace into `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) values (44525,0,0,0,0,'Enchant - Icebreaker');
