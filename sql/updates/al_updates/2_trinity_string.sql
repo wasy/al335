@@ -5,29 +5,155 @@ UPDATE `trinity_string` SET `content_loc8`='|cffff0000[Анонс Арены]:|r
 UPDATE `trinity_string` SET `content_loc8` = 'Игрок выбрал NPC 
 DB GUID: %u. Текущий GUID: %u 
 Фракция: %u. 
-npcFlags: %u. 
+нпцФлаг: %u.
 Entry: %u. 
-DisplayId: %u (Native: %u).' WHERE `entry` =539;
-
+ДисплейID: %u (Текущий: %u).' WHERE `entry` =539;
 UPDATE `trinity_string` SET `content_loc8` = '%d (Entry: %d) - |cffffffff|Hgameobject:%d|h[%s X:%f Y:%f Z:%f MapId:%d]|h|r ' WHERE `entry` =517;
-UPDATE `trinity_string` SET `content_loc8`='Используемое существом EventAI: %s' WHERE `entry`= 59;
 UPDATE `trinity_string` SET `content_loc8`='Предмет ''%u'' (с ценой %u) уже в списке продавца.' WHERE `entry`= 210;
 UPDATE `trinity_string` SET `content_loc8`='Расстояние: (3D) %f (2D) %f (Точно 3D) %f (Точно 2D) %f ярд(ов).' WHERE `entry`= 503;
-
 UPDATE `trinity_string` SET `content_loc8` = 'Выбранный объект:
 |cffffffff|Hgameobject:%d|h[%s]|h|r GUID: %u ID: %u
 X: %f Y: %f Z: %f MapId: %u
 Ориентация: %f
 Phasemask %u' WHERE `entry` =524;
-
 UPDATE `trinity_string` SET `content_loc8`='Оставшееся время молчанки: %s' WHERE `entry`= 550;
 UPDATE `trinity_string` SET `content_loc8` = '-[%16s][%12s][%15s][%3d][%4d][%d][%d]-' WHERE `entry` =1013;
+UPDATE `trinity_string` SET `content_loc8` = '   Случайный' WHERE `entry` = 528;
+UPDATE `trinity_string` SET `content_loc8` = '   Точка пути' WHERE `entry` = 529;
+UPDATE `trinity_string` SET `content_loc8` = '$n осадил(а) %s' WHERE `entry` = 1216;
+UPDATE `trinity_string` SET `content_loc8` = '$n захватил(а) %s' WHERE `entry` = 1217;
+UPDATE `trinity_string` SET `content_loc8` = '$n объявляет %s своей территорией! Если никто не вмешается, через 1 минуту %s возьмет ее под контроль!' WHERE `entry` = 660;
+UPDATE `trinity_string` SET `content_loc8` = '$n объявляет %s своей территорией! Если никто не вмешается, через 1 минуту %s возьмет ее под контроль!' WHERE `entry` = 1218;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс' WHERE `entry` = 1225;
+UPDATE `trinity_string` SET `content_loc8` = 'Арены были отключены. Вы не можете встать в очередь.' WHERE `entry` = 748;
+UPDATE `trinity_string` SET `content_loc8` = 'Броня: %u' WHERE `entry` = 5021;
+UPDATE `trinity_string` SET `content_loc8` = '%s атакуют! Если не помешать, %s разрушит это!' WHERE `entry` = 1303;
+UPDATE `trinity_string` SET `content_loc8` = '%s получил(а) бан на %s. Причина: %s.' WHERE `entry` = 408;
+UPDATE `trinity_string` SET `content_loc8` = '%s получил(а) вечный бан за %s.' WHERE `entry` = 409;
+UPDATE `trinity_string` SET `content_loc8` = 'Игроков онлайн: %u (максимум: %u). Игроков в очереди: %u (максимум: %u).' WHERE `entry` = 12;
+UPDATE `trinity_string` SET `content_loc8` = 'Один или несколько параметров имеют неверные значения' WHERE `entry` = 62;
+UPDATE `trinity_string` SET `content_loc8` = 'Недопустимая цель' WHERE `entry` = 63;
+UPDATE `trinity_string` SET `content_loc8` = 'Вы не можете здесь использовать этот предмет.' WHERE `entry` = 64;
+UPDATE `trinity_string` SET `content_loc8` = 'Чтобы воспользоваться этим порталом, вам необходимо достигнуть 58 уровня.' WHERE `entry` = 65;
+UPDATE `trinity_string` SET `content_loc8` = 'Карта: %u (%s) Зона: %u (%s) Область: %u (%s) Фаза: %u\nX: %f Y: %f Z: %f Ориентация: %f\nсетка[%u,%u]ячейка[%u,%u] ИНИнстанса: %u\n X_Зоны: %f Y_Зоны: %f\nZ_Основания: %f Z_Пола: %f имеете данные Высот(Maps: %u VMaps: %u)' WHERE `entry` = 101;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда захватила Западный Маяк!' WHERE `entry` =10013;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс захватил Западный Маяк!' WHERE `entry` =10014;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда захватила Восточный Маяк!' WHERE `entry` =10015;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс захватил Восточный Маяк!' WHERE `entry` =10016;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда захватила кладбище!' WHERE `entry` =10017;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс захватил кладбище!' WHERE `entry` =10018;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда потеряла Западный Маяк!' WHERE `entry` =10019;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс потерял Западный Маяк!' WHERE `entry` =10020;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда потеряла Восточный Маяк!' WHERE `entry` =10021;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс потерял Восточный Маяк!' WHERE `entry` =10022;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда потеряла кладбище!' WHERE `entry` =10023;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс потерял кладбище!' WHERE `entry` =10024;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда захватила Халаа!' WHERE `entry` =10025;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс захватил Халаа!' WHERE `entry` =10026;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда потеряла Халаа!' WHERE `entry` =10027;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс потерял Халаа!' WHERE `entry` =10028;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда захватила башню Духов!' WHERE `entry` =10029;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс захватил башню Духов!' WHERE `entry` =10030;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда потеряла башню Духов!' WHERE `entry` =10031;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс потерял a башню Духов!' WHERE `entry` =10033;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда захватила башню Северного перевала!' WHERE `entry` =10033;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс захватил башню Северного перевала!' WHERE `entry` =10034;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда захватила Восточную башню!' WHERE `entry` =10035;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс захватил Восточную башню!' WHERE `entry` =10036;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда захватила башню Королевской Стражи!' WHERE `entry` =10037;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс захватил башню Королевской Стражи!' WHERE `entry` =10038;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда захватила башню Чумного леса!' WHERE `entry` =10039;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс захватил башню Чумного леса!' WHERE `entry` =10040;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда потеряла башню Северного перевала!' WHERE `entry` =10041;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс потерял башню Северного перевала!' WHERE `entry` =10042;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда потеряла Восточную башню!' WHERE `entry` =10043;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс потерял Восточную башню!' WHERE `entry` =10044;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда потеряла башню Королевской Стражи!' WHERE `entry` =10045;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс потерял башню Королевской Стражи!' WHERE `entry` =10046;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда потеряла башню Чумного леса!' WHERE `entry` =10047;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс потерял башню Чумного леса!' WHERE `entry` =10048;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда собрала 200 силитиста!' WHERE `entry` =10049;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс собрал 200 силитиста!' WHERE `entry` =10050;
+UPDATE `trinity_string` SET `content_loc8` = 'Отведите меня к башне Северного перевала.' WHERE `entry` =10051;
+UPDATE `trinity_string` SET `content_loc8` = 'Отведите меня к Восточной башне.' WHERE `entry` =10052;
+UPDATE `trinity_string` SET `content_loc8` = 'Отведите меня к башне Королевской Стражи.' WHERE `entry` =10053;
+UPDATE `trinity_string` SET `content_loc8` = 'Это подземелье закрыто.' WHERE `entry` =5008;
+UPDATE `trinity_string` SET `content_loc8` = 'Неверное количество (%u) для предмета %u' WHERE `entry` =52;
+UPDATE `trinity_string` SET `content_loc8` = 'Дамп персонажа успешно создан!' WHERE `entry` =481;
+UPDATE `trinity_string` SET `content_loc8` = 'Дамп персонажа создать не удалось!' WHERE `entry` =482;
+UPDATE `trinity_string` SET `content_loc8` = '   Следовать за игроком %s (lowguid %u)' WHERE `entry` =532;
+UPDATE `trinity_string` SET `content_loc8` = '   Следовать за игроком %s (lowguid %u)' WHERE `entry` =533;
+UPDATE `trinity_string` SET `content_loc8` = '   Следовать за <NULL>' WHERE `entry` =534;
+UPDATE `trinity_string` SET `content_loc8` = 'Игровой объект (Entry: %u) имеет некоректные данные и не может быть заспавнен.' WHERE `entry` =348;
+UPDATE `trinity_string` SET `content_loc8` = 'Текущее выбранное звание для игрока %s неизвестно и сброшено.' WHERE `entry` =356;
+UPDATE `trinity_string` SET `content_loc8` = 'Не найдены вещи из комплекта ''%u''.' WHERE `entry` =502;
+UPDATE `trinity_string` SET `content_loc8` = 'Альянс' WHERE `entry` =650;
+UPDATE `trinity_string` SET `content_loc8` = 'Орда' WHERE `entry` =651;
+UPDATE `trinity_string` SET `content_loc8` = 'стойла' WHERE `entry` =652;
+UPDATE `trinity_string` SET `content_loc8` = 'кузницу' WHERE `entry` =653;
+UPDATE `trinity_string` SET `content_loc8` = 'ферму' WHERE `entry` =654;
+UPDATE `trinity_string` SET `content_loc8` = 'лесопилку' WHERE `entry` =655;
+UPDATE `trinity_string` SET `content_loc8` = 'золотой рудник' WHERE `entry` =656;
+UPDATE `trinity_string` SET `content_loc8` = '%s захватил(а) %s!' WHERE `entry` =657;
+UPDATE `trinity_string` SET `content_loc8` = '$n $gотстоял:отстояла;%s!' WHERE `entry` =658;
+UPDATE `trinity_string` SET `content_loc8` = '$n штурмует %s!' WHERE `entry` =659;
+UPDATE `trinity_string` SET `content_loc8` = 'Игровой объект (Entry: %u) не найден' WHERE `entry` =522;
+UPDATE `trinity_string` SET `content_loc8` = '   Беспорядочный' WHERE `entry` =531;
+UPDATE `trinity_string` SET `content_loc8` = '   Неизвестный генератор движения (%u)' WHERE `entry` =538;
+UPDATE `trinity_string` SET `content_loc8` = 'Вы находитесь: %s' WHERE `entry` =40;
+UPDATE `trinity_string` SET `content_loc8` = 'Глобальное уведомление: ' WHERE `entry` =100;
+UPDATE `trinity_string` SET `content_loc8` = 'Обновление очков арены для всех персонажей в сети завершено.' WHERE `entry` =743;
+UPDATE `trinity_string` SET `content_default`='Name and version EventAI: %s' WHERE `entry`= 59;
+UPDATE `trinity_string` SET `content_loc8`='Название и версия EventAI: %s' WHERE `entry`= 59;
 
-/*
-REPLACE INTO `trinity_string` (`entry`, `content_default`, `content_loc1`, `content_loc2`, `content_loc3`, `content_loc4`, `content_loc5`, `content_loc6`, `content_loc7`, `content_loc8`) VALUES
-(282, 'Character %s is kicked with the game world.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Персонаж %s исключен(а) с игрового мира.'),
-(301, 'Сharacter %s was disabled chat for %u minutes. Reason: %s.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Персонажу %s был заблокирован чат на %u минут. Причина: %s.'),
-(408, '%s is blocked for %s. Reason: %s.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '%s заблокирован(а) на %s. Причина: %s.'),
-(409, '%s is blocked permanently. Reason: %s.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '%s заблокирован(а) навечно. Причина: %s.');
-*/
+UPDATE `trinity_string` SET `content_loc8` = 'Вы были посажены в тюрьму %s на %u час(ов)!' WHERE `entry` =12100;
+UPDATE `trinity_string` SET `content_loc8` = '%s написал это как причину: %s' WHERE `entry` =12101;
+UPDATE `trinity_string` SET `content_loc8` = '%s посажен вами в тюрьму на %u час(ов).' WHERE `entry` =12102;
+UPDATE `trinity_string` SET `content_loc8` = '%s освободил вас из тюрьмы.' WHERE `entry` =12103;
+UPDATE `trinity_string` SET `content_loc8` = 'Вы освободили игрока %s из тюрьмы .' WHERE `entry` =12104;
+UPDATE `trinity_string` SET `content_loc8` = 'Не указана причина, или причина менее < %u символов!' WHERE `entry` =12105;
+UPDATE `trinity_string` SET `content_loc8` = 'Не выбрано имя игрока!' WHERE `entry` =12106;
+UPDATE `trinity_string` SET `content_loc8` = 'Не выбран срок наказания!' WHERE `entry` =12107;
+UPDATE `trinity_string` SET `content_loc8` = 'Время наказания должно быть между 1 или %u часами!' WHERE `entry` =12108;
+UPDATE `trinity_string` SET `content_loc8` = 'Персонаж %s не посажен в тюрьму!' WHERE `entry` =12109;
+UPDATE `trinity_string` SET `content_loc8` = 'Эта команда запрещена для персонажей в тюрьме!' WHERE `entry` =12110;
+UPDATE `trinity_string` SET `content_loc8` = 'Вам осталось сидеть в тюрьме %u час(ов) и %u минут.' WHERE `entry` =12111;
+UPDATE `trinity_string` SET `content_loc8` = 'Вам осталось сидеть в тюрьме %u минут.' WHERE `entry` =12112;
+UPDATE `trinity_string` SET `content_loc8` = 'Вы свободны, как птица.. ;-)' WHERE `entry` =12113;
+UPDATE `trinity_string` SET `content_loc8` = '%s был посажен в тюрьму %u раз, провел в тюрьме %u минут.\n Последний раз посажен: %s\n Последнее время наказания: %s\nПоследняя причина наказания: %s' WHERE `entry` =12114;
+UPDATE `trinity_string` SET `content_loc8` = '%s никогда не сидел.. ' WHERE `entry` =12115;
+UPDATE `trinity_string` SET `content_loc8` = 'Вы не можете сами себя посадить в тюрьму!' WHERE `entry` =12116;
+UPDATE `trinity_string` SET `content_loc8` = 'Увы, самого себя освободить из тюрьмы невозможно :(' WHERE `entry` =12117;
+UPDATE `trinity_string` SET `content_loc8` = '!!! ВНИМАНИЕ !!!\n Если Вас еще раз посадят в тюрьму, Ваш персонаж будет удален с сервера!' WHERE `entry` =12118;
+UPDATE `trinity_string` SET `content_loc8` = 'Персонаж %s был посажен в тюрьму на %u час(ов) гейм-мастером %s \nПричина : %s' WHERE `entry` =12119;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: конфигурация обновилась.' WHERE `entry` =12120;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: Конфигурация загружена.' WHERE `entry` =12121;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: Невозможно загрузить конфигурацию! Таблица пуста или отсутствует! Используйте character_jail.sql!' WHERE `entry` =12122;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: Переменные конфигурации сброшены.' WHERE `entry` =12123;
+UPDATE `trinity_string` SET `content_loc8` = 'Персонаж %s (GUID %u) какой-то кореш, телепортировался в тюрьму с кабанчиком.' WHERE `entry` =12124;
+UPDATE `trinity_string` SET `content_loc8` = 'Персонаж %s (GUID %u) освобожден из тюряги.' WHERE `entry` =12125;
+UPDATE `trinity_string` SET `content_loc8` = 'Персонажа с таким именем здесь не существует!' WHERE `entry` =12126;
+UPDATE `trinity_string` SET `content_loc8` = '!!! ВНИМАНИЕ !!!\n Еще один тюремный срок, приведет к бану вашего аккаунта!' WHERE `entry` =12127;
+UPDATE `trinity_string` SET `content_loc8` = 'Максимальное время пребывания в тюрьме достигнуто!' WHERE `entry` =12128;
+UPDATE `trinity_string` SET `content_loc8` = 'Вы преступник,  однако в данный момент это мера сохранения персонажа.' WHERE `entry` =12129;
+UPDATE `trinity_string` SET `content_loc8` = '%s был(а) %u раз в тюрьме, %u час(ов) и %u минут(ы).\nПоследний раз заключен(а) в тюрьму: %s.\nПоследняя тюрьма была: %s\nПоследняя причина была: %s' WHERE `entry` =12130;
+UPDATE `trinity_string` SET `content_loc8` = '%s сидел в тюрьме много раз, и уже имеет %u банов! Поставлен штамп в дело - РЕЦЕДИВИСТ.' WHERE `entry` =12131;
+UPDATE `trinity_string` SET `content_loc8` = 'Аккаунт этого персонажа блокировался %u!' WHERE `entry` =12132;
+UPDATE `trinity_string` SET `content_loc8` = '%s уже сидит..!' WHERE `entry` =12133;
+UPDATE `trinity_string` SET `content_loc8` = 'Вы не можете сбросить тюремные записи забаненным аккаунтом!' WHERE `entry` =12134;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: Данные Тюряги перечитаны.' WHERE `entry` =12135;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: Удаление записей о несуществующих более персонажей.' WHERE `entry` =12136;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: Проверка на устаревшие наказания...' WHERE `entry` =12137;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: Не найдено наказания.' WHERE `entry` =12138;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: %u устаревшее наказание найдено и %u ms проверено.' WHERE `entry` =12139;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: Инициализируем Тюрягу...' WHERE `entry` =12140;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: Тюряга не активна! Отмена инициализации.' WHERE `entry` =12141;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: осуждения не найдено.' WHERE `entry` =12142;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: %u арест(ов) (%u активных) в %u ms загружены.' WHERE `entry` =12143;
+UPDATE `trinity_string` SET `content_loc8` = 'ОШИБКА, строка слишком длинная!' WHERE `entry` =12144;
+UPDATE `trinity_string` SET `content_loc8` = 'Jail: данные загружены.' WHERE `entry` =12145;
+UPDATE `trinity_string` SET `content_loc8` = 'Нет данной фракции (horde/ally)! ' WHERE `entry` =12146;
+UPDATE `trinity_string` SET `content_loc8` = 'Тюряга активирована.' WHERE `entry` =12197;
+UPDATE `trinity_string` SET `content_loc8` = 'Тюряга деактивирована.' WHERE `entry` =12198;
+UPDATE `trinity_string` SET `content_loc8` = 'Тюряга не активирована!' WHERE `entry` =12199;
 
