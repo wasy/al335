@@ -861,7 +861,6 @@ Player::Player (WorldSession *session): Unit(), m_achievementMgr(this), m_reputa
     isDebugAreaTriggers = false;
 
     SetPendingBind(NULL, 0);
-
 }
 
 Player::~Player ()
@@ -5016,13 +5015,13 @@ void Player::DeleteFromDB(uint64 playerguid, uint32 accountId, bool updateRealmC
             stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_PLAYER_BGDATA);
             stmt->setUInt32(0, guid);
             trans->Append(stmt);
-            trans->PAppend("DELETE FROM character_glyphs WHERE guid = '%u'",guid);
-            trans->PAppend("DELETE FROM character_queststatus_daily WHERE guid = '%u'",guid);
-            trans->PAppend("DELETE FROM character_talent WHERE guid = '%u'",guid);
-            trans->PAppend("DELETE FROM character_skills WHERE guid = '%u'",guid);
+            trans->PAppend("DELETE FROM character_glyphs WHERE guid = '%u'", guid);
+            trans->PAppend("DELETE FROM character_queststatus_daily WHERE guid = '%u'", guid);
+            trans->PAppend("DELETE FROM character_talent WHERE guid = '%u'", guid);
+            trans->PAppend("DELETE FROM character_skills WHERE guid = '%u'", guid);
             /* World of Warcraft Armory */
-            trans->PAppend("DELETE FROM armory_character_stats WHERE guid = '%u'",guid);
-            trans->PAppend("DELETE FROM character_feed_log WHERE guid = '%u'",guid);
+            trans->PAppend("DELETE FROM armory_character_stats WHERE guid = '%u'", guid);
+            trans->PAppend("DELETE FROM character_feed_log WHERE guid = '%u'", guid);
             /* World of Warcraft Armory */
 
             CharacterDatabase.CommitTransaction(trans);
@@ -19048,7 +19047,7 @@ void Player::_SaveSpells(SQLTransaction& trans)
 
         // add only changed/new not dependent spells
         if (!itr->second->dependent && (itr->second->state == PLAYERSPELL_NEW || itr->second->state == PLAYERSPELL_CHANGED))
-            trans->PAppend("INSERT INTO character_spell (guid,spell,active,disabled) VALUES ('%u', '%u', '%u', '%u')", GetGUIDLow(), itr->first, itr->second->active ? 1 : 0,itr->second->disabled ? 1 : 0);
+            trans->PAppend("INSERT INTO character_spell (guid, spell, active, disabled) VALUES ('%u', '%u', '%u', '%u')", GetGUIDLow(), itr->first, itr->second->active ? 1 : 0, itr->second->disabled ? 1 : 0);
 
         if (itr->second->state == PLAYERSPELL_REMOVED)
         {
