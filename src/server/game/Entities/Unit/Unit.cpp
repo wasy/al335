@@ -11793,12 +11793,6 @@ bool Unit::IsDamageToThreatSpell(SpellInfo const* spellInfo) const
         case SPELLFAMILY_DEATHKNIGHT:
             if (spellInfo->SpellFamilyFlags[1] == 0x20000000) // Rune Strike
                 return true;
-            if (spellInfo->SpellFamilyFlags[2] == 0x8) // Death and Decay
-                return true;
-            break;
-        case SPELLFAMILY_WARRIOR:
-            if (spellInfo->SpellFamilyFlags[0] == 0x80) // Thunder Clap
-                return true;
             break;
     }
 
