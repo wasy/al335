@@ -3442,6 +3442,16 @@ void SpellMgr::LoadDbcDataCorrections()
                 spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_TARGET_ANY;
                 spellInfo->Effect[1] = 0;
                 break;
+            case 68282: // Charge (ToC mount)
+                spellInfo->Effect[0] = SPELL_EFFECT_SCHOOL_DAMAGE;
+                spellInfo->Effect[1] = SPELL_EFFECT_CHARGE;
+                spellInfo->EffectImplicitTargetA[1] = TARGET_UNIT_TARGET_ENEMY;
+                spellInfo->EffectBasePoints[0] = 20*1000;
+            break;
+            case 51678: //WintergraspSiegeEngine Ram set damage radius to 5 yards
+                spellInfo->EffectRadiusIndex[0] = 52;
+                spellInfo->EffectRadiusIndex[1] = 52;
+                break;
             case 51590: // Toss Ice Boulder
                 spellInfo->MaxAffectedTargets = 1;
                 break;
