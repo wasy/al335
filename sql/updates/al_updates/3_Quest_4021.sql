@@ -38,8 +38,8 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 UPDATE `creature_template` SET `AIName`= 'SmartAI', `gossip_menu_id`=@GOSSIP WHERE `entry`=@ENTRY;
 UPDATE `gossip_menu_option` SET `action_menu_id` = '0' WHERE `menu_id` = @GOSSIP AND `id` =1;
 -- loc8
-UPDATE `locales_gossip_menu_option` SET `option_text_loc8` = 'Пожать протянутую руку Дракуру.',`box_text_loc8` = NULL WHERE `menu_id` = @GOSSIP AND `id` = 1;
-UPDATE `locales_gossip_menu_option` SET `option_text_loc8` = 'Дракуру, мне нужны ваши эликсиры.',`box_text_loc8` = NULL WHERE `menu_id` = @GOSSIP AND `id` = 2;
+UPDATE `locales_gossip_menu_option` SET `option_text_loc8` = 'РџРѕР¶Р°С‚СЊ РїСЂРѕС‚СЏРЅСѓС‚СѓСЋ СЂСѓРєСѓ Р”СЂР°РєСѓСЂСѓ.',`box_text_loc8` = NULL WHERE `menu_id` = @GOSSIP AND `id` = 1;
+UPDATE `locales_gossip_menu_option` SET `option_text_loc8` = 'Р”СЂР°РєСѓСЂСѓ, РјРЅРµ РЅСѓР¶РЅС‹ РІР°С€Рё СЌР»РёРєСЃРёСЂС‹.',`box_text_loc8` = NULL WHERE `menu_id` = @GOSSIP AND `id` = 2;
 
 
 -- quest=12204 In the Name of Loken
