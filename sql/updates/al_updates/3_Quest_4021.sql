@@ -1,4 +1,5 @@
--- Quest - Counterattack! 4021
+-- Q4021 - Counterattack!
+-- чистим, спавн скриптом после взятия квеста
 -- Warlord Krom'zar (`guid` 35973)
 DELETE FROM `creature` WHERE `id` = 9456;
 -- Kolkar Stormseer (`guid` 36006,36007,36178,36289)
@@ -10,25 +11,25 @@ DELETE FROM `creature` WHERE `id` = 9457;
 -- Horde Axe Thrower (`guid` 35994,36010,36149)
 DELETE FROM `creature` WHERE `id` = 9458;
 
-DELETE FROM `gossip_menu` WHERE `entry` IN (23615,23616);
+-- чистим с tdb, берем id ytdb
+DELETE FROM `gossip_menu` WHERE `text_id` IN (2533,2534); 
 INSERT INTO `gossip_menu` (`entry`,`text_id`) VALUES
-(23615,2533),
-(23616,2534);
-DELETE FROM `gossip_menu_option` WHERE `menu_id`=23615 AND `id`=0;
+(1882,2533);
+-- чистим с tdb, берем id ytdb
+-- первый старт после взятия, повторно запустить можно через опред. время, контр. smartai
+DELETE FROM `gossip_menu_option` WHERE `menu_id` in (1882, 21253);
 INSERT INTO `gossip_menu_option` (`menu_id`, `id`, `option_icon`, `option_text`, `option_id`, `npc_option_npcflag`, `action_menu_id`, `action_poi_id`, `box_coded`, `box_money`, `box_text`) VALUES
-(23615, 0, 0, 'Where is Warlord Krom''zar?', 1, 1, 23616, 0, 0, 0, NULL);
-DELETE FROM `creature_text` WHERE `entry`=3389;
-INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `comment`) VALUES
-(3389, 0, 0, 'Beware, $N! Look to the west!', 0, 0, 100, 1, 0, 0, 'Regthar Deathgate: quest start'),
-(3389, 1, 0, 'A defender has fallen!', 0, 0, 100, 1, 0, 0, 'Regthar Deathgate: Horde Defender death');
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=23615;
+(1882, 0, 0, 'Where is Warlord Krom''zar?', 1, 1, 0, 0, 0, 0, NULL);
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=1882;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
-(15, 23615, 0, 0, 9, 4021, 0, 0, 0, '', 'Regthar Deathgate: Counterattack!: gossip: has quest'),
-(15, 23615, 0, 0, 26, 11227, 0, 0, 0, '', 'Regthar Deathgate: Counterattack!: gossip: does not have item Piece Banner');
-UPDATE `creature_template` SET `AIName`='SmartAI', `gossip_menu_id`=23615 WHERE `entry`=3389;
+(15, 1882, 0, 0, 9, 4021, 0, 0, 0, '', 'Regthar Deathgate: Counterattack!: gossip: has quest'),
+(15, 1882, 0, 0, 26, 11227, 0, 0, 0, '', 'Regthar Deathgate: Counterattack!: gossip: does not have item Piece Banner');
+UPDATE `smart_scripts` SET `event_param1` = '1882' WHERE `entryorguid` =3389 AND `source_type` =0 AND `id` =4;
+UPDATE `smart_scripts` SET `event_param1` = '1882' WHERE `entryorguid` =3389 AND `source_type` =0 AND `id` =5;
+UPDATE `creature_template` SET `AIName`='SmartAI', `gossip_menu_id`=1882 WHERE `entry`=3389;
 
 
--- quest=11989 / Drakuru SAI
+-- Q11989 - Truce?
 SET @ENTRY := 26423;
 SET @GOSSIP := 9615;
 DELETE FROM `smart_scripts` WHERE (`entryorguid`=@ENTRY AND `source_type`=0);
@@ -42,7 +43,7 @@ UPDATE `locales_gossip_menu_option` SET `option_text_loc8` = 'Пожать пр�
 UPDATE `locales_gossip_menu_option` SET `option_text_loc8` = 'Дракуру, мне нужны ваши эликсиры.',`box_text_loc8` = NULL WHERE `menu_id` = @GOSSIP AND `id` = 2;
 
 
--- quest=12204 In the Name of Loken
+-- Q12204 - In the Name of Loken
 SET @ENTRY := 26484;
 SET @GOSSIP := 9484;
 DELETE FROM `smart_scripts` WHERE (`entryorguid`=@ENTRY AND `source_type`=0);
