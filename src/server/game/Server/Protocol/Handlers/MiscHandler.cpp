@@ -60,7 +60,7 @@ void WorldSession::HandleRepopRequestOpcode(WorldPacket & recv_data)
     if (GetPlayer()->isAlive() || GetPlayer()->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_GHOST))
         return;
 
-    if (GetPlayer()->HasAuraType(SPELL_AURA_PREVENT_RESSURECTION))
+    if (GetPlayer()->HasAuraType(SPELL_AURA_PREVENT_RESURRECTION))
         return; // silently return, client should display the error by itself
 
     // the world update order is sessions, players, creatures
@@ -167,7 +167,6 @@ void WorldSession::HandleGossipSelectOptionOpcode(WorldPacket & recv_data)
 void WorldSession::HandleWhoOpcode(WorldPacket & recv_data)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Recvd CMSG_WHO Message");
-    //recv_data.hexlike();
 
     uint32 matchcount = 0;
 
@@ -1340,7 +1339,6 @@ void WorldSession::HandleWhoisOpcode(WorldPacket& recv_data)
 void WorldSession::HandleComplainOpcode(WorldPacket & recv_data)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_COMPLAIN");
-    recv_data.hexlike();
 
     uint8 spam_type;                                        // 0 - mail, 1 - chat
     uint64 spammer_guid;
@@ -1401,7 +1399,6 @@ void WorldSession::HandleRealmSplitOpcode(WorldPacket & recv_data)
 void WorldSession::HandleFarSightOpcode(WorldPacket & recv_data)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_FAR_SIGHT");
-    //recv_data.hexlike();
 
     uint8 apply;
     recv_data >> apply;
@@ -1626,7 +1623,6 @@ void WorldSession::HandleMoveSetCanFlyAckOpcode(WorldPacket & recv_data)
 {
     // fly mode on/off
     sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_MOVE_SET_CAN_FLY_ACK");
-    //recv_data.hexlike();
 
     uint64 guid;                                            // guid - unused
     recv_data.readPackGUID(guid);
