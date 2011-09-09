@@ -944,6 +944,8 @@ class WorldSession
         uint32 _accountId;
         uint8 m_expansion;
 
+        typedef std::list<AddonInfo> AddonsList;
+
         // Warden
         Warden* _warden;                                    // Remains NULL if Warden system is not enabled by config
 
