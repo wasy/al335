@@ -19,3 +19,85 @@ INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language
 
 UPDATE `creature_template` SET `AIName`='SmartAI' WHERE `entry`=@ENTRY;
 
+-- http://ru.wowhead.com/object=194555 не работают госсипы на сдачу квеста http://ru.wowhead.com/quest=13622
+DELETE FROM  `conditions` WHERE `SourceTypeOrReferenceId` = 15 AND `SourceGroup` = 10368;
+DELETE FROM `gossip_menu` WHERE `entry` = 10368;
+DELETE FROM `gossip_menu_option` WHERE `menu_id` = 10368;
+
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(15, 10368, 5, 0, 9, 13611, 0, 0, 0, '', NULL),
+(15, 10368, 4, 0, 9, 13610, 0, 0, 0, '', NULL),
+(15, 10368, 3, 0, 9, 13609, 0, 0, 0, '', NULL),
+(15, 10368, 2, 0, 9, 13606, 0, 0, 0, '', NULL);
+INSERT INTO `gossip_menu` (`entry`, `text_id`) VALUES
+(10368, 14383);
+INSERT INTO `gossip_menu_option` (`menu_id`, `id`, `option_icon`, `option_text`, `option_id`, `npc_option_npcflag`, `action_menu_id`, `action_poi_id`, `box_coded`, `box_money`, `box_text`) VALUES
+(10368, 2, 0, 'Watcher Analisis: Freya', 1, 1, 0, 0, 0, 0, NULL),
+(10368, 3, 0, 'Watcher Analisis: Hodir', 1, 1, 0, 0, 0, 0, NULL),
+(10368, 4, 0, 'Watcher Analisis: Thorim', 1, 1, 0, 0, 0, 0, NULL),
+(10368, 5, 0, 'Watcher Analisis: Mimiron', 1, 1, 0, 0, 0, 0, NULL);
+-- Fix Gossips for Archivum Console in Ulduar
+DELETE FROM `gossip_menu_option` WHERE `menu_id` = 10368 AND `option_id` = 2;
+INSERT INTO `gossip_menu_option` (`menu_id`, `id`, `option_icon`, `option_text`, `option_id`, `npc_option_npcflag`, `action_menu_id`, `action_poi_id`, `box_coded`, `box_money`, `box_text`) 
+ VALUES (10368, 0, 0, 'GOSSIP_OPTION_QUESTGIVER', 2, 2, 0, 0, 0, 0, NULL);
+
+-- день пирата
+DELETE FROM `smart_scripts` WHERE `entryorguid`=20102 AND `source_type`=0;
+INSERT INTO `smart_scripts` VALUES 
+(20102,0,0,1,62,0,100,0,8064,1,0,0,11,51926,1,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - cast spell"),
+(20102,0,1,0,61,0,100,0,0,0,0,0,72,0,0,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - close gossip");
+
+DELETE FROM `smart_scripts` WHERE `entryorguid`=19172 AND `source_type`=0;
+INSERT INTO `smart_scripts` VALUES 
+(19172,0,0,1,62,0,100,0,50258,1,0,0,11,51926,1,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - cast spell"),
+(19172,0,1,0,61,0,100,0,0,0,0,0,72,0,0,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - close gossip");
+
+DELETE FROM `smart_scripts` WHERE `entryorguid`=19148 AND `source_type`=0;
+INSERT INTO `smart_scripts` VALUES 
+(19148,0,0,1,62,0,100,0,7923,1,0,0,11,51926,1,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - cast spell"),
+(19148,0,1,0,61,0,100,0,0,0,0,0,72,0,0,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - close gossip");
+
+DELETE FROM `smart_scripts` WHERE `entryorguid`=19171 AND `source_type`=0;
+INSERT INTO `smart_scripts` VALUES 
+(19171,0,0,1,62,0,100,0,7922,1,0,0,11,51926,1,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - cast spell"),
+(19171,0,1,0,61,0,100,0,0,0,0,0,72,0,0,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - close gossip");
+
+DELETE FROM `smart_scripts` WHERE `entryorguid`=19173 AND `source_type`=0;
+INSERT INTO `smart_scripts` VALUES 
+(19173,0,0,1,62,0,100,0,10250,1,0,0,11,51926,1,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - cast spell"),
+(19173,0,1,0,61,0,100,0,0,0,0,0,72,0,0,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - close gossip");
+
+DELETE FROM `smart_scripts` WHERE `entryorguid`=19175 AND `source_type`=0;
+INSERT INTO `smart_scripts` VALUES 
+(19175,0,0,1,62,0,100,0,7925,1,0,0,11,51926,1,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - cast spell"),
+(19175,0,1,0,61,0,100,0,0,0,0,0,72,0,0,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - close gossip");
+
+DELETE FROM `smart_scripts` WHERE `entryorguid`=19176 AND `source_type`=0;
+INSERT INTO `smart_scripts` VALUES 
+(19176,0,0,1,62,0,100,0,7926,1,0,0,11,51926,1,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - cast spell"),
+(19176,0,1,0,61,0,100,0,0,0,0,0,72,0,0,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - close gossip");
+
+DELETE FROM `smart_scripts` WHERE `entryorguid`=19177 AND `source_type`=0;
+INSERT INTO `smart_scripts` VALUES 
+(19177,0,0,1,62,0,100,0,7935,1,0,0,11,51926,1,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - cast spell"),
+(19177,0,1,0,61,0,100,0,0,0,0,0,72,0,0,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - close gossip");
+
+DELETE FROM `smart_scripts` WHERE `entryorguid`=19178 AND `source_type`=0;
+INSERT INTO `smart_scripts` VALUES 
+(19178,0,0,1,62,0,100,0,7927,1,0,0,11,51926,1,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - cast spell"),
+(19178,0,1,0,61,0,100,0,0,0,0,0,72,0,0,0,0,0,0,7,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Commoner - On gossip option select - close gossip");
+
+UPDATE `creature_template` SET `AIName`='SmartAI' WHERE `entry` IN (20102, 19172, 19148, 19171, 19173, 19175, 19176, 19177, 19178);
+
+-- Delete non-attackable flag from Army of the Dead Ghoul NPC (24207)
+UPDATE `creature_template` SET `AIName`='SmartAI' WHERE `entry` = '24207';
+DELETE FROM `smart_scripts` WHERE `source_type`= '0' AND `entryorguid`= '24207';
+INSERT INTO `smart_scripts` VALUES 
+(24207,0,1,0,54,0,100,0,0,0,0,0,19,2,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0,"YTDB: Set Unselectable and Unattackable Flags");
+
+-- Fix gossips for Dread Captain DeMeza NPC (28048)
+DELETE FROM `conditions` WHERE `SourceGroup`=9647;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(14, 9647, 13059, 0, 11, 50517, 0, 0, 0, '', 'Pirates Day: DeMeza gossip'),
+(14, 9647, 13065, 0, 1, 50517, 0, 0, 0, '', 'Pirates Day: DeMeza gossip'),
+(15, 9647, 0, 0, 11, 50517, 0, 0, 0, '', 'Pirates Day: DeMeza gossip');
