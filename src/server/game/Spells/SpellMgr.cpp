@@ -3473,7 +3473,7 @@ void SpellMgr::LoadDbcDataCorrections()
                 break;
             case 75536: // Explosion (prevent error message in console)
             case 75545: // Explosion (prevent error message in console)
-            case 75553:             // Emergency Recall [Camera trigger]
+            case 75553: // Emergency Recall [Camera trigger]
                 spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_TARGET_ANY;
                 break;
             //Lich King custom script spells
