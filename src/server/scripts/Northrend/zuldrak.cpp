@@ -248,6 +248,7 @@ enum eGurgthock
     QUEST_AMPHITHEATER_ANGUISH_YGGDRAS_1          = 12932,
     QUEST_AMPHITHEATER_ANGUISH_MAGNATAUR          = 12933,
     QUEST_AMPHITHEATER_ANGUISH_FROM_BEYOND        = 12934,
+    QUEST_AMPHITHEATER_ANGUISH_CHAMPION           = 12948,
 
     NPC_ORINOKO_TUSKBREAKER                       = 30020,
     NPC_KORRAK_BLOODRAGER                         = 30023,
@@ -261,11 +262,13 @@ enum eGurgthock
     NPC_FIEND_AIR                                 = 30045,
     NPC_FIEND_FIRE                                = 30042,
     NPC_FIEND_EARTH                               = 30043,
+    NPC_VLADOF_BUTCHER                            = 30022,
 
     SAY_QUEST_ACCEPT_TUSKARRMAGEDON               = -1571031,
     SAY_QUEST_ACCEPT_KORRAK_1                     = -1571033,
     SAY_QUEST_ACCEPT_KORRAK_2                     = -1571034,
     SAY_QUEST_ACCEPT_MAGNATAUR                    = -1571035,
+    //SAY_QUEST_ACCEPT_VLADOF_BUTCHER         = 0, // Text
 
     EMOTE_YGGDRAS_SPAWN                           = -1571039,
     SAY_STINKBEARD_SPAWN                          = -1571040,
@@ -276,10 +279,10 @@ enum eGurgthock
     SPELL_BLAST_OF_AIR                            = 55912, // air
     SPELL_MAGMA_WAVE                              = 55916, // fire
 
-    SPELL_ORB_OF_WATER                             = 55888, // fiend of water spell
-    SPELL_ORB_OF_STORMS                            = 55882, // fiend of air spell
-    SPELL_BOULDER                                  = 55886, // fiend of earth spell
-    SPELL_ORB_OF_FLAME                             = 55872, // fiend of fire spell
+    SPELL_ORB_OF_WATER                            = 55888, // fiend of water spell
+    SPELL_ORB_OF_STORMS                           = 55882, // fiend of air spell
+    SPELL_BOULDER                                 = 55886, // fiend of earth spell
+    SPELL_ORB_OF_FLAME                            = 55872  // fiend of fire spell
 };
 
 struct BossAndAdd
@@ -295,34 +298,35 @@ static BossAndAdd Boss[]=
     {NPC_GARGORAL, NPC_FIEND_WATER, SPELL_CRASHING_WAVE, SPELL_ORB_OF_WATER},
     {NPC_AZ_BARIN, NPC_FIEND_AIR, SPELL_BLAST_OF_AIR, SPELL_ORB_OF_STORMS},
     {NPC_DUKE_SINGEN, NPC_FIEND_FIRE, SPELL_MAGMA_WAVE, SPELL_ORB_OF_FLAME},
-    {NPC_ERATHIUS, NPC_FIEND_EARTH, SPELL_SHOCKWAVE, SPELL_BOULDER},
+    {NPC_ERATHIUS, NPC_FIEND_EARTH, SPELL_SHOCKWAVE, SPELL_BOULDER}
 };
 
 const Position SpawnPosition[] =
 {
-    {5754.692f, -2939.46f, 286.276123f, 5.156380f}, // stinkbeard || orinoko || korrak
-    {5762.054199f, -2954.385010f, 273.826955f, 5.108289f},  //yggdras
-    {5776.855f, -2989.77979f, 272.96814f, 5.194f} // elementals
+    {5754.692f, -2939.46f, 286.276123f, 5.156380f},         // stinkbeard || orinoko || korrak
+    {5762.054199f, -2954.385010f, 273.826955f, 5.108289f},  // yggdras
+    {5776.855f, -2989.77979f, 272.96814f, 5.194f},          // elementals
+    {5774.388672f, -2980.124756f, 273.078613f, 5.156132f}   // vladof butcher
 };
 
 const Position AddSpawnPosition[] =
 {
-    {5722.487f, -3010.75f, 312.751648f, 0.478f}, // caster location
+    {5722.487f, -3010.75f, 312.751648f, 0.478f},            // caster location
     {5724.983f, -2969.89551f, 286.359619f, 0.478f},
     {5733.76025f, -3000.34644f, 286.359619f, 0.478f},
-    {5739.8125f, -2981.524f, 290.7671f, 0.478f}, // caster location
+    {5739.8125f, -2981.524f, 290.7671f, 0.478f},            // caster location
     {5742.101f, -2950.75586f, 286.2643f, 5.21f},
-    {5743.305f, -3011.29736f, 290.7671f, 0.478f}, // caster location
+    {5743.305f, -3011.29736f, 290.7671f, 0.478f},           // caster location
     {5744.417f, -3025.528f, 286.35965f, 0.478f},
     {5763.189f, -3029.67529f, 290.7671f, 0.478f},
     {5769.401f, -2935.121f, 286.335754f, 5.21f},
     {5793.061f, -2934.593f, 286.359619f, 3.53f},
-    {5797.32129f, -2955.26855f, 290.7671f, 3.53f}, // caster location
+    {5797.32129f, -2955.26855f, 290.7671f, 3.53f},          // caster location
     {5813.94531f, -2956.74683f, 286.359619f, 3.53f},
-    {5816.85547f, -2974.476f, 290.7671f, 3.53f}, // caster location
-    {5820.30859f, -3002.83716f, 290.7671f, 3.53f}, // caster location
+    {5816.85547f, -2974.476f, 290.7671f, 3.53f},            // caster location
+    {5820.30859f, -3002.83716f, 290.7671f, 3.53f},          // caster location
     {5828.50244f, -2981.737f, 286.359619f, 3.53f},
-    {5828.899f, -2960.15479f, 312.751648f, 3.53f}, // caster location
+    {5828.899f, -2960.15479f, 312.751648f, 3.53f}           // caster location
 };
 
 class npc_gurgthock : public CreatureScript
@@ -398,6 +402,10 @@ public:
                         case QUEST_AMPHITHEATER_ANGUISH_FROM_BEYOND:
                             uiTimer = 2000;
                             uiPhase = 12;
+                            break;
+                        case QUEST_AMPHITHEATER_ANGUISH_CHAMPION:
+                            uiTimer = 3000;
+                            uiPhase = 15;
                             break;
                    }
                         break;
@@ -521,6 +529,28 @@ public:
                                 creature->AI()->SetData(1, uiBossRandom);
                             uiPhase = 0;
                             break;
+                        // NPC_VLADOF_BUTCHER
+                        case 15:
+                            {
+                                if (!player)
+                                    return;
+
+                                std::string sText = ("Prepare to make you stand, " + std::string(player->GetName()) + "! Get in the Amphitheater and stand ready! Remember, you and your opponent must stay in the arena at all times or you will be disqualified!");
+                                me->MonsterSay(sText.c_str(), LANG_UNIVERSAL, 0);
+                                uiTimer = 5000;
+                                uiPhase = 16;
+                            }
+                            break;
+                        case 16:
+                            //DoScriptText(SAY_QUEST_ACCEPT_VLADOF_BUTCHER, me);
+                            uiTimer = 0;
+                            uiPhase = 17;
+                            break;
+                        case 17:
+                            if (Creature * spawn = me->SummonCreature(NPC_VLADOF_BUTCHER, SpawnPosition[3], TEMPSUMMON_CORPSE_DESPAWN, 3000))
+                                spawn->AI()->AttackStart(player->ToUnit());
+                            uiPhase = 0;
+                            break;
                     }
                 }else uiTimer -= uiDiff;
             }
@@ -545,7 +575,10 @@ public:
                 creature->AI()->SetData(1, pQuest->GetQuestId());
                 break;
             case QUEST_AMPHITHEATER_ANGUISH_FROM_BEYOND:
+            case QUEST_AMPHITHEATER_ANGUISH_CHAMPION:
                 creature->AI()->SetData(1, pQuest->GetQuestId());
+                break;
+            default:
                 break;
         }
 
@@ -557,6 +590,106 @@ public:
     CreatureAI* GetAI(Creature* creature) const
     {
         return new npc_gurgthockAI(creature);
+    }
+};
+
+enum eVladofButcherSpells
+{
+    // NPC_VLADOF_BUTCHER Spells
+    SPELL_DEFLECTION        = 55976, // selbst
+    SPELL_WHIRLWIND         = 55977, // selbst
+    SPELL_BLOOD_BOIL        = 55974, // selbst
+    SPELL_HYSTERIA          = 55975, // auf add
+    SPELL_BLOOD_PLAGUE      = 55973, // auf aggroziel
+    SPELL_BLOOD_PRESENCE    = 50689  // selbst
+};
+
+enum eVladofButcherEvents
+{
+    EVENT_WHIRLWIND = 1,
+    EVENT_BLOOD_BOIL,
+    EVENT_BLOOD_PLAGUE
+};
+
+class npc_vladof_butcher : public CreatureScript
+{
+public:
+    npc_vladof_butcher() : CreatureScript("npc_vladof_butcher") { }
+
+    struct npc_vladof_butcherAI : public ScriptedAI
+    {
+        npc_vladof_butcherAI(Creature* creature) : ScriptedAI(creature) { }
+
+private:
+        EventMap events;
+        bool bZauberabwehr;
+
+public:
+        void Reset()
+        {
+            events.Reset();
+            bZauberabwehr = false;
+        }
+
+        void EnterCombat(Unit* who)
+        {
+            if (!who)
+                return;
+
+            DoCast(me, SPELL_BLOOD_PRESENCE, true);
+
+            events.ScheduleEvent(EVENT_BLOOD_PLAGUE, 3000);
+            events.ScheduleEvent(EVENT_BLOOD_BOIL, urand(5000,8000));
+            events.ScheduleEvent(EVENT_WHIRLWIND, 10000);
+        }
+
+        void JustDied(Unit* killer)
+        {
+            if (killer)
+                killer->GetCharmerOrOwnerPlayerOrPlayerItself()->GroupEventHappens(QUEST_AMPHITHEATER_ANGUISH_CHAMPION, killer);
+        }
+
+        void UpdateAI(const uint32 uiDiff)
+        {
+            if (!UpdateVictim())
+                return;
+
+            if (!bZauberabwehr && me->HealthBelowPct(50))
+            {
+                DoCast(me, SPELL_DEFLECTION, true);
+                bZauberabwehr = true;
+            }
+
+            events.Update(uiDiff);
+
+            if (me->HasUnitState(UNIT_STAT_CASTING))
+                return;
+
+            while (uint32 eventId = events.ExecuteEvent())
+            {
+                switch(eventId)
+                {
+                    case EVENT_BLOOD_PLAGUE:
+                        DoCastVictim(SPELL_BLOOD_PLAGUE);
+                        events.RescheduleEvent(EVENT_BLOOD_PLAGUE, 10000);
+                        break;
+                    case EVENT_BLOOD_BOIL:
+                        DoCast(me, SPELL_BLOOD_BOIL, true);
+                        events.RescheduleEvent(EVENT_BLOOD_PLAGUE, 10000);
+                        break;
+                    case EVENT_WHIRLWIND:
+                        DoCast(me, SPELL_WHIRLWIND, true);
+                        events.RescheduleEvent(EVENT_BLOOD_PLAGUE, 10000);
+                        break;
+                }
+            }
+            DoMeleeAttackIfReady();
+        }
+    };
+
+    CreatureAI * GetAI(Creature * creature) const
+    {
+        return new npc_vladof_butcherAI(creature);
     }
 };
 
@@ -1428,5 +1561,6 @@ void AddSC_zuldrak()
     new npc_crusade_recruit;
     new npc_elemental_lord;
     new npc_fiend_elemental;
+    new npc_vladof_butcher;
     new go_scourge_enclosure;
 }
