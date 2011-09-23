@@ -1266,6 +1266,8 @@ void AddSC_npc_customize();
 void AddSC_npc_lottery();
 void AddSC_npc_gurubashi_theme();
 void AddSC_custom_goldperlevel();
+void AddSC_custom_quest();
+void AddSC_custom_spell();
 
 #endif
 
@@ -1289,5 +1291,7 @@ void AddCustomScripts()
     AddSC_npc_lottery();
     AddSC_npc_gurubashi_theme();
     AddSC_custom_goldperlevel();
+    AddSC_custom_quest();
+    AddSC_custom_spell();
 #endif
 }

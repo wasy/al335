@@ -21,6 +21,8 @@ set(scripts_STAT_SRCS
   Custom/npc_teleport.cpp
   Custom/npc_gurubashi_theme.cpp
   Custom/custom_goldperlevel.cpp
+  Custom/custom_quest.cpp
+  Custom/custom_spell.cpp
 )
 
 message("  -> Prepared: Custom")
