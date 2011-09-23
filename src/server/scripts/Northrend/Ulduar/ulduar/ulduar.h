@@ -104,13 +104,6 @@ enum UlduarNPCs
     NPC_FIELD_MEDIC_PENNY        = 32897,
     NPC_FIELD_MEDIC_JESSI        = 33326,
 
-    // Yogg_saron
-    NPC_YS_FREYA                                 = 33410,
-    NPC_YS_THORIM                                = 33413,
-    NPC_YS_MIMIRON                               = 33412,
-    NPC_YS_HODIR                                 = 33411,
-    NPC_YOGGSARON_BRAIN                          = 33890,			 
-
     // Freya's trash NPCs
     NPC_CORRUPTED_SERVITOR       = 33354,
     NPC_MISGUIDED_NYMPH          = 33355,
@@ -120,6 +113,13 @@ enum UlduarNPCs
     NPC_IRONROOT_LASHER          = 33526,
     NPC_NATURES_BLADE            = 33527,
     NPC_GUARDIAN_OF_LIFE         = 33528,
+
+    // Yogg_saron
+    NPC_YS_FREYA                 = 33410,
+    NPC_YS_THORIM                = 33413,
+    NPC_YS_MIMIRON               = 33412,
+    NPC_YS_HODIR                 = 33411,
+    NPC_YOGGSARON_BRAIN          = 33890,
 };
 
 enum UlduarGameObjects
@@ -134,8 +134,8 @@ enum UlduarGameObjects
     GO_HODIR_RARE_CACHE_OF_WINTER_HERO    = 194201,
     GO_HODIR_CHEST_HERO                   = 194308,
     GO_HODIR_CHEST                        = 194307,
-    GO_FREYA_CHEST_HERO                   = 194325,
-    GO_FREYA_CHEST                        = 194324,
+    GO_FREYA_CHEST_0_ELDER_10             = 194324,
+    GO_FREYA_CHEST_1_ELDER_10             = 194325,
     GO_LEVIATHAN_DOOR                     = 194905,
     GO_LEVIATHAN_GATE                     = 194630,
     GO_VEZAX_DOOR                         = 194750,
@@ -145,8 +145,8 @@ enum UlduarGameObjects
     GO_RAZOR_HARPOON_3                    = 194543,
     GO_RAZOR_HARPOON_4                    = 194519,
     GO_RAZOR_BROKEN_HARPOON               = 194565,
-    GO_HODIR_DOOR                         = 194634,
-    GO_HODIR_ICE_DOOR                     = 194441,
+    GO_HODIR_OUT_DOOR_ICE                 = 194441,
+    GO_HODIR_OUT_DOOR_STONE               = 194634,
     GO_ARCHIVUM_DOOR                      = 194556,
 };
 

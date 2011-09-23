@@ -37,7 +37,7 @@ enum Sara_Yells
     SAY_SARA_SLAY_2                             = -1603316,
     WHISP_SARA_INSANITY                         = -1603317,
     SAY_SARA_PHASE2_1                           = -1603318,
-    SAY_SARA_PHASE2_2                           = -1603319
+    SAY_SARA_PHASE2_2                           = -1603319,
 };
 
 enum YoggSaron_Yells
@@ -90,19 +90,19 @@ enum Npcs
     NPC_IMAGE_OF_THORIM                         = 33242,
     NPC_IMAGE_OF_MIMIRON                        = 33244,
     NPC_IMAGE_OF_HODIR                          = 33213,
-    
+
     NPC_SANITY_WELL                             = 33991,
     NPC_SARA                                    = 33134,
     NPC_YOGG_SARON                              = 33288,
     NPC_YOGG_SARON_VOICE                        = 33280,
-    
+
     NPC_GUARDIAN_OF_YOGGSARON                   = 33136,
     NPC_OMINOUS_CLOUD                           = 33292,
     NPC_DEATH_ORB                               = 33882,
     NPC_CRUSHER_TENTACLE                        = 33966,
     NPC_CONSTRICTOR_TENTACLE                    = 33983,
     NPC_CORRUPTOR_TENTACLE                      = 33985,
-    
+
     NPC_PORTAL_STORMWIND                        = 34072,
     NPC_PORTAL_CHAMBER                          = 34122,
     NPC_PORTAL_ICECROWN                         = 34123,
@@ -118,7 +118,7 @@ enum Npcs
     NPC_EMERALD_CONSORT                         = 33719,
     NPC_OBSIDIAN_CONSORT                        = 33720,
     NPC_DEATHSWORN_ZEALOT                       = 33567,
-    
+
     GOB_CHAMBER_DOOR                            = 194635,
     GOB_ICECROWN_DOOR                           = 194636,
     GOB_STORMWIND_DOOR                          = 194637
@@ -137,7 +137,7 @@ enum Spells
     SPELL_DEATH_RAY_WARNING_VISUAL              = 63882,
     SPELL_PSYCHOSIS                             = 63795,
     SPELL_MALADY_OF_THE_MIND                    = 63830,
-    
+
     // Guardian of Yogg Saron
     SPELL_SUMMON_GUARDIAN                       = 63031,
     SPELL_INSTANT_SUMMON_GUARDIAN               = 62979,
@@ -146,7 +146,7 @@ enum Spells
     SPELL_DARK_VOLLEY                           = 63038,
     SPELL_SHADOW_NOVA_10                        = 62714,
     SPELL_SHADOW_NOVA_25                        = 65209,
-    
+
     // Yogg Saron
     SPELL_SANITY                                = 63050,
     SPELL_INSANE                                = 63120,
@@ -156,37 +156,37 @@ enum Spells
     SPELL_CONSTRICTOR_TENTACLE_SUMMON           = 64133,
     SPELL_IMMORTAL_GUARDIAN_SUMMON              = 64158,
     SPELL_SHADOWY_BARRIER_LARGE                 = 63894,
-    
+
     // Tentacles
     SPELL_ERUPT                                 = 64144,
-    
+
     // Crusher Tentacle
     SPELL_DIMINISH_POWER                        = 64145,
     SPELL_FOCUSED_ANGER                         = 57688,
-    
+
     // Corruptor Tentacle
     SPELL_APATHY                                = 64156,
     SPELL_BLACK_PLAGUE                          = 64153,
     SPELL_CURSE_OF_DOOM                         = 64157,
     SPELL_DRAINING_POISON                       = 64152,
-    
+
     // Constrictor Tentacle
     SPELL_SQUEEZE_10                            = 64125,
     SPELL_SQUEEZE_25                            = 64126,
-    
+
     // Influence Tentacle
     SPELL_GRIM_REPRISAL                         = 63305,
     SPELL_TENTACLE_VOID_ZONE                    = 64384,
-    
+
     // Brain of Yogg Saron
     SPELL_INDUCE_MADNESS                        = 64059,
     SPELL_SHATTERED_ILLUSION                    = 64173,
     SPELL_BRAIN_HURT                            = 64361,
     SPELL_ILLUSION_ROOM                         = 63988,
-    
+
     // Laughing skull
     SPELL_LUNATIC_GAZE                          = 64167,
-    
+
     // Yogg Saron
     SPELL_LUNATIC_GAZE_P3                       = 64163,
     SPELL_SHADOW_BEACON                         = 64465,
@@ -194,7 +194,7 @@ enum Spells
     SPELL_EXTINGUISH_ALL_LIFE                   = 64166,
     SPELL_EMPOWERING_SHADOWS                    = 64468,
     SPELL_MAWS_OF_THE_OLD_GOD                   = 64184,
-    
+
     // Immortal Guardian
     SPELL_EMPOWERED                             = 65294,
     SPELL_DRAIN_LIFE_10                         = 64159,
@@ -204,23 +204,23 @@ enum Spells
 enum Keepers_Spells
 {
     SPELL_KEEPER_ACTIVE                         = 62647,
-    
+
     // Freya
     SPELL_RESILIENCE_OF_NATURE                  = 62670,
     SPELL_SANITY_WELL_SPAWN                     = 64170,
     SPELL_SANITY_WELL_VISUAL                    = 63288,
     SPELL_SANITY_WELL                           = 64169,
-    
+
     // Thorim
     SPELL_FURY_OF_THE_STORMS                    = 62702,
     SPELL_TITANIC_STORM                         = 64171,
     SPELL_TITANIC_STORM_EFFECT                  = 64172,
     SPELL_WEAKENED                              = 64162,
-    
+
     // Mimiron
     SPELL_SPEED_OF_INVENTION                    = 62671,
     SPELL_DESTABILIZATION                       = 65210,
-    
+
     // Hodir
     SPELL_FORTITUDE_OF_FROST                    = 62650,
     SPELL_PROTECTIVE_GAZE                       = 64174
@@ -401,14 +401,14 @@ class boss_sara : public CreatureScript
 public:
     boss_sara() : CreatureScript("boss_sara") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_sara_AI (pCreature);
+        return new boss_sara_AI (creature);
     }
 
     struct boss_sara_AI : public BossAI
     {
-        boss_sara_AI(Creature *pCreature) : BossAI(pCreature, BOSS_YOGGSARON)
+        boss_sara_AI(Creature* creature) : BossAI(creature, BOSS_YOGGSARON)
         {
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_RESILIENCE_OF_NATURE, true);
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_FURY_OF_THE_STORMS, true);
@@ -420,12 +420,12 @@ public:
             wipe = false;
         }
 
-        std::vector<Creature *> ominous_list;
+        std::vector<Creature* > ominous_list;
         uint32 uiPhase_timer;
         uint32 uiStep;
         uint8 keepers;
         bool wipe;
-        
+
         void Reset()
         {
             if (instance)
@@ -434,37 +434,39 @@ public:
                 // Reset Keepers
                 for (uint8 data = NPC_YS_FREYA; data <= NPC_YS_HODIR; ++data)
                 {
-                    if (Creature *pCreature = Creature::GetCreature((*me), instance->GetData64(data)))
+                    if (Creature* creature = Creature::GetCreature((*me), instance->GetData64(data)))
                     {
-                        if (pCreature->HasAura(SPELL_KEEPER_ACTIVE))
+                        if (creature->HasAura(SPELL_KEEPER_ACTIVE))
                         {
-                            pCreature->AI()->EnterEvadeMode();
-                            pCreature->AddAura(SPELL_KEEPER_ACTIVE, pCreature);
+                            creature->AI()->EnterEvadeMode();
+                            creature->AddAura(SPELL_KEEPER_ACTIVE, creature);
                         }
                     }
                 }
+
                 // Reset Yogg-Saron
-                for (uint8 data = NPC_YOGGSARON_BRAIN; data <= NPC_YOGGSARON; ++data)
+                for (uint8 data = NPC_YOGGSARON_BRAIN; data <= BOSS_YOGGSARON; ++data)
                 {
-                    if (Creature *pCreature = Creature::GetCreature((*me), instance->GetData64(data)))
-                        pCreature->AI()->EnterEvadeMode();
+                    if (Creature* creature = Creature::GetCreature((*me), instance->GetData64(data)))
+                        creature->AI()->EnterEvadeMode();
                 }
                 Map::PlayerList const &players = instance->instance->GetPlayers();
+
                 for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                 {
-                    Player* pPlayer = itr->getSource();
-                    if (!pPlayer)
+                    Player* player = itr->getSource();
+                    if (!player)
                         continue;
-                            
+
                     // Phase One wipe
                     if (wipe && phase == PHASE_1)
                     {
                         if (Creature* pVoice = me->SummonCreature(NPC_YOGG_SARON_VOICE,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),0,TEMPSUMMON_TIMED_DESPAWN,1000))
-                            DoScriptText(WHISP_SARA_INSANITY, pVoice, pPlayer);
+                            DoScriptText(WHISP_SARA_INSANITY, pVoice, player);
                     }
                     // Kills insane players
-                    if (pPlayer->HasAura(SPELL_INSANE))
-                        me->Kill(pPlayer, true);                
+                    if (player->HasAura(SPELL_INSANE))
+                        me->Kill(player, true);
                 }
             }
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_NON_ATTACKABLE);
@@ -477,7 +479,7 @@ public:
             keepers = 0;
             _Reset();
         }
-        
+
         void JustReachedHome()
         {
             ominous_list.clear();
@@ -489,8 +491,8 @@ public:
                     ominous_list.push_back(OminousCloud);
             }
         }
-        
-        void MoveInLineOfSight(Unit *who)
+
+        void MoveInLineOfSight(Unit* who)
         {
             if (!me->isInCombat() && me->IsWithinDist(who, 70.0f) && who->ToPlayer() && !who->ToPlayer()->isGameMaster())
             {
@@ -498,8 +500,8 @@ public:
                 DoZoneInCombat();
             }
         }
-        
-        void EnterCombat(Unit *who)
+
+        void EnterCombat(Unit* who)
         {
             DoScriptText(RAND(SAY_SARA_AGGRO_1,SAY_SARA_AGGRO_2,SAY_SARA_AGGRO_3), me);
             // Keepers activation
@@ -507,24 +509,24 @@ public:
             {
                 for (uint8 data = NPC_YS_FREYA; data <= NPC_YS_HODIR; ++data)
                 {
-                    if (Creature *pCreature = Creature::GetCreature((*me), instance->GetData64(data)))
+                    if (Creature* creature = Creature::GetCreature((*me), instance->GetData64(data)))
                     {
-                        if (pCreature->HasAura(SPELL_KEEPER_ACTIVE))
+                        if (creature->HasAura(SPELL_KEEPER_ACTIVE))
                         {
-                            pCreature->SetInCombatWith(me);
-                            pCreature->AddThreat(me, 150.0f);
+                            creature->SetInCombatWith(me);
+                            creature->AddThreat(me, 150.0f);
                             ++keepers;
                         }
                     }
                 }
-                
+
                 if (!ominous_list.empty())
                 {
                     for (std::vector<Creature*>::iterator itr = ominous_list.begin(); itr != ominous_list.end(); ++itr)
                     {
-                        Creature* pTarget = *itr;
-                        if (pTarget)
-                            pTarget->AddThreat(me->getVictim(), 0.0f);
+                        Creature* target = *itr;
+                        if (target)
+                            target->AddThreat(me->getVictim(), 0.0f);
                     }
                 }
             }
@@ -540,17 +542,17 @@ public:
             events.ScheduleEvent(EVENT_ANGER, urand(15000, 20000), 0, PHASE_1);
             events.ScheduleEvent(EVENT_SUMMON_GUARDIAN, 0, 0, PHASE_1);
         }
-        
+
         void UpdateAI(const uint32 diff)
         {
             if (!UpdateVictim())
                 return;
-                
+
             events.Update(diff);
 
             if (me->HasUnitState(UNIT_STAT_CASTING))
                 return;
-                
+
             if (phase == PHASE_1)
             {
                 while (uint32 eventId = events.ExecuteEvent())
@@ -558,17 +560,17 @@ public:
                     switch(eventId)
                     {
                         case EVENT_FERVOR:
-                            if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
-                                DoCast(pTarget, SPELL_SARA_FERVOR);
+                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
+                                DoCast(target, SPELL_SARA_FERVOR);
                             events.ScheduleEvent(EVENT_FERVOR, urand(8000, 10000), 0, PHASE_1);
                             break;
                         case EVENT_BLESSING:
-                            if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
-                                DoCast(pTarget, SPELL_SARA_BLESSING);
+                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
+                                DoCast(target, SPELL_SARA_BLESSING);
                             events.ScheduleEvent(EVENT_BLESSING, urand(10000, 15000), 0, PHASE_1);
                             break;
                         case EVENT_ANGER:
-                            if (Creature *pGuardian = me->FindNearestCreature(NPC_GUARDIAN_OF_YOGGSARON,50,true))
+                            if (Creature* pGuardian = me->FindNearestCreature(NPC_GUARDIAN_OF_YOGGSARON,50,true))
                                 DoCast(pGuardian, SPELL_SARA_ANGER);
                             events.ScheduleEvent(EVENT_ANGER, urand(15000, 20000), 0, PHASE_1);
                             break;
@@ -576,15 +578,15 @@ public:
                             if (!ominous_list.empty())
                             {
                                 std::vector<Creature*>::iterator itr = (ominous_list.begin()+rand()%ominous_list.size());
-                                Creature* pTarget = *itr;
-                                if (pTarget)
-                                    pTarget->CastSpell(pTarget, SPELL_SUMMON_GUARDIAN, true);
+                                Creature* target = *itr;
+                                if (target)
+                                    target->CastSpell(target, SPELL_SUMMON_GUARDIAN, true);
                             }
-                            events.ScheduleEvent(EVENT_SUMMON_GUARDIAN, 8000 + urand(6000, 8000)*((float)me->GetHealth()/me->GetMaxHealth()), 0, PHASE_1);
+                            events.ScheduleEvent(EVENT_SUMMON_GUARDIAN, 8000 + urand(6000, 8000) * ((float)me->GetHealth() / me->GetMaxHealth()), 0, PHASE_1);
                             break;
                     }
                 }
-                
+
                 if (uiPhase_timer <= diff)
                 {
                     switch (uiStep)
@@ -608,13 +610,13 @@ public:
                     switch(eventId)
                     {
                         case EVENT_PSYCHOSIS:
-                            if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 60, true))
-                                DoCast(pTarget, SPELL_PSYCHOSIS);
+                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 60, true))
+                                DoCast(target, SPELL_PSYCHOSIS);
                             events.ScheduleEvent(EVENT_PSYCHOSIS, urand(4000, 6000), 0, PHASE_2);
                             break;
                         case EVENT_MALADY_OF_THE_MIND:
-                            if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 60, true))
-                                DoCast(pTarget, SPELL_MALADY_OF_THE_MIND);
+                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 60, true))
+                                DoCast(target, SPELL_MALADY_OF_THE_MIND);
                             events.ScheduleEvent(EVENT_MALADY_OF_THE_MIND, urand(15000, 20000), 0, PHASE_2);
                             break;
                         case EVENT_BRAIN_LINK:
@@ -628,7 +630,7 @@ public:
                             break;
                     }
                 }
-                
+
                 if (uiPhase_timer <= diff)
                 {
                     switch (uiStep)
@@ -640,9 +642,9 @@ public:
                             {
                                 for (std::vector<Creature*>::iterator itr = ominous_list.begin(); itr != ominous_list.end(); ++itr)
                                 {
-                                    Creature* pTarget = *itr;
-                                    if (pTarget)
-                                        pTarget->ForcedDespawn();
+                                    Creature* target = *itr;
+                                    if (target)
+                                        target->ForcedDespawn();
                                 }
                             }
                             JumpToNextStep(5000);
@@ -685,8 +687,8 @@ public:
                     uiPhase_timer -= diff;
             }
         }
-        
-        void DamageTaken(Unit *who, uint32 &damage)
+
+        void DamageTaken(Unit* who, uint32 &damage)
         {
             if (phase == PHASE_1 && damage >= me->GetHealth())
             {
@@ -699,7 +701,7 @@ public:
                 JumpToNextStep(100);
             }
         }
-        
+
         void JumpToNextStep(uint32 uiTimer)
         {
             uiPhase_timer = uiTimer;
@@ -718,14 +720,14 @@ class boss_yoggsaron : public CreatureScript
 public:
     boss_yoggsaron() : CreatureScript("boss_yoggsaron") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_yoggsaron_AI (pCreature);
+        return new boss_yoggsaron_AI (creature);
     }
 
     struct boss_yoggsaron_AI : public BossAI
     {
-        boss_yoggsaron_AI(Creature *pCreature) : BossAI(pCreature, BOSS_YOGGSARON)
+        boss_yoggsaron_AI(Creature* creature) : BossAI(creature, BOSS_YOGGSARON)
         {
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PACIFIED | UNIT_FLAG_DISABLE_MOVE);
             me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true);
@@ -739,26 +741,26 @@ public:
         uint8 illusionOrder[3];
         uint8 illusionCount;
         uint8 spawnedTentacles;
-        
+
         void Reset()
         {
             events.Reset();
             summons.DespawnAll();
         }
-        
-        void EnterCombat(Unit *who)
+
+        void EnterCombat(Unit* who)
         {
             _EnterCombat();
-            
+
             // 100% Sanity
             if (instance)
             {
                 Map::PlayerList const &players = instance->instance->GetPlayers();
                 for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                 {
-                    Player* pPlayer = itr->getSource();
-                    if (pPlayer)
-                        me->SetAuraStack(SPELL_SANITY, pPlayer, 100);
+                    Player* player = itr->getSource();
+                    if (player)
+                        me->SetAuraStack(SPELL_SANITY, player, 100);
                 }
                 // Spawn Brain of Yogg-Saron
                 me->SummonCreature(NPC_YOGG_SARON_BRAIN, 1980.70f, -25.16f, 262.77f, M_PI);
@@ -776,9 +778,9 @@ public:
         {
             if(!UpdateVictim())
                 return;
-                
+
             events.Update(diff);
-            
+
             if (insaneTimer <= diff)
             {
                 if (instance)
@@ -787,27 +789,27 @@ public:
                     Map::PlayerList const &players = instance->instance->GetPlayers();
                     for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                     {
-                        Player* pPlayer = itr->getSource();
-                        
-                        if (!pPlayer)
-                            continue;
-                        
-                        if (pPlayer->isDead() || pPlayer->HasAura(SPELL_SANITY) || pPlayer->HasAura(SPELL_INSANE))
-                            continue;
-                            
-                        if (Creature* pVoice = me->SummonCreature(NPC_YOGG_SARON_VOICE,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),0,TEMPSUMMON_TIMED_DESPAWN,1000))
-                            DoScriptText(RAND(WHISP_INSANITY_1, WHISP_INSANITY_1), pVoice, pPlayer);
+                        Player* player = itr->getSource();
 
-                        DoCast(pPlayer, SPELL_INSANE, true);
+                        if (!player)
+                            continue;
+
+                        if (player->isDead() || player->HasAura(SPELL_SANITY) || player->HasAura(SPELL_INSANE))
+                            continue;
+
+                        if (Creature* pVoice = me->SummonCreature(NPC_YOGG_SARON_VOICE,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),0,TEMPSUMMON_TIMED_DESPAWN,1000))
+                            DoScriptText(RAND(WHISP_INSANITY_1, WHISP_INSANITY_1), pVoice, player);
+
+                        DoCast(player, SPELL_INSANE, true);
                     }
                 }
                 insaneTimer = 4000;
             }
             else insaneTimer -= diff;
-                
+
             if (me->HasUnitState(UNIT_STAT_CASTING))
                 return;
-                
+
             if (phase == PHASE_2)
             {
                 while(uint32 eventId = events.ExecuteEvent())
@@ -848,11 +850,12 @@ public:
                             events.ScheduleEvent(EVENT_IMMORTAL_GUARDIAN, urand(25000, 30000), 0, PHASE_3);
                             break;
                         case EVENT_SHADOW_BEACON:
-                            if (Creature *pImmortal = me->FindNearestCreature(NPC_IMMORTAL_GUARDIAN,80,true))
+                            if (Creature* pImmortal = me->FindNearestCreature(NPC_IMMORTAL_GUARDIAN,80,true))
                             {
                                 Map::PlayerList const &players = instance->instance->GetPlayers();
                                 for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
-                                    DoScriptText(EMOTE_EMPOWERING, me, itr->getSource());                                me->AddAura(SPELL_SHADOW_BEACON, pImmortal);
+                                    DoScriptText(EMOTE_EMPOWERING, me, itr->getSource());
+                                me->AddAura(SPELL_SHADOW_BEACON, pImmortal);
                             }
                             events.ScheduleEvent(EVENT_SHADOW_BEACON, 45000, 0, PHASE_3);
                             break;
@@ -865,18 +868,18 @@ public:
                 }
             }
         }
-        
-        void JustDied(Unit *victim)
+
+        void JustDied(Unit* victim)
         {
             DoScriptText(SAY_DEATH, me);
             _JustDied();
-            
-            if (Unit *pSara = me->ToTempSummon()->GetSummoner())
+
+            if (Unit* pSara = me->ToTempSummon()->GetSummoner())
                 pSara->ToCreature()->DisappearAndDie();
 
             me->SetStandState(UNIT_STAND_STATE_SUBMERGED);
             me->HandleEmoteCommand(EMOTE_ONESHOT_EMERGE);
-            
+
             if (instance)
             {
                 instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_SANITY);
@@ -888,7 +891,7 @@ public:
             illusionOrder[0] = 0; // Chamber of the Aspects Illusion
             illusionOrder[1] = 1; // Icecrown Illusion
             illusionOrder[2] = 2; // Stormwind Illusion
-            
+
             //Swaps the entire array
             for(uint8 n = 0; n < 3; n++)
             {
@@ -922,7 +925,7 @@ public:
                 switch(illusion)
                 {
                     case 0: // Chamber of the Aspects Illusion
-                        if (Creature *pBrain = Creature::GetCreature((*me), instance->GetData64(NPC_YOGGSARON_BRAIN)))
+                        if (Creature* pBrain = Creature::GetCreature((*me), instance->GetData64(NPC_YOGGSARON_BRAIN)))
                         {
                             pBrain->AI()->Reset();
                             pBrain->AI()->DoAction(ACTION_CHAMBER_ILLUSION);
@@ -931,7 +934,7 @@ public:
                         }
                         break;
                     case 1: // Icecrown Illusion
-                        if (Creature *pBrain = Creature::GetCreature((*me), instance->GetData64(NPC_YOGGSARON_BRAIN)))
+                        if (Creature* pBrain = Creature::GetCreature((*me), instance->GetData64(NPC_YOGGSARON_BRAIN)))
                         {
                             pBrain->AI()->Reset();
                             pBrain->AI()->DoAction(ACTION_ICECROWN_ILLUSION);
@@ -940,7 +943,7 @@ public:
                         }
                         break;
                     case 2: // Stormwind Illusion
-                        if (Creature *pBrain = Creature::GetCreature((*me), instance->GetData64(NPC_YOGGSARON_BRAIN)))
+                        if (Creature* pBrain = Creature::GetCreature((*me), instance->GetData64(NPC_YOGGSARON_BRAIN)))
                         {
                             pBrain->AI()->Reset();
                             pBrain->AI()->DoAction(ACTION_STORMWIND_ILLUSION);
@@ -961,12 +964,12 @@ public:
                 case 1:
                 case 2:
                     me->SummonCreature(NPC_CORRUPTOR_TENTACLE, TentaclesPos[rand()%22]);
-                    if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 60, true))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 60, true))
                     {
                         Position pos;
-                        pTarget->GetPosition(&pos);
+                        target->GetPosition(&pos);
                         if (Creature* Constrict = me->SummonCreature(NPC_CONSTRICTOR_TENTACLE, pos))
-                            pTarget->EnterVehicle(Constrict, 0);
+                            target->EnterVehicle(Constrict, 0);
                     }
                     break;
             }
@@ -983,7 +986,7 @@ public:
             switch (action)
             {
                 case ACTION_YOGGSARON_PHASE_3:
-                    if (Unit *pSara = me->ToTempSummon()->GetSummoner())
+                    if (Unit* pSara = me->ToTempSummon()->GetSummoner())
                         pSara->SetVisible(false);
                     DoScriptText(SAY_PHASE3, me);
                     me->RemoveAurasDueToSpell(SPELL_SHADOWY_BARRIER_LARGE);
@@ -995,7 +998,7 @@ public:
                     if (GetDifficulty() == RAID_DIFFICULTY_25MAN_NORMAL)
                         events.ScheduleEvent(EVENT_DEAFENING_ROAR, urand(5000, 7000), 0, PHASE_3);
                     break;
-            } 
+            }
         }
     };
 
@@ -1011,14 +1014,14 @@ class boss_brain_yoggsaron : public CreatureScript
 public:
     boss_brain_yoggsaron() : CreatureScript("boss_brain_yoggsaron") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_brain_yoggsaron_AI (pCreature);
+        return new boss_brain_yoggsaron_AI (creature);
     }
 
     struct boss_brain_yoggsaron_AI : public BossAI
     {
-        boss_brain_yoggsaron_AI(Creature *pCreature) : BossAI(pCreature, BOSS_YOGGSARON)
+        boss_brain_yoggsaron_AI(Creature* creature) : BossAI(creature, BOSS_YOGGSARON)
         {
             me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true);
             me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_GRIP, true);
@@ -1046,7 +1049,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit *who)
+        void EnterCombat(Unit* who)
         {
             _EnterCombat();
         }
@@ -1067,7 +1070,7 @@ public:
                     pYoggSaron->ToCreature()->AI()->DoAction(ACTION_YOGGSARON_PHASE_3);
             }
         }
-        
+
         void DoAction(const int32 action)
         {
             switch (action)
@@ -1116,14 +1119,14 @@ class npc_ominous_cloud : public CreatureScript
 public:
     npc_ominous_cloud() : CreatureScript("npc_ominous_cloud") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_ominous_cloud_AI (pCreature);
+        return new npc_ominous_cloud_AI (creature);
     }
 
     struct npc_ominous_cloud_AI : public ScriptedAI
     {
-        npc_ominous_cloud_AI(Creature* pCreature) : ScriptedAI(pCreature), summons(me) 
+        npc_ominous_cloud_AI(Creature* creature) : ScriptedAI(creature), summons(me)
         {
             me->GetMotionMaster()->MoveRandom(5);
             me->SetDisplayId(28549);
@@ -1141,7 +1144,7 @@ public:
             uiCooldownTimer = 3000;
         }
 
-        void MoveInLineOfSight(Unit *who)
+        void MoveInLineOfSight(Unit* who)
         {
             if (!SummonCooldown && me->IsWithinDistInMap(who, 6.0f) && who->ToPlayer() && !who->ToPlayer()->isGameMaster())
             {
@@ -1164,7 +1167,7 @@ public:
             else uiCooldownTimer -= diff;
         }
 
-        void JustSummoned(Creature *summon)
+        void JustSummoned(Creature* summon)
         {
             summons.Summon(summon);
         }
@@ -1177,14 +1180,14 @@ class npc_guardian_yoggsaron : public CreatureScript
 public:
     npc_guardian_yoggsaron() : CreatureScript("npc_guardian_yoggsaron") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_guardian_yoggsaron_AI (pCreature);
+        return new npc_guardian_yoggsaron_AI (creature);
     }
 
     struct npc_guardian_yoggsaron_AI : public ScriptedAI
     {
-        npc_guardian_yoggsaron_AI(Creature* pCreature) : ScriptedAI(pCreature) { }
+        npc_guardian_yoggsaron_AI(Creature* creature) : ScriptedAI(creature) { }
 
         int32 uiDarkVolleyTimer;
 
@@ -1194,10 +1197,10 @@ public:
             uiDarkVolleyTimer = 8000;
         }
 
-        void JustDied(Unit *victim)
+        void JustDied(Unit* victim)
         {
             DoCast(me, RAID_MODE(SPELL_SHADOW_NOVA_10, SPELL_SHADOW_NOVA_25), true);
-            if (Creature *pSara = me->FindNearestCreature(NPC_SARA, 10.0f, true))
+            if (Creature* pSara = me->FindNearestCreature(NPC_SARA, 10.0f, true))
                 if (phase == PHASE_1)
                     me->DealDamage(pSara, 25000);
             me->ForcedDespawn(3000);
@@ -1226,14 +1229,14 @@ class npc_death_orb : public CreatureScript
 public:
     npc_death_orb() : CreatureScript("npc_death_orb") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_death_orb_AI (pCreature);
+        return new npc_death_orb_AI (creature);
     }
 
     struct npc_death_orb_AI : public ScriptedAI
     {
-        npc_death_orb_AI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_death_orb_AI(Creature* creature) : ScriptedAI(creature)
         {
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
             me->SetReactState(REACT_PASSIVE);
@@ -1272,14 +1275,14 @@ class npc_laughing_skull : public CreatureScript
 public:
     npc_laughing_skull() : CreatureScript("npc_laughing_skull") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_laughing_skull_AI (pCreature);
+        return new npc_laughing_skull_AI (creature);
     }
 
     struct npc_laughing_skull_AI : public Scripted_NoMovementAI
     {
-        npc_laughing_skull_AI(Creature* pCreature) : Scripted_NoMovementAI(pCreature)
+        npc_laughing_skull_AI(Creature* creature) : Scripted_NoMovementAI(creature)
         {
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
             me->SetDisplayId(15880);
@@ -1295,16 +1298,16 @@ class npc_illusion : public CreatureScript
 public:
     npc_illusion() : CreatureScript("npc_illusion") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_illusion_AI (pCreature);
+        return new npc_illusion_AI (creature);
     }
 
     struct npc_illusion_AI : public Scripted_NoMovementAI
     {
-        npc_illusion_AI(Creature* pCreature) : Scripted_NoMovementAI(pCreature) { }
+        npc_illusion_AI(Creature* creature) : Scripted_NoMovementAI(creature) { }
 
-        void DamageTaken(Unit *attacker, uint32 &damage)
+        void DamageTaken(Unit* attacker, uint32 &damage)
         {
             if (me->GetEntry() != NPC_INFLUENCE_TENTACLE)
             {
@@ -1314,7 +1317,7 @@ public:
             }
         }
 
-        void JustDied(Unit *victim)
+        void JustDied(Unit* victim)
         {
             if (Unit* pBrain = me->ToTempSummon()->GetSummoner())
                 pBrain->ToCreature()->AI()->DoAction(ACTION_TENTACLE_COUNT);
@@ -1328,14 +1331,14 @@ class npc_descend_into_madness : public CreatureScript
 public:
     npc_descend_into_madness() : CreatureScript("npc_descend_into_madness") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_descend_into_madness_AI (pCreature);
+        return new npc_descend_into_madness_AI (creature);
     }
 
     struct npc_descend_into_madness_AI : public PassiveAI
     {
-        npc_descend_into_madness_AI(Creature *c) : PassiveAI(c) {}
+        npc_descend_into_madness_AI(Creature* c) : PassiveAI(c) {}
 
         void DoAction(const int32 param)
         {
@@ -1354,14 +1357,14 @@ class npc_passive_illusion : public CreatureScript
 public:
     npc_passive_illusion() : CreatureScript("npc_passive_illusion") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_passive_illusion_AI (pCreature);
+        return new npc_passive_illusion_AI (creature);
     }
 
     struct npc_passive_illusion_AI : public PassiveAI
     {
-        npc_passive_illusion_AI(Creature *c) : PassiveAI(c) 
+        npc_passive_illusion_AI(Creature* c) : PassiveAI(c)
         {
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_NON_ATTACKABLE);
         }
@@ -1378,14 +1381,14 @@ class npc_crusher_tentacle : public CreatureScript
 public:
     npc_crusher_tentacle() : CreatureScript("npc_crusher_tentacle") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_crusher_tentacle_AI (pCreature);
+        return new npc_crusher_tentacle_AI (creature);
     }
 
     struct npc_crusher_tentacle_AI : public Scripted_NoMovementAI
     {
-        npc_crusher_tentacle_AI(Creature* pCreature) : Scripted_NoMovementAI(pCreature)
+        npc_crusher_tentacle_AI(Creature* creature) : Scripted_NoMovementAI(creature)
         {
             DoCast(me, SPELL_TENTACLE_VOID_ZONE, true);
             DoCast(me, SPELL_ERUPT, true);
@@ -1411,7 +1414,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void DamageTaken(Unit *attacker, uint32 &damage)
+        void DamageTaken(Unit* attacker, uint32 &damage)
         {
             if (attacker->IsWithinMeleeRange(me) && me->HasUnitState(UNIT_STAT_CASTING))
                 me->InterruptNonMeleeSpells(true, SPELL_DIMINISH_POWER);
@@ -1425,14 +1428,14 @@ class npc_constrictor_tentacle : public CreatureScript
 public:
     npc_constrictor_tentacle() : CreatureScript("npc_constrictor_tentacle") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_constrictor_tentacle_AI (pCreature);
+        return new npc_constrictor_tentacle_AI (creature);
     }
 
     struct npc_constrictor_tentacle_AI : public Scripted_NoMovementAI
     {
-        npc_constrictor_tentacle_AI(Creature* pCreature) : Scripted_NoMovementAI(pCreature)
+        npc_constrictor_tentacle_AI(Creature* creature) : Scripted_NoMovementAI(creature)
         {
             me->SetReactState(REACT_PASSIVE);
             DoCast(me, SPELL_TENTACLE_VOID_ZONE, true);
@@ -1454,14 +1457,14 @@ class npc_corruptor_tentacle : public CreatureScript
 public:
     npc_corruptor_tentacle() : CreatureScript("npc_corruptor_tentacle") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_corruptor_tentacle_AI (pCreature);
+        return new npc_corruptor_tentacle_AI (creature);
     }
 
     struct npc_corruptor_tentacle_AI : public Scripted_NoMovementAI
     {
-        npc_corruptor_tentacle_AI(Creature* pCreature) : Scripted_NoMovementAI(pCreature)
+        npc_corruptor_tentacle_AI(Creature* creature) : Scripted_NoMovementAI(creature)
         {
             DoCast(me, SPELL_TENTACLE_VOID_ZONE, true);
             DoCast(me, SPELL_ERUPT, true);
@@ -1488,8 +1491,8 @@ public:
 
             if (ApathyTimer <= 0)
             {
-                if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
-                    DoCast(pTarget, SPELL_APATHY);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
+                    DoCast(target, SPELL_APATHY);
                 //ApathyTimer = 4000;
                 ApathyTimer = 16000;
             }
@@ -1497,8 +1500,8 @@ public:
 
             if (PoisonTimer <= 0)
             {
-                if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
-                    DoCast(pTarget, SPELL_DRAINING_POISON);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
+                    DoCast(target, SPELL_DRAINING_POISON);
                 //PoisonTimer = 4000;
                 PoisonTimer = 16000;
             }
@@ -1506,8 +1509,8 @@ public:
 
             if (PlagueTimer <= 0)
             {
-                if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
-                    DoCast(pTarget, SPELL_BLACK_PLAGUE);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
+                    DoCast(target, SPELL_BLACK_PLAGUE);
                 //PlagueTimer = 4000;
                 PlagueTimer = 16000;
             }
@@ -1515,8 +1518,8 @@ public:
 
             if (CurseTimer <= 0)
             {
-                if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
-                    DoCast(pTarget, SPELL_CURSE_OF_DOOM);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 80, true))
+                    DoCast(target, SPELL_CURSE_OF_DOOM);
                 //CurseTimer = 4000;
                 CurseTimer = 16000;
             }
@@ -1537,14 +1540,14 @@ class npc_immortal_guardian : public CreatureScript
 public:
     npc_immortal_guardian() : CreatureScript("npc_immortal_guardian") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_immortal_guardian_AI (pCreature);
+        return new npc_immortal_guardian_AI (creature);
     }
 
     struct npc_immortal_guardian_AI : public ScriptedAI
     {
-        npc_immortal_guardian_AI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_immortal_guardian_AI(Creature* creature) : ScriptedAI(creature)
         {
             me->SetAuraStack(SPELL_EMPOWERED, me, 10);
         }
@@ -1592,7 +1595,7 @@ public:
             }
         }
 
-        void SpellHit(Unit *caster, const SpellEntry *spell)
+        void SpellHit(Unit* caster, const SpellInfo* spell)
         {
             // Thorim kills weakened immortal creatures
             if (spell->Id == SPELL_TITANIC_STORM_EFFECT)
@@ -1614,67 +1617,67 @@ class npc_keeper_image : public CreatureScript
 public:
     npc_keeper_image() : CreatureScript("npc_keeper_image") { }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
-        InstanceScript* instance = pCreature->GetInstanceScript();
+        InstanceScript* instance = creature->GetInstanceScript();
 
-        if (pPlayer)
-            pPlayer->CLOSE_GOSSIP_MENU();
+        if (player)
+            player->CLOSE_GOSSIP_MENU();
 
-        switch (pCreature->GetEntry())
+        switch (creature->GetEntry())
         {
             case NPC_IMAGE_OF_FREYA:
-                DoScriptText(SAY_FREYA_HELP, pCreature);
-                pCreature->AddAura(SPELL_KEEPER_ACTIVE, pCreature);
-                if (Creature *pFreya = pCreature->GetCreature(*pCreature, instance->GetData64(NPC_YS_FREYA)))
+                DoScriptText(SAY_FREYA_HELP, creature);
+                creature->AddAura(SPELL_KEEPER_ACTIVE, creature);
+                if (Creature* pFreya = creature->GetCreature(*creature, instance->GetData64(NPC_YS_FREYA)))
                     pFreya->AddAura(SPELL_KEEPER_ACTIVE, pFreya);
                 break;
             case NPC_IMAGE_OF_THORIM:
-                DoScriptText(SAY_THORIM_HELP, pCreature);
-                pCreature->AddAura(SPELL_KEEPER_ACTIVE, pCreature);
-                if (Creature *pThorim = pCreature->GetCreature(*pCreature, instance->GetData64(NPC_YS_THORIM)))
+                DoScriptText(SAY_THORIM_HELP, creature);
+                creature->AddAura(SPELL_KEEPER_ACTIVE, creature);
+                if (Creature* pThorim = creature->GetCreature(*creature, instance->GetData64(NPC_YS_THORIM)))
                     pThorim->AddAura(SPELL_KEEPER_ACTIVE, pThorim);
                 break;
             case NPC_IMAGE_OF_MIMIRON:
-                DoScriptText(SAY_MIMIRON_HELP, pCreature);
-                pCreature->AddAura(SPELL_KEEPER_ACTIVE, pCreature);
-                if (Creature *pMimiron = pCreature->GetCreature(*pCreature, instance->GetData64(NPC_YS_MIMIRON)))
+                DoScriptText(SAY_MIMIRON_HELP, creature);
+                creature->AddAura(SPELL_KEEPER_ACTIVE, creature);
+                if (Creature* pMimiron = creature->GetCreature(*creature, instance->GetData64(NPC_YS_MIMIRON)))
                     pMimiron->AddAura(SPELL_KEEPER_ACTIVE, pMimiron);
                 break;
             case NPC_IMAGE_OF_HODIR:
-                DoScriptText(SAY_HODIR_HELP, pCreature);
-                pCreature->AddAura(SPELL_KEEPER_ACTIVE, pCreature);
-                if (Creature *pHodir = pCreature->GetCreature(*pCreature, instance->GetData64(NPC_YS_HODIR)))
+                DoScriptText(SAY_HODIR_HELP, creature);
+                creature->AddAura(SPELL_KEEPER_ACTIVE, creature);
+                if (Creature* pHodir = creature->GetCreature(*creature, instance->GetData64(NPC_YS_HODIR)))
                     pHodir->AddAura(SPELL_KEEPER_ACTIVE, pHodir);
                 break;
         }
         return true;
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* pCreature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
-        InstanceScript* instance = pCreature->GetInstanceScript();
+        InstanceScript* instance = creature->GetInstanceScript();
 
-        if (instance && pPlayer)
+        if (instance && player)
         {
-            if (!pCreature->HasAura(SPELL_KEEPER_ACTIVE))
+            if (!creature->HasAura(SPELL_KEEPER_ACTIVE))
             {
-                pPlayer->PrepareQuestMenu(pCreature->GetGUID());
-                pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_KEEPER_HELP, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF);
-                pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetGUID());
+                player->PrepareQuestMenu(creature->GetGUID());
+                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_KEEPER_HELP, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF);
+                player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
             }
         }
         return true;
     }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_keeper_image_AI (pCreature);
+        return new npc_keeper_image_AI (creature);
     }
 
     struct npc_keeper_image_AI : public ScriptedAI
     {
-        npc_keeper_image_AI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_keeper_image_AI(Creature* creature) : ScriptedAI(creature)
         {
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_NON_ATTACKABLE);
             me->SetReactState(REACT_PASSIVE);
@@ -1689,14 +1692,14 @@ class npc_ys_freya : public CreatureScript
 public:
     npc_ys_freya() : CreatureScript("npc_ys_freya") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_ys_freya_AI (pCreature);
+        return new npc_ys_freya_AI (creature);
     }
 
     struct npc_ys_freya_AI : public ScriptedAI
     {
-        npc_ys_freya_AI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_ys_freya_AI(Creature* creature) : ScriptedAI(creature)
         {
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_FURY_OF_THE_STORMS, true);
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_SPEED_OF_INVENTION, true);
@@ -1716,10 +1719,10 @@ public:
         {
             if (!UpdateVictim())
                 return;
-                
+
             if (!me->HasAura(SPELL_RESILIENCE_OF_NATURE))
                 DoCast(me, SPELL_RESILIENCE_OF_NATURE);
-                
+
             if (WellTimer <= uiDiff)
             {
                 DoCast(SPELL_SANITY_WELL_SPAWN);
@@ -1737,16 +1740,16 @@ class npc_sanity_well : public CreatureScript
 public:
     npc_sanity_well() : CreatureScript("npc_sanity_well") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_sanity_well_AI (pCreature);
+        return new npc_sanity_well_AI (creature);
     }
 
     struct npc_sanity_well_AI : public Scripted_NoMovementAI
     {
-        npc_sanity_well_AI(Creature* pCreature) : Scripted_NoMovementAI(pCreature)
+        npc_sanity_well_AI(Creature* creature) : Scripted_NoMovementAI(creature)
         {
-            pInstance = pCreature->GetInstanceScript();
+            instance = creature->GetInstanceScript();
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
             me->SetDisplayId(11686);
             DoCast(me, SPELL_SANITY_WELL_VISUAL);
@@ -1754,28 +1757,28 @@ public:
             sanityTimer = 2000;
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
         uint32 sanityTimer;
 
         void UpdateAI(const uint32 uiDiff)
         {
             if (sanityTimer <= uiDiff)
             {
-                Map::PlayerList const &players = pInstance->instance->GetPlayers();
+                Map::PlayerList const &players = instance->instance->GetPlayers();
                 for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                 {
-                    Player* pPlayer = itr->getSource();
-                    if (!pPlayer)
+                    Player* player = itr->getSource();
+                    if (!player)
                         continue;
                     // Standing in the well brings you back to your senses, regenerating 20% Sanity every 2 sec
-                    if (me->IsWithinDist(pPlayer, 8.0f) && pPlayer->HasAura(SPELL_SANITY_WELL))
+                    if (me->IsWithinDist(player, 8.0f) && player->HasAura(SPELL_SANITY_WELL))
                     {
-                        if (Aura * aur = pPlayer->GetAura(SPELL_SANITY))
+                        if (Aura* aur = player->GetAura(SPELL_SANITY))
                         {
                             uint32 stack = aur->GetStackAmount() + 20;
                             if (stack > 100)
                                 stack = 100;
-                            pPlayer->SetAuraStack(SPELL_SANITY, pPlayer, stack);
+                            player->SetAuraStack(SPELL_SANITY, player, stack);
                         }
                     }
                 }
@@ -1793,14 +1796,14 @@ class npc_ys_thorim : public CreatureScript
 public:
     npc_ys_thorim() : CreatureScript("npc_ys_thorim") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_ys_thorim_AI (pCreature);
+        return new npc_ys_thorim_AI (creature);
     }
 
     struct npc_ys_thorim_AI : public ScriptedAI
     {
-        npc_ys_thorim_AI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_ys_thorim_AI(Creature* creature) : ScriptedAI(creature)
         {
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_RESILIENCE_OF_NATURE, true);
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_SPEED_OF_INVENTION, true);
@@ -1813,10 +1816,10 @@ public:
         {
             if (!UpdateVictim() || me->HasUnitState(UNIT_STAT_CASTING))
                 return;
-                
+
             if (!me->HasAura(SPELL_FURY_OF_THE_STORMS))
                 DoCast(me, SPELL_FURY_OF_THE_STORMS);
-                
+
             if (!me->HasAura(SPELL_TITANIC_STORM) && phase == PHASE_3)
                 DoCast(me, SPELL_TITANIC_STORM);
         }
@@ -1829,14 +1832,14 @@ class npc_ys_mimiron : public CreatureScript
 public:
     npc_ys_mimiron() : CreatureScript("npc_ys_mimiron") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_ys_mimiron_AI (pCreature);
+        return new npc_ys_mimiron_AI (creature);
     }
 
     struct npc_ys_mimiron_AI : public ScriptedAI
     {
-        npc_ys_mimiron_AI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_ys_mimiron_AI(Creature* creature) : ScriptedAI(creature)
         {
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_RESILIENCE_OF_NATURE, true);
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_FURY_OF_THE_STORMS, true);
@@ -1877,14 +1880,14 @@ class npc_ys_hodir : public CreatureScript
 public:
     npc_ys_hodir() : CreatureScript("npc_ys_hodir") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_ys_hodir_AI (pCreature);
+        return new npc_ys_hodir_AI (creature);
     }
 
     struct npc_ys_hodir_AI : public ScriptedAI
     {
-        npc_ys_hodir_AI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_ys_hodir_AI(Creature* creature) : ScriptedAI(creature)
         {
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_RESILIENCE_OF_NATURE, true);
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_FURY_OF_THE_STORMS, true);
@@ -1940,7 +1943,7 @@ class spell_yoggsaron_lunatic_gaze : public SpellScriptLoader
             }
         };
 
-        SpellScript *GetSpellScript() const
+        SpellScript* GetSpellScript() const
         {
             return new spell_yoggsaron_lunatic_gaze_SpellScript();
         }
@@ -1975,7 +1978,7 @@ class spell_yoggsaron_induce_madness : public SpellScriptLoader
             }
         };
 
-        SpellScript *GetSpellScript() const
+        SpellScript* GetSpellScript() const
         {
             return new spell_yoggsaron_induce_madness_SpellScript();
         }
