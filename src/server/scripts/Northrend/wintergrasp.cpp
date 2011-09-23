@@ -82,6 +82,7 @@ bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint3
         npc_demolisher_engineererAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
             me->SetReactState(REACT_PASSIVE);
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         }
     };
 
@@ -98,7 +99,7 @@ class npc_wg_ally_battle_mage : public CreatureScript
 public:
     npc_wg_ally_battle_mage() : CreatureScript("npc_wg_ally_battle_mage") { }
 
-    CreatureAI *GetAI(Creature *creature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
         return new npc_wg_ally_battle_mageAI(creature);
     }
@@ -257,7 +258,7 @@ class npc_wg_horde_battle_mage : public CreatureScript
 public:
     npc_wg_horde_battle_mage() : CreatureScript("npc_wg_horde_battle_mage") { }
 
-    CreatureAI *GetAI(Creature *creature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
         return new npc_wg_horde_battle_mageAI(creature);
     }
