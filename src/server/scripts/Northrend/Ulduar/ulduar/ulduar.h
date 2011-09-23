@@ -138,6 +138,7 @@ enum UlduarGameObjects
     GO_FREYA_CHEST_1_ELDER_10             = 194325,
     GO_LEVIATHAN_DOOR                     = 194905,
     GO_LEVIATHAN_GATE                     = 194630,
+    GO_XT_002_DOOR                        = 194631,
     GO_VEZAX_DOOR                         = 194750,
     GO_MOLE_MACHINE                       = 194316,
     GO_RAZOR_HARPOON_1                    = 194542,
