@@ -82,9 +82,9 @@ INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconNa
 (186471, 6, 0, 'Super Brew Stein', '', '', '', 14, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 5, 42696, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0);
 
 -- Корен Худовар
-DELETE FROM `instance_encounters` WHERE `entry` = 900;
+DELETE FROM `instance_encounters` WHERE `entry` IN (895, 900);
 INSERT INTO `instance_encounters` (`entry`, `creditType`, `creditEntry`, `lastEncounterDungeon`, `comment`) VALUES
-(900, 0, 23872, 287, 'Coren Direbrew');
+(895, 0, 23872, 287, 'Coren Direbrew');
 
 SET @ENTRY := 188498;
 SET @GUID := 2710571;
