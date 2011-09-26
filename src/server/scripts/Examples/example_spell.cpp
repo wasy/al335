@@ -406,7 +406,7 @@ class spell_ex : public SpellScriptLoader
             //bool Load(){return true;}
             //void Unload(){}
 
-            //void Function(SpellEffIndex effIndex) //OnEffect += SpellEffectFn(spell_ex_SpellScript::Function, EFFECT_ANY, SPELL_EFFECT_ANY);
+            //void Function(SpellEffIndex effIndex) //OnEffectHitTarget += SpellEffectFn(spell_ex_SpellScript::Function, EFFECT_ANY, SPELL_EFFECT_ANY);
             //void Function() //OnHit += SpellEffectFn(spell_ex_SpellScript::Function);
             void Register()
             {
