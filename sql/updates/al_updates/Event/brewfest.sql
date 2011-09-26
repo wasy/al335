@@ -16,7 +16,6 @@
 -- 12491, 12492, 11441, 11446, 11122, 11412, 11118, 11120, 11117, 11431, 11293, 11408, 11407, 11294, 29393, 29394, 12022, 12191, 12020, 12192,
 -- 29397, 29396, 12306, 12420, 12421, 11318, 11409
 
-
 -- Spell Арендованный скаковой баран
 UPDATE `quest_template` SET `SrcSpell`=43883 WHERE `entry` IN (11293,11294,11407,11408,11409,11122,11412);
 
@@ -77,7 +76,6 @@ UPDATE `creature_template` SET `ScriptName`='npc_brewfest_ram_master' WHERE `ent
 UPDATE `creature_template` SET `ScriptName`='npc_brewfest_ram_master' WHERE `entry`=24497;
 UPDATE `creature_template` SET  `AIName`='', `ScriptName`='npc_brewfest_trigger' WHERE `entry` in (24202, 24203, 24204, 24205);
 
-
 -- Insert missing object template for spell Drunken Master's - it's a trap and these do not come from sniffs, so WDBVerified on 0.
 DELETE FROM `gameobject_template` WHERE `entry`=186471;
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `faction`, `flags`, `size`, `questItem1`, `questItem2`, `questItem3`, `questItem4`, `questItem5`, `questItem6`, `data0`, `data1`, `data2`, `data3`, `data4`, `data5`, `data6`, `data7`, `data8`, `data9`, `data10`, `data11`, `data12`, `data13`, `data14`, `data15`, `data16`, `data17`, `data18`, `data19`, `data20`, `data21`, `data22`, `data23`, `AIName`, `ScriptName`, `WDBVerified`) VALUES
@@ -85,8 +83,8 @@ INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconNa
 
 -- Корен Худовар
 DELETE FROM `instance_encounters` WHERE `entry` = 900;
-INSERT INTO `instance_encounters` (`entry`, `creditType`, `creditEntry`, `lastEncounterDungeon`, `comment`) VALUES 
-('900', '0', '23872', '287', 'Coren Direbrew');
+INSERT INTO `instance_encounters` (`entry`, `creditType`, `creditEntry`, `lastEncounterDungeon`, `comment`) VALUES
+(900, 0, 23872, 287, 'Coren Direbrew');
 
 SET @ENTRY := 188498;
 SET @GUID := 2710571;
@@ -98,16 +96,20 @@ INSERT INTO `game_event_gameobject` (`eventEntry`, `guid`) VALUES
 (26, @GUID);
 
 -- Agrega Dark Iron Mole Machine Wreckage (Noblizzlike pero da una daily)
-SET @ENTRY := 189989;
 SET @GUID := 2710572;
 DELETE FROM `gameobject` WHERE `guid` IN (@GUID, @GUID+1);
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`) VALUES
-(@GUID, @ENTRY, 0, 1, 1, -5154.36, -609.284, 398.452, 2.13369, 0, 0, 0.875682, 0.482887, 300, 0, 1), 
-(@GUID+1, @ENTRY, 1, 1, 1, 1198.66, -4297.37, 21.3811, 4.92821, 0, 0, 0.626838, -0.77915, 300, 0, 1);
+(@GUID, 189989, 0, 1, 1, -5154.36, -609.284, 398.452, 2.13369, 0, 0, 0.875682, 0.482887, 300, 0, 1), 
+(@GUID+1, 189990, 1, 1, 1, 1198.66, -4297.37, 21.3811, 4.92821, 0, 0, 0.626838, -0.77915, 300, 0, 1);
 DELETE FROM `game_event_gameobject` WHERE `guid` IN (@GUID, @GUID+1);
 INSERT INTO `game_event_gameobject` (`eventEntry`, `guid`) VALUES
 (26, @GUID), 
 (26, @GUID+1);
+
+DELETE FROM `gameobject_questrelation` WHERE `quest` IN (12020,12192);
+INSERT INTO `gameobject_questrelation` (`id`,`quest`) VALUES
+(189989,12020),
+(189990,12192);
  
 -- Inmunidades
 UPDATE `creature_template` SET `mechanic_immune_mask` = `mechanic_immune_mask`|1|2|8|16|32|64|128|256|512|1024|2048|4096|8192|65536|131072|524288|4194304|8388608|33554432|67108864|536870912 WHERE `entry` IN (23872,26822,26764);
@@ -180,18 +182,25 @@ INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comm
 (42436, 47173, 0, 'Brewfest Sampler');
 
 -- Ram Barrel Run Quest
-DELETE FROM `spell_linked_spell` WHERE `spell_trigger` IN (-43880, 42994, 42993, 42992, 43310, 43332, -43332);
+DELETE FROM `spell_linked_spell` WHERE `spell_trigger` IN (-43880, -43883, 42994, 42993, 42992, 43310, 43332, -43332);
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
+(-43883, -42146, 0, 'Remove brewfest speed buffs when player dismounted'),
+(-43883, -42992, 0, 'Remove brewfest speed buffs when player dismounted'),
+(-43883, -42993, 0, 'Remove brewfest speed buffs when player dismounted'),
+(-43883, -42994, 0, 'Remove brewfest speed buffs when player dismounted'),
+(-43883, -43052, 0, 'Remove brewfest speed buffs when player dismounted'), -- Усталость барана
+(-43883, -43310, 0, 'Remove brewfest speed buffs when player dismounted'),
+(-43883, -43332, 0, 'Remove brewfest speed buffs when player dismounted'),
+(-43883, -43492, 0, 'Remove brewfest speed buffs when player dismounted'),
 (-43880, -43492, 0, 'Remove brewfest speed buffs when player dismounted'),
 (-43880, -43332, 0, 'Remove brewfest speed buffs when player dismounted'),
 (-43880, -43310, 0, 'Remove brewfest speed buffs when player dismounted'),
-(-43880, -43052, 0, 'Remove brewfest speed buffs when player dismounted'),
+(-43880, -43052, 0, 'Remove brewfest speed buffs when player dismounted'), -- Усталость барана
 (-43880, -42994, 0, 'Remove brewfest speed buffs when player dismounted'),
 (-43880, -42993, 0, 'Remove brewfest speed buffs when player dismounted'),
 (-43880, -42992, 0, 'Remove brewfest speed buffs when player dismounted'),
 (-43880, -42146, 0, 'Remove brewfest speed buffs when player dismounted'),
-(-43332, 43310, 0, 'Switch brewfest speed buffs - Neutral'),
-(42992, -43332, 0, 'Switch brewfest speed buffs - Exhausted'), 
+(42992, -43332, 0, 'Switch brewfest speed buffs - Exhausted'),
 (42992, -43310, 0, 'Switch brewfest speed buffs - Neutral'),
 (42992, -42994, 0, 'Switch brewfest speed buffs - Gallop'),
 (42992, -42993, 0, 'Switch brewfest speed buffs - Canter'),
@@ -207,10 +216,12 @@ INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comm
 (43310, -42994, 0, 'Switch brewfest speed buffs - Gallop'),
 (43310, -42993, 0, 'Switch brewfest speed buffs - Canter'),
 (43310, -42992, 0, 'Switch brewfest speed buffs - Trot'),
+(-43332, 43310, 0, 'Switch brewfest speed buffs - Neutral'), -- Изнемогший баран
 (43332, -43310, 0, 'Switch brewfest speed buffs - Neutral'),
 (43332, -42994, 0, 'Switch brewfest speed buffs - Gallop'),
 (43332, -42993, 0, 'Switch brewfest speed buffs - Canter'),
 (43332, -42992, 0, 'Switch brewfest speed buffs - Trot');
+
 
 -- Wild Winter Pilsner
 -- Spell Weak Alcohol (42256) should make the ground shake
@@ -850,6 +861,43 @@ UPDATE `creature_template` SET `AIName`='' WHERE `entry`=23698; -- Drunken Brewf
 # test - 
 пока нужно реализовать правильную работу сложение и сброс усталости барана
 #######################################
+43052 -- Усталость барана
+43310 -- Уровень барана - нейтральный
+43332 -- Изнемогший баран
+
+42992 -- Баран - рысь  43345
+42993 -- Баран - легкий галоп  43346
+42994 -- Баран - галоп   43347
+
+42146 -- Brewfest Racing Ram Aura [DND]
+43492 -- Brewfest - apple trap - Unfriendly DND
+
+43880 -- Стремительный рабочий баран Рамштайна
+43883 -- Арендованный скаковой баран
+
+
+42271 -- Зазывала Хмельного фестиваля - ловушка A
+42269 -- Зазывала Хмельного фестиваля - ловушка B
+
+42924 - Поехали!
+42146 - Brewfest Racing Ram Aura [DND]
+43492 - Brewfest - apple trap - Unfriendly DND
+
+SET @ENTRY := 24202;
+UPDATE `creature_template` SET `AIName`='SmartAI' WHERE `entry` = '24202';
+UPDATE `creature_template` SET `ScriptName` = '' WHERE `entry` = 24202;
+DELETE FROM `smart_scripts` WHERE (`entryorguid`=24202 AND `source_type`=0);
+INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES 
+('24202', '0', '0', '0', '23', '2', '100', '0', '42146', '0', '0', '144000', '11', '43259', '2', '0', '0', '0', '0', '7', '0', '0', '0', '0','0', '0', '0', 'YTDB: Brewfest - Barker Bunny 1, Kill Credit'),
+('24202', '0', '1', '0', '61', '0', '100', '0', '0', '0', '0', '0', '1', '24202', '0', '0', '0', '0', '0', '7', '0', '0', '0', '0','0', '0', '0', 'YTDB: [DND] Brewfest Barker Bunny 1 - say random text');
+DELETE FROM `creature_text` WHERE `entry`=@ENTRY;
+INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `comment`) VALUES
+(@ENTRY, 0, 0, 'Хочешь отпраздновать на славу? Приходи в винокурню Дрона на Хмельном фестивале – уж орки знают толк в выпевке!', 12, 0, 100, 1, 0, 0, 'YTDB: [DND] Brewfest Barker Bunny 1 - say random text'),
+(@ENTRY, 0, 1, 'В винокурне Дрона знают толк в веселье! Заходи, если не хочешь  скучать на Хмельном фестивале!', 12, 0, 100, 1, 0, 0, 'YTDB: [DND] Brewfest Barker Bunny 1 - say random text');
+
+
+
+
 
 -- quest=11407
 SET @ENTRY := 24498;
