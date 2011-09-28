@@ -11,53 +11,50 @@
 
 enum BrewfestAreaTrigger
 {
-    NPC_TAPPER_SWINDLEKEG      = 24711,
-    NPC_IPFELKOFER_IRONKEG     = 24710,
-
-    AT_BREWFEST_DUROTAR        = 4829,
-    AT_BREWFEST_DUN_MOROGH     = 4820,
-
-    SAY_WELCOME                = 1,
-
-    AREATRIGGER_TALK_COOLDOWN  = 5, // in seconds
+    NPC_TAPPER_SWINDLEKEG       = 24711,
+    NPC_IPFELKOFER_IRONKEG      = 24710,
+    AT_BREWFEST_DUROTAR         = 4829,
+    AT_BREWFEST_DUN_MOROGH      = 4820,
+    SAY_WELCOME                 = 1,
+    AREATRIGGER_TALK_COOLDOWN   = 5, // in seconds
 };
 
 class AreaTrigger_at_brewfest : public AreaTriggerScript
 {
-    public:
-        AreaTrigger_at_brewfest() : AreaTriggerScript("at_brewfest")
-        {
-            // Initialize for cooldown
-            _triggerTimes[AT_BREWFEST_DUROTAR] = _triggerTimes[AT_BREWFEST_DUN_MOROGH] = 0;
-        }
+public:
+    AreaTrigger_at_brewfest() : AreaTriggerScript("at_brewfest")
+    {
+        // Initialize for cooldown
+        _triggerTimes[AT_BREWFEST_DUROTAR] = _triggerTimes[AT_BREWFEST_DUN_MOROGH] = 0;
+    }
 
-        bool OnTrigger(Player* player, AreaTriggerEntry const* trigger)
-        {
-            uint32 triggerId = trigger->id;
-            // Second trigger happened too early after first, skip for now
-            if (sWorld->GetGameTime() - _triggerTimes[triggerId] < AREATRIGGER_TALK_COOLDOWN)
-                return false;
-
-                switch (triggerId)
-                {
-                    case AT_BREWFEST_DUROTAR:
-                        if (Creature* tapper = player->FindNearestCreature(NPC_TAPPER_SWINDLEKEG, 20.0f))
-                            tapper->AI()->Talk(SAY_WELCOME, player->GetGUID());
-                        break;
-                    case AT_BREWFEST_DUN_MOROGH:
-                        if (Creature* ipfelkofer = player->FindNearestCreature(NPC_IPFELKOFER_IRONKEG, 20.0f))
-                            ipfelkofer->AI()->Talk(SAY_WELCOME, player->GetGUID());
-                        break;
-                    default:
-                        break;
-                }
-
-            _triggerTimes[triggerId] = sWorld->GetGameTime();
+    bool OnTrigger(Player* player, AreaTriggerEntry const* trigger)
+    {
+        uint32 triggerId = trigger->id;
+        // Second trigger happened too early after first, skip for now
+        if (sWorld->GetGameTime() - _triggerTimes[triggerId] < AREATRIGGER_TALK_COOLDOWN)
             return false;
+
+        switch (triggerId)
+        {
+        case AT_BREWFEST_DUROTAR:
+            if (Creature* tapper = player->FindNearestCreature(NPC_TAPPER_SWINDLEKEG, 20.0f))
+                tapper->AI()->Talk(SAY_WELCOME, player->GetGUID());
+            break;
+        case AT_BREWFEST_DUN_MOROGH:
+            if (Creature* ipfelkofer = player->FindNearestCreature(NPC_IPFELKOFER_IRONKEG, 20.0f))
+                ipfelkofer->AI()->Talk(SAY_WELCOME, player->GetGUID());
+            break;
+        default:
+            break;
         }
 
-    private:
-        std::map<uint32, time_t> _triggerTimes;
+        _triggerTimes[triggerId] = sWorld->GetGameTime();
+        return false;
+    }
+
+private:
+    std::map<uint32, time_t> _triggerTimes;
 };
 
 /*####
@@ -70,6 +67,7 @@ enum eBrewfestBarkQuests
     BARK_FOR_TCHALIS_VOODOO_BREWERY = 11408,
     BARK_FOR_THE_BARLEYBREWS        = 11293,
     BARK_FOR_DROHNS_DISTILLERY      = 11407,
+
     SPELL_RAMSTEIN_SWIFT_WORK_RAM   = 43880,
     SPELL_BREWFEST_RAM              = 43883,
     SPELL_RAM_FATIGUE               = 43052,
@@ -78,6 +76,7 @@ enum eBrewfestBarkQuests
     SPELL_SPEED_RAM_TROT            = 42992,
     SPELL_SPEED_RAM_NORMAL          = 43310,
     SPELL_SPEED_RAM_EXHAUSED        = 43332,
+
     NPC_SPEED_BUNNY_GREEN           = 24263,
     NPC_SPEED_BUNNY_YELLOW          = 24264,
     NPC_SPEED_BUNNY_RED             = 24265,
@@ -182,23 +181,23 @@ public:
 
         bool Validate(SpellInfo const* /*spellInfo*/)
         {
-            if (!sSpellMgr->GetSpellInfo(SPELL_RAM_FATIGUE))
+            if (!sSpellMgr->GetSpellInfo(SPELL_RAM_FATIGUE)) //Усталость барана
                 return false;
-            if (!sSpellMgr->GetSpellInfo(SPELL_RAMSTEIN_SWIFT_WORK_RAM))
+            if (!sSpellMgr->GetSpellInfo(SPELL_RAMSTEIN_SWIFT_WORK_RAM)) //Стремительный рабочий баран Рамштайна
                 return false;
-            if (!sSpellMgr->GetSpellInfo(SPELL_BREWFEST_RAM))
+            if (!sSpellMgr->GetSpellInfo(SPELL_BREWFEST_RAM)) // Арендованный скаковой баран
+                return false;
+            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_GALLOP)) //42994
+                return false;
+            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_CANTER)) // 42993
+                return false;
+            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_TROT)) // 42992
+                return false;
+            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_NORMAL)) // 43310
                 return false;
             if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_GALLOP))
                 return false;
-            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_CANTER))
-                return false;
-            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_TROT))
-                return false;
-            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_NORMAL))
-                return false;
-            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_GALLOP))
-                return false;
-            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_EXHAUSED))
+            if (!sSpellMgr->GetSpellInfo(SPELL_SPEED_RAM_EXHAUSED)) // Изнемогший баран
                 return false;
             return true;
         }
@@ -214,43 +213,43 @@ public:
             int i;
             switch (GetId())
             {
-                case SPELL_SPEED_RAM_GALLOP:
-                    for (i = 0; i < 5; i++)
-                        pCaster->AddAura(SPELL_RAM_FATIGUE,pCaster);
-                    break;
-                case SPELL_SPEED_RAM_CANTER:
+            case SPELL_SPEED_RAM_GALLOP:
+                for (i = 0; i < 5; i++)
                     pCaster->AddAura(SPELL_RAM_FATIGUE,pCaster);
-                    break;
-                case SPELL_SPEED_RAM_TROT:
-                    if (pCaster->HasAura(SPELL_RAM_FATIGUE))
-                        if (pCaster->GetAura(SPELL_RAM_FATIGUE)->GetStackAmount() <= 2)
-                            pCaster->RemoveAura(SPELL_RAM_FATIGUE);
-                        else
-                            pCaster->GetAura(SPELL_RAM_FATIGUE)->ModStackAmount(-2);
-                    break;
-                case SPELL_SPEED_RAM_NORMAL:
-                    if (pCaster->HasAura(SPELL_RAM_FATIGUE))
-                        if (pCaster->GetAura(SPELL_RAM_FATIGUE)->GetStackAmount() <= 4)
-                            pCaster->RemoveAura(SPELL_RAM_FATIGUE);
-                       else
-                           pCaster->GetAura(SPELL_RAM_FATIGUE)->ModStackAmount(-4);
-                    break;
+                break;
+            case SPELL_SPEED_RAM_CANTER:
+                pCaster->AddAura(SPELL_RAM_FATIGUE,pCaster);
+                break;
+            case SPELL_SPEED_RAM_TROT:
+                if (pCaster->HasAura(SPELL_RAM_FATIGUE))
+                    if (pCaster->GetAura(SPELL_RAM_FATIGUE)->GetStackAmount() <= 2)
+                        pCaster->RemoveAura(SPELL_RAM_FATIGUE);
+                    else
+                        pCaster->GetAura(SPELL_RAM_FATIGUE)->ModStackAmount(-2);
+                break;
+            case SPELL_SPEED_RAM_NORMAL:
+                if (pCaster->HasAura(SPELL_RAM_FATIGUE))
+                    if (pCaster->GetAura(SPELL_RAM_FATIGUE)->GetStackAmount() <= 4)
+                        pCaster->RemoveAura(SPELL_RAM_FATIGUE);
+                    else
+                        pCaster->GetAura(SPELL_RAM_FATIGUE)->ModStackAmount(-4);
+                break;
             }
 
             switch (aurEff->GetId())
             {
-                case SPELL_SPEED_RAM_TROT:
-                    if (aurEff->GetTickNumber() == 4)
-                        pCaster->KilledMonsterCredit(NPC_SPEED_BUNNY_GREEN, 0);
-                    break;
-                case SPELL_SPEED_RAM_CANTER:
-                    if (aurEff->GetTickNumber() == 8)
-                        pCaster->KilledMonsterCredit(NPC_SPEED_BUNNY_YELLOW, 0);
-                    break;
-                case SPELL_SPEED_RAM_GALLOP:
-                    if (aurEff->GetTickNumber() == 8)
-                        pCaster->KilledMonsterCredit(NPC_SPEED_BUNNY_RED, 0);
-                    break;
+            case SPELL_SPEED_RAM_TROT:
+                if (aurEff->GetTickNumber() == 4)
+                    pCaster->KilledMonsterCredit(NPC_SPEED_BUNNY_GREEN, 0);
+                break;
+            case SPELL_SPEED_RAM_CANTER:
+                if (aurEff->GetTickNumber() == 8)
+                    pCaster->KilledMonsterCredit(NPC_SPEED_BUNNY_YELLOW, 0);
+                break;
+            case SPELL_SPEED_RAM_GALLOP:
+                if (aurEff->GetTickNumber() == 8)
+                    pCaster->KilledMonsterCredit(NPC_SPEED_BUNNY_RED, 0);
+                break;
             }
             if (pCaster->HasAura(SPELL_RAM_FATIGUE))
                 if (pCaster->GetAura(SPELL_RAM_FATIGUE)->GetStackAmount() >= 100)
@@ -271,20 +270,20 @@ public:
             } else if (!pCaster->HasAura(SPELL_RAM_FATIGUE) || pCaster->GetAura(SPELL_RAM_FATIGUE)->GetStackAmount() < 100)
 
                 switch (GetId())
-                {
-                    case SPELL_SPEED_RAM_GALLOP:
-                        if (!pCaster->HasAura(SPELL_SPEED_RAM_EXHAUSED))
-                            pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_CANTER, false);
-                        break;
-                    case SPELL_SPEED_RAM_CANTER:
-                        if (!pCaster->HasAura(SPELL_SPEED_RAM_GALLOP))
-                            pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_TROT, false);
-                        break;
-                    case SPELL_SPEED_RAM_TROT:
-                        if (!pCaster->HasAura(SPELL_SPEED_RAM_CANTER))
-                            pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_NORMAL, false);
-                        break;
-                }
+            {
+                case SPELL_SPEED_RAM_GALLOP:
+                    if (!pCaster->HasAura(SPELL_SPEED_RAM_EXHAUSED))
+                        pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_CANTER, false);
+                    break;
+                case SPELL_SPEED_RAM_CANTER:
+                    if (!pCaster->HasAura(SPELL_SPEED_RAM_GALLOP))
+                        pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_TROT, false);
+                    break;
+                case SPELL_SPEED_RAM_TROT:
+                    if (!pCaster->HasAura(SPELL_SPEED_RAM_CANTER))
+                        pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_NORMAL, false);
+                    break;
+            }
         }
 
         void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
@@ -296,16 +295,16 @@ public:
 
             switch (GetId())
             {
-                case SPELL_SPEED_RAM_GALLOP:
-                    pCaster->GetAura(SPELL_SPEED_RAM_GALLOP)->SetDuration(4000);
-                    break;
-                case SPELL_SPEED_RAM_CANTER:
-                    pCaster->GetAura(SPELL_SPEED_RAM_CANTER)->SetDuration(4000);
-                    break;
-                case SPELL_SPEED_RAM_TROT:
-                    pCaster->GetAura(SPELL_SPEED_RAM_TROT)->SetDuration(4000);
-                    break;
-             }
+            case SPELL_SPEED_RAM_GALLOP:
+                pCaster->GetAura(SPELL_SPEED_RAM_GALLOP)->SetDuration(4000);
+                break;
+            case SPELL_SPEED_RAM_CANTER:
+                pCaster->GetAura(SPELL_SPEED_RAM_CANTER)->SetDuration(4000);
+                break;
+            case SPELL_SPEED_RAM_TROT:
+                pCaster->GetAura(SPELL_SPEED_RAM_TROT)->SetDuration(4000);
+                break;
+            }
         }
 
         void Register()
@@ -323,368 +322,15 @@ public:
 };
 
 /*######
-## npc_coren direbrew
-######*/
-
-enum CorenDirebrew
-{
-    SPELL_DISARM                = 47310, // Обезвреживание Зловещего Варева
-    SPELL_DISARM_PRECAST        = 47407, // Обезвреживание Зловещего Варева (без затраты маны)
-    SPELL_MOLE_MACHINE_EMERGE   = 50313, // bad id. Появление буровой установки
-    NPC_ILSA_DIREBREW           = 26764,
-    NPC_URSULA_DIREBREW         = 26822,
-    NPC_DIREBREW_MINION         = 26776,
-
-    EQUIP_ID_TANKARD            = 48663,
-    FACTION_HOSTILE             = 736
-};
-
-#define GOSSIP_TEXT_INSULT "Insult Coren Direbrew's brew."
-
-static Position _pos[]=
-{
-    {890.87f, -133.95f, -48.0f, 1.53f},
-    {892.47f, -133.26f, -48.0f, 2.16f},
-    {893.54f, -131.81f, -48.0f, 2.75f}
-};
-
-class npc_coren_direbrew : public CreatureScript
-{
-    public:
-        npc_coren_direbrew() : CreatureScript("npc_coren_direbrew") { }
-
-        bool OnGossipHello(Player* player, Creature* creature)
-        {
-            if (creature->isQuestGiver())
-                player->PrepareQuestMenu(creature->GetGUID());
-
-            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_INSULT, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
-            player->SEND_GOSSIP_MENU(15858, creature->GetGUID());
-            return true;
-        }
-
-        bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action)
-        {
-            player->PlayerTalkClass->ClearMenus();
-
-            if (action == GOSSIP_ACTION_INFO_DEF + 1)
-            {
-                creature->setFaction(FACTION_HOSTILE);
-                creature->AI()->AttackStart(player);
-                creature->AI()->DoZoneInCombat();
-                player->CLOSE_GOSSIP_MENU();
-            }
-
-            return true;
-        }
-
-        struct npc_coren_direbrewAI : public ScriptedAI
-        {
-            npc_coren_direbrewAI(Creature* c) : ScriptedAI(c), _summons(me)
-            {
-            }
-
-            void Reset()
-            {
-                me->RestoreFaction();
-                me->SetCorpseDelay(90); // 1.5 minutes
-
-                _addTimer = 20000;
-                _disarmTimer = urand(10, 15) *IN_MILLISECONDS;
-
-                _spawnedIlsa = false;
-                _spawnedUrsula = false;
-                _summons.DespawnAll();
-
-                for (uint8 i = 0; i < 3; ++i)
-                    if (Creature* creature = me->SummonCreature(NPC_DIREBREW_MINION, _pos[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 15000))
-                        _add[i] = creature->GetGUID();
-            }
-
-            void EnterCombat(Unit* /*who*/)
-            {
-                SetEquipmentSlots(false, EQUIP_ID_TANKARD, EQUIP_ID_TANKARD, EQUIP_NO_CHANGE);
-
-                for (uint8 i = 0; i < 3; ++i)
-                {
-                    if (_add[i])
-                    {
-                        Creature* creature = ObjectAccessor::GetCreature((*me), _add[i]);
-                        if (creature && creature->isAlive())
-                        {
-                            creature->setFaction(FACTION_HOSTILE);
-                            creature->SetInCombatWithZone();
-                        }
-                        _add[i] = 0;
-                    }
-                }
-            }
-
-            void UpdateAI(uint32 const diff)
-            {
-                if (!UpdateVictim())
-                    return;
-
-                // disarm
-                if (_disarmTimer <= diff)
-                {
-                    DoCast(SPELL_DISARM_PRECAST);
-                    DoCastVictim(SPELL_DISARM, false);
-                    _disarmTimer = urand(20, 25) *IN_MILLISECONDS;
-                }
-                else
-                    _disarmTimer -= diff;
-
-                // spawn non-elite adds
-                if (_addTimer <= diff)
-                {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
-                    {
-                        float posX, posY, posZ;
-                        target->GetPosition(posX, posY, posZ);
-                        target->CastSpell(target, SPELL_MOLE_MACHINE_EMERGE, true, 0, 0, me->GetGUID());
-                        me->SummonCreature(NPC_DIREBREW_MINION, posX, posY, posZ, 0, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 15000);
-
-                        _addTimer = 15000;
-                        if (_spawnedIlsa)
-                            _addTimer -= 3000;
-                        if (_spawnedUrsula)
-                            _addTimer -= 3000;
-                    }
-                }
-                else
-                    _addTimer -= diff;
-
-                if (!_spawnedIlsa && HealthBelowPct(66))
-                {
-                    DoSpawnCreature(NPC_ILSA_DIREBREW, 0, 0, 0, 0, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 15000);
-                    _spawnedIlsa = true;
-                }
-
-                if (!_spawnedUrsula && HealthBelowPct(33))
-                {
-                    DoSpawnCreature(NPC_URSULA_DIREBREW, 0, 0, 0, 0, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 15000);
-                    _spawnedUrsula = true;
-                }
-
-                DoMeleeAttackIfReady();
-            }
-
-            void JustSummoned(Creature* summon)
-            {
-                if (me->getFaction() == FACTION_HOSTILE)
-                {
-                    summon->setFaction(FACTION_HOSTILE);
-
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
-                        summon->AI()->AttackStart(target);
-                }
-
-                _summons.Summon(summon);
-            }
-
-            void JustDied(Unit* /*killer*/)
-            {
-                _summons.DespawnAll();
-
-                // TODO: unhack
-                Map* map = me->GetMap();
-                if (map && map->IsDungeon())
-                {
-                    Map::PlayerList const& players = map->GetPlayers();
-                    if (!players.isEmpty())
-                        for (Map::PlayerList::const_iterator i = players.begin(); i != players.end(); ++i)
-                            if (Player* player = i->getSource())
-                                if (player->GetDistance(me) < 100.0f)
-                                    sLFGMgr->RewardDungeonDoneFor(287, player);
-                }
-            }
-
-        private:
-            SummonList _summons;
-            uint64 _add[3];
-            uint32 _addTimer;
-            uint32 _disarmTimer;
-            bool _spawnedIlsa;
-            bool _spawnedUrsula;
-        };
-
-        CreatureAI* GetAI(Creature* c) const
-        {
-            return new npc_coren_direbrewAI(c);
-        }
-};
-
-/*######
-## dark iron brewmaiden
-######*/
-
-enum Brewmaiden
-{
-    SPELL_SEND_FIRST_MUG          = 47333,
-    SPELL_SEND_SECOND_MUG         = 47339,
-    //SPELL_CREATE_BREW           = 47345,
-    SPELL_HAS_BREW_BUFF           = 47376,
-    //SPELL_HAS_BREW              = 47331,
-    //SPELL_DARK_BREWMAIDENS_STUN = 47340,
-    SPELL_CONSUME_BREW            = 47377,
-    SPELL_BARRELED                = 47442,
-    SPELL_CHUCK_MUG               = 50276
-};
-
-class npc_brewmaiden : public CreatureScript
-{
-    public:
-        npc_brewmaiden() : CreatureScript("npc_brewmaiden") { }
-
-        struct npc_brewmaidenAI : public ScriptedAI
-        {
-            npc_brewmaidenAI(Creature* c) : ScriptedAI(c)
-            {
-            }
-
-            void Reset()
-            {
-                _brewTimer = 2000;
-                _barrelTimer = 5000;
-                _chuckMugTimer = 10000;
-            }
-
-            void EnterCombat(Unit* /*who*/)
-            {
-                me->SetInCombatWithZone();
-            }
-
-            void AttackStart(Unit* who)
-            {
-                if (!who)
-                    return;
-
-                if (me->Attack(who, true))
-                {
-                    me->AddThreat(who, 1.0f);
-                    me->SetInCombatWith(who);
-                    who->SetInCombatWith(me);
-
-                    if (me->GetEntry() == NPC_URSULA_DIREBREW)
-                        me->GetMotionMaster()->MoveFollow(who, 10.0f, 0.0f);
-                    else
-                        me->GetMotionMaster()->MoveChase(who);
-                }
-            }
-
-            void SpellHitTarget(Unit* target, SpellInfo const* spell)
-            {
-                // TODO: move to DB
-
-                if (spell->Id == SPELL_SEND_FIRST_MUG)
-                    target->CastSpell(target, SPELL_HAS_BREW_BUFF, true);
-
-                if (spell->Id == SPELL_SEND_SECOND_MUG)
-                    target->CastSpell(target, SPELL_CONSUME_BREW, true);
-            }
-
-            void UpdateAI(uint32 const diff)
-            {
-                if (!UpdateVictim())
-                    return;
-
-                if (_brewTimer <= diff)
-                {
-                    if (!me->IsNonMeleeSpellCasted(false))
-                    {
-                        Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true);
-
-                        if (target && me->GetDistance(target) > 5.0f)
-                        {
-                            DoCast(target, SPELL_SEND_FIRST_MUG);
-                            _brewTimer = 12000;
-                        }
-                    }
-                }
-                else
-                    _brewTimer -= diff;
-
-                if (_chuckMugTimer <= diff)
-                {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
-                        DoCast(target, SPELL_CHUCK_MUG);
-
-                    _chuckMugTimer = 15000;
-                }
-                else
-                    _chuckMugTimer -= diff;
-
-                if (me->GetEntry() == NPC_URSULA_DIREBREW)
-                {
-                    if (_barrelTimer <= diff)
-                    {
-                        if (!me->IsNonMeleeSpellCasted(false))
-                        {
-                            DoCastVictim(SPELL_BARRELED);
-                            _barrelTimer = urand(15, 18) *IN_MILLISECONDS;
-                        }
-                    }
-                    else
-                        _barrelTimer -= diff;
-                }
-                else
-                    DoMeleeAttackIfReady();
-            }
-
-        private:
-            uint32 _brewTimer;
-            uint32 _barrelTimer;
-            uint32 _chuckMugTimer;
-        };
-
-        CreatureAI* GetAI(Creature* c) const
-        {
-            return new npc_brewmaidenAI(c);
-        }
-};
-
-/*######
-## go_mole_machine_console
-######*/
-
-enum MoleMachineConsole
-{
-    SPELL_TELEPORT = 49466 // bad id?
-};
-
-#define GOSSIP_ITEM_MOLE_CONSOLE "[PH] Please teleport me."
-
-class go_mole_machine_console : public GameObjectScript
-{
-    public:
-        go_mole_machine_console() : GameObjectScript("go_mole_machine_console") { }
-
-        bool OnGossipHello (Player* player, GameObject* go)
-        {
-            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_MOLE_CONSOLE, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
-            player->SEND_GOSSIP_MENU(12709, go->GetGUID());
-            return true;
-        }
-
-        bool OnGossipSelect(Player* player, GameObject* /*go*/, uint32 /*sender*/, uint32 action)
-        {
-            if (action == GOSSIP_ACTION_INFO_DEF + 1)
-                player->CastSpell(player, SPELL_TELEPORT, true);
-
-            return true;
-        }
-};
-
-/*######
 ## Q Пей до дна!
 ######*/
 
 enum BrewfestQuestChugAndChuck
 {
-    QUEST_CHUG_AND_CHUCK_A    = 12022,
-    QUEST_CHUG_AND_CHUCK_H    = 12191,
-    NPC_BREWFEST_STOUT        = 24108
+    QUEST_CHUG_AND_CHUCK_A      = 12022,
+    QUEST_CHUG_AND_CHUCK_H      = 12191,
+    
+    NPC_BREWFEST_STOUT          = 24108
 };
 
 class item_brewfest_ChugAndChuck : public ItemScript
@@ -724,13 +370,13 @@ public:
                 if (player->GetAura(SPELL_SPEED_RAM_TROT)->GetDuration() < 3000)
                     player->GetAura(SPELL_SPEED_RAM_TROT)->SetDuration(4000);
                 else
-                  player->CastSpell(player,SPELL_SPEED_RAM_CANTER,false);
+                    player->CastSpell(player,SPELL_SPEED_RAM_CANTER,false);
             } else if (player->HasAura(SPELL_SPEED_RAM_CANTER))
             {
                 if (player->GetAura(SPELL_SPEED_RAM_CANTER)->GetDuration() < 3000)
                     player->GetAura(SPELL_SPEED_RAM_CANTER)->SetDuration(4000);
                 else
-                  player->CastSpell(player,SPELL_SPEED_RAM_GALLOP,false);
+                    player->CastSpell(player,SPELL_SPEED_RAM_GALLOP,false);
             } else if (player->HasAura(SPELL_SPEED_RAM_GALLOP))
                 player->GetAura(SPELL_SPEED_RAM_GALLOP)->SetDuration(4000);
         }
@@ -747,8 +393,8 @@ public:
 
 enum BrewfestKegThrower
 {
-    SPELL_THROW_KEG      = 43660, // Хмельной фестиваль - брошенный бочонок - DND
-    ITEM_BREWFEST_KEG    = 33797  // Переносной холодильник для пива
+    SPELL_THROW_KEG     = 43660, // Хмельной фестиваль - брошенный бочонок - DND
+    ITEM_BREWFEST_KEG   = 33797 // Переносной холодильник для пива
 };
 
 class npc_brewfest_keg_thrower : public CreatureScript
@@ -788,9 +434,11 @@ public:
 enum BrewfestKegReceiver
 {
     SPELL_CREATE_TICKETS            = 44501, // Holiday - Brewfest - Daily - Relay Race - Create Tickets - DND
+    
     QUEST_THERE_AND_BACK_AGAIN_A    = 11122,
     QUEST_THERE_AND_BACK_AGAIN_H    = 11412,
-    NPC_BREWFEST_DELIVERY_BUNNY     = 24337  // [DND] Brewfest Delivery Bunny
+    
+    NPC_BREWFEST_DELIVERY_BUNNY     = 24337 // [DND] Brewfest Delivery Bunny
 };
 
 class npc_brewfest_keg_receiver : public CreatureScript
@@ -808,7 +456,7 @@ public:
             if (!player)
                 return;
 
-            if ((player->HasAura(SPELL_BREWFEST_RAM) ||  player->HasAura(SPELL_RAMSTEIN_SWIFT_WORK_RAM))
+            if ((player->HasAura(SPELL_BREWFEST_RAM) || player->HasAura(SPELL_RAMSTEIN_SWIFT_WORK_RAM))
                 && me->GetDistance(player->GetPositionX(),player->GetPositionY(),player->GetPositionZ()) <= 5.0f
                 && player->HasItemCount(ITEM_BREWFEST_KEG,1))
             {
@@ -848,9 +496,9 @@ public:
 ## npc_brewfest_ram_master
 ####*/
 
-#define GOSSIP_ITEM_RAM             "Do you have additional work?"
-#define GOSSIP_ITEM_RAM_REINS       "Give me another Ram Racing Reins"
-#define SPELL_BREWFEST_SUMMON_RAM   43720 // Trigger Brewfest Racing Ram - Relay Race - Intro
+#define GOSSIP_ITEM_RAM "Do you have additional work?"
+#define GOSSIP_ITEM_RAM_REINS "Give me another Ram Racing Reins"
+#define SPELL_BREWFEST_SUMMON_RAM 43720 // Trigger Brewfest Racing Ram - Relay Race - Intro
 
 class npc_brewfest_ram_master : public CreatureScript
 {
@@ -862,23 +510,23 @@ public:
         if (pCreature->isQuestGiver())
             player->PrepareQuestMenu(pCreature->GetGUID());
 
-            if (player->HasSpellCooldown(SPELL_BREWFEST_SUMMON_RAM)
-                && !player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_A)
-                && !player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_H)
-                && (player->GetQuestStatus(QUEST_THERE_AND_BACK_AGAIN_A) == QUEST_STATUS_INCOMPLETE
-                || player->GetQuestStatus(QUEST_THERE_AND_BACK_AGAIN_H) == QUEST_STATUS_INCOMPLETE))
-                player->RemoveSpellCooldown(SPELL_BREWFEST_SUMMON_RAM);
+        if (player->HasSpellCooldown(SPELL_BREWFEST_SUMMON_RAM)
+            && !player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_A)
+            && !player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_H)
+            && (player->GetQuestStatus(QUEST_THERE_AND_BACK_AGAIN_A) == QUEST_STATUS_INCOMPLETE
+            || player->GetQuestStatus(QUEST_THERE_AND_BACK_AGAIN_H) == QUEST_STATUS_INCOMPLETE))
+            player->RemoveSpellCooldown(SPELL_BREWFEST_SUMMON_RAM);
 
-            if (!player->HasAura(SPELL_BREWFEST_RAM) && ((player->GetQuestStatus(QUEST_THERE_AND_BACK_AGAIN_A) == QUEST_STATUS_INCOMPLETE
+        if (!player->HasAura(SPELL_BREWFEST_RAM) && ((player->GetQuestStatus(QUEST_THERE_AND_BACK_AGAIN_A) == QUEST_STATUS_INCOMPLETE
             || player->GetQuestStatus(QUEST_THERE_AND_BACK_AGAIN_H) == QUEST_STATUS_INCOMPLETE
             || (!player->HasSpellCooldown(SPELL_BREWFEST_SUMMON_RAM) &&
-                (player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_A)
-                || player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_H))))))
+            (player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_A)
+            || player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_H))))))
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_RAM, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
 
-            if ((player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_A)
-                || player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_H))
-                && !player->HasItemCount(33306,1,true))
+        if ((player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_A)
+            || player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_H))
+            && !player->HasItemCount(33306,1,true))
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_RAM_REINS, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
 
         player->SEND_GOSSIP_MENU(384, pCreature->GetGUID());
@@ -902,6 +550,659 @@ public:
     }
 };
 
+/*
+1. Walk to one keg. Arrived at keg casts a spell and repeats that spell every 5 seconds
+2. ALWAYS run a localize check on spawn. Blizzard used spells for this. When they spawn at Durotar they move to diferent kegs than at Dun Morogh.
+3. On spellhit of spell that is yet to be scripted by QAston (don't bother - missing support in core) we should EMOTE death
+4. If players gets within 3 yards cast Knockback
+*/
+
+enum DarkIronGuzzler
+{
+    NPC_DARK_IRON_GUZZLER   = 23709,
+
+    NPC_FESTIVE_KEG_1       = 23702, // Thunderbrew Festive Keg
+    NPC_FESTIVE_KEG_2       = 23700, // Barleybrew Festive Keg
+    NPC_FESTIVE_KEG_3       = 23706, // Gordok Festive Keg
+    NPC_FESTIVE_KEG_4       = 24373, // T'chalis's Festive Keg
+    NPC_FESTIVE_KEG_5       = 24372, // Drohn's Festive Keg
+
+    SPELL_SPAWN             = 43668,
+    SPELL_ORG               = 43669,
+    SPELL_IF                = 43670,
+    SPELL_GO_TO_NEW_TARGET  = 42498,
+    SPELL_ATTACK_KEG        = 42393,
+    SPELL_DRINK             = 42436,
+    SPELL_RETREAT           = 42341,
+    SPELL_KNOCKBACK         = 42299,
+    SPELL_KNOCKBACK_AURA    = 42676,
+};
+
+class npc_dark_iron_guzzler : public CreatureScript
+{
+public:
+    npc_dark_iron_guzzler() : CreatureScript("npc_dark_iron_guzzler") { }
+
+    CreatureAI *GetAI(Creature* creature) const
+    {
+        return new npc_dark_iron_guzzlerAI(creature);
+    }
+
+    struct npc_dark_iron_guzzlerAI : public ScriptedAI
+    {
+        npc_dark_iron_guzzlerAI(Creature* creature) : ScriptedAI(creature) { }
+
+        bool atKeg;
+        bool barleyDead;
+        bool thunderDead;
+        bool gordokDead;
+        bool drohnDead;
+        bool tchaliDead;
+        uint32 AttackKegTimer;
+
+        void Reset()
+        {
+            AttackKegTimer = 5000;
+            me->AddUnitMovementFlag(MOVEMENTFLAG_WALKING);
+        }
+
+        // These values are set through SAI - when a Festive Keg dies it will set data to all Dark Iron Guzzlers within 3 yards (the killers)
+        void SetData(uint32 type, uint32 data)
+        {
+            if (type == 10 && data == 10)
+            {
+                DoCast(me, SPELL_GO_TO_NEW_TARGET);
+                thunderDead = true;
+            }
+
+            if (type == 11 && data == 11)
+            {
+                DoCast(me, SPELL_GO_TO_NEW_TARGET);
+                barleyDead = true;
+            }
+
+            if (type == 12 && data == 12)
+            {
+                DoCast(me, SPELL_GO_TO_NEW_TARGET);
+                gordokDead = true;
+            }
+
+            if (type == 13 && data == 13)
+            {
+                DoCast(me, SPELL_GO_TO_NEW_TARGET);
+                drohnDead = true;
+            }
+
+            if (type == 14 && data == 14)
+            {
+                DoCast(me, SPELL_GO_TO_NEW_TARGET);
+                tchaliDead = true;
+            }
+        }
+
+        void KilledUnit(Unit* victim)
+        {
+            switch (victim->GetEntry())
+            {
+            case NPC_FESTIVE_KEG_1:
+            case NPC_FESTIVE_KEG_2:
+            case NPC_FESTIVE_KEG_3:
+            case NPC_FESTIVE_KEG_4:
+            case NPC_FESTIVE_KEG_5:
+                DoCast(me, SPELL_GO_TO_NEW_TARGET);
+                break;
+            default:
+                break;
+            }
+
+            // If the kill is not a festive keg we shouldn't cast the spell
+            /*if (victim->GetEntry() != NPC_FESTIVE_KEG_1 || victim->GetEntry() != NPC_FESTIVE_KEG_2 || victim->GetEntry() != NPC_FESTIVE_KEG_3 ||
+            victim->GetEntry() != NPC_FESTIVE_KEG_4 || victim->GetEntry() != NPC_FESTIVE_KEG_5)
+            return;*/
+        }
+
+        void IsSummonedBy(Unit* summoner)
+        {
+            // Move forward only on spawn
+            me->GetMotionMaster()->MovePoint(1, me->GetPositionX()+5, me->GetPositionY(), me->GetPositionZ());
+        }
+
+        // As you can see here we do not have to use a spellscript for this
+        void SpellHit(Unit* caster, const SpellInfo* spell)
+        {
+            if (spell->Id == SPELL_DRINK)
+            {
+                // Fake death - it's only visual!
+                me->SetUInt32Value(UNIT_FIELD_BYTES_1, UNIT_STAND_STATE_DEAD);
+
+                // Time based on information from videos
+                me->ForcedDespawn(7000);
+            }
+
+            // Retreat - run back
+            if (spell->Id == SPELL_RETREAT)
+            {
+                if (me->GetAreaId() == 1296)
+                {
+                    me->GetMotionMaster()->MovePoint(2, 1197.63f, -4293.571f, 21.243f);
+                }
+                else if (me->GetAreaId() == 1)
+                {
+                    me->GetMotionMaster()->MovePoint(3, -5152.3f, -603.529f, 398.356f);
+                }
+            }
+
+            if (spell->Id == SPELL_GO_TO_NEW_TARGET)
+            {
+                // If we're at Durotar we target different kegs than the ones at Dun Morogh
+                if (me->GetAreaId() == 1296)
+                {
+                    if (!drohnDead && !gordokDead && !tchaliDead)
+                    {
+                        switch (urand(0, 2))
+                        {
+                        case 0: // Gordok Festive Keg
+                            me->GetMotionMaster()->MovePoint(4, 1220.86f, -4297.37f, 21.192f);
+                            break;
+                        case 1: // Drohn's Festive Keg
+                            me->GetMotionMaster()->MovePoint(5, 1185.98f, -4312.98f, 21.294f);
+                            break;
+                        case 2: // Ti'chali's Festive Keg
+                            me->GetMotionMaster()->MovePoint(6, 1184.12f, -4275.21f, 21.191f);
+                            break;
+                        }
+                    }
+                    else if (drohnDead)
+                    {
+                        switch (urand(0, 1))
+                        {
+                        case 0: // Gordok Festive Keg
+                            me->GetMotionMaster()->MovePoint(4, 1220.86f, -4297.37f, 21.192f);
+                            break;
+                        case 1: // Ti'chali's Festive Keg
+                            me->GetMotionMaster()->MovePoint(6, 1184.12f, -4275.21f, 21.191f);
+                            break;
+                        }
+                    }
+                    else if (gordokDead)
+                    {
+                        switch (urand(0, 1))
+                        {
+                        case 0: // Drohn's Festive Keg
+                            me->GetMotionMaster()->MovePoint(5, 1185.98f, -4312.98f, 21.294f);
+                            break;
+                        case 1: // Ti'chali's Festive Keg
+                            me->GetMotionMaster()->MovePoint(6, 1184.12f, -4275.21f, 21.191f);
+                            break;
+                        }
+                    }
+                    else if (tchaliDead)
+                    {
+                        switch (urand(0, 1))
+                        {
+                        case 0: // Drohn's Festive Keg
+                            me->GetMotionMaster()->MovePoint(5, 1185.98f, -4312.98f, 21.294f);
+                            break;
+                        case 1: // Gordok Festive Keg
+                            me->GetMotionMaster()->MovePoint(4, 1220.86f, -4297.37f, 21.192f);
+                            break;
+                        }
+                    }
+                }
+                // If we're at Dun Morogh we target different kegs than the ones at Durotar
+                else if (me->GetAreaId() == 1)
+                {
+                    if (!barleyDead && !gordokDead && !thunderDead)
+                    {
+                        switch (urand(0, 2))
+                        {
+                        case 0: // Barleybrew Festive Keg
+                            me->GetMotionMaster()->MovePoint(7, -5183.67f, -599.58f, 397.177f);
+                            break;
+                        case 1: // Thunderbrew Festive Keg
+                            me->GetMotionMaster()->MovePoint(8, -5159.53f, -629.52f, 397.213f);
+                            break;
+                        case 2: // Gordok Festive Keg
+                            me->GetMotionMaster()->MovePoint(9, -5148.01f, -578.34f, 397.177f);
+                            break;
+                        }
+                    }
+                    else if (barleyDead)
+                    {
+                        switch (urand(0, 1))
+                        {
+                        case 0: // Thunderbrew Festive Keg
+                            me->GetMotionMaster()->MovePoint(8, -5159.53f, -629.52f, 397.213f);
+                            break;
+                        case 1: // Gordok Festive Keg
+                            me->GetMotionMaster()->MovePoint(9, -5148.01f, -578.34f, 397.177f);
+                            break;
+                        }
+                    }
+                    else if (gordokDead)
+                    {
+                        switch (urand(0, 1))
+                        {
+                        case 0: // Thunderbrew Festive Keg
+                            me->GetMotionMaster()->MovePoint(8, -5159.53f, -629.52f, 397.213f);
+                            break;
+                        case 1: // Barleybrew Festive Keg
+                            me->GetMotionMaster()->MovePoint(7, -5183.67f, -599.58f, 397.177f);
+                            break;
+                        }
+                    }
+                    else if (thunderDead)
+                    {
+                        switch (urand(0, 1))
+                        {
+                        case 0: // Gordok Festive Keg
+                            me->GetMotionMaster()->MovePoint(9, -5148.01f, -578.34f, 397.177f);
+                            break;
+                        case 1: // Barleybrew Festive Keg
+                            me->GetMotionMaster()->MovePoint(7, -5183.67f, -599.58f, 397.177f);
+                            break;
+                        }
+                    }
+                }
+                atKeg = false;
+            }
+        }
+
+        void MovementInform(uint32 Type, uint32 PointId)
+        {
+            if (Type != POINT_MOTION_TYPE)
+                return;
+
+            // After moving forward on spawn we should move to new target
+            if (PointId == 1)
+                DoCast(me, SPELL_GO_TO_NEW_TARGET);
+
+            // Arrived at the retreat spot, we should despawn
+            if (PointId == 2 || PointId == 3)
+                me->ForcedDespawn(1000);
+
+            // Arrived at the new keg - the spell has conditions in database
+            if (PointId == 4 || PointId == 5 || PointId == 6 || PointId == 7 || PointId == 8 || PointId == 9)
+            {
+                DoCast(SPELL_ATTACK_KEG);
+                atKeg = true;
+            }
+        }
+
+        void UpdateAI(const uint32 diff)
+        {
+            if (!IsHolidayActive(HOLIDAY_BREWFEST))
+                return;
+
+            // Only happens if we're at keg
+            if (atKeg)
+            {
+                if (AttackKegTimer <= diff)
+                {
+                    DoCast(SPELL_ATTACK_KEG);
+                    AttackKegTimer = 5000;
+                } else AttackKegTimer -= diff;
+            }
+        }
+    };
+};
+
+
+/*######
+## npc_coren direbrew
+######*/
+
+enum CorenDirebrew
+{
+    SPELL_DISARM                = 47310, // Обезвреживание Зловещего Варева
+    SPELL_DISARM_PRECAST        = 47407, // Обезвреживание Зловещего Варева (без затраты маны)
+    SPELL_MOLE_MACHINE_EMERGE   = 50313, // bad id. Появление буровой установки
+
+    NPC_ILSA_DIREBREW           = 26764,
+    NPC_URSULA_DIREBREW         = 26822,
+    NPC_DIREBREW_MINION         = 26776,
+
+    EQUIP_ID_TANKARD            = 48663,
+    FACTION_HOSTILE             = 736
+};
+
+#define GOSSIP_TEXT_INSULT "Insult Coren Direbrew's brew."
+
+static Position _pos[]=
+{
+    {890.87f, -133.95f, -48.0f, 1.53f},
+    {892.47f, -133.26f, -48.0f, 2.16f},
+    {893.54f, -131.81f, -48.0f, 2.75f}
+};
+
+class npc_coren_direbrew : public CreatureScript
+{
+public:
+    npc_coren_direbrew() : CreatureScript("npc_coren_direbrew") { }
+
+    bool OnGossipHello(Player* player, Creature* creature)
+    {
+        if (creature->isQuestGiver())
+            player->PrepareQuestMenu(creature->GetGUID());
+
+        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_INSULT, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
+        player->SEND_GOSSIP_MENU(15858, creature->GetGUID());
+        return true;
+    }
+
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action)
+    {
+        player->PlayerTalkClass->ClearMenus();
+
+        if (action == GOSSIP_ACTION_INFO_DEF + 1)
+        {
+            creature->setFaction(FACTION_HOSTILE);
+            creature->AI()->AttackStart(player);
+            creature->AI()->DoZoneInCombat();
+            player->CLOSE_GOSSIP_MENU();
+        }
+
+        return true;
+    }
+
+    struct npc_coren_direbrewAI : public ScriptedAI
+    {
+        npc_coren_direbrewAI(Creature* c) : ScriptedAI(c), _summons(me)
+        {
+        }
+
+        void Reset()
+        {
+            me->RestoreFaction();
+            me->SetCorpseDelay(90); // 1.5 minutes
+
+            _addTimer = 20000;
+            _disarmTimer = urand(10, 15) *IN_MILLISECONDS;
+
+            _spawnedIlsa = false;
+            _spawnedUrsula = false;
+            _summons.DespawnAll();
+
+            for (uint8 i = 0; i < 3; ++i)
+                if (Creature* creature = me->SummonCreature(NPC_DIREBREW_MINION, _pos[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 15000))
+                    _add[i] = creature->GetGUID();
+        }
+
+        void EnterCombat(Unit* /*who*/)
+        {
+            SetEquipmentSlots(false, EQUIP_ID_TANKARD, EQUIP_ID_TANKARD, EQUIP_NO_CHANGE);
+
+            for (uint8 i = 0; i < 3; ++i)
+            {
+                if (_add[i])
+                {
+                    Creature* creature = ObjectAccessor::GetCreature((*me), _add[i]);
+                    if (creature && creature->isAlive())
+                    {
+                        creature->setFaction(FACTION_HOSTILE);
+                        creature->SetInCombatWithZone();
+                    }
+                    _add[i] = 0;
+                }
+            }
+        }
+
+        void UpdateAI(uint32 const diff)
+        {
+            if (!UpdateVictim())
+                return;
+
+            // disarm
+            if (_disarmTimer <= diff)
+            {
+                DoCast(SPELL_DISARM_PRECAST);
+                DoCastVictim(SPELL_DISARM, false);
+                _disarmTimer = urand(20, 25) *IN_MILLISECONDS;
+            }
+            else
+                _disarmTimer -= diff;
+
+            // spawn non-elite adds
+            if (_addTimer <= diff)
+            {
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
+                {
+                    float posX, posY, posZ;
+                    target->GetPosition(posX, posY, posZ);
+                    target->CastSpell(target, SPELL_MOLE_MACHINE_EMERGE, true, 0, 0, me->GetGUID());
+                    me->SummonCreature(NPC_DIREBREW_MINION, posX, posY, posZ, 0, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 15000);
+
+                    _addTimer = 15000;
+                    if (_spawnedIlsa)
+                        _addTimer -= 3000;
+                    if (_spawnedUrsula)
+                        _addTimer -= 3000;
+                }
+            }
+            else
+                _addTimer -= diff;
+
+            if (!_spawnedIlsa && HealthBelowPct(66))
+            {
+                DoSpawnCreature(NPC_ILSA_DIREBREW, 0, 0, 0, 0, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 15000);
+                _spawnedIlsa = true;
+            }
+
+            if (!_spawnedUrsula && HealthBelowPct(33))
+            {
+                DoSpawnCreature(NPC_URSULA_DIREBREW, 0, 0, 0, 0, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 15000);
+                _spawnedUrsula = true;
+            }
+
+            DoMeleeAttackIfReady();
+        }
+
+        void JustSummoned(Creature* summon)
+        {
+            if (me->getFaction() == FACTION_HOSTILE)
+            {
+                summon->setFaction(FACTION_HOSTILE);
+
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
+                    summon->AI()->AttackStart(target);
+            }
+
+            _summons.Summon(summon);
+        }
+
+        void JustDied(Unit* /*killer*/)
+        {
+            _summons.DespawnAll();
+
+            // TODO: unhack
+            Map* map = me->GetMap();
+            if (map && map->IsDungeon())
+            {
+                Map::PlayerList const& players = map->GetPlayers();
+                if (!players.isEmpty())
+                    for (Map::PlayerList::const_iterator i = players.begin(); i != players.end(); ++i)
+                        if (Player* player = i->getSource())
+                            if (player->GetDistance(me) < 100.0f)
+                                sLFGMgr->RewardDungeonDoneFor(287, player);
+            }
+        }
+
+    private:
+        SummonList _summons;
+        uint64 _add[3];
+        uint32 _addTimer;
+        uint32 _disarmTimer;
+        bool _spawnedIlsa;
+        bool _spawnedUrsula;
+    };
+
+    CreatureAI* GetAI(Creature* c) const
+    {
+        return new npc_coren_direbrewAI(c);
+    }
+};
+
+/*######
+## dark iron brewmaiden
+######*/
+
+enum Brewmaiden
+{
+    SPELL_SEND_FIRST_MUG            = 47333,
+    SPELL_SEND_SECOND_MUG           = 47339,
+    //SPELL_CREATE_BREW             = 47345,
+    SPELL_HAS_BREW_BUFF             = 47376,
+    //SPELL_HAS_BREW                = 47331,
+    //SPELL_DARK_BREWMAIDENS_STUN   = 47340,
+    SPELL_CONSUME_BREW              = 47377,
+    SPELL_BARRELED                  = 47442,
+    SPELL_CHUCK_MUG                 = 50276
+};
+
+class npc_brewmaiden : public CreatureScript
+{
+public:
+    npc_brewmaiden() : CreatureScript("npc_brewmaiden") { }
+
+    struct npc_brewmaidenAI : public ScriptedAI
+    {
+        npc_brewmaidenAI(Creature* c) : ScriptedAI(c)
+        {
+        }
+
+        void Reset()
+        {
+            _brewTimer = 2000;
+            _barrelTimer = 5000;
+            _chuckMugTimer = 10000;
+        }
+
+        void EnterCombat(Unit* /*who*/)
+        {
+            me->SetInCombatWithZone();
+        }
+
+        void AttackStart(Unit* who)
+        {
+            if (!who)
+                return;
+
+            if (me->Attack(who, true))
+            {
+                me->AddThreat(who, 1.0f);
+                me->SetInCombatWith(who);
+                who->SetInCombatWith(me);
+
+                if (me->GetEntry() == NPC_URSULA_DIREBREW)
+                    me->GetMotionMaster()->MoveFollow(who, 10.0f, 0.0f);
+                else
+                    me->GetMotionMaster()->MoveChase(who);
+            }
+        }
+
+        void SpellHitTarget(Unit* target, SpellInfo const* spell)
+        {
+            // TODO: move to DB
+
+            if (spell->Id == SPELL_SEND_FIRST_MUG)
+                target->CastSpell(target, SPELL_HAS_BREW_BUFF, true);
+
+            if (spell->Id == SPELL_SEND_SECOND_MUG)
+                target->CastSpell(target, SPELL_CONSUME_BREW, true);
+        }
+
+        void UpdateAI(uint32 const diff)
+        {
+            if (!UpdateVictim())
+                return;
+
+            if (_brewTimer <= diff)
+            {
+                if (!me->IsNonMeleeSpellCasted(false))
+                {
+                    Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true);
+
+                    if (target && me->GetDistance(target) > 5.0f)
+                    {
+                        DoCast(target, SPELL_SEND_FIRST_MUG);
+                        _brewTimer = 12000;
+                    }
+                }
+            }
+            else
+                _brewTimer -= diff;
+
+            if (_chuckMugTimer <= diff)
+            {
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
+                    DoCast(target, SPELL_CHUCK_MUG);
+
+                _chuckMugTimer = 15000;
+            }
+            else
+                _chuckMugTimer -= diff;
+
+            if (me->GetEntry() == NPC_URSULA_DIREBREW)
+            {
+                if (_barrelTimer <= diff)
+                {
+                    if (!me->IsNonMeleeSpellCasted(false))
+                    {
+                        DoCastVictim(SPELL_BARRELED);
+                        _barrelTimer = urand(15, 18) *IN_MILLISECONDS;
+                    }
+                }
+                else
+                    _barrelTimer -= diff;
+            }
+            else
+                DoMeleeAttackIfReady();
+        }
+
+    private:
+        uint32 _brewTimer;
+        uint32 _barrelTimer;
+        uint32 _chuckMugTimer;
+    };
+
+    CreatureAI* GetAI(Creature* c) const
+    {
+        return new npc_brewmaidenAI(c);
+    }
+};
+
+/*######
+## go_mole_machine_console
+######*/
+
+enum MoleMachineConsole
+{
+    SPELL_TELEPORT = 49466 // bad id?
+};
+
+#define GOSSIP_ITEM_MOLE_CONSOLE "[PH] Please teleport me."
+
+class go_mole_machine_console : public GameObjectScript
+{
+public:
+    go_mole_machine_console() : GameObjectScript("go_mole_machine_console") { }
+
+    bool OnGossipHello (Player* player, GameObject* go)
+    {
+        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_MOLE_CONSOLE, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
+        player->SEND_GOSSIP_MENU(12709, go->GetGUID());
+        return true;
+    }
+
+    bool OnGossipSelect(Player* player, GameObject* /*go*/, uint32 /*sender*/, uint32 action)
+    {
+        if (action == GOSSIP_ACTION_INFO_DEF + 1)
+            player->CastSpell(player, SPELL_TELEPORT, true);
+
+        return true;
+    }
+};
+
 void AddSC_boss_coren_direbrew()
 {
     //
@@ -910,12 +1211,14 @@ void AddSC_boss_coren_direbrew()
     new spell_brewfest_speed;
     new npc_brewfest_apple_trigger;
     //
-    new npc_coren_direbrew;
-    new npc_brewmaiden;
-    new go_mole_machine_console;
     new item_brewfest_ChugAndChuck;
     new item_brewfest_ram_reins;
     new npc_brewfest_keg_thrower;
     new npc_brewfest_keg_receiver;
     new npc_brewfest_ram_master;
+    new npc_dark_iron_guzzler;
+    //
+    new npc_coren_direbrew;
+    new npc_brewmaiden;
+    new go_mole_machine_console;
 }
