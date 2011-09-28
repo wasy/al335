@@ -544,6 +544,7 @@ class Spell
         Aura* m_spellAura;
         // pointer to magneting aura if spell is redirected
         Aura* m_magnetingAura;
+
         // this is set in Spell Hit, but used in Apply Aura handler
         DiminishingLevels m_diminishLevel;
         DiminishingGroup m_diminishGroup;
