@@ -246,7 +246,7 @@ public:
                         me->ClearUnitState(UNIT_STAT_ROOT | UNIT_STAT_STUNNED);
                     } else uiResurrectTimer -= uiDiff;
 
-                switch(uiPhase)
+                switch (uiPhase)
                 {
                     case PHASE_UNDEAD:
                     {
@@ -386,7 +386,7 @@ public:
                 me->AddUnitState(UNIT_STAT_ROOT | UNIT_STAT_STUNNED);
     			me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
                 RemoveSummons();
-                switch(uiPhase)
+                switch (uiPhase)
                 {
                     case PHASE_UNDEAD:
                         me->SetDisplayId(MODEL_SKELETON);

@@ -236,7 +236,7 @@ public:
 
         void Event()
         {
-            switch(Step)
+            switch (Step)
             {
                 case 1:
                     me->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
@@ -1511,7 +1511,7 @@ public:
 
             while (uint32 eventId = events.ExecuteEvent())
             {
-                switch(eventId)
+                switch (eventId)
                 {
                     case EVENT_SHADOW_WORD_PAIN:
                         if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
@@ -1594,7 +1594,7 @@ public:
 
             while (uint32 eventId = events.ExecuteEvent())
             {
-                switch(eventId)
+                switch (eventId)
                 {
                     case EVENT_FIREBALL:
                         if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
@@ -1694,7 +1694,7 @@ public:
 
             while (uint32 eventId = events.ExecuteEvent())
             {
-                switch(eventId)
+                switch (eventId)
                 {
                     case EVENT_SHADOW_STEP:
                         DoCast(SPELL_SHADOW_STEP);
@@ -1764,7 +1764,7 @@ public:
 
             while (uint32 eventId = events.ExecuteEvent())
             {
-                switch(eventId)
+                switch (eventId)
                 {
                     case EVENT_SPECTRAL_STRIKE:
                         DoCast(me->getVictim(), SPELL_SPECTRAL_STRIKE);
@@ -1830,7 +1830,7 @@ public:
 
             while (uint32 eventId = events.ExecuteEvent())
             {
-                switch(eventId)
+                switch (eventId)
                 {
                     case EVENT_SHOOT:
                         if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))

@@ -114,7 +114,7 @@ public:
                 if (Player* pPlayer = players.begin()->getSource())
                     m_uiTeamInInstance = pPlayer->GetTeam();
 
-            switch(creature->GetEntry())
+            switch (creature->GetEntry())
             {
                 case NPC_FALRIC: 
                        m_uiFalricGUID = creature->GetGUID(); 
@@ -162,7 +162,8 @@ public:
 
         void OnGameObjectCreate(GameObject* go)
         {
-            switch(go->GetEntry())
+            // TODO: init state depending on encounters
+            switch (go->GetEntry())
             {
                 case GO_IMPENETRABLE_DOOR: m_uiMainGateGUID = go->GetGUID(); break;
                 case GO_FROSTMOURNE: m_uiFrostmourneGUID = go->GetGUID(); break;
@@ -211,7 +212,7 @@ public:
 
         void SetData(uint32 uiType, uint32 uiData)
         {
-            switch(uiType)
+            switch (uiType)
             {
                 case TYPE_PHASE:                m_auiEncounter[uiType] = uiData; break;
                 case TYPE_EVENT:                m_auiEncounter[uiType] = uiData;
@@ -292,7 +293,7 @@ public:
 
         uint32 GetData(uint32 uiType)
         {
-            switch(uiType)
+            switch (uiType)
             {
                 case TYPE_PHASE:                return m_auiEncounter[uiType];
                 case TYPE_EVENT:                return m_auiEncounter[uiType];
@@ -315,7 +316,7 @@ public:
 
         void SetData64(uint32 uiData, uint64 uiGuid)
         {
-            switch(uiData)
+            switch (uiData)
             {
                 case DATA_ESCAPE_LIDER:
                        m_uiLiderGUID = uiGuid;
