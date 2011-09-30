@@ -841,8 +841,8 @@ UPDATE `creature_template` SET `flags_extra`=`flags_extra`|128 WHERE `entry`=241
 DELETE FROM `creature_questrelation` WHERE `quest` IN (11321, 11413);
 DELETE FROM `creature_involvedrelation` WHERE `quest` IN (11321, 11413);
 -- [Q] А не будет ли сувенирчика в нынешнем году?
-DELETE FROM `creature_questrelation` WHERE `quest` = (12193, 12194);
-DELETE FROM `creature_involvedrelation` WHERE `quest` = (12193, 12194);
+DELETE FROM `creature_questrelation` WHERE `quest` IN (12193, 12194);
+DELETE FROM `creature_involvedrelation` WHERE `quest` IN (12193, 12194);
 
 -- [Q] [A/H] Новый подарок к новому году.
 -- 2010-09-20 (Обновление 3.3.5)
@@ -895,8 +895,8 @@ INSERT INTO `game_event_gameobject` (`eventEntry`, `guid`) VALUES
 
 -- Brewfest - Dark Iron Knockback
 DELETE FROM `conditions` WHERE `SourceEntry`=42299 AND `ConditionValue2`=0;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
-(13, 0, 42299, 0, 18, 1, 0, 0, 0, '', "Spell Brewfest - Dark Iron Knockback can only be cast at players");
+-- INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+-- (13, 0, 42299, 0, 18, 1, 0, 0, 0, '', "Spell Brewfest - Dark Iron Knockback can only be cast at players");
 -- Brewfest Chick Chucks Mug should also add an Complimentary Brewfest Sampler
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger`=42535 AND `spell_effect`=42518;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
@@ -918,13 +918,13 @@ VALUES
 -- Condition for spell
 -- Brewfest - Create Complimentary Brewfest Sampler
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=13 AND `SourceEntry`=42518;
-INSERT INTO `conditions` VALUES
-(13, 0, 42518, 0, 18, 1, 0, 0, 0, '', 'Spell Create Complimentary Brewfest Sampler targets players'), 
-(13, 0, 42518, 0, 26, 33096, 0, 0, 0, '', 'Spell Create Complimentary Brewfest Sampler targets players');
+-- INSERT INTO `conditions` VALUES
+-- (13, 0, 42518, 0, 18, 1, 0, 0, 0, '', 'Spell Create Complimentary Brewfest Sampler targets players'), 
+-- (13, 0, 42518, 0, 26, 33096, 0, 0, 0, '', 'Spell Create Complimentary Brewfest Sampler targets players');
 -- Spell Бульк!
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=13 AND `SourceEntry`=42436;
-INSERT INTO `conditions` VALUES
-(13, 0, 42436, 0, 18, 1, 0, 0, 0, '', 'Spell Drink! targets player');
+-- INSERT INTO `conditions` VALUES
+-- (13, 0, 42436, 0, 18, 1, 0, 0, 0, '', 'Spell Drink! targets player');
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 42436;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
 (42436, 47173, 0, 'Brewfest Sampler');
@@ -1005,7 +1005,7 @@ INSERT INTO `creature_template_addon` (`entry`, `mount`, `bytes1`, `bytes2`, `em
 DELETE FROM `conditions` WHERE `SourceEntry` IN (42695, 42794, 42341) AND `ConditionValue2` IN (23709);
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
 (13, 0, 42695, 0, 18, 1, 23709, 0, 0, '', "Spell Holiday - Brewfest - Dark Iron Knock-down Power-up can only be cast at Dark Iron Guzzler"), 
-(13, 0, 42794, 0, 18, 1, 23709, 0, 0, '', "Spell Holiday - Brewfest - Random Mug Fling can only be cast at Dark Iron Guzzler"), 
+-- (13, 0, 42794, 0, 18, 1, 23709, 0, 0, '', "Spell Holiday - Brewfest - Random Mug Fling can only be cast at Dark Iron Guzzler"), 
 (13, 0, 42341, 0, 18, 1, 23709, 0, 0, '', "Spell Dark Iron Retreat can only be cast at Dark Iron Guzzler");
 
 -- Бликс Чиништукс <Выдача призов>
@@ -1075,3 +1075,27 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 DELETE FROM `spell_script_names` WHERE `spell_id`=42674;
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (42674, 'spell_gen_dark_iron_knockback_test');
+
+
+
+
+
+
+
+
+
+
+DELETE FROM `creature_ai_scripts` WHERE `creature_id` IN (24202, 24203, 24204, 24205);
+
+
+
+
+
+
+
+
+
+
+
+
+
