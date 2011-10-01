@@ -7044,6 +7044,10 @@ int32 Player::CalculateReputationGain(uint32 creatureOrQuestLevel, int32 rep, in
     if (percent <= 0.0f)
         return 0;
 
+    // VIPs get 10% more reputation
+    if (GetSession()->IsVIP())
+        percent += 10.0f;
+
     return int32(rep*percent/100);
 }
 
@@ -15114,6 +15118,10 @@ void Player::RewardQuest(Quest const* pQuest, uint32 reward, Object* questGiver,
     for (Unit::AuraEffectList::const_iterator i = ModXPPctAuras.begin(); i != ModXPPctAuras.end(); ++i)
         AddPctN(XP, (*i)->GetAmount());
 
+    // VIPs get 10% more XP
+    if (GetSession()->IsVIP())
+        XP *= 1.1f;
+
     int32 moneyRew = 0;
     if (getLevel() < sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL))
         GiveXP(XP, NULL);
@@ -15226,6 +15234,11 @@ void Player::RewardQuest(Quest const* pQuest, uint32 reward, Object* questGiver,
 
     //lets remove flag for delayed teleports
     SetCanDelayTeleport(false);
+
+    // Custom Random Experience Boost Buff
+    if (XP > 0 && getLevel() < sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL))
+        if (GetSession()->IsVIP() || urand(0, 9) == 0) // 10% chance if  not VIP
+            CastSpell(this, 29175, true); // Cast Buff
 }
 
 void Player::FailQuest(uint32 questId)
@@ -20620,7 +20633,8 @@ inline bool Player::_StoreOrEquipNewItem(uint32 vendorslot, uint32 item, uint8 c
         EquipNewItem(uiDest, item, true);
     if (it)
     {
-        uint32 new_count = pVendor->UpdateVendorItemCurrentCount(crItem, pProto->BuyCount * count);
+        uint32 used_count = pProto->BuyCount * count;
+        uint32 new_count = GetSession()->IsVIP() ? pVendor->UpdateVendorItemCurrentCountVIP(crItem, used_count, GetSession()->GetAccountId()) : pVendor->UpdateVendorItemCurrentCount(crItem, used_count);
 
         WorldPacket data(SMSG_BUY_ITEM, (8+4+4+4));
         data << uint64(pVendor->GetGUID());
@@ -20698,7 +20712,8 @@ bool Player::BuyItemFromVendorSlot(uint64 vendorguid, uint32 vendorslot, uint32 
     // check current item amount if it limited
     if (crItem->maxcount != 0)
     {
-        if (pCreature->GetVendorItemCurrentCount(crItem) < pProto->BuyCount * count)
+        uint32 itemCurrentCount = GetSession()->IsVIP() ? pCreature->GetVendorItemCurrentCountVIP(crItem, GetSession()->GetAccountId()) : pCreature->GetVendorItemCurrentCount(crItem);
+        if (itemCurrentCount < pProto->BuyCount * count)
         {
             SendBuyError(BUY_ERR_ITEM_ALREADY_SOLD, pCreature, item, 0);
             return false;

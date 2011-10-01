@@ -25,17 +25,6 @@ void AddSC_example_gossip_codebox();
 void AddSC_example_misc();
 void AddSC_example_commandscript();
 
-//TeleNPC2
-void AddSC_npc_teleport();
-//Hunter Pet Vendor
-void AddSC_npc_hunterpetvendor();
-// Custom
-void AddSC_DuelReset();
-//NPC Transport Service
-void AddSC_npc_mount();	
-// Argent Tournament quest scripts
-void AddSC_ArgentTournament();
-
 // spells
 void AddSC_deathknight_spell_scripts();
 void AddSC_druid_spell_scripts();
@@ -75,6 +64,7 @@ void AddSC_tele_commandscript();
 void AddSC_titles_commandscript();
 void AddSC_wp_commandscript();
 void AddSC_gps_commandscript();
+void AddSC_vip_commandscript();
 
 #ifdef SCRIPTS
 //world
@@ -687,6 +677,7 @@ void AddCommandScripts()
     AddSC_titles_commandscript();
     AddSC_wp_commandscript();
     AddSC_gps_commandscript();
+    AddSC_vip_commandscript();
 }
 
 void AddWorldScripts()
@@ -1231,7 +1222,6 @@ void AddNorthrendScripts()
     AddSC_zuldrak();
     AddSC_crystalsong_forest();
     AddSC_isle_of_conquest();
-
     AddSC_wintergrasp();
 #endif
 }
@@ -1259,6 +1249,16 @@ void AddBattlegroundScripts()
 #ifdef SCRIPTS
 /* This is where custom scripts' loading functions should be declared. */
 // custom
+//TeleNPC2
+void AddSC_npc_teleport();
+//Hunter Pet Vendor
+void AddSC_npc_hunterpetvendor();
+//NPC Transport Service
+void AddSC_npc_mount();	
+// Argent Tournament quest scripts
+void AddSC_ArgentTournament();
+
+void AddSC_DuelReset();
 void AddSC_custom_pvpevent();
 void AddSC_custom_totalizator();
 void AddSC_npc_arena_honor();
@@ -1268,22 +1268,21 @@ void AddSC_npc_gurubashi_theme();
 void AddSC_custom_goldperlevel();
 void AddSC_custom_quest();
 void AddSC_custom_spell();
-
+void AddSC_npc_vip();
 #endif
 
 void AddCustomScripts()
 {
 #ifdef SCRIPTS
     /* This is where custom scripts should be added. */
+    // Custom
     //TeleNPC2
     AddSC_npc_teleport();
     //Hunter Pet Vendor
     AddSC_npc_hunterpetvendor();	
-    // Custom
-    AddSC_DuelReset();
     AddSC_npc_mount();		
     AddSC_ArgentTournament();
-	// custom
+    AddSC_DuelReset();
     AddSC_custom_pvpevent();
     AddSC_custom_totalizator();
     AddSC_npc_arena_honor();
@@ -1293,5 +1292,6 @@ void AddCustomScripts()
     AddSC_custom_goldperlevel();
     AddSC_custom_quest();
     AddSC_custom_spell();
+    AddSC_npc_vip();
 #endif
 }

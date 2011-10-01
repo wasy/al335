@@ -2341,6 +2341,14 @@ bool ChatHandler::HandleHideAreaCommand(const char *args)
 
 bool ChatHandler::HandleBankCommand(const char* /*args*/)
 {
+    AccountTypes level = m_session->GetSecurity();
+    if (uint32(level) == 0 && !m_session->IsVIP())
+    {
+        SendSysMessage("[VIP] Команда доступна только VIP-персон.");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
     m_session->SendShowBank(m_session->GetPlayer()->GetGUID());
 
     return true;

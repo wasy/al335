@@ -267,6 +267,14 @@ public:
 
     static bool HandleTeleCommand(ChatHandler* handler, const char* args)
     {
+        AccountTypes level = handler->GetSession()->GetSecurity();
+        if (uint32(level) == 0 && !handler->GetSession()->IsVIP())
+        {
+            handler->SendSysMessage("[VIP] Команда доступна только VIP-персон.");
+            handler->SetSentErrorMessage(true);
+            return false;
+        }
+
         if (!*args)
             return false;
 
