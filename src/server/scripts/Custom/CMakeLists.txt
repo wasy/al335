@@ -14,6 +14,7 @@ set(scripts_STAT_SRCS
   Custom/npc_mount.cpp 
   Custom/argent_tournament.cpp
   Custom/npc_lottery.cpp
+  Custom/duel_reset.cpp
   Custom/npc_teleport.cpp
   Custom/npc_vip.cpp
   Custom/npc_customize.cpp
