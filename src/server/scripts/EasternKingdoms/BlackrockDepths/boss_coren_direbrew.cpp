@@ -3,7 +3,14 @@
 ######*/
 
 #include "ScriptPCH.h"
+#include "ScriptedEscortAI.h"
+#include "blackrock_depths.h"
 #include "LFGMgr.h"
+#include "SpellAuraEffects.h"
+#include "ScriptMgr.h"
+#include "ObjectMgr.h"
+#include "World.h"
+
 /*####
 ## brewfest_trigger 2
 ####*/
@@ -276,7 +283,7 @@ enum BrewfestQuestChugAndChuck
 {
     QUEST_CHUG_AND_CHUCK_A      = 12022,
     QUEST_CHUG_AND_CHUCK_H      = 12191,
-    
+
     NPC_BREWFEST_STOUT          = 24108
 };
 
@@ -381,10 +388,10 @@ public:
 enum BrewfestKegReceiver
 {
     SPELL_CREATE_TICKETS            = 44501, // Holiday - Brewfest - Daily - Relay Race - Create Tickets - DND
-    
+
     QUEST_THERE_AND_BACK_AGAIN_A    = 11122,
     QUEST_THERE_AND_BACK_AGAIN_H    = 11412,
-    
+
     NPC_BREWFEST_DELIVERY_BUNNY     = 24337 // [DND] Brewfest Delivery Bunny
 };
 
@@ -512,7 +519,7 @@ enum CorenDirebrew
     NPC_DIREBREW_MINION         = 26776,
 
     EQUIP_ID_TANKARD            = 48663,
-    FACTION_HOSTILE             = 736
+    FACTION_HOSTILE_COREN       = 736
 };
 
 #define GOSSIP_TEXT_INSULT "Insult Coren Direbrew's brew."
@@ -545,7 +552,7 @@ public:
 
         if (action == GOSSIP_ACTION_INFO_DEF + 1)
         {
-            creature->setFaction(FACTION_HOSTILE);
+            creature->setFaction(FACTION_HOSTILE_COREN);
             creature->AI()->AttackStart(player);
             creature->AI()->DoZoneInCombat();
             player->CLOSE_GOSSIP_MENU();
@@ -588,7 +595,7 @@ public:
                     Creature* creature = ObjectAccessor::GetCreature((*me), _add[i]);
                     if (creature && creature->isAlive())
                     {
-                        creature->setFaction(FACTION_HOSTILE);
+                        creature->setFaction(FACTION_HOSTILE_COREN);
                         creature->SetInCombatWithZone();
                     }
                     _add[i] = 0;
@@ -648,9 +655,9 @@ public:
 
         void JustSummoned(Creature* summon)
         {
-            if (me->getFaction() == FACTION_HOSTILE)
+            if (me->getFaction() == FACTION_HOSTILE_COREN)
             {
-                summon->setFaction(FACTION_HOSTILE);
+                summon->setFaction(FACTION_HOSTILE_COREN);
 
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
                     summon->AI()->AttackStart(target);
@@ -859,35 +866,35 @@ enum DarkIronGuzzler
     NPC_DARK_IRON_GUZZLER       = 23709,
     NPC_DARK_IRON_HERALD        = 24536,
     NPC_DARK_IRON_SPAWN_BUNNY   = 23894,
- 
+
     NPC_FESTIVE_KEG_1           = 23702, // Thunderbrew Festive Keg
     NPC_FESTIVE_KEG_2           = 23700, // Barleybrew Festive Keg
     NPC_FESTIVE_KEG_3           = 23706, // Gordok Festive Keg
     NPC_FESTIVE_KEG_4           = 24373, // T'chalis's Festive Keg
     NPC_FESTIVE_KEG_5           = 24372, // Drohn's Festive Keg
- 
+
     SPELL_GO_TO_NEW_TARGET      = 42498,
     SPELL_ATTACK_KEG            = 42393,
     SPELL_RETREAT               = 42341,
     SPELL_DRINK                 = 42436,
- 
+
     SAY_RANDOM              = 0,
 };
- 
+
 class npc_dark_iron_guzzler : public CreatureScript
 {
 public:
     npc_dark_iron_guzzler() : CreatureScript("npc_dark_iron_guzzler") { }
- 
+
     CreatureAI *GetAI(Creature* creature) const
     {
         return new npc_dark_iron_guzzlerAI(creature);
     }
- 
+
     struct npc_dark_iron_guzzlerAI : public ScriptedAI
     {
         npc_dark_iron_guzzlerAI(Creature* creature) : ScriptedAI(creature) { }
- 
+
         bool atKeg;
         bool playersLost;
         bool barleyAlive;
@@ -895,23 +902,23 @@ public:
         bool gordokAlive;
         bool drohnAlive;
         bool tchaliAlive;
- 
+
         uint32 AttackKegTimer;
         uint32 TalkTimer;
- 
+
         void Reset()
         {
             AttackKegTimer = 5000;
             TalkTimer = (urand(1000, 120000));
             me->AddUnitMovementFlag(MOVEMENTFLAG_WALKING);
         }
- 
+
         void IsSummonedBy(Unit* summoner)
         {
             // Only cast the spell on spawn
             DoCast(me, SPELL_GO_TO_NEW_TARGET);
         }
- 
+
         // These values are set through SAI - when a Festive Keg dies it will set data to all Dark Iron Guzzlers within 3 yards (the killers)
         void SetData(uint32 type, uint32 data)
         {
@@ -920,32 +927,32 @@ public:
                 DoCast(me, SPELL_GO_TO_NEW_TARGET);
                 thunderAlive = false;
             }
- 
+
             if (type == 11 && data == 11)
             {
                 DoCast(me, SPELL_GO_TO_NEW_TARGET);
                 barleyAlive = false;
             }
- 
+
             if (type == 12 && data == 12)
             {
                 DoCast(me, SPELL_GO_TO_NEW_TARGET);
                 gordokAlive = false;
             }
- 
+
             if (type == 13 && data == 13)
             {
                 DoCast(me, SPELL_GO_TO_NEW_TARGET);
                 drohnAlive = false;
             }
- 
+
             if (type == 14 && data == 14)
             {
                 DoCast(me, SPELL_GO_TO_NEW_TARGET);
                 tchaliAlive = false;
             }
         }
- 
+
         // As you can see here we do not have to use a spellscript for this
         void SpellHit(Unit* caster, const SpellInfo* spell)
         {
@@ -954,17 +961,17 @@ public:
                 // Fake death - it's only visual!
                 me->SetUInt32Value(UNIT_FIELD_BYTES_1, UNIT_STAND_STATE_DEAD);
                 me->StopMoving();
- 
+
                 // Time based on information from videos
                 me->ForcedDespawn(7000);
             }
- 
+
             // Retreat - run back
             if (spell->Id == SPELL_RETREAT)
             {
                 // Remove walking flag so we start running
                 me->RemoveUnitMovementFlag(MOVEMENTFLAG_WALKING);
- 
+
                 if (me->GetAreaId() == 1296)
                 {
                     me->GetMotionMaster()->MovePoint(1, 1197.63f, -4293.571f, 21.243f);
@@ -974,7 +981,7 @@ public:
                      me->GetMotionMaster()->MovePoint(2, -5152.3f, -603.529f, 398.356f);
                 }
             }
- 
+
             if (spell->Id == SPELL_GO_TO_NEW_TARGET)
             {
                 // If we're at Durotar we target different kegs if we are at at Dun Morogh
@@ -1065,7 +1072,7 @@ public:
                     else if (!gordokAlive)
                     {
                         switch (urand(0, 1))
-                        {                            
+                        {
                             case 0: // Barleybrew Festive Keg
                                 me->GetMotionMaster()->MovePoint(7, -5183.67f, -599.58f, 397.177f);
                                 break;
@@ -1090,16 +1097,16 @@ public:
                 atKeg = false;
             }
         }
- 
+
         void MovementInform(uint32 Type, uint32 PointId)
         {
             if (Type != POINT_MOTION_TYPE)
                 return;
- 
+
             // Arrived at the retreat spot, we should despawn
             if (PointId == 1 || PointId == 2)
                 me->ForcedDespawn(1000);
- 
+
             // Arrived at the new keg - the spell has conditions in database
             if (PointId == 4 || PointId == 5 || PointId == 6 || PointId == 7 || PointId == 8 || PointId == 9)
             {
@@ -1108,32 +1115,32 @@ public:
                 atKeg = true;
             }
         }
- 
+
         void UpdateAI(const uint32 diff)
         {
             if (!IsHolidayActive(HOLIDAY_BREWFEST))
                 return;
- 
+
             // If all kegs are dead we should retreat because we have won
             if ((!gordokAlive && !thunderAlive && !barleyAlive) || (!gordokAlive && !drohnAlive && !tchaliAlive))
             {
                 DoCast(me, SPELL_RETREAT);
- 
+
                 // We are doing this because we'll have to reset our scripts when we won
                 if (Creature* herald = me->FindNearestCreature(NPC_DARK_IRON_HERALD, 100.0f))
                     herald->AI()->SetData(20, 20);
- 
+
                 // Despawn all summon bunnies so they will stop summoning guzzlers
                 if (Creature* spawnbunny = me->FindNearestCreature(NPC_DARK_IRON_SPAWN_BUNNY, 100.0f))
                     spawnbunny->ForcedDespawn();
             }
- 
+
             if (TalkTimer <= diff)
             {
                 me->AI()->Talk(SAY_RANDOM);
                 TalkTimer = (urand(44000, 120000));
             } else TalkTimer -= diff;
- 
+
             // Only happens if we're at keg
             if (atKeg)
             {

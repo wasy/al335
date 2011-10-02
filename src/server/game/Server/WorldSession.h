@@ -946,10 +946,11 @@ class WorldSession
         uint32 _accountId;
         uint8 m_expansion;
         bool _isvip;
-        // Warden
-        Warden* _warden;                                    // Remains NULL if Warden system is not enabled by config
 
         typedef std::list<AddonInfo> AddonsList;
+
+        // Warden
+        Warden* _warden;                                    // Remains NULL if Warden system is not enabled by config
 
         time_t _logoutTime;
         bool m_inQueue;                                     // session wait in auth.queue
