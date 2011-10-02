@@ -11,7 +11,7 @@
 -- Q 12022, 12191 - Пей до дна!
 -- Q 12020, 12192 - Однажды, напившись в...
 -- Q 29397, 29396 - Новый продавец сувениров
--- Q 12306, 12420, 12421 - Клуб "Пиво месяца"
+-- Q 12278, 12306, 12420, 12421 - Клуб "Пиво месяца"
 -- Q 11318, 11409 - А теперь гонки на баранах... Или вроде того.
 -- 12491, 12492, 11441, 11446, 11122, 11412, 11118, 11120, 11117, 11431, 11293, 11408, 11407, 11294, 29393, 29394, 12022, 12191, 12020, 12192, 
 -- 29397, 29396, 12306, 12420, 12421, 11318, 11409
@@ -1085,9 +1085,15 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 -- Send a mail on quest complete "Brew of the Month Club" - there is no wait time so we won't use RewMailDelaySecs
 -- Alliance quest missed quest texts
 SET @MAIL_A := 209;
+UPDATE `quest_template` SET `RewMailTemplateId`= 0, `RewMailDelaySecs` = 0 WHERE `entry` = 12278;
+UPDATE `quest_template` SET `RewMailTemplateId`=@MAIL_A, `RewMailDelaySecs` = 21600 WHERE `entry` = 12420;
+UPDATE `quest_template` SET `OfferRewardText` = '', `RequestItemsText` = '' WHERE `entry` = 12278;
+UPDATE `quest_template` SET `OfferRewardText` = 'Your paperwork looks to be in order. Welcome to the club, $N!$B$BYou can expect to get our mail at the start of every month. If you like what you got, stop by and we can sell you some more. This is the club that keeps on giving.', `RequestItemsText` = 'Do you have your membership forms filled out?' WHERE `entry` = 12420;
 SET @MAIL_H := 210;
-UPDATE `quest_template` SET `RewMailTemplateId`=@MAIL_A, `OfferRewardText`="Your paperwork looks to be in order. Welcome to the club, $N!$B$BYou can expect to get our mail at the start of every month. If you like what you got, stop by and we can sell you some more. This is the club that keeps on giving.", `RequestItemsText`="Do you have your membership forms filled out?" WHERE `entry`=12420;
-UPDATE `quest_template` SET `RewMailTemplateId`=@MAIL_H WHERE `entry`=12306; -- 12420
+UPDATE `quest_template` SET `RewMailTemplateId`= 0, `RewMailDelaySecs` = 0 WHERE `entry` = 12306;
+UPDATE `quest_template` SET `RewMailTemplateId`=@MAIL_H, `RewMailDelaySecs` = 21600 WHERE `entry` = 12421;
+UPDATE `quest_template` SET `OfferRewardText` = '', `RequestItemsText` = '' WHERE `entry` = 12306;
+UPDATE `quest_template` SET `OfferRewardText` = 'So you be joinin'' our ranks, $N? We treat ya nice here. You only get the best when you part of dis club!$B$BWe be sendin'' out brew to you at da start of every month. If you like what you got, and you be wantin'' more, head back over here. We make sure you get more of da brew you like.', `RequestItemsText` = 'Do ya have your membership forms filled out?' WHERE `entry` = 12421;
 
 -- ХАК переместить спаун в скрипт
 SET @GUID := 2710572; -- guid заменить для ytdb
