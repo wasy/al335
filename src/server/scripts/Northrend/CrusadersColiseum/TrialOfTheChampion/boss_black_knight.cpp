@@ -204,9 +204,9 @@ public:
 
             for(std::list<uint64>::const_iterator itr = SummonList.begin(); itr != SummonList.end(); ++itr)
             {
-                if (Creature* pTemp = Unit::GetCreature(*me, *itr))
-                    if (pTemp)
-                        pTemp->DisappearAndDie();
+                if (Creature* temp = Unit::GetCreature(*me, *itr))
+                    if (temp)
+                        temp->DisappearAndDie();
             }
             SummonList.clear();
         }

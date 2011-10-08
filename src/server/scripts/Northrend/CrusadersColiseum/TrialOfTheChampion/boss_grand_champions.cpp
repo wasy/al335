@@ -88,9 +88,9 @@ const Point MovementPoint[] =
   {750.23f,618.35f,411.09f}
 };
 */
-void AggroAllPlayers(Creature* pTemp)
+void AggroAllPlayers(Creature* temp)
 {
-    Map::PlayerList const &PlList = pTemp->GetMap()->GetPlayers();
+    Map::PlayerList const &PlList = temp->GetMap()->GetPlayers();
 
     if(PlList.isEmpty())
             return;
@@ -116,14 +116,14 @@ void AggroAllPlayers(Creature* pTemp)
 
 bool GrandChampionsOutVehicle(Creature* me)
 {
-    InstanceScript* pInstance = me->GetInstanceScript();
+    InstanceScript* instance = me->GetInstanceScript();
 
-    if (!pInstance)
+    if (!instance)
         return false;
 
-    Creature* pGrandChampion1 = Unit::GetCreature(*me, pInstance->GetData64(DATA_GRAND_CHAMPION_1));
-    Creature* pGrandChampion2 = Unit::GetCreature(*me, pInstance->GetData64(DATA_GRAND_CHAMPION_2));
-    Creature* pGrandChampion3 = Unit::GetCreature(*me, pInstance->GetData64(DATA_GRAND_CHAMPION_3));
+    Creature* pGrandChampion1 = Unit::GetCreature(*me, instance->GetData64(DATA_GRAND_CHAMPION_1));
+    Creature* pGrandChampion2 = Unit::GetCreature(*me, instance->GetData64(DATA_GRAND_CHAMPION_2));
+    Creature* pGrandChampion3 = Unit::GetCreature(*me, instance->GetData64(DATA_GRAND_CHAMPION_3));
 
     if (pGrandChampion1 && pGrandChampion2 && pGrandChampion3)
     {
@@ -224,8 +224,8 @@ public:
                         pInstance->SetData(DATA_MOVEMENT_DONE, pInstance->GetData(DATA_MOVEMENT_DONE)+1);
                     break;
                 case 3:
-                    if (pInstance)
-                        pInstance->SetData(DATA_MOVEMENT_DONE, pInstance->GetData(DATA_MOVEMENT_DONE)+1);
+                    if (instance)
+                        instance->SetData(DATA_MOVEMENT_DONE, instance->GetData(DATA_MOVEMENT_DONE)+1);
                     break;
             }
         }
@@ -313,7 +313,7 @@ public:
             me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint8 uiPhase;
         uint32 uiPhaseTimer;
@@ -452,7 +452,7 @@ public:
             me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint8 uiPhase;
         uint32 uiPhaseTimer;
@@ -499,8 +499,8 @@ public:
                 else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_3))
                     me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
 
-                if (pInstance)
-                    pInstance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
+                if (instance)
+                    instance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
 
                 EnterEvadeMode();
                 bHome = true;
@@ -586,7 +586,7 @@ public:
             me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint8 uiPhase;
         uint32 uiPhaseTimer;
@@ -639,8 +639,8 @@ public:
                 else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_3))
                     me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
 
-                if (pInstance)
-                    pInstance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
+                if (instance)
+                    instance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
 
                 EnterEvadeMode();
                 bHome = true;
@@ -735,7 +735,7 @@ public:
             me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint8 uiPhase;
         uint32 uiPhaseTimer;
@@ -789,8 +789,8 @@ public:
                 else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_3))
                     me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
 
-                if (pInstance)
-                    pInstance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
+                if (instance)
+                    instance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
 
                 EnterEvadeMode();
                 bHome = true;
@@ -908,7 +908,7 @@ public:
             me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint8 uiPhase;
         uint32 uiPhaseTimer;
@@ -952,8 +952,8 @@ public:
                 else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_3))
                     me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
 
-                if (pInstance)
-                    pInstance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
+                if (instance)
+                    instance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
 
                 EnterEvadeMode();
                 bHome = true;

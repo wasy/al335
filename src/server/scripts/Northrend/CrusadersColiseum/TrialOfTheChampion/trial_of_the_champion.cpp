@@ -315,7 +315,7 @@ public:
             SetArgentChampion();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint8 uiSummonTimes;
         uint8 uiPosition;
@@ -482,9 +482,9 @@ public:
                         uint64 uiGrandChampionBoss1 = 0;
                         if (Creature* pBoss = Unit::GetCreature(*me, uiVehicle1GUID))
                             if (Vehicle* pVehicle = pBoss->GetVehicleKit())
-                                if (Unit* pUnit = pVehicle->GetPassenger(0))
-                                    uiGrandChampionBoss1 = pUnit->GetGUID();
-                        if (pInstance)
+                                if (Unit* unit = pVehicle->GetPassenger(0))
+                                    uiGrandChampionBoss1 = unit->GetGUID();
+                        if (instance)
                         {
                             pInstance->SetData64(DATA_GRAND_CHAMPION_VEHICLE_1,uiVehicle1GUID);
                             pInstance->SetData64(DATA_GRAND_CHAMPION_1,uiGrandChampionBoss1);
@@ -498,9 +498,9 @@ public:
                         uint64 uiGrandChampionBoss2 = 0;
                         if (Creature* pBoss = Unit::GetCreature(*me, uiVehicle2GUID))
                             if (Vehicle* pVehicle = pBoss->GetVehicleKit())
-                                if (Unit* pUnit = pVehicle->GetPassenger(0))
-                                    uiGrandChampionBoss2 = pUnit->GetGUID();
-                        if (pInstance)
+                                if (Unit* unit = pVehicle->GetPassenger(0))
+                                    uiGrandChampionBoss2 = unit->GetGUID();
+                        if (instance)
                         {
                             pInstance->SetData64(DATA_GRAND_CHAMPION_VEHICLE_2,uiVehicle2GUID);
                             pInstance->SetData64(DATA_GRAND_CHAMPION_2,uiGrandChampionBoss2);
@@ -514,9 +514,9 @@ public:
                         uint64 uiGrandChampionBoss3 = 0;
                         if (Creature* pBoss = Unit::GetCreature(*me, uiVehicle3GUID))
                             if (Vehicle* pVehicle = pBoss->GetVehicleKit())
-                                if (Unit* pUnit = pVehicle->GetPassenger(0))
-                                    uiGrandChampionBoss3 = pUnit->GetGUID();
-                        if (pInstance)
+                                if (Unit* unit = pVehicle->GetPassenger(0))
+                                    uiGrandChampionBoss3 = unit->GetGUID();
+                        if (instance)
                         {
                             pInstance->SetData64(DATA_GRAND_CHAMPION_VEHICLE_3,uiVehicle3GUID);
                             pInstance->SetData64(DATA_GRAND_CHAMPION_3,uiGrandChampionBoss3);
@@ -614,21 +614,21 @@ public:
 
         void StartEncounter()
         {
-            if (!pInstance)
+            if (!instance)
                 return;
 
             me->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
                 if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE1)))
                         pInstance->HandleGameObject(pGO->GetGUID(),false);
 
-            if (pInstance->GetData(BOSS_BLACK_KNIGHT) == NOT_STARTED)
+            if (instance->GetData(BOSS_BLACK_KNIGHT) == NOT_STARTED)
             {
-                if (pInstance->GetData(BOSS_ARGENT_CHALLENGE_E) == NOT_STARTED && pInstance->GetData(BOSS_ARGENT_CHALLENGE_P) == NOT_STARTED)
+                if (instance->GetData(BOSS_ARGENT_CHALLENGE_E) == NOT_STARTED && instance->GetData(BOSS_ARGENT_CHALLENGE_P) == NOT_STARTED)
                 {
                     if (pInstance->GetData(BOSS_GRAND_CHAMPIONS) == NOT_STARTED)
                         me->AI()->SetData(DATA_START,0);
 
-                    if (pInstance->GetData(BOSS_GRAND_CHAMPIONS) == DONE)
+                    if (instance->GetData(BOSS_GRAND_CHAMPIONS) == DONE)
                         DoStartArgentChampionEncounter();
                 }
 
@@ -722,7 +722,7 @@ public:
 
         void JustSummoned(Creature* pSummon)
         {
-            if (pInstance && pInstance->GetData(BOSS_GRAND_CHAMPIONS) == NOT_STARTED)
+            if (instance && instance->GetData(BOSS_GRAND_CHAMPIONS) == NOT_STARTED)
             {
                 pSummon->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
                 pSummon->SetReactState(REACT_PASSIVE);

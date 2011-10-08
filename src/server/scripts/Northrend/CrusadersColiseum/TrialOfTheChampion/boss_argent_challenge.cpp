@@ -250,7 +250,7 @@ public:
             pCreature->RestoreFaction();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         Creature* pMemory;
         uint64 MemoryGUID;
