@@ -1406,9 +1406,9 @@ void OutdoorPvPWG::HandleKill(Player *killer, Unit *victim)
 
     if (ok)
     {
-        if (Group *pGroup = killer->GetGroup())
+        if (Group *group = killer->GetGroup())
         {
-            for (GroupReference *itr = pGroup->GetFirstMember(); itr != NULL; itr = itr->next())
+            for (GroupReference *itr = group->GetFirstMember(); itr != NULL; itr = itr->next())
                 if (itr->getSource()->IsAtGroupRewardDistance(killer) && itr->getSource()->getLevel() > 74)
                     PromotePlayer(itr->getSource());
         } else if (killer->getLevel() > 74)

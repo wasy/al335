@@ -1240,9 +1240,9 @@ class npc_og_mekkatorque : public CreatureScript
                         case 72:
                             if (Player* pPlayer = GetPlayerForEscort())
                             {
-                                if (Group* pGroup = pPlayer->GetGroup())
+                                if (Group* group = pPlayer->GetGroup())
                                 {
-                                    for (GroupReference* itr = pGroup->GetFirstMember(); itr != NULL; itr = itr->next())
+                                    for (GroupReference* itr = group->GetFirstMember(); itr != NULL; itr = itr->next())
                                     {
                                         if (Player* pMember = itr->getSource())
                                         {
@@ -1348,9 +1348,9 @@ class npc_og_mekkatorque : public CreatureScript
             {
                 if (Player* pPlayer = GetPlayerForEscort())
                 {
-                    if (Group* pGroup = pPlayer->GetGroup())
+                    if (Group* group = pPlayer->GetGroup())
                     {
-                        for (GroupReference* itr = pGroup->GetFirstMember(); itr != NULL; itr = itr->next())
+                        for (GroupReference* itr = group->GetFirstMember(); itr != NULL; itr = itr->next())
                         {
                             if (Player* pMember = itr->getSource())
                                 pMember->CastSpell(pMember, spell, true);
