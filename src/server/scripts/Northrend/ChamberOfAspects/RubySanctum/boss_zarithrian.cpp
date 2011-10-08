@@ -55,16 +55,16 @@ class boss_zarithrian : public CreatureScript
 public:
     boss_zarithrian() : CreatureScript("boss_zarithrian") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_zarithrianAI(pCreature);
+        return new boss_zarithrianAI(creature);
     }
 
     struct boss_zarithrianAI : public ScriptedAI
     {
-        boss_zarithrianAI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_zarithrianAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -186,16 +186,16 @@ class mob_flamecaller_ruby : public CreatureScript
 public:
     mob_flamecaller_ruby() : CreatureScript("mob_flamecaller_ruby") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_flamecaller_rubyAI(pCreature);
+        return new mob_flamecaller_rubyAI(creature);
     }
 
     struct mob_flamecaller_rubyAI : public ScriptedAI
     {
-        mob_flamecaller_rubyAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_flamecaller_rubyAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 

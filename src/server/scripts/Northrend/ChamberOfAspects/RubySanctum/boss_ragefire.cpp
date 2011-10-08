@@ -47,16 +47,16 @@ class boss_ragefire : public CreatureScript
 public:
     boss_ragefire() : CreatureScript("boss_ragefire") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_ragefireAI(pCreature);
+        return new boss_ragefireAI(creature);
     }
 
     struct boss_ragefireAI : public ScriptedAI
     {
-        boss_ragefireAI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_ragefireAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 

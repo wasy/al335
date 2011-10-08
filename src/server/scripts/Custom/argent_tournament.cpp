@@ -29,9 +29,9 @@ public:
                 
         struct npc_training_dummy_argentAI : Scripted_NoMovementAI
         {
-            npc_training_dummy_argentAI(Creature *pCreature) : Scripted_NoMovementAI(pCreature)
+            npc_training_dummy_argentAI(Creature *creature) : Scripted_NoMovementAI(creature)
             {
-                        Npc_Entry = pCreature->GetEntry();
+                        Npc_Entry = creature->GetEntry();
             }
 
                         uint64 Npc_Entry;
@@ -131,9 +131,9 @@ public:
             void MoveInLineOfSight(Unit * /*who*/){return;}
         };
 
-        CreatureAI* GetAI(Creature* pCreature) const
+        CreatureAI* GetAI(Creature* creature) const
         {
-            return new npc_training_dummy_argentAI(pCreature);
+            return new npc_training_dummy_argentAI(creature);
         }
 
 };
@@ -165,7 +165,7 @@ public:
 
     struct npc_lake_frogAI : public ScriptedAI
     {
-        npc_lake_frogAI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_lake_frogAI(Creature* creature) : ScriptedAI(creature)
         {
         }
 
@@ -207,9 +207,9 @@ public:
         }
     };
 
-    CreatureAI *GetAI(Creature* pCreature) const
+    CreatureAI *GetAI(Creature* creature) const
     {
-        return new npc_lake_frogAI(pCreature);
+        return new npc_lake_frogAI(creature);
     }
 };
 

@@ -233,15 +233,15 @@ class npc_emissary_brighthoof : public CreatureScript
 public:
     npc_emissary_brighthoof() : CreatureScript("npc_emissary_brighthoof") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* pCreature)
+    bool OnGossipHello(Player* pPlayer, Creature* creature)
     {
-        if (pCreature->isQuestGiver())
-            pPlayer->PrepareQuestMenu(pCreature->GetGUID());
+        if (creature->isQuestGiver())
+            pPlayer->PrepareQuestMenu(creature->GetGUID());
 
         if (pPlayer->GetQuestRewardStatus(QUEST_BLOOD_OATH_HORDE) && pPlayer->getQuestStatusMap()[QUEST_BLOOD_OATH_HORDE].m_creatureOrGOcount[0] >= 5)
             pPlayer->CompleteQuest(QUEST_BLOOD_OATH_HORDE);
 
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetGUID());
+        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
         return true;
     }
 
@@ -439,7 +439,7 @@ public:
 
     struct npc_high_abbot_landgrenAI : public npc_escortAI
     {
-        npc_high_abbot_landgrenAI(Creature* pCreature) : npc_escortAI(pCreature) { }
+        npc_high_abbot_landgrenAI(Creature* creature) : npc_escortAI(creature) { }
 
         bool BodyGuardStart;
         bool CheckPlayerDist;
@@ -606,37 +606,37 @@ public:
         }
     };
 
-    bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
         switch (uiAction)
         {
             case GOSSIP_ACTION_INFO_DEF + 1:
-                pPlayer->SEND_GOSSIP_MENU(TEXT_2, pCreature->GetGUID());
-                CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, pCreature->AI())->StartEvent();
+                pPlayer->SEND_GOSSIP_MENU(TEXT_2, creature->GetGUID());
+                CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, creature->AI())->StartEvent();
                 break;
         }
         return true;
     }
 
-    bool OnGossipHello(Player *player, Creature *pCreature)
+    bool OnGossipHello(Player *player, Creature *creature)
     {
-        if (pCreature->isQuestGiver())
-            player->PrepareQuestMenu(pCreature->GetGUID());
+        if (creature->isQuestGiver())
+            player->PrepareQuestMenu(creature->GetGUID());
 
-        if (pCreature->GetEntry() == NPC_HIGH_ABBOT_LANDGREN_ENTRY && player->GetQuestStatus(QUEST_A_FALL_FROM_GRACE) == QUEST_STATUS_INCOMPLETE && player->getQuestStatusMap()[QUEST_A_FALL_FROM_GRACE].m_creatureOrGOcount[0] == 1 && (player->HasAura(SPELL_SCARLET_RAVEN_PRIEST_IMAGE_MALE) || player->HasAura(SPELL_SCARLET_RAVEN_PRIEST_IMAGE_FEMALE)))
+        if (creature->GetEntry() == NPC_HIGH_ABBOT_LANDGREN_ENTRY && player->GetQuestStatus(QUEST_A_FALL_FROM_GRACE) == QUEST_STATUS_INCOMPLETE && player->getQuestStatusMap()[QUEST_A_FALL_FROM_GRACE].m_creatureOrGOcount[0] == 1 && (player->HasAura(SPELL_SCARLET_RAVEN_PRIEST_IMAGE_MALE) || player->HasAura(SPELL_SCARLET_RAVEN_PRIEST_IMAGE_FEMALE)))
         {
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, HighAbbotText[0], GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
-            player->SEND_GOSSIP_MENU(TEXT_1, pCreature->GetGUID());
+            player->SEND_GOSSIP_MENU(TEXT_1, creature->GetGUID());
             return true;
         }
 
-        player->SEND_GOSSIP_MENU(player->GetGossipTextId(pCreature), pCreature->GetGUID());
+        player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
         return true;
     }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_high_abbot_landgrenAI(pCreature);
+        return new npc_high_abbot_landgrenAI(creature);
     }
 
 };
@@ -659,7 +659,7 @@ public:
 
     struct npc_7th_legion_siege_engineerAI : public ScriptedAI
     {
-        npc_7th_legion_siege_engineerAI(Creature* pCreature) : ScriptedAI (pCreature) { }
+        npc_7th_legion_siege_engineerAI(Creature* creature) : ScriptedAI (creature) { }
 
         uint64 guid_owner;
         uint64 guid_pult;
@@ -759,9 +759,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_7th_legion_siege_engineerAI(pCreature);
+        return new npc_7th_legion_siege_engineerAI(creature);
     }
 
 };
@@ -859,28 +859,28 @@ class npc_agent_skully : public CreatureScript
 public:
     npc_agent_skully() : CreatureScript("npc_agent_skully") { }
 
-    bool OnQuestAccept(Player* pPlayer, Creature* pCreature, Quest const* quest)
+    bool OnQuestAccept(Player* pPlayer, Creature* creature, Quest const* quest)
     {
         if (quest->GetQuestId() == QUEST_A_FALL_FROM_GRACE)
         {
             if (pPlayer->getGender() == GENDER_FEMALE)
-                pCreature->CastSpell(pPlayer, SPELL_SCARLET_RAVEN_PRIEST_IMAGE_FEMALE, false);
+                creature->CastSpell(pPlayer, SPELL_SCARLET_RAVEN_PRIEST_IMAGE_FEMALE, false);
             if (pPlayer->getGender() == GENDER_MALE)
-                pCreature->CastSpell(pPlayer, SPELL_SCARLET_RAVEN_PRIEST_IMAGE_MALE, false);
+                creature->CastSpell(pPlayer, SPELL_SCARLET_RAVEN_PRIEST_IMAGE_MALE, false);
 
-            if (Creature *cC = pCreature->FindNearestCreature(NPC_HIGH_ABBOT_LANDGREN_ENTRY, 30))
+            if (Creature *cC = creature->FindNearestCreature(NPC_HIGH_ABBOT_LANDGREN_ENTRY, 30))
             {
                 if (CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID == NULL)
                     CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID = pPlayer->GetGUID();
                 else
                 {
-                    if (Player* uPlayer = Unit::GetPlayer(*pCreature, CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID))
+                    if (Player* uPlayer = Unit::GetPlayer(*creature, CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID))
                     {
                         if (!uPlayer->IsInWorld() || uPlayer->GetAreaId() != 4180 || uPlayer->GetQuestStatus(QUEST_A_FALL_FROM_GRACE) != QUEST_STATUS_INCOMPLETE)
                             CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID = pPlayer->GetGUID();
                         else
                         {
-                            pCreature->MonsterSay(AgentSkullySay[0], LANG_UNIVERSAL, pPlayer->GetGUID());
+                            creature->MonsterSay(AgentSkullySay[0], LANG_UNIVERSAL, pPlayer->GetGUID());
                             pPlayer->FailQuest(QUEST_A_FALL_FROM_GRACE);
                         }
                     }
@@ -888,7 +888,7 @@ public:
             }
             else
             {
-                pCreature->MonsterSay(AgentSkullySay[0], LANG_UNIVERSAL, pPlayer->GetGUID());
+                creature->MonsterSay(AgentSkullySay[0], LANG_UNIVERSAL, pPlayer->GetGUID());
                 pPlayer->FailQuest(QUEST_A_FALL_FROM_GRACE);
             }
         }
@@ -913,10 +913,10 @@ class mob_woodlands_walker : public CreatureScript
 public:
     mob_woodlands_walker() : CreatureScript("mob_woodlands_walker") { }
 
-    bool OnGossipHello(Player *player, Creature *pCreature)
+    bool OnGossipHello(Player *player, Creature *creature)
     {
         if (player->GetQuestStatus(QUEST_ANCIENTS_ALLINACE) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(QUEST_ANCIENTS_HORDE) == QUEST_STATUS_INCOMPLETE)
-            pCreature->setFaction(16);
+            creature->setFaction(16);
 
         player->CLOSE_GOSSIP_MENU();
         return true;

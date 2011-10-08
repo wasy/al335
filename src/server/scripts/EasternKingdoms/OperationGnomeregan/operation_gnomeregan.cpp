@@ -28,7 +28,7 @@ class npc_og_suit : public CreatureScript
 
         struct npc_og_suitAI : public npc_escortAI
         {
-            npc_og_suitAI(Creature* pCreature) : npc_escortAI(pCreature) {}
+            npc_og_suitAI(Creature* creature) : npc_escortAI(creature) {}
 
             void WaypointReached(uint32 i)
             {
@@ -165,9 +165,9 @@ class npc_og_suit : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_suitAI(pCreature);
+        return new npc_og_suitAI(creature);
     }
 };
 
@@ -178,7 +178,7 @@ class npc_og_infantry : public CreatureScript
 
         struct npc_og_infantryAI : public npc_escortAI
         {
-            npc_og_infantryAI(Creature* pCreature) : npc_escortAI(pCreature) {}
+            npc_og_infantryAI(Creature* creature) : npc_escortAI(creature) {}
 
             uint32 uiGCD;
             uint32 uiGrenade_timer;
@@ -366,9 +366,9 @@ class npc_og_infantry : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_infantryAI(pCreature);
+        return new npc_og_infantryAI(creature);
     }
 };
 
@@ -379,7 +379,7 @@ class npc_og_tank : public CreatureScript
 
         struct npc_og_tankAI : public npc_escortAI
         {
-            npc_og_tankAI(Creature* pCreature) : npc_escortAI(pCreature) {}
+            npc_og_tankAI(Creature* creature) : npc_escortAI(creature) {}
 
             uint32 uiGCD;
 
@@ -509,9 +509,9 @@ class npc_og_tank : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_tankAI(pCreature);
+        return new npc_og_tankAI(creature);
     }
 };
 
@@ -522,7 +522,7 @@ class npc_og_i_tank : public CreatureScript
 
         struct npc_og_i_tankAI : public npc_escortAI
         {
-            npc_og_i_tankAI(Creature* pCreature) : npc_escortAI(pCreature) {}
+            npc_og_i_tankAI(Creature* creature) : npc_escortAI(creature) {}
 
             void Reset()
             {
@@ -588,9 +588,9 @@ class npc_og_i_tank : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_i_tankAI(pCreature);
+        return new npc_og_i_tankAI(creature);
     }
 };
 
@@ -601,7 +601,7 @@ class npc_og_assistants : public CreatureScript
 
         struct npc_og_assistantsAI : public npc_escortAI
         {
-            npc_og_assistantsAI(Creature* pCreature) : npc_escortAI(pCreature) {}
+            npc_og_assistantsAI(Creature* creature) : npc_escortAI(creature) {}
 
             void Reset()
             {
@@ -660,9 +660,9 @@ class npc_og_assistants : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_assistantsAI(pCreature);
+        return new npc_og_assistantsAI(creature);
     }
 };
 
@@ -676,7 +676,7 @@ class npc_og_mekkatorque : public CreatureScript
 
         struct npc_og_mekkatorqueAI : public npc_escortAI
         {
-            npc_og_mekkatorqueAI(Creature* pCreature) : npc_escortAI(pCreature) { }
+            npc_og_mekkatorqueAI(Creature* creature) : npc_escortAI(creature) { }
 
             uint32                 uiStep;
             uint32                 uiStep_timer;
@@ -1591,27 +1591,27 @@ class npc_og_mekkatorque : public CreatureScript
 
 typedef npc_og_mekkatorque::npc_og_mekkatorqueAI MekkAI;
 
-        bool OnQuestAccept(Player* pPlayer, Creature* pCreature, Quest const* quest)
+        bool OnQuestAccept(Player* pPlayer, Creature* creature, Quest const* quest)
         {
             if (quest->GetQuestId() == QUEST_OPERATION_GNOMEREGAN)
             {
                 if (!bProcessing)
                 {
-                    CAST_AI(MekkAI, pCreature->AI())->pEscortQuest = quest;
-                    CAST_AI(MekkAI, pCreature->AI())->pEscortPlayer = pPlayer;
-                    pCreature->MonsterSay(MEK_1_1, LANG_UNIVERSAL, NULL);
-                    CAST_AI(MekkAI, pCreature->AI())->DoPlaySoundToSet(pCreature, SOUND_MEK_1);
+                    CAST_AI(MekkAI, creature->AI())->pEscortQuest = quest;
+                    CAST_AI(MekkAI, creature->AI())->pEscortPlayer = pPlayer;
+                    creature->MonsterSay(MEK_1_1, LANG_UNIVERSAL, NULL);
+                    CAST_AI(MekkAI, creature->AI())->DoPlaySoundToSet(creature, SOUND_MEK_1);
                     for (int8 n = 0; n < 4; ++n)
-                        CAST_AI(MekkAI, pCreature->AI())->RL[n] = pCreature->SummonCreature(NPC_RL, RLSpawn[n], TEMPSUMMON_MANUAL_DESPAWN);
+                        CAST_AI(MekkAI, creature->AI())->RL[n] = creature->SummonCreature(NPC_RL, RLSpawn[n], TEMPSUMMON_MANUAL_DESPAWN);
                     for (int8 n = 0; n < 3; ++n)
-                        CAST_AI(MekkAI, pCreature->AI())->Tank[n] = pCreature->SummonCreature(NPC_TANK, TankSpawn[n], TEMPSUMMON_MANUAL_DESPAWN);
+                        CAST_AI(MekkAI, creature->AI())->Tank[n] = creature->SummonCreature(NPC_TANK, TankSpawn[n], TEMPSUMMON_MANUAL_DESPAWN);
                     for (int8 n = 0; n < 8; ++n)
-                        pCreature->SummonCreature(NPC_I_INFANTRY, iInfantrySpawn[n], TEMPSUMMON_MANUAL_DESPAWN);
-                    pCreature->SummonCreature(NPC_I_TANK, iTankSpawn[0], TEMPSUMMON_MANUAL_DESPAWN);
+                        creature->SummonCreature(NPC_I_INFANTRY, iInfantrySpawn[n], TEMPSUMMON_MANUAL_DESPAWN);
+                    creature->SummonCreature(NPC_I_TANK, iTankSpawn[0], TEMPSUMMON_MANUAL_DESPAWN);
                     for (int8 n = 1; n < 3; ++n)
-                        if (Creature* p_iTank = pCreature->SummonCreature(NPC_I_TANK, iTankSpawn[n], TEMPSUMMON_MANUAL_DESPAWN))
+                        if (Creature* p_iTank = creature->SummonCreature(NPC_I_TANK, iTankSpawn[n], TEMPSUMMON_MANUAL_DESPAWN))
                             CAST_AI(npc_og_i_tank::npc_og_i_tankAI, p_iTank->AI())->SetupMovement(n-1);
-                    CAST_AI(MekkAI, pCreature->AI())->JumpToNextStep(4000);
+                    CAST_AI(MekkAI, creature->AI())->JumpToNextStep(4000);
                     bProcessing = true;
                 }
             }
@@ -1621,9 +1621,9 @@ typedef npc_og_mekkatorque::npc_og_mekkatorqueAI MekkAI;
         private:
             bool bProcessing;
 
-    CreatureAI *GetAI(Creature* pCreature) const
+    CreatureAI *GetAI(Creature* creature) const
     {
-        return new npc_og_mekkatorqueAI(pCreature);
+        return new npc_og_mekkatorqueAI(creature);
     }
 };
 
@@ -1634,7 +1634,7 @@ class npc_og_boltcog : public CreatureScript
 
         struct npc_og_boltcogAI : public npc_escortAI
         {
-            npc_og_boltcogAI(Creature* pCreature) : npc_escortAI(pCreature) {}
+            npc_og_boltcogAI(Creature* creature) : npc_escortAI(creature) {}
             
             uint32 uiThrow_timer;
 
@@ -1690,9 +1690,9 @@ class npc_og_boltcog : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_boltcogAI(pCreature);
+        return new npc_og_boltcogAI(creature);
     }
 };
 
@@ -1703,7 +1703,7 @@ class npc_og_rl : public CreatureScript
 
         struct npc_og_rlAI : public ScriptedAI
         {
-            npc_og_rlAI(Creature* pCreature) : ScriptedAI(pCreature) {}
+            npc_og_rlAI(Creature* creature) : ScriptedAI(creature) {}
 
             void JustDied(Unit* /*who*/)
             {
@@ -1712,9 +1712,9 @@ class npc_og_rl : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_rlAI(pCreature);
+        return new npc_og_rlAI(creature);
     }
 
 };
@@ -1726,7 +1726,7 @@ class npc_og_cannon : public CreatureScript
 
         struct npc_og_cannonAI : public ScriptedAI
         {
-            npc_og_cannonAI(Creature* pCreature) : ScriptedAI(pCreature) {}
+            npc_og_cannonAI(Creature* creature) : ScriptedAI(creature) {}
 
             uint32 uiHits;
             uint32 uiRocket_timer;
@@ -1783,9 +1783,9 @@ class npc_og_cannon : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_cannonAI(pCreature);
+        return new npc_og_cannonAI(creature);
     }
 };
 
@@ -1796,7 +1796,7 @@ class npc_og_bomber : public CreatureScript
 
         struct npc_og_bomberlAI : public ScriptedAI
         {
-            npc_og_bomberlAI(Creature* pCreature) : ScriptedAI(pCreature) {}
+            npc_og_bomberlAI(Creature* creature) : ScriptedAI(creature) {}
 
             bool bAction;
 
@@ -1829,9 +1829,9 @@ class npc_og_bomber : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_bomberlAI(pCreature);
+        return new npc_og_bomberlAI(creature);
     }
 };
 
@@ -1842,7 +1842,7 @@ class npc_og_trogg : public CreatureScript
 
         struct npc_og_troggAI : public npc_escortAI
         {
-            npc_og_troggAI(Creature* pCreature) : npc_escortAI(pCreature) {}
+            npc_og_troggAI(Creature* creature) : npc_escortAI(creature) {}
 
             void Reset()
             {
@@ -1874,9 +1874,9 @@ class npc_og_trogg : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_troggAI(pCreature);
+        return new npc_og_troggAI(creature);
     }
 };
 
@@ -1887,7 +1887,7 @@ class npc_og_i_infantry : public CreatureScript
 
         struct npc_og_i_infantryAI : public ScriptedAI
         {
-            npc_og_i_infantryAI(Creature* pCreature) : ScriptedAI(pCreature) {}
+            npc_og_i_infantryAI(Creature* creature) : ScriptedAI(creature) {}
 
             uint32 uiGrenade_timer;
             uint32 uiGCD;
@@ -1943,9 +1943,9 @@ class npc_og_i_infantry : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_i_infantryAI(pCreature);
+        return new npc_og_i_infantryAI(creature);
     }
 };
 
@@ -1956,7 +1956,7 @@ class npc_og_camera_vehicle : public CreatureScript
 
         struct npc_og_camera_vehicleAI : public ScriptedAI
         {
-            npc_og_camera_vehicleAI(Creature* pCreature) : ScriptedAI(pCreature) {}
+            npc_og_camera_vehicleAI(Creature* creature) : ScriptedAI(creature) {}
 
             void SpellHit(Unit* pHitter, const SpellEntry* pSpell)
             {
@@ -1988,9 +1988,9 @@ class npc_og_camera_vehicle : public CreatureScript
             }
         };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_og_camera_vehicleAI(pCreature);
+        return new npc_og_camera_vehicleAI(creature);
     }
 };
 

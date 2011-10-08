@@ -1073,8 +1073,8 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                         return;
                     Player* pPlayer = m_caster->ToPlayer();
                     pPlayer->CastSpell(pPlayer, 46022, false);
-                    if(Creature* pCreature = pPlayer->FindNearestCreature(25773, 10.0f, true))
-                        pPlayer->KilledMonsterCredit(pCreature->GetEntry(), pCreature->GetGUID()); // rest is done by EventAI
+                    if(Creature* creature = pPlayer->FindNearestCreature(25773, 10.0f, true))
+                        pPlayer->KilledMonsterCredit(creature->GetEntry(), creature->GetGUID()); // rest is done by EventAI
                     unitTarget->DestroyForPlayer(pPlayer);
                 }
                 case 47170:                                 // Impale Leviroth

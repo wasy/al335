@@ -65,16 +65,16 @@ class boss_lich_king_hor : public CreatureScript
 public:
     boss_lich_king_hor() : CreatureScript("boss_lich_king_hor") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_lich_king_horAI(pCreature);
+        return new boss_lich_king_horAI(creature);
     }
 
     struct boss_lich_king_horAI : public npc_escortAI
     {
-        boss_lich_king_horAI(Creature *pCreature) : npc_escortAI(pCreature)
+        boss_lich_king_horAI(Creature *creature) : npc_escortAI(creature)
         {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -371,9 +371,9 @@ public:
 
     struct npc_raging_gnoulAI : public ScriptedAI
     {
-        npc_raging_gnoulAI(Creature *pCreature) : ScriptedAI(pCreature)
+        npc_raging_gnoulAI(Creature *creature) : ScriptedAI(creature)
         {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
             me->setActive(true);
             Reset();
         }
@@ -439,9 +439,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_raging_gnoulAI(pCreature);
+        return new npc_raging_gnoulAI(creature);
     }
 
 };
@@ -453,9 +453,9 @@ public:
 
     struct npc_risen_witch_doctorAI : public ScriptedAI
     {
-        npc_risen_witch_doctorAI(Creature *pCreature) : ScriptedAI(pCreature)
+        npc_risen_witch_doctorAI(Creature *creature) : ScriptedAI(creature)
         {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
             me->setActive(true);
             Reset();
         }
@@ -521,9 +521,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_risen_witch_doctorAI(pCreature);
+        return new npc_risen_witch_doctorAI(creature);
     }
 
 };
@@ -535,9 +535,9 @@ public:
 
     struct npc_abonAI : public ScriptedAI
     {
-        npc_abonAI(Creature *pCreature) : ScriptedAI(pCreature)
+        npc_abonAI(Creature *creature) : ScriptedAI(creature)
         {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
             me->setActive(true);
             Reset();
         }
@@ -582,9 +582,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_abonAI(pCreature);
+        return new npc_abonAI(creature);
     }
 };
 

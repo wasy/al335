@@ -116,16 +116,16 @@ class boss_halion_real : public CreatureScript
 public:
     boss_halion_real() : CreatureScript("boss_halion_real") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_halion_realAI(pCreature);
+        return new boss_halion_realAI(creature);
     }
 
     struct boss_halion_realAI : public ScriptedAI
     {
-        boss_halion_realAI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_halion_realAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -544,16 +544,16 @@ class boss_halion_twilight : public CreatureScript
 public:
     boss_halion_twilight() : CreatureScript("boss_halion_twilight") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_halion_twilightAI(pCreature);
+        return new boss_halion_twilightAI(creature);
     }
 
     struct boss_halion_twilightAI : public ScriptedAI
     {
-        boss_halion_twilightAI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_halion_twilightAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -849,16 +849,16 @@ class mob_halion_control : public CreatureScript
 public:
     mob_halion_control() : CreatureScript("mob_halion_control") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_halion_controlAI(pCreature);
+        return new mob_halion_controlAI(creature);
     }
 
     struct mob_halion_controlAI : public ScriptedAI
     {
-        mob_halion_controlAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_halion_controlAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -1039,16 +1039,16 @@ class mob_orb_rotation_focus : public CreatureScript
 public:
     mob_orb_rotation_focus() : CreatureScript("mob_orb_rotation_focus") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_orb_rotation_focusAI(pCreature);
+        return new mob_orb_rotation_focusAI(creature);
     }
 
     struct mob_orb_rotation_focusAI : public ScriptedAI
     {
-        mob_orb_rotation_focusAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_orb_rotation_focusAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -1187,16 +1187,16 @@ class mob_halion_orb : public CreatureScript
 public:
     mob_halion_orb() : CreatureScript("mob_halion_orb") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_halion_orbAI(pCreature);
+        return new mob_halion_orbAI(creature);
     }
 
     struct mob_halion_orbAI : public ScriptedAI
     {
-        mob_halion_orbAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_halion_orbAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -1299,16 +1299,16 @@ class mob_orb_carrier : public CreatureScript
 public:
     mob_orb_carrier() : CreatureScript("mob_orb_carrier") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_orb_carrierAI(pCreature);
+        return new mob_orb_carrierAI(creature);
     }
 
     struct mob_orb_carrierAI : public ScriptedAI
     {
-        mob_orb_carrierAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_orb_carrierAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -1378,16 +1378,16 @@ class mob_soul_consumption : public CreatureScript
 public:
     mob_soul_consumption() : CreatureScript("mob_soul_consumption") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_soul_consumptionAI(pCreature);
+        return new mob_soul_consumptionAI(creature);
     }
 
     struct mob_soul_consumptionAI : public ScriptedAI
     {
-        mob_soul_consumptionAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_soul_consumptionAI(Creature* creature) : ScriptedAI(creature)
         {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -1459,16 +1459,16 @@ class mob_fiery_combustion : public CreatureScript
 public:
     mob_fiery_combustion() : CreatureScript("mob_fiery_combustion") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_fiery_combustionAI(pCreature);
+        return new mob_fiery_combustionAI(creature);
     }
 
     struct mob_fiery_combustionAI : public ScriptedAI
     {
-        mob_fiery_combustionAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_fiery_combustionAI(Creature* creature) : ScriptedAI(creature)
         {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -1543,14 +1543,14 @@ class mob_halion_meteor : public CreatureScript
 public:
     mob_halion_meteor() : CreatureScript("mob_halion_meteor") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_halion_meteorAI(pCreature);
+        return new mob_halion_meteorAI(creature);
     }
 
     struct mob_halion_meteorAI : public ScriptedAI
     {
-        mob_halion_meteorAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_halion_meteorAI(Creature* creature) : ScriptedAI(creature)
         {
             Reset();
         }
@@ -1657,14 +1657,14 @@ class mob_halion_flame : public CreatureScript
 public:
     mob_halion_flame() : CreatureScript("mob_halion_flame") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_halion_flameAI(pCreature);
+        return new mob_halion_flameAI(creature);
     }
 
     struct mob_halion_flameAI : public ScriptedAI
     {
-        mob_halion_flameAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_halion_flameAI(Creature* creature) : ScriptedAI(creature)
         {
             Reset();
         }

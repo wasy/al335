@@ -146,18 +146,18 @@ class generic_vehicleAI_toc5 : public CreatureScript
 public:
     generic_vehicleAI_toc5() : CreatureScript("generic_vehicleAI_toc5") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new generic_vehicleAI_toc5AI(pCreature);
+        return new generic_vehicleAI_toc5AI(creature);
     }
 
     struct generic_vehicleAI_toc5AI : public npc_escortAI
     {
-        generic_vehicleAI_toc5AI(Creature* pCreature) : npc_escortAI(pCreature), vehicle(pCreature->GetVehicleKit())
+        generic_vehicleAI_toc5AI(Creature* creature) : npc_escortAI(creature), vehicle(creature->GetVehicleKit())
         {
             SetDespawnAtEnd(false);
             uiWaypointPath = 0;
-            instance = pCreature->GetInstanceScript();
+            instance = creature->GetInstanceScript();
         }
 
         InstanceScript* instance;
@@ -291,17 +291,17 @@ class boss_warrior_toc5 : public CreatureScript
 public:
     boss_warrior_toc5() : CreatureScript("boss_warrior_toc5") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_warrior_toc5AI(pCreature);
+        return new boss_warrior_toc5AI(creature);
     }
 	
     struct boss_warrior_toc5AI : public ScriptedAI
     {
 
-        boss_warrior_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_warrior_toc5AI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = pCreature->GetInstanceScript();
+            instance = creature->GetInstanceScript();
 
             bDone = false;
             bHome = false;
@@ -430,17 +430,17 @@ class boss_mage_toc5 : public CreatureScript
 public:
     boss_mage_toc5() : CreatureScript("boss_mage_toc5") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_mage_toc5AI(pCreature);
+        return new boss_mage_toc5AI(creature);
     }
 	
     struct boss_mage_toc5AI : public ScriptedAI
     {
 
-        boss_mage_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_mage_toc5AI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = pCreature->GetInstanceScript();
+            instance = creature->GetInstanceScript();
 
             bDone = false;
             bHome = false;
@@ -565,16 +565,16 @@ class boss_shaman_toc5 : public CreatureScript
 public:
     boss_shaman_toc5() : CreatureScript("boss_shaman_toc5") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_shaman_toc5AI(pCreature);
+        return new boss_shaman_toc5AI(creature);
     }
 
     struct boss_shaman_toc5AI : public ScriptedAI
     {
-        boss_shaman_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_shaman_toc5AI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = pCreature->GetInstanceScript();
+            instance = creature->GetInstanceScript();
 
             bDone = false;
             bHome = false;
@@ -714,16 +714,16 @@ class boss_hunter_toc5 : public CreatureScript
 public:
     boss_hunter_toc5() : CreatureScript("boss_hunter_toc5") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_hunter_toc5AI(pCreature);
+        return new boss_hunter_toc5AI(creature);
     }
 
     struct boss_hunter_toc5AI : public ScriptedAI
     {
-        boss_hunter_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_hunter_toc5AI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = pCreature->GetInstanceScript();
+            instance = creature->GetInstanceScript();
 
             bDone = false;
             bHome = false;
@@ -887,16 +887,16 @@ class boss_rouge_toc5 : public CreatureScript
 public:
     boss_rouge_toc5() : CreatureScript("boss_rouge_toc5") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_rouge_toc5AI(pCreature);
+        return new boss_rouge_toc5AI(creature);
     }
 
     struct boss_rouge_toc5AI : public ScriptedAI
     {
-        boss_rouge_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_rouge_toc5AI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = pCreature->GetInstanceScript();
+            instance = creature->GetInstanceScript();
 
             bDone = false;
             bHome = false;

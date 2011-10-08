@@ -144,9 +144,9 @@ class npc_jaina_and_sylvana_HRintro : public CreatureScript
 public:
     npc_jaina_and_sylvana_HRintro() : CreatureScript("npc_jaina_and_sylvana_HRintro") { }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 uiSender, uint32 uiAction)
     {
-        InstanceScript* m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+        InstanceScript* m_pInstance = (InstanceScript*)creature->GetInstanceScript();
 
         if (!m_pInstance)
             return false;
@@ -164,19 +164,19 @@ public:
         else
             m_pInstance->SetData(DATA_LIDER, 2);
 
-        m_pInstance->SetData64(DATA_ESCAPE_LIDER,pCreature->GetGUID());
+        m_pInstance->SetData64(DATA_ESCAPE_LIDER,creature->GetGUID());
 
         return true;
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* pCreature)
+    bool OnGossipHello(Player* pPlayer, Creature* creature)
     {
-        InstanceScript* m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+        InstanceScript* m_pInstance = (InstanceScript*)creature->GetInstanceScript();
 
-        if(pCreature->isQuestGiver())
-            pPlayer->PrepareQuestMenu( pCreature->GetGUID());
+        if(creature->isQuestGiver())
+            pPlayer->PrepareQuestMenu( creature->GetGUID());
 
-        switch(pCreature->GetEntry())
+        switch(creature->GetEntry())
         {
             case NPC_JAINA:
                 pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Леди Джайна, мы готовы к следующей миссии!", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
@@ -186,15 +186,15 @@ public:
                 break;
         }
 
-        pPlayer->PlayerTalkClass->SendGossipMenu(907,pCreature->GetGUID());
+        pPlayer->PlayerTalkClass->SendGossipMenu(907,creature->GetGUID());
         return true;
     }
 
     struct npc_jaina_and_sylvana_HRintroAI : public ScriptedAI
     {
-        npc_jaina_and_sylvana_HRintroAI(Creature *pCreature) : ScriptedAI(pCreature)
+        npc_jaina_and_sylvana_HRintroAI(Creature *creature) : ScriptedAI(creature)
         {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -658,9 +658,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_jaina_and_sylvana_HRintroAI(pCreature);
+        return new npc_jaina_and_sylvana_HRintroAI(creature);
     }
 
 };
@@ -670,22 +670,22 @@ class npc_jaina_and_sylvana_HRextro : public CreatureScript
 public:
     npc_jaina_and_sylvana_HRextro() : CreatureScript("npc_jaina_and_sylvana_HRextro") { }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 uiSender, uint32 uiAction)
     {
-        InstanceScript* m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+        InstanceScript* m_pInstance = (InstanceScript*)creature->GetInstanceScript();
         switch (uiAction)
         {
             case GOSSIP_ACTION_INFO_DEF+1:
                 pPlayer->CLOSE_GOSSIP_MENU();
-                ((npc_jaina_and_sylvana_HRextroAI*)pCreature->AI())->Start(false,true);
-                pCreature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
-                pCreature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
-                pCreature->SetUInt64Value(UNIT_FIELD_TARGET, 0);
-                pCreature->setActive(true);
+                ((npc_jaina_and_sylvana_HRextroAI*)creature->AI())->Start(false,true);
+                creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
+                creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
+                creature->SetUInt64Value(UNIT_FIELD_TARGET, 0);
+                creature->setActive(true);
 
                 if(m_pInstance)
                 {
-                    m_pInstance->SetData64(DATA_ESCAPE_LIDER, pCreature->GetGUID());
+                    m_pInstance->SetData64(DATA_ESCAPE_LIDER, creature->GetGUID());
                     m_pInstance->SetData(TYPE_LICH_KING, IN_PROGRESS);
                     m_pInstance->SetData(TYPE_PHASE, 5);
                 }
@@ -695,9 +695,9 @@ public:
         }
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* pCreature)
+    bool OnGossipHello(Player* pPlayer, Creature* creature)
     {
-        InstanceScript*   m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+        InstanceScript*   m_pInstance = (InstanceScript*)creature->GetInstanceScript();
 
         if(!m_pInstance)
             return false;
@@ -705,21 +705,21 @@ public:
         if(m_pInstance->GetData(TYPE_LICH_KING) == DONE)
             return false;
 
-        if(pCreature->isQuestGiver())
-           pPlayer->PrepareQuestMenu( pCreature->GetGUID());
+        if(creature->isQuestGiver())
+           pPlayer->PrepareQuestMenu( creature->GetGUID());
 
         pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Побежали!", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
 
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetGUID());
+        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
 
         return true;
     }
 
     struct npc_jaina_and_sylvana_HRextroAI : public npc_escortAI
     {
-        npc_jaina_and_sylvana_HRextroAI(Creature *pCreature) : npc_escortAI(pCreature)
+        npc_jaina_and_sylvana_HRextroAI(Creature *creature) : npc_escortAI(creature)
         {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -1241,9 +1241,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_jaina_and_sylvana_HRextroAI(pCreature);
+        return new npc_jaina_and_sylvana_HRextroAI(creature);
     }
 };
 
@@ -1254,7 +1254,7 @@ public:
 
     struct npc_lich_king_hrAI : public ScriptedAI
     {
-        npc_lich_king_hrAI(Creature *pCreature) : ScriptedAI(pCreature)
+        npc_lich_king_hrAI(Creature *creature) : ScriptedAI(creature)
         {
             Reset();
         }
@@ -1277,9 +1277,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_lich_king_hrAI(pCreature);
+        return new npc_lich_king_hrAI(creature);
     }
 };
 
@@ -1299,9 +1299,9 @@ public:
 
     struct npc_frostworn_generalAI : public ScriptedAI
     {
-        npc_frostworn_generalAI(Creature *pCreature) : ScriptedAI(pCreature)
+        npc_frostworn_generalAI(Creature *creature) : ScriptedAI(creature)
         {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -1391,9 +1391,9 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_frostworn_generalAI(pCreature);
+        return new npc_frostworn_generalAI(creature);
     }
 };
 
@@ -1473,9 +1473,9 @@ class npc_ghostly_priest : public CreatureScript
 public:
     npc_ghostly_priest() : CreatureScript("npc_ghostly_priest") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_ghostly_priestAI(pCreature);
+        return new npc_ghostly_priestAI(creature);
     }
 
     struct npc_ghostly_priestAI: public ScriptedAI
@@ -1555,9 +1555,9 @@ class npc_phantom_mage : public CreatureScript
 public:
     npc_phantom_mage() : CreatureScript("npc_phantom_mage") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_phantom_mageAI(pCreature);
+        return new npc_phantom_mageAI(creature);
     }
 
     struct npc_phantom_mageAI: public ScriptedAI
@@ -1632,9 +1632,9 @@ class npc_phantom_hallucination : public CreatureScript
 public:
     npc_phantom_hallucination() : CreatureScript("npc_phantom_hallucination") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_phantom_hallucinationAI(pCreature);
+        return new npc_phantom_hallucinationAI(creature);
     }
 
     struct npc_phantom_hallucinationAI : public npc_phantom_mage::npc_phantom_mageAI
@@ -1656,9 +1656,9 @@ class npc_shadowy_mercenary : public CreatureScript
 public:
     npc_shadowy_mercenary() : CreatureScript("npc_shadowy_mercenary") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_shadowy_mercenaryAI(pCreature);
+        return new npc_shadowy_mercenaryAI(creature);
     }
 
     struct npc_shadowy_mercenaryAI: public ScriptedAI
@@ -1727,9 +1727,9 @@ class npc_spectral_footman : public CreatureScript
 public:
     npc_spectral_footman() : CreatureScript("npc_spectral_footman") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_spectral_footmanAI(pCreature);
+        return new npc_spectral_footmanAI(creature);
     }
 
     struct npc_spectral_footmanAI: public ScriptedAI
@@ -1792,9 +1792,9 @@ class npc_tortured_rifleman : public CreatureScript
 public:
     npc_tortured_rifleman() : CreatureScript("npc_tortured_rifleman") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_tortured_riflemanAI(pCreature);
+        return new npc_tortured_riflemanAI(creature);
     }
 
     struct npc_tortured_riflemanAI  : public ScriptedAI

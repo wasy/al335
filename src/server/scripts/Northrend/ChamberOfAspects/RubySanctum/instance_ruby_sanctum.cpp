@@ -179,23 +179,23 @@ public:
 			}
 		}
 
-        void OnCreatureCreate(Creature* pCreature)
+        void OnCreatureCreate(Creature* creature)
         {
-            switch(pCreature->GetEntry())
+            switch(creature->GetEntry())
             {
-                case NPC_HALION_REAL: m_uiHalion_pGUID = pCreature->GetGUID();break;
-	            case NPC_HALION_TWILIGHT: m_uiHalion_tGUID = pCreature->GetGUID(); break;
-                case NPC_HALION_CONTROL: m_uiHalionControlGUID = pCreature->GetGUID(); break;
-                case NPC_RAGEFIRE: m_uiRagefireGUID = pCreature->GetGUID(); break;
-                case NPC_ZARITHIAN: m_uiZarithianGUID = pCreature->GetGUID(); break;
-                case NPC_BALTHARUS: m_uiBaltharusGUID = pCreature->GetGUID(); break;
-                case NPC_BALTHARUS_TARGET: m_uiBaltharusTargetGUID = pCreature->GetGUID(); break;
-                case NPC_CLONE: m_uiCloneGUID = pCreature->GetGUID(); break;
-                case NPC_XERESTRASZA: m_uiXerestraszaGUID = pCreature->GetGUID(); break;
-                case NPC_SHADOW_PULSAR_N: m_uiOrbNGUID = pCreature->GetGUID(); break;
-                case NPC_SHADOW_PULSAR_S: m_uiOrbSGUID = pCreature->GetGUID(); break;
-                case NPC_ORB_ROTATION_FOCUS: m_uiOrbFocusGUID = pCreature->GetGUID(); break;
-                case NPC_ORB_CARRIER: m_uiOrbCarrierGUID = pCreature->GetGUID(); break;
+                case NPC_HALION_REAL: m_uiHalion_pGUID = creature->GetGUID();break;
+	            case NPC_HALION_TWILIGHT: m_uiHalion_tGUID = creature->GetGUID(); break;
+                case NPC_HALION_CONTROL: m_uiHalionControlGUID = creature->GetGUID(); break;
+                case NPC_RAGEFIRE: m_uiRagefireGUID = creature->GetGUID(); break;
+                case NPC_ZARITHIAN: m_uiZarithianGUID = creature->GetGUID(); break;
+                case NPC_BALTHARUS: m_uiBaltharusGUID = creature->GetGUID(); break;
+                case NPC_BALTHARUS_TARGET: m_uiBaltharusTargetGUID = creature->GetGUID(); break;
+                case NPC_CLONE: m_uiCloneGUID = creature->GetGUID(); break;
+                case NPC_XERESTRASZA: m_uiXerestraszaGUID = creature->GetGUID(); break;
+                case NPC_SHADOW_PULSAR_N: m_uiOrbNGUID = creature->GetGUID(); break;
+                case NPC_SHADOW_PULSAR_S: m_uiOrbSGUID = creature->GetGUID(); break;
+                case NPC_ORB_ROTATION_FOCUS: m_uiOrbFocusGUID = creature->GetGUID(); break;
+                case NPC_ORB_CARRIER: m_uiOrbCarrierGUID = creature->GetGUID(); break;
             }
         }
 

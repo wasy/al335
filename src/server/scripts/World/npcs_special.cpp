@@ -2768,19 +2768,19 @@ class npc_argent_squire : public CreatureScript
 public:
     npc_argent_squire() : CreatureScript("npc_argent_squire") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* pCreature)
+    bool OnGossipHello(Player* pPlayer, Creature* creature)
     {
         // Argent Pony Bridle options
         const AchievementEntry * achiPonyUp = GetAchievementStore()->LookupEntry(ACHI_PONY_UP);
         if (pPlayer->GetAchievementMgr().HasAchieved(achiPonyUp))
-            if (!pCreature->HasAura(SPELL_SQUIRE_TIRED))
+            if (!creature->HasAura(SPELL_SQUIRE_TIRED))
             {
                 uint8 uiBuff = (STATE_BANK | STATE_SHOP | STATE_MAIL);
-                if (pCreature->HasAura(SPELL_SQUIRE_BANK_ERRAND))
+                if (creature->HasAura(SPELL_SQUIRE_BANK_ERRAND))
                     uiBuff = STATE_BANK;
-                if (pCreature->HasAura(SPELL_SQUIRE_SHOP))
+                if (creature->HasAura(SPELL_SQUIRE_SHOP))
                     uiBuff = STATE_SHOP;
-                if (pCreature->HasAura(SPELL_SQUIRE_POSTMAN))
+                if (creature->HasAura(SPELL_SQUIRE_POSTMAN))
                     uiBuff = STATE_MAIL;
 
                 if (uiBuff & STATE_BANK)
@@ -2815,38 +2815,38 @@ public:
         if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_STORMWIND))
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Stormwind Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_STORMWIND_PENNANT);
 
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetGUID());
+        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
         return true;
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
         pPlayer->PlayerTalkClass->ClearMenus();
         if (uiAction >= 1000) // remove old pennant aura
-            pCreature->AI()->SetData(0, 0);
+            creature->AI()->SetData(0, 0);
         switch (uiAction)
         {
             case GOSSIP_ACTION_BANK:
-                pCreature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BANKER);
-                pPlayer->GetSession()->SendShowBank(pCreature->GetGUID());
-                if (!pCreature->HasAura(SPELL_SQUIRE_BANK_ERRAND))
-                    pCreature->AddAura(SPELL_SQUIRE_BANK_ERRAND, pCreature);
+                creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BANKER);
+                pPlayer->GetSession()->SendShowBank(creature->GetGUID());
+                if (!creature->HasAura(SPELL_SQUIRE_BANK_ERRAND))
+                    creature->AddAura(SPELL_SQUIRE_BANK_ERRAND, creature);
                 if (!pPlayer->HasAura(SPELL_CHECK_TIRED))
                     pPlayer->AddAura(SPELL_CHECK_TIRED, pPlayer);
                 break;
             case GOSSIP_ACTION_TRADE:
-                pCreature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR);
-                pPlayer->GetSession()->SendListInventory(pCreature->GetGUID());
-                if (!pCreature->HasAura(SPELL_SQUIRE_SHOP))
-                    pCreature->AddAura(SPELL_SQUIRE_SHOP, pCreature);
+                creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR);
+                pPlayer->GetSession()->SendListInventory(creature->GetGUID());
+                if (!creature->HasAura(SPELL_SQUIRE_SHOP))
+                    creature->AddAura(SPELL_SQUIRE_SHOP, creature);
                 if (!pPlayer->HasAura(SPELL_CHECK_TIRED))
                     pPlayer->AddAura(SPELL_CHECK_TIRED, pPlayer);
                 break;
             case GOSSIP_ACTION_MAIL:
-                pCreature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_MAILBOX);
-                pCreature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
-                if (!pCreature->HasAura(SPELL_SQUIRE_POSTMAN))
-                    pCreature->AddAura(SPELL_SQUIRE_POSTMAN, pCreature);
+                creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_MAILBOX);
+                creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
+                if (!creature->HasAura(SPELL_SQUIRE_POSTMAN))
+                    creature->AddAura(SPELL_SQUIRE_POSTMAN, creature);
                 if (!pPlayer->HasAura(SPELL_CHECK_TIRED))
                     pPlayer->AddAura(SPELL_CHECK_TIRED, pPlayer);
                 break;
@@ -2861,7 +2861,7 @@ public:
             case SPELL_GNOMEREGAN_PENNANT:
             case SPELL_IRONFORGE_PENNANT:
             case SPELL_STORMWIND_PENNANT:
-                pCreature->AI()->SetData(1, uiAction);
+                creature->AI()->SetData(1, uiAction);
                 break;
         }
         pPlayer->PlayerTalkClass->SendCloseGossip();
@@ -2870,7 +2870,7 @@ public:
 
     struct npc_argent_squireAI : public ScriptedAI
     {
-        npc_argent_squireAI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_argent_squireAI(Creature* creature) : ScriptedAI(creature)
         {
             m_current_pennant = 0;
             check_timer = 1000;

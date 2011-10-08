@@ -459,10 +459,10 @@ class npc_brewfest_ram_master : public CreatureScript
 public:
     npc_brewfest_ram_master() : CreatureScript("npc_brewfest_ram_master") { }
 
-    bool OnGossipHello(Player *player, Creature *pCreature)
+    bool OnGossipHello(Player *player, Creature *creature)
     {
-        if (pCreature->isQuestGiver())
-            player->PrepareQuestMenu(pCreature->GetGUID());
+        if (creature->isQuestGiver())
+            player->PrepareQuestMenu(creature->GetGUID());
 
         if (player->HasSpellCooldown(SPELL_BREWFEST_SUMMON_RAM)
             && !player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_A)
@@ -483,11 +483,11 @@ public:
             && !player->HasItemCount(33306,1,true))
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_RAM_REINS, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
 
-        player->SEND_GOSSIP_MENU(384, pCreature->GetGUID());
+        player->SEND_GOSSIP_MENU(384, creature->GetGUID());
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* pCreature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
         if (uiAction == GOSSIP_ACTION_INFO_DEF+1)
         {

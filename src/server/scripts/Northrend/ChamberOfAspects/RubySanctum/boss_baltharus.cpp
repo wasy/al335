@@ -57,16 +57,16 @@ class boss_baltharus : public CreatureScript
 public:
     boss_baltharus() : CreatureScript("boss_baltharus") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_baltharusAI(pCreature);
+        return new boss_baltharusAI(creature);
     }
 
     struct boss_baltharusAI : public ScriptedAI
     {
-        boss_baltharusAI(Creature* pCreature) : ScriptedAI(pCreature)
+        boss_baltharusAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -307,16 +307,16 @@ class mob_baltharus_clone : public CreatureScript
 public:
     mob_baltharus_clone() : CreatureScript("mob_baltharus_clone") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_baltharus_cloneAI(pCreature);
+        return new mob_baltharus_cloneAI(creature);
     }
 
     struct mob_baltharus_cloneAI : public ScriptedAI
     {
-        mob_baltharus_cloneAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_baltharus_cloneAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 
@@ -416,16 +416,16 @@ class mob_xerestrasza : public CreatureScript
 public:
     mob_xerestrasza() : CreatureScript("mob_xerestrasza") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_xerestraszaAI(pCreature);
+        return new mob_xerestraszaAI(creature);
     }
 
     struct mob_xerestraszaAI : public ScriptedAI
     {
-        mob_xerestraszaAI(Creature* pCreature) : ScriptedAI(pCreature)
+        mob_xerestraszaAI(Creature* creature) : ScriptedAI(creature)
         {
-            instance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)creature->GetInstanceScript();
             Reset();
         }
 

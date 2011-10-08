@@ -164,7 +164,7 @@ class npc_squire_danny : public CreatureScript
 public:
     npc_squire_danny() : CreatureScript("npc_squire_danny") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* pCreature)
+    bool OnGossipHello(Player* pPlayer, Creature* creature)
     {
         if (pPlayer->GetQuestStatus(13699) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13723) == QUEST_STATUS_INCOMPLETE ||
             pPlayer->GetQuestStatus(13713) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13724) == QUEST_STATUS_INCOMPLETE ||
@@ -176,17 +176,17 @@ public:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_SQUIRE__CHAMP_ITEM_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
         }
 
-        pPlayer->SEND_GOSSIP_MENU(GOSSIP_TEXTID_SQUIRE_CHAMP, pCreature->GetGUID());
+        pPlayer->SEND_GOSSIP_MENU(GOSSIP_TEXTID_SQUIRE_CHAMP, creature->GetGUID());
         return true;
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
         pPlayer->PlayerTalkClass->ClearMenus();
         if (uiAction == GOSSIP_ACTION_INFO_DEF+1)
         {
             pPlayer->CLOSE_GOSSIP_MENU();
-            pCreature->SummonCreature(NPC_ARGENT_CHAMPION,8545.375f,1087.665f,556.787f,1.063f);
+            creature->SummonCreature(NPC_ARGENT_CHAMPION,8545.375f,1087.665f,556.787f,1.063f);
         }
         return true;
     }
@@ -203,10 +203,10 @@ public:
 
     struct npc_argent_championAI : public ScriptedAI
     {
-        npc_argent_championAI(Creature* pCreature) : ScriptedAI(pCreature)
+        npc_argent_championAI(Creature* creature) : ScriptedAI(creature)
         {
-            pCreature->GetMotionMaster()->MovePoint(0,8549.995f,1125.671f,556.787f);
-            pCreature->setFaction(35); //wrong faction in db?
+            creature->GetMotionMaster()->MovePoint(0,8549.995f,1125.671f,556.787f);
+            creature->setFaction(35); //wrong faction in db?
         }
 
         uint32 uiChargeTimer;

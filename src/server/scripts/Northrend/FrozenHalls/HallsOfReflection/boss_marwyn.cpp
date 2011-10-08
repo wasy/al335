@@ -56,10 +56,10 @@ public:
 
     struct boss_marwynAI : public ScriptedAI
     {
-       boss_marwynAI(Creature *pCreature) : ScriptedAI(pCreature)
+       boss_marwynAI(Creature *creature) : ScriptedAI(creature)
        {
-            m_pInstance = (InstanceScript*)pCreature->GetInstanceScript();
-            Regular = pCreature->GetMap()->IsRegularDifficulty();
+            m_pInstance = (InstanceScript*)creature->GetInstanceScript();
+            Regular = creature->GetMap()->IsRegularDifficulty();
             Reset();
        }
 
@@ -282,9 +282,9 @@ public:
             return;
         }
     };
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_marwynAI(pCreature);
+        return new boss_marwynAI(creature);
     }
 
 };
