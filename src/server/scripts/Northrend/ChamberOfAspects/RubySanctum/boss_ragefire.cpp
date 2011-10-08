@@ -56,11 +56,11 @@ public:
     {
         boss_ragefireAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)pCreature->GetInstanceScript();
             Reset();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
 
         uint8 nextPoint;
@@ -75,10 +75,10 @@ public:
 
         void Reset()
         {
-            if(!pInstance)
+            if(!instance)
                 return;
             me->SetRespawnDelay(7*DAY);
-            if (me->isAlive()) pInstance->SetData(TYPE_RAGEFIRE, NOT_STARTED);
+            if (me->isAlive()) instance->SetData(TYPE_RAGEFIRE, NOT_STARTED);
 
             m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS,15*IN_MILLISECONDS);
             m_uiEnrage = urand(20*IN_MILLISECONDS,40*IN_MILLISECONDS);
@@ -104,7 +104,7 @@ public:
 
         void MovementInform(uint32 type, uint32 id)
         {
-            if (!pInstance) return;
+            if (!instance) return;
 
             if (type != POINT_MOTION_TYPE || !MovementStarted) return;
 
@@ -149,24 +149,24 @@ public:
 
         void JustReachedHome()
         {
-            if (pInstance)
-                pInstance->SetData(TYPE_RAGEFIRE, FAIL);
+            if (instance)
+                instance->SetData(TYPE_RAGEFIRE, FAIL);
         }
 
         void EnterCombat(Unit *who)
         {
-            if(!pInstance) return;
+            if(!instance) return;
 
-            pInstance->SetData(TYPE_RAGEFIRE, IN_PROGRESS);
+            instance->SetData(TYPE_RAGEFIRE, IN_PROGRESS);
             me->SetInCombatWithZone();
             DoScriptText(-1666400,me);
         }
 
         void JustDied(Unit *killer)
         {
-            if(!pInstance) return;
+            if(!instance) return;
 
-            pInstance->SetData(TYPE_RAGEFIRE, DONE);
+            instance->SetData(TYPE_RAGEFIRE, DONE);
             DoScriptText(-1666403,me);
         }
 

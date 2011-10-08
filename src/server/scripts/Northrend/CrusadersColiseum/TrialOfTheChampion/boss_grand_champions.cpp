@@ -157,10 +157,10 @@ public:
         {
             SetDespawnAtEnd(false);
             uiWaypointPath = 0;
-            pInstance = pCreature->GetInstanceScript();
+            instance = pCreature->GetInstanceScript();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
         Vehicle *vehicle;
 
         uint32 uiShieldBreakerTimer;
@@ -220,8 +220,8 @@ public:
             switch (i)
             {
                 case 2:
-                    if (pInstance && uiWaypointPath == 3 || uiWaypointPath == 2)
-                        pInstance->SetData(DATA_MOVEMENT_DONE, pInstance->GetData(DATA_MOVEMENT_DONE)+1);
+                    if (instance && uiWaypointPath == 3 || uiWaypointPath == 2)
+                        instance->SetData(DATA_MOVEMENT_DONE, instance->GetData(DATA_MOVEMENT_DONE)+1);
                     break;
                 case 3:
                     if (instance)
@@ -230,7 +230,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* pWho)
+        void EnterCombat(Unit* who)
         {
             if (Unit* champ = vehicle->GetPassenger(SEAT_ID_0))
                 champ->ToCreature()->SetInCombatWithZone();
@@ -301,7 +301,7 @@ public:
 
         boss_warrior_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = pCreature->GetInstanceScript();
+            instance = pCreature->GetInstanceScript();
 
             bDone = false;
             bHome = false;
@@ -355,11 +355,11 @@ public:
 
      		DoScriptText(SAY_START_2, me);
 
-                if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_1))
+                if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
                     me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_2))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
                     me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_3))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
                     me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
 
                 EnterEvadeMode();
@@ -416,8 +416,8 @@ public:
         void JustDied(Unit* pKiller)
         {
     	 		DoScriptText(SAY_START_1, me);
-            if (pInstance)
-                pInstance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
+            if (instance)
+                instance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
 
         }
     };
@@ -440,7 +440,7 @@ public:
 
         boss_mage_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = pCreature->GetInstanceScript();
+            instance = pCreature->GetInstanceScript();
 
             bDone = false;
             bHome = false;
@@ -492,11 +492,11 @@ public:
             {
                 bDone = true;
 
-                if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_1))
+                if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
                     me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_2))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
                     me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_3))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
                     me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
 
                 if (instance)
@@ -526,8 +526,8 @@ public:
 
             if (uiPolymorphTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                    DoCast(pTarget, SPELL_POLYMORPH);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                    DoCast(target, SPELL_POLYMORPH);
                 uiPolymorphTimer = 22000;
             } else uiPolymorphTimer -= uiDiff;
 
@@ -551,8 +551,8 @@ public:
         void JustDied(Unit* pKiller)
         {
     	 		DoScriptText(SAY_START_1, me);
-            if (pInstance)
-                pInstance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
+            if (instance)
+                instance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
 
         }
     };
@@ -574,7 +574,7 @@ public:
     {
         boss_shaman_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = pCreature->GetInstanceScript();
+            instance = pCreature->GetInstanceScript();
 
             bDone = false;
             bHome = false;
@@ -607,10 +607,10 @@ public:
             uiHexMendingTimer = urand(20000,25000);
         }
 
-        void EnterCombat(Unit* pWho)
+        void EnterCombat(Unit* who)
         {
             DoCast(me,SPELL_EARTH_SHIELD);
-            DoCast(pWho,SPELL_HEX_OF_MENDING);
+            DoCast(who,SPELL_HEX_OF_MENDING);
         };
 
         void JustReachedHome()
@@ -632,11 +632,11 @@ public:
             {
                 bDone = true;
 
-                if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_1))
+                if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
                     me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_2))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
                     me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_3))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
                     me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
 
                 if (instance)
@@ -660,8 +660,8 @@ public:
 
             if (uiChainLightningTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                    DoCast(pTarget,SPELL_CHAIN_LIGHTNING);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                    DoCast(target,SPELL_CHAIN_LIGHTNING);
 
                 uiChainLightningTimer = 23000;
             } else uiChainLightningTimer -= uiDiff;
@@ -700,8 +700,8 @@ public:
         void JustDied(Unit* pKiller)
         {
     	 		DoScriptText(SAY_START_1, me);
-            if (pInstance)
-                pInstance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
+            if (instance)
+                instance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
 
         }
     };
@@ -723,7 +723,7 @@ public:
     {
         boss_hunter_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = pCreature->GetInstanceScript();
+            instance = pCreature->GetInstanceScript();
 
             bDone = false;
             bHome = false;
@@ -782,11 +782,11 @@ public:
             {
                 bDone = true;
 
-                if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_1))
+                if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
                     me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_2))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
                     me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_3))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
                     me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
 
                 if (instance)
@@ -820,8 +820,8 @@ public:
 
             if (uiLightningArrowsTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                    DoCast(pTarget,SPELL_LIGHTNING_ARROWS);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                    DoCast(target,SPELL_LIGHTNING_ARROWS);
 
                 uiLightningArrowsTimer = 15000;
 
@@ -829,10 +829,10 @@ public:
 
             if (uiShootTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_FARTHEST,0,30.0f))
+                if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST,0,30.0f))
                 {
-                    uiTargetGUID = pTarget->GetGUID();
-                    DoCast(pTarget, SPELL_SHOOT);
+                    uiTargetGUID = target->GetGUID();
+                    DoCast(target, SPELL_SHOOT);
                 }
                 uiShootTimer = 19000;
                 uiMultiShotTimer = 8000;
@@ -842,11 +842,11 @@ public:
             if (bShoot && uiMultiShotTimer <= uiDiff)
             {
                 me->InterruptNonMeleeSpells(true);
-                Unit* pTarget = Unit::GetUnit(*me, uiTargetGUID);
+                Unit* target = Unit::GetUnit(*me, uiTargetGUID);
 
-                if (pTarget && me->IsInRange(pTarget,5.0f,30.0f,false))
+                if (target && me->IsInRange(target,5.0f,30.0f,false))
                 {
-                    DoCast(pTarget,SPELL_MULTI_SHOT);
+                    DoCast(target,SPELL_MULTI_SHOT);
                 } else
                 {
                     Map::PlayerList const& players = me->GetMap()->GetPlayers();
@@ -857,7 +857,7 @@ public:
                             Player* pPlayer = itr->getSource();
                             if (pPlayer && !pPlayer->isGameMaster() && me->IsInRange(pPlayer,5.0f,30.0f,false))
                             {
-                                DoCast(pTarget,SPELL_MULTI_SHOT);
+                                DoCast(target,SPELL_MULTI_SHOT);
                                 break;
                             }
                         }
@@ -872,8 +872,8 @@ public:
         void JustDied(Unit* pKiller)
         {
     	 	DoScriptText(SAY_START_1, me);
-            if (pInstance)
-                pInstance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
+            if (instance)
+                instance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
 
         }
 
@@ -896,7 +896,7 @@ public:
     {
         boss_rouge_toc5AI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = pCreature->GetInstanceScript();
+            instance = pCreature->GetInstanceScript();
 
             bDone = false;
             bHome = false;
@@ -945,11 +945,11 @@ public:
             {
                 bDone = true;
 
-                if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_1))
+                if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
                     me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_2))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
                     me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
-                else if (pInstance && me->GetGUID() == pInstance->GetData64(DATA_GRAND_CHAMPION_3))
+                else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
                     me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
 
                 if (instance)
@@ -985,8 +985,8 @@ public:
 
             if (uiPosionBottleTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                    DoCast(pTarget,SPELL_POISON_BOTTLE);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                    DoCast(target,SPELL_POISON_BOTTLE);
 
                 uiPosionBottleTimer = 19000;
             } else uiPosionBottleTimer -= uiDiff;
@@ -997,8 +997,8 @@ public:
         void JustDied(Unit* pKiller)
         {
     	 	DoScriptText(SAY_START_1, me);
-            if (pInstance)
-                pInstance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
+            if (instance)
+                instance->SetData(BOSS_GRAND_CHAMPIONS, DONE);
 
         }
     };

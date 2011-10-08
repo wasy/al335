@@ -50,7 +50,7 @@ public:
         if (!sWorld->getBoolConfig(CONFIG_ANTICHEAT_ENABLE))
             return false;
 
-        Player* pTarget = NULL;
+        Player* target = NULL;
 
         std::string strCommand;
 
@@ -61,11 +61,11 @@ public:
             strCommand = command;
             normalizePlayerName(strCommand);
 
-            pTarget = sObjectAccessor->FindPlayerByName(strCommand.c_str()); //get player by name
+            target = sObjectAccessor->FindPlayerByName(strCommand.c_str()); //get player by name
         }else
-            pTarget = handler->getSelectedPlayer();
+            target = handler->getSelectedPlayer();
 
-        if (!pTarget)
+        if (!target)
             return false;
 
         WorldPacket data;
@@ -77,7 +77,7 @@ public:
         while (char* line = handler->LineFromMessage(pos))
         {
             handler->FillSystemMessageData(&data, line);
-            pTarget->GetSession()->SendPacket(&data);
+            target->GetSession()->SendPacket(&data);
         }
 
         free(buf);
@@ -89,7 +89,7 @@ public:
         if (!sWorld->getBoolConfig(CONFIG_ANTICHEAT_ENABLE))
             return false;
 
-        Player* pTarget = NULL;
+        Player* target = NULL;
 
         std::string strCommand;
 
@@ -100,28 +100,28 @@ public:
             strCommand = command;
             normalizePlayerName(strCommand);
 
-            pTarget = sObjectAccessor->FindPlayerByName(strCommand.c_str()); //get player by name
+            target = sObjectAccessor->FindPlayerByName(strCommand.c_str()); //get player by name
         }else
-            pTarget = handler->getSelectedPlayer();
+            target = handler->getSelectedPlayer();
 
-        if (!pTarget)
+        if (!target)
         {
             handler->SendSysMessage(LANG_PLAYER_NOT_FOUND);
             handler->SetSentErrorMessage(true);
             return false;
         }
 
-        if (pTarget == handler->GetSession()->GetPlayer())
+        if (target == handler->GetSession()->GetPlayer())
             return false;
 
         // teleport both to jail.
-        pTarget->TeleportTo(1,16226.5f,16403.6f,-64.5f,3.2f);
+        target->TeleportTo(1,16226.5f,16403.6f,-64.5f,3.2f);
         handler->GetSession()->GetPlayer()->TeleportTo(1,16226.5f,16403.6f,-64.5f,3.2f);
 
         WorldLocation loc;
 
         // the player should be already there, but no :(
-        // pTarget->GetPosition(&loc);
+        // target->GetPosition(&loc);
 
         loc.m_mapId = 1;
         loc.m_positionX = 16226.5f;
@@ -129,7 +129,7 @@ public:
         loc.m_positionZ = -64.5f;
         loc.m_orientation = 3.2f;
 
-        pTarget->SetHomebind(loc,876);
+        target->SetHomebind(loc,876);
         return true;
     }
 

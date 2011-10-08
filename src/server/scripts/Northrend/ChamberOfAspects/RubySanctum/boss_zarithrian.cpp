@@ -64,11 +64,11 @@ public:
     {
         boss_zarithrianAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)pCreature->GetInstanceScript();
             Reset();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint32 m_uiSummonTimer;
         uint32 m_uiCleaveTimer;
@@ -76,7 +76,7 @@ public:
 
         void Reset()
         {
-            if(!pInstance)
+            if(!instance)
                 return;
 
             m_uiSummonTimer = 45*IN_MILLISECONDS;
@@ -85,16 +85,16 @@ public:
 
             if (me->isAlive())
             {
-                pInstance->SetData(TYPE_ZARITHRIAN, NOT_STARTED);
+                instance->SetData(TYPE_ZARITHRIAN, NOT_STARTED);
                 me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
             }
         }
 
-        void MoveInLineOfSight(Unit* pWho)
+        void MoveInLineOfSight(Unit* who)
         {
-            if (pInstance->GetData(TYPE_XERESTRASZA) == DONE &&
-                 pInstance->GetData(TYPE_BALTHARUS) == DONE &&
-                 pInstance->GetData(TYPE_RAGEFIRE) == DONE)
+            if (instance->GetData(TYPE_XERESTRASZA) == DONE &&
+                 instance->GetData(TYPE_BALTHARUS) == DONE &&
+                 instance->GetData(TYPE_RAGEFIRE) == DONE)
                  {
                      me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
                  }
@@ -114,36 +114,36 @@ public:
 
         void JustReachedHome()
         {
-            if (!pInstance) return;
-            pInstance->SetData(TYPE_ZARITHRIAN, FAIL);
+            if (!instance) return;
+            instance->SetData(TYPE_ZARITHRIAN, FAIL);
         }
 
         void JustSummoned(Creature* summoned)
         {
-            if(!pInstance || !summoned) return;
+            if(!instance || !summoned) return;
 
             summoned->SetInCombatWithZone();
-            if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 60, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 60, true))
             {
-                summoned->AddThreat(pTarget, 100.0f);
-                summoned->GetMotionMaster()->MoveChase(pTarget);
+                summoned->AddThreat(target, 100.0f);
+                summoned->GetMotionMaster()->MoveChase(target);
             }
         }
 
         void EnterCombat(Unit *who)
         {
-            if(!pInstance) return;
+            if(!instance) return;
 
             SetEquipmentSlots(false, EQUIP_MAIN, EQUIP_OFFHAND, EQUIP_RANGED);
-            pInstance->SetData(TYPE_ZARITHRIAN, IN_PROGRESS);
+            instance->SetData(TYPE_ZARITHRIAN, IN_PROGRESS);
             DoScriptText(-1666200,me);
         }
 
         void JustDied(Unit *killer)
         {
-            if(!pInstance) return;
+            if(!instance) return;
 
-            pInstance->SetData(TYPE_ZARITHRIAN, DONE);
+            instance->SetData(TYPE_ZARITHRIAN, DONE);
             DoScriptText(-1666203,me);
         }
 
@@ -157,7 +157,7 @@ public:
                 me->SummonCreature(NPC_FLAMECALLER, SpawnLoc[1].x, SpawnLoc[1].y, SpawnLoc[1].z, SpawnLoc[1].o, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
                 me->SummonCreature(NPC_FLAMECALLER, SpawnLoc[2].x, SpawnLoc[2].y, SpawnLoc[2].z, SpawnLoc[2].o, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
 
-                if (pInstance->instance->GetSpawnMode() == RAID_DIFFICULTY_25MAN_NORMAL || pInstance->instance->GetSpawnMode() == RAID_DIFFICULTY_25MAN_HEROIC)
+                if (instance->instance->GetSpawnMode() == RAID_DIFFICULTY_25MAN_NORMAL || instance->instance->GetSpawnMode() == RAID_DIFFICULTY_25MAN_HEROIC)
                     DoCast(SPELL_CALL_FLAMECALLER);
 
                 DoScriptText(-1666204,me);
@@ -195,18 +195,18 @@ public:
     {
         mob_flamecaller_rubyAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)pCreature->GetInstanceScript();
             Reset();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint32 m_uiLavaGoutTimer;
         uint32 m_uiBlastNovaTimer;
 
         void Reset()
         {
-            if(!pInstance) return;
+            if(!instance) return;
 
             m_uiLavaGoutTimer = urand(8*IN_MILLISECONDS,25*IN_MILLISECONDS);
             m_uiBlastNovaTimer = urand(10*IN_MILLISECONDS,25*IN_MILLISECONDS);
@@ -216,7 +216,7 @@ public:
         void UpdateAI(const uint32 diff)
         {
 
-            if (pInstance && pInstance->GetData(TYPE_ZARITHRIAN) != IN_PROGRESS)
+            if (instance && instance->GetData(TYPE_ZARITHRIAN) != IN_PROGRESS)
                 me->ForcedDespawn();
 
             if (!UpdateVictim())
@@ -224,8 +224,8 @@ public:
 
             if (m_uiLavaGoutTimer <= diff)
             {
-                if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                    DoCast(pTarget,SPELL_LAVA_GOUT);
+                if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                    DoCast(target,SPELL_LAVA_GOUT);
                 m_uiLavaGoutTimer = urand(8*IN_MILLISECONDS,25*IN_MILLISECONDS);
             } else m_uiLavaGoutTimer -= diff;
 

@@ -23,14 +23,14 @@ class instance_ruby_sanctum : public InstanceMapScript
 public:
     instance_ruby_sanctum() : InstanceMapScript("instance_ruby_sanctum", 724) { }
 
-    InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+    InstanceScript* GetInstanceScript(InstanceMap* map) const
     {
-        return new instance_ruby_sanctum_InstanceMapScript(pMap);
+        return new instance_ruby_sanctum_InstanceMapScript(map);
     }
 
     struct instance_ruby_sanctum_InstanceMapScript : public InstanceScript
     {
-        instance_ruby_sanctum_InstanceMapScript(Map* pMap) : InstanceScript(pMap) {Initialize();};
+        instance_ruby_sanctum_InstanceMapScript(Map* map) : InstanceScript(map) {Initialize();};
 
         std::string strSaveData;
 
@@ -114,9 +114,9 @@ public:
             if(!guid)
                 return;
 
-            GameObject* pGo = instance->GetGameObject(guid);
-            if(pGo)
-                pGo->SetGoState(GO_STATE_ACTIVE_ALTERNATIVE);
+            GameObject* go = instance->GetGameObject(guid);
+            if(go)
+                go->SetGoState(GO_STATE_ACTIVE_ALTERNATIVE);
         }
 
         void CloseDoor(uint64 guid)
@@ -124,9 +124,9 @@ public:
             if(!guid)
                 return;
 
-            GameObject* pGo = instance->GetGameObject(guid);
-            if(pGo)
-                pGo->SetGoState(GO_STATE_READY);
+            GameObject* go = instance->GetGameObject(guid);
+            if(go)
+                go->SetGoState(GO_STATE_READY);
         }
 
         void OpenAllDoors()
@@ -199,16 +199,16 @@ public:
             }
         }
 
-        void OnGameObjectCreate(GameObject* pGo)
+        void OnGameObjectCreate(GameObject* go)
         {
-            switch(pGo->GetEntry())
+            switch(go->GetEntry())
             {
-                case GO_HALION_PORTAL_1: m_uiHalionPortal1GUID = pGo->GetGUID(); break;
-                case GO_HALION_PORTAL_2: m_uiHalionPortal2GUID = pGo->GetGUID(); break;
-                case GO_HALION_PORTAL_3: m_uiHalionPortal3GUID = pGo->GetGUID(); break;
-                case GO_FLAME_WALLS: m_uiFlameWallsGUID = pGo->GetGUID(); break;
-                case GO_FLAME_RING: m_uiFlameRingGUID = pGo->GetGUID(); break;
-                case GO_FIRE_FIELD: m_uiFireFieldGUID = pGo->GetGUID(); break;
+                case GO_HALION_PORTAL_1: m_uiHalionPortal1GUID = go->GetGUID(); break;
+                case GO_HALION_PORTAL_2: m_uiHalionPortal2GUID = go->GetGUID(); break;
+                case GO_HALION_PORTAL_3: m_uiHalionPortal3GUID = go->GetGUID(); break;
+                case GO_FLAME_WALLS: m_uiFlameWallsGUID = go->GetGUID(); break;
+                case GO_FLAME_RING: m_uiFlameRingGUID = go->GetGUID(); break;
+                case GO_FIRE_FIELD: m_uiFireFieldGUID = go->GetGUID(); break;
             }
             OpenAllDoors();
         }

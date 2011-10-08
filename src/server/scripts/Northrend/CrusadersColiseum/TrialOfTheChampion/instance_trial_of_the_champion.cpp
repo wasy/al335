@@ -34,7 +34,7 @@ class instance_trial_of_the_champion : public InstanceMapScript
 public:
     instance_trial_of_the_champion() : InstanceMapScript("instance_trial_of_the_champion", 650) { }
 
-	InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+	InstanceScript* GetInstanceScript(InstanceMap* map) const
     {
         return new instance_trial_of_the_champion_InstanceMapScript(map);
     }

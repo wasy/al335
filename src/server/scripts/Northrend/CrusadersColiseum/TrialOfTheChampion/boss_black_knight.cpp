@@ -110,10 +110,10 @@ public:
     {
         boss_black_knightAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = pCreature->GetInstanceScript();
+            instance = pCreature->GetInstanceScript();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
         std::list<uint64> SummonList;
 
         bool bEventInProgress;
@@ -159,8 +159,8 @@ public:
             bEventInBattle = false;
             bFight = false;
 
-            if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE1)))
-                pInstance->HandleGameObject(pGO->GetGUID(),true);
+            if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE1)))
+                instance->HandleGameObject(pGO->GetGUID(),true);
 
             uiPhase = PHASE_UNDEAD;
 
@@ -184,7 +184,7 @@ public:
         void EnterEvadeMode()
         {
 
-            if (!pInstance) return;
+            if (!instance) return;
 
             if (bEventInBattle)
             {
@@ -290,10 +290,10 @@ public:
 
                         if (uiDesecration1Timer <= uiDiff)
                         {
-                            if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
+                            if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
                             {
-                                if (pTarget && pTarget->isAlive())
-                                DoCast(pTarget,SPELL_DESECRATION);
+                                if (target && target->isAlive())
+                                DoCast(target,SPELL_DESECRATION);
                             }
                             uiDesecration1Timer = urand(15000,16000);
                         } else uiDesecration1Timer -= uiDiff;
@@ -324,10 +324,10 @@ public:
 
                         if (uiDeathRespiteTimer <= uiDiff)
                         {
-                            if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
+                            if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
                             {
-                                if (pTarget && pTarget->isAlive())
-                                DoCast(pTarget,SPELL_DEATH_RESPITE);
+                                if (target && target->isAlive())
+                                DoCast(target,SPELL_DEATH_RESPITE);
                             }
                             uiDeathRespiteTimer = urand(15000,16000);
                         } else uiDeathRespiteTimer -= uiDiff;
@@ -345,10 +345,10 @@ public:
 
                         if (uiMarkedDeathTimer <= uiDiff)
                         {
-                            if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
+                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
                             {
-                                if (pTarget && pTarget->isAlive())
-                                DoCast(pTarget,SPELL_MARKED_DEATH);
+                                if (target && target->isAlive())
+                                DoCast(target,SPELL_MARKED_DEATH);
                             }
                                 uiMarkedDeathTimer = urand (5000, 7000);
                         } else uiMarkedDeathTimer -= uiDiff;
@@ -360,21 +360,21 @@ public:
                 DoMeleeAttackIfReady();
     	}
 
-    	void EnterCombat(Unit* pWho)
+    	void EnterCombat(Unit* who)
         {
     	    bEventInBattle = true;
             DoScriptText(SAY_AGGRO_2, me);
     		SetEquipmentSlots(false, EQUIP_SWORD, EQUIP_NO_CHANGE, EQUIP_NO_CHANGE);
-    		if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE1)))
-                    pInstance->HandleGameObject(pGO->GetGUID(),false);
-    		if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE)))
-                    pInstance->HandleGameObject(pGO->GetGUID(),false);
+    		if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE1)))
+                    instance->HandleGameObject(pGO->GetGUID(),false);
+    		if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
+                    instance->HandleGameObject(pGO->GetGUID(),false);
         }
 
     	void KilledUnit(Unit* pVictim)
         {
-            if (pInstance)
-                pInstance->SetData(BOSS_BLACK_KNIGHT,IN_PROGRESS);
+            if (instance)
+                instance->SetData(BOSS_BLACK_KNIGHT,IN_PROGRESS);
         }
 
         void DamageTaken(Unit* pDoneBy, uint32& uiDamage)
@@ -403,12 +403,12 @@ public:
         void JustDied(Unit* pKiller)
         {
             DoScriptText(SAY_DEATH_3, me);
-    	    if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE1)))
-                pInstance->HandleGameObject(pGO->GetGUID(),true);
+    	    if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE1)))
+                instance->HandleGameObject(pGO->GetGUID(),true);
 
-            if (pInstance)
+            if (instance)
             {
-                pInstance->SetData(BOSS_BLACK_KNIGHT, DONE);
+                instance->SetData(BOSS_BLACK_KNIGHT, DONE);
             }
         }
     };
@@ -443,10 +443,10 @@ public:
 
             if (uiAttackTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM, 1, 100, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 1, 100, true))
                 {
-                    if (pTarget && pTarget->isAlive())
-                    DoCast(pTarget,SPELL_LEAP);
+                    if (target && target->isAlive())
+                    DoCast(target,SPELL_LEAP);
                 }
                 uiAttackTimer = 3500;
             } else uiAttackTimer -= uiDiff;
@@ -472,10 +472,10 @@ public:
         npc_black_knight_skeletal_gryphonAI(Creature* pCreature) : npc_escortAI(pCreature), vehicle(pCreature->GetVehicleKit())
         {
             Start(false,true,0,NULL);
-            pInstance = pCreature->GetInstanceScript();	
+            instance = pCreature->GetInstanceScript();	
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
         Vehicle *vehicle;
 
         void Reset()
@@ -493,9 +493,9 @@ public:
     				break;
                     case 2:
     				me->SetSpeed(MOVE_FLIGHT , 2.0f);
-    				if (pInstance)
+    				if (instance)
     				{
-                                    pInstance->SetData(DATA_BLACK_KNIGHT, NOT_STARTED);
+                                    instance->SetData(DATA_BLACK_KNIGHT, NOT_STARTED);
     				}
     				break;
                     case 3:
@@ -568,10 +568,10 @@ public:
         npc_grAI(Creature* pCreature) : npc_escortAI(pCreature)
         {
             Start(false,true,0,NULL);
-            pInstance = pCreature->GetInstanceScript();	
+            instance = pCreature->GetInstanceScript();	
         }
 
-    	InstanceScript* pInstance;
+    	InstanceScript* instance;
 
         void WaypointReached(uint32 uiPointId)
         {
@@ -579,16 +579,16 @@ public:
             {
                     case 1:
     				me->SetUnitMovementFlags(MOVEMENTFLAG_FLYING);
-    				if (pInstance)
+    				if (instance)
     				{
-                                    pInstance->SetData(DATA_BLACK_KNIGHT, IN_PROGRESS);
+                                    instance->SetData(DATA_BLACK_KNIGHT, IN_PROGRESS);
     				}
     				break;
                     case 2:
     				me->SetUnitMovementFlags(MOVEMENTFLAG_FLYING);
-    				if (pInstance)
+    				if (instance)
     				{
-                                    pInstance->SetData(DATA_BLACK_KNIGHT, DONE);
+                                    instance->SetData(DATA_BLACK_KNIGHT, DONE);
     				}
     				break;
                     case 3:
@@ -596,16 +596,16 @@ public:
     				break;
                     case 4:
     				//me->SetUnitMovementFlags(MOVEMENTFLAG_FLYING);
-    				if (pInstance)
+    				if (instance)
     				{
-                                    pInstance->SetData(DATA_KNIGHT, NOT_STARTED);
+                                    instance->SetData(DATA_KNIGHT, NOT_STARTED);
     				}
     				break;
                     case 5:
                                 me->SetUnitMovementFlags(MOVEMENTFLAG_FLYING);
-    				if (pInstance)
+    				if (instance)
     				{
-                                    pInstance->SetData(DATA_KNIGHT, IN_PROGRESS);
+                                    instance->SetData(DATA_KNIGHT, IN_PROGRESS);
     				}
     				break;
                     case 6:
@@ -618,9 +618,9 @@ public:
     				me->SetUnitMovementFlags(MOVEMENTFLAG_FLYING);
                     case 9:
     				me->SetUnitMovementFlags(MOVEMENTFLAG_WALKING);
-        			if (pInstance)
+        			if (instance)
     				{
-                                    pInstance->SetData(DATA_KNIGHT, DONE);
+                                    instance->SetData(DATA_KNIGHT, DONE);
     				}
     				break;
             }

@@ -126,13 +126,13 @@ public:
     {
         boss_eadricAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = (InstanceScript*)pCreature->GetInstanceScript();	
+            instance = (InstanceScript*)pCreature->GetInstanceScript();	
             pCreature->SetReactState(REACT_PASSIVE);
             pCreature->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
     		pCreature->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NOT_SELECTABLE);
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
     		
         uint32 uiVenganceTimer;
         uint32 uiRadianceTimer;
@@ -164,12 +164,12 @@ public:
     			DoScriptText(SAY_START_8, me);
                 me->setFaction(35);
                 bDone = true;
-                if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE)))
-                    pInstance->HandleGameObject(pGO->GetGUID(),true);	
-                if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE1)))
-                    pInstance->HandleGameObject(pGO->GetGUID(),true);		
-                if (pInstance)
-                    pInstance->SetData(BOSS_ARGENT_CHALLENGE_E, DONE);
+                if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
+                    instance->HandleGameObject(pGO->GetGUID(),true);	
+                if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE1)))
+                    instance->HandleGameObject(pGO->GetGUID(),true);		
+                if (instance)
+                    instance->SetData(BOSS_ARGENT_CHALLENGE_E, DONE);
     		}
         }
     	
@@ -185,8 +185,8 @@ public:
             {
                 me->GetMotionMaster()->MovePoint(0,746.843f, 695.68f, 412.339f);
                 bDone = false;
-    			if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE)))
-                        pInstance->HandleGameObject(pGO->GetGUID(),true);
+    			if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
+                        instance->HandleGameObject(pGO->GetGUID(),true);
             } else uiResetTimer -= uiDiff;
 
             if (!UpdateVictim())
@@ -196,12 +196,12 @@ public:
             {
                 me->InterruptNonMeleeSpells(true);
 
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 250, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 250, true))
                 {
-                    if (pTarget && pTarget->isAlive())
+                    if (target && target->isAlive())
                     {
-                        DoCast(pTarget, SPELL_HAMMER_JUSTICE);
-                        DoCast(pTarget, SPELL_HAMMER_RIGHTEOUS);
+                        DoCast(target, SPELL_HAMMER_JUSTICE);
+                        DoCast(target, SPELL_HAMMER_RIGHTEOUS);
                     }
                 }
                 uiHammerJusticeTimer = 25000;
@@ -241,7 +241,7 @@ public:
     {
         boss_paletressAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = (InstanceScript*)pCreature->GetInstanceScript();	
+            instance = (InstanceScript*)pCreature->GetInstanceScript();	
 
             MemoryGUID = 0;
             pCreature->SetReactState(REACT_PASSIVE);
@@ -301,11 +301,11 @@ public:
     			DoScriptText(SAY_START_7, me);
                 me->setFaction(35);
                 bDone = true;
-                if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE)))
-                        pInstance->HandleGameObject(pGO->GetGUID(),true);	
-                if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE1)))
-                        pInstance->HandleGameObject(pGO->GetGUID(),true);		
-                pInstance->SetData(BOSS_ARGENT_CHALLENGE_P, DONE);
+                if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
+                        instance->HandleGameObject(pGO->GetGUID(),true);	
+                if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE1)))
+                        instance->HandleGameObject(pGO->GetGUID(),true);		
+                instance->SetData(BOSS_ARGENT_CHALLENGE_P, DONE);
 
             }
         }
@@ -322,8 +322,8 @@ public:
             {
                 me->GetMotionMaster()->MovePoint(0,746.843f, 695.68f, 412.339f);
                 bDone = false;
-    			if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE)))
-                        pInstance->HandleGameObject(pGO->GetGUID(),true);	
+    			if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
+                        instance->HandleGameObject(pGO->GetGUID(),true);	
             } else uiResetTimer -= uiDiff;
 
             if (!UpdateVictim())
@@ -331,10 +331,10 @@ public:
 
             if (uiHolyFireTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 250, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 250, true))
                 {
-                    if (pTarget && pTarget->isAlive())
-                        DoCast(pTarget,SPELL_HOLY_FIRE);
+                    if (target && target->isAlive())
+                        DoCast(target,SPELL_HOLY_FIRE);
                 }
                  if (me->HasAura(SPELL_SHIELD))
                     uiHolyFireTimer = 13000;
@@ -344,10 +344,10 @@ public:
 
             if (uiHolySmiteTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 250, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 250, true))
                 {
-                    if (pTarget && pTarget->isAlive())
-                        DoCast(pTarget,SPELL_SMITE);
+                    if (target && target->isAlive())
+                        DoCast(target,SPELL_SMITE);
                 }
                 if (me->HasAura(SPELL_SHIELD))
                     uiHolySmiteTimer = 9000;
@@ -485,10 +485,10 @@ public:
 
             if (uiOldWoundsTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
                 {
-                    if (pTarget && pTarget->isAlive())
-                        DoCast(pTarget, SPELL_OLD_WOUNDS);
+                    if (target && target->isAlive())
+                        DoCast(target, SPELL_OLD_WOUNDS);
                 }
                 uiOldWoundsTimer = 23000;
             }else uiOldWoundsTimer -= uiDiff;
@@ -501,10 +501,10 @@ public:
 
             if (uiShadowsPastTimer <= uiDiff)
             {
-                if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,1))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,1))
                 {
-                    if (pTarget && pTarget->isAlive())
-                        DoCast(pTarget,SPELL_SHADOWS_PAST);
+                    if (target && target->isAlive())
+                        DoCast(target,SPELL_SHADOWS_PAST);
                 }
                 uiShadowsPastTimer = 20000;
             }else uiShadowsPastTimer -= uiDiff;
@@ -538,18 +538,18 @@ public:
     {
         npc_argent_soldierAI(Creature* pCreature) : npc_escortAI(pCreature)
         {
-            pInstance = (InstanceScript*)pCreature->GetInstanceScript();	
+            instance = (InstanceScript*)pCreature->GetInstanceScript();	
             me->SetReactState(REACT_DEFENSIVE);
             me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
             me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NOT_SELECTABLE);
-    		if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE)))
-                        pInstance->HandleGameObject(pGO->GetGUID(),true);
+    		if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
+                        instance->HandleGameObject(pGO->GetGUID(),true);
     					
             SetDespawnAtEnd(false);
             uiWaypoint = 0;
         }
     		
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint8 uiWaypoint;
     	
@@ -610,8 +610,8 @@ public:
                         me->SetOrientation(3.39f);
     			        me->SetReactState(REACT_AGGRESSIVE);					
                         me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE|UNIT_FLAG_NOT_SELECTABLE);
-                    if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE)))
-                        pInstance->HandleGameObject(pGO->GetGUID(),false);					
+                    if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
+                        instance->HandleGameObject(pGO->GetGUID(),false);					
                         break;
     			
                 }
@@ -691,15 +691,15 @@ public:
     		{
                 if (uiCleaveTimer <= uiDiff)
                 {
-                    if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(pTarget,SPELL_STRIKE);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                        DoCast(target,SPELL_STRIKE);				
                         uiCleaveTimer = 20000;
                 } else uiCleaveTimer -= uiDiff;	
         		
                 if (uiStrikeTimer <= uiDiff)
                 {
-                    if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(pTarget,SPELL_CLEAVE);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                        DoCast(target,SPELL_CLEAVE);				
                         uiStrikeTimer = 25000;
                 } else uiStrikeTimer -= uiDiff;	
     			
@@ -726,8 +726,8 @@ public:
     			
                 if (uiPummelTimer <= uiDiff)
                 {
-                    if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(pTarget,SPELL_PUMMEL);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                        DoCast(target,SPELL_PUMMEL);				
                         uiPummelTimer = 35000;
                 } else uiPummelTimer -= uiDiff;	
     			
@@ -748,22 +748,22 @@ public:
     			
                 if (uiPainTimer <= uiDiff)
                 {
-                    if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(pTarget,SPELL_PAIN);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                        DoCast(target,SPELL_PAIN);				
                         uiPainTimer = 30000;
                 } else uiPainTimer -= uiDiff;	
     		
                 if (uiMindTimer <= uiDiff)
                 {
-                    if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(pTarget,SPELL_MIND);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                        DoCast(target,SPELL_MIND);				
                         uiMindTimer = 90000;
                 } else uiMindTimer -= uiDiff;
     	    	
                 if (uiSsmiteTimer <= uiDiff)
                 {
-                    if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(pTarget,SPELL_SSMITE);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                        DoCast(target,SPELL_SSMITE);				
                         uiSsmiteTimer = 25000;
                 } else uiSsmiteTimer -= uiDiff;					
     			break;
@@ -775,8 +775,8 @@ public:
 
         void JustDied(Unit* pKiller)
         {
-                if (pInstance)
-                pInstance->SetData(DATA_ARGENT_SOLDIER_DEFEATED,pInstance->GetData(DATA_ARGENT_SOLDIER_DEFEATED) + 1);
+                if (instance)
+                instance->SetData(DATA_ARGENT_SOLDIER_DEFEATED,instance->GetData(DATA_ARGENT_SOLDIER_DEFEATED) + 1);
     		
         }
     };

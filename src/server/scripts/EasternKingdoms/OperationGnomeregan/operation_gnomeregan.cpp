@@ -310,17 +310,17 @@ class npc_og_infantry : public CreatureScript
                 }
             }
 
-            void AttackStart(Unit* pWho)
+            void AttackStart(Unit* who)
             {
-                if (!pWho)
+                if (!who)
                     return;
 
-                if (me->Attack(pWho, true))
+                if (me->Attack(who, true))
                 {
-                    me->AddThreat(pWho, 10.0f);
-                    me->SetInCombatWith(pWho);
-                    pWho->SetInCombatWith(me);
-                    DoStartMovement(pWho, 20.0f);
+                    me->AddThreat(who, 10.0f);
+                    me->SetInCombatWith(who);
+                    who->SetInCombatWith(me);
+                    DoStartMovement(who, 20.0f);
                     SetCombatMovement(true);
                 }
             }
@@ -357,8 +357,8 @@ class npc_og_infantry : public CreatureScript
 
                 if (uiGrenade_timer <= diff)
                 {
-                    if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0))
-                        DoCast(pTarget, SPELL_GRENADE);
+                    if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                        DoCast(target, SPELL_GRENADE);
                     uiGrenade_timer = urand(10000, 15000);
                 }
                 else
@@ -1338,10 +1338,10 @@ class npc_og_mekkatorque : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* pWho)
+            void EnterCombat(Unit* who)
             {
-                if (pWho && pWho->ToCreature())
-                    SquadAssist(pWho->ToCreature());
+                if (who && who->ToCreature())
+                    SquadAssist(who->ToCreature());
             }
 
             void PartyCast(uint32 spell)
@@ -1430,16 +1430,16 @@ class npc_og_mekkatorque : public CreatureScript
                     DoPlaySoundToSet(pTalker, sound);
             }
 
-            void SquadAssist(Creature* pTarget)
+            void SquadAssist(Creature* target)
             {
-                if (!pTarget->isAlive())
+                if (!target->isAlive())
                     return;
 
                 if (Creature* pCogspin = me->FindNearestCreature(NPC_COGSPIN, 100))
-                    pCogspin->AI()->AttackStart(pTarget);
+                    pCogspin->AI()->AttackStart(target);
 
                 if (Creature* pFastblast = me->FindNearestCreature(NPC_FASTBLAST, 100))
-                    pFastblast->AI()->AttackStart(pTarget);
+                    pFastblast->AI()->AttackStart(target);
             }
 
             void SquadSetRun(bool b_Run)
@@ -1591,13 +1591,13 @@ class npc_og_mekkatorque : public CreatureScript
 
 typedef npc_og_mekkatorque::npc_og_mekkatorqueAI MekkAI;
 
-        bool OnQuestAccept(Player* pPlayer, Creature* pCreature, Quest const* pQuest)
+        bool OnQuestAccept(Player* pPlayer, Creature* pCreature, Quest const* quest)
         {
-            if (pQuest->GetQuestId() == QUEST_OPERATION_GNOMEREGAN)
+            if (quest->GetQuestId() == QUEST_OPERATION_GNOMEREGAN)
             {
                 if (!bProcessing)
                 {
-                    CAST_AI(MekkAI, pCreature->AI())->pEscortQuest = pQuest;
+                    CAST_AI(MekkAI, pCreature->AI())->pEscortQuest = quest;
                     CAST_AI(MekkAI, pCreature->AI())->pEscortPlayer = pPlayer;
                     pCreature->MonsterSay(MEK_1_1, LANG_UNIVERSAL, NULL);
                     CAST_AI(MekkAI, pCreature->AI())->DoPlaySoundToSet(pCreature, SOUND_MEK_1);
@@ -1898,20 +1898,20 @@ class npc_og_i_infantry : public CreatureScript
                 uiGCD = 3000;
             }
 
-            void AttackStart(Unit* pWho)
+            void AttackStart(Unit* who)
             {
-                if (!pWho)
+                if (!who)
                     return;
 
-                if (me->Attack(pWho, true))
+                if (me->Attack(who, true))
                 {
-                    me->AddThreat(pWho, 10.0f);
-                    me->SetInCombatWith(pWho);
-                    pWho->SetInCombatWith(me);
+                    me->AddThreat(who, 10.0f);
+                    me->SetInCombatWith(who);
+                    who->SetInCombatWith(me);
                     if (!urand(0,5))
-                        DoStartMovement(pWho, 20.0f);
+                        DoStartMovement(who, 20.0f);
                     else
-                        DoStartMovement(pWho, 5.0f);
+                        DoStartMovement(who, 5.0f);
                     SetCombatMovement(true);
                 }
             }
@@ -1934,8 +1934,8 @@ class npc_og_i_infantry : public CreatureScript
 
                 if (uiGrenade_timer <= diff)
                 {
-                    if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0))
-                        DoCast(pTarget, SPELL_RAD_GRENADE);
+                    if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                        DoCast(target, SPELL_RAD_GRENADE);
                     uiGrenade_timer = urand(10000, 15000);
                 }
                 else

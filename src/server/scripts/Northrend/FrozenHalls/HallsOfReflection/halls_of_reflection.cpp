@@ -270,10 +270,10 @@ public:
                     JumpNextStep(10000);
                     break;
                 case 5:
-                    if(Creature* pTarget = me->SummonCreature(NPC_ALTAR_TARGET,5309.374f,2006.788f,711.615f,1.37f,TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,360000))
+                    if(Creature* target = me->SummonCreature(NPC_ALTAR_TARGET,5309.374f,2006.788f,711.615f,1.37f,TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,360000))
                     {
-                        me->SetUInt64Value(UNIT_FIELD_TARGET, pTarget->GetGUID());
-                        pTarget->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
+                        me->SetUInt64Value(UNIT_FIELD_TARGET, target->GetGUID());
+                        target->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
                     }
                     JumpNextStep(1000);
                     break;
@@ -1335,7 +1335,7 @@ public:
                 me->SummonCreature(NPC_SYLVANA_OUTRO, 5556.27f, 2266.28f, 733.01f, 0.8f, TEMPSUMMON_DEAD_DESPAWN);
         }
 
-        void MoveInLineOfSight(Unit* pWho)
+        void MoveInLineOfSight(Unit* who)
         {
             if (!m_pInstance)
                 return;
@@ -1343,18 +1343,18 @@ public:
             if (me->getVictim())
                 return;
 
-            if (pWho->GetTypeId() != TYPEID_PLAYER
+            if (who->GetTypeId() != TYPEID_PLAYER
                 || m_pInstance->GetData(TYPE_MARWYN) != DONE
-                || !me->IsWithinDistInMap(pWho, 20.0f)
+                || !me->IsWithinDistInMap(who, 20.0f)
                 ) return;
 
-            if (Player* pPlayer = (Player*)pWho)
+            if (Player* pPlayer = (Player*)who)
                 if (pPlayer->isGameMaster())
                     return;
 
             me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
 
-            AttackStart(pWho);
+            AttackStart(who);
         }
 
         void EnterCombat(Unit* pVictim)
@@ -1372,8 +1372,8 @@ public:
 
             if(m_uiShieldTimer < uiDiff)
             {
-                if(Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0))
-                   DoCast(pTarget,SPELL_SHIELD_THROWN);
+                if(Unit *target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                   DoCast(target,SPELL_SHIELD_THROWN);
                 m_uiShieldTimer = urand(8000, 12000);
             }
             else
@@ -1381,8 +1381,8 @@ public:
 
             if (m_uiSpikeTimer < uiDiff)
             {
-                if(Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0))
-                    DoCast(pTarget, SPELL_SPIKE);
+                if(Unit *target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                    DoCast(target, SPELL_SPIKE);
                 m_uiSpikeTimer = urand(15000, 20000);
             }
             else
@@ -1514,25 +1514,25 @@ public:
                 switch (eventId)
                 {
                     case EVENT_SHADOW_WORD_PAIN:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_SHADOW_WORD_PAIN);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_SHADOW_WORD_PAIN);
                         events.ScheduleEvent(EVENT_SHADOW_WORD_PAIN, 8000);
                         return;
                     case EVENT_CIRCLE_OF_DESTRUCTION:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_CIRCLE_OF_DESTRUCTION);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_CIRCLE_OF_DESTRUCTION);
                         events.ScheduleEvent(EVENT_CIRCLE_OF_DESTRUCTION, 12000);
                         return;
                     case EVENT_COWER_IN_FEAR:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_COWER_IN_FEAR);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_COWER_IN_FEAR);
                         events.ScheduleEvent(EVENT_COWER_IN_FEAR, 10000);
                         return;
                     case EVENT_DARK_MENDING:
                         // find an ally with missing HP
-                        if (Unit *pTarget = DoSelectLowestHpFriendly(40, DUNGEON_MODE(30000, 50000)))
+                        if (Unit *target = DoSelectLowestHpFriendly(40, DUNGEON_MODE(30000, 50000)))
                         {
-                            DoCast(pTarget, SPELL_DARK_MENDING);
+                            DoCast(target, SPELL_DARK_MENDING);
                             events.ScheduleEvent(EVENT_DARK_MENDING, 20000);
                         }
                         else
@@ -1597,8 +1597,8 @@ public:
                 switch (eventId)
                 {
                     case EVENT_FIREBALL:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_FIREBALL);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_FIREBALL);
                         events.ScheduleEvent(EVENT_FIREBALL, 15000);
                         return;
                     case EVENT_FLAMESTRIKE:
@@ -1606,13 +1606,13 @@ public:
                         events.ScheduleEvent(EVENT_FLAMESTRIKE, 15000);
                         return;
                     case EVENT_FROSTBOLT:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_FROSTBOLT);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_FROSTBOLT);
                         events.ScheduleEvent(EVENT_FROSTBOLT, 15000);
                         return;
                     case EVENT_CHAINS_OF_ICE:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_CHAINS_OF_ICE);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_CHAINS_OF_ICE);
                         events.ScheduleEvent(EVENT_CHAINS_OF_ICE, 15000);
                         return;
                     case EVENT_HALLUCINATION:
@@ -1643,7 +1643,7 @@ public:
         {
         }
 
-        void JustDied(Unit * /*pWho*/)
+        void JustDied(Unit * /*who*/)
         {
             DoCast(SPELL_HALLUCINATION_2);
         }
@@ -1705,8 +1705,8 @@ public:
                         events.ScheduleEvent(EVENT_DEADLY_POISON, 10000);
                         return;
                     case EVENT_ENVENOMED_DAGGER_THROW:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_ENVENOMED_DAGGER_THROW);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_ENVENOMED_DAGGER_THROW);
                         events.ScheduleEvent(EVENT_ENVENOMED_DAGGER_THROW, 10000);
                         return;
                     case EVENT_KIDNEY_SHOT:
@@ -1833,13 +1833,13 @@ public:
                 switch (eventId)
                 {
                     case EVENT_SHOOT:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_SHOOT);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_SHOOT);
                         events.ScheduleEvent(EVENT_SHOOT, 2000);
                         return;
                     case EVENT_CURSED_ARROW:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_CURSED_ARROW);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_CURSED_ARROW);
                         events.ScheduleEvent(EVENT_CURSED_ARROW, 10000);
                         return;
                     case EVENT_FROST_TRAP:
@@ -1847,8 +1847,8 @@ public:
                         events.ScheduleEvent(EVENT_FROST_TRAP, 30000);
                         return;
                     case EVENT_ICE_SHOT:
-                        if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                            DoCast(pTarget, SPELL_ICE_SHOT);
+                        if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(target, SPELL_ICE_SHOT);
                         events.ScheduleEvent(EVENT_ICE_SHOT, 15000);
                         return;
                 }

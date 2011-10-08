@@ -251,23 +251,23 @@ public:
             if (m_uiWellTimer < uiDiff) 
             {
                 DoScriptText(SAY_MARWYN_SP02, me);
-                if(Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                   DoCast(pTarget, SPELL_WELL_OF_CORRUPTION);
+                if(Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                   DoCast(target, SPELL_WELL_OF_CORRUPTION);
                 m_uiWellTimer= urand(25000, 30000);
             } else m_uiWellTimer -= uiDiff;
 
             if (m_uiSharedSufferingTimer < uiDiff) 
             {
-                if(Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                   DoCast(pTarget, Regular ? SPELL_SHARED_SUFFERING_N : SPELL_SHARED_SUFFERING_H);
+                if(Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                   DoCast(target, Regular ? SPELL_SHARED_SUFFERING_N : SPELL_SHARED_SUFFERING_H);
                 m_uiSharedSufferingTimer = urand(15000, 20000);
             } else m_uiSharedSufferingTimer -= uiDiff;
 
             if (m_uiFleshTimer < uiDiff) 
             {
                 DoScriptText(SAY_MARWYN_SP01, me);
-                if(Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                    DoCast(pTarget, Regular ? SPELL_CORRUPTED_FLESH_N : SPELL_CORRUPTED_FLESH_H);
+                if(Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                    DoCast(target, Regular ? SPELL_CORRUPTED_FLESH_N : SPELL_CORRUPTED_FLESH_H);
                 m_uiFleshTimer = urand(10000, 16000);
             } else m_uiFleshTimer -= uiDiff;
 

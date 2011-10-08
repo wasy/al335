@@ -66,11 +66,11 @@ public:
     {
         boss_baltharusAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)pCreature->GetInstanceScript();
             Reset();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
         Creature* pDummyTarget;
         Creature* pClone;
         bool inCombat;
@@ -83,10 +83,10 @@ public:
 
         void Reset()
         {
-            if(!pInstance)
+            if(!instance)
                 return;
 
-            if (me->isAlive()) pInstance->SetData(TYPE_BALTHARUS, NOT_STARTED);
+            if (me->isAlive()) instance->SetData(TYPE_BALTHARUS, NOT_STARTED);
             me->SetRespawnDelay(7*DAY);
 
             uiStage = 0;
@@ -98,7 +98,7 @@ public:
             m_uiEnevatingTimer = urand(10*IN_MILLISECONDS,25*IN_MILLISECONDS);
             m_uiSaberLashTimer = urand(10*IN_MILLISECONDS,15*IN_MILLISECONDS);
 
-            if (pDummyTarget = me->GetMap()->GetCreature( pInstance->GetData64(NPC_BALTHARUS_TARGET)))
+            if (pDummyTarget = me->GetMap()->GetCreature( instance->GetData64(NPC_BALTHARUS_TARGET)))
             {
                 if (!pDummyTarget->isAlive()) pDummyTarget->Respawn();
 
@@ -111,37 +111,37 @@ public:
                 pDummyTarget->GetMotionMaster()->MoveIdle();
             }
 
-            if(Creature* pTarget = me->GetMap()->GetCreature( pInstance->GetData64(NPC_XERESTRASZA)))
-                me->SetUInt64Value(UNIT_FIELD_TARGET, pTarget->GetGUID());
+            if(Creature* target = me->GetMap()->GetCreature( instance->GetData64(NPC_XERESTRASZA)))
+                me->SetUInt64Value(UNIT_FIELD_TARGET, target->GetGUID());
         }
 
         void JustReachedHome()
         {
-            if (!pInstance) return;
+            if (!instance) return;
 
-            pInstance->SetData(TYPE_BALTHARUS, FAIL);
+            instance->SetData(TYPE_BALTHARUS, FAIL);
         }
 
-        void MoveInLineOfSight(Unit* pWho)
+        void MoveInLineOfSight(Unit* who)
         {
-            if(!pInstance || intro ||
-                pWho->GetTypeId() != TYPEID_PLAYER ||
-                !pWho->IsWithinDistInMap(me, 60.0f)) return;
+            if(!instance || intro ||
+                who->GetTypeId() != TYPEID_PLAYER ||
+                !who->IsWithinDistInMap(me, 60.0f)) return;
 
-            pInstance->SetData(TYPE_EVENT, 10);
+            instance->SetData(TYPE_EVENT, 10);
             DoScriptText(-1666305,me);
             intro = true;
         }
 
         void JustDied(Unit* pKiller)
         {
-            if (!pInstance) return;
+            if (!instance) return;
 
           // if (pDummyTarget && pDummyTarget->isSummon())
           // pDummyTarget->ForcedDespawn();
 
             DoScriptText(-1666303,me);
-            pInstance->SetData(TYPE_BALTHARUS, DONE);
+            instance->SetData(TYPE_BALTHARUS, DONE);
         }
 
         void KilledUnit(Unit* pVictim)
@@ -158,7 +158,7 @@ public:
 
         void JustSummoned(Creature* summoned)
         {
-            if(!pInstance || !summoned) return;
+            if(!instance || !summoned) return;
 
             if ( summoned->GetEntry() != NPC_BALTHARUS_TARGET )
             {
@@ -170,15 +170,15 @@ public:
 
         void SummonedCreatureJustDied(Creature* summoned)
         {
-             if (!pInstance || !summoned) return;
+             if (!instance || !summoned) return;
 
              if (summoned == pClone) pClone = NULL;
         }
 
-        void EnterCombat(Unit* pWho)
+        void EnterCombat(Unit* who)
         {
-            if (!pInstance) return;
-            if (pWho->GetTypeId() != TYPEID_PLAYER) return;
+            if (!instance) return;
+            if (who->GetTypeId() != TYPEID_PLAYER) return;
 
             if (pDummyTarget) pDummyTarget->ForcedDespawn();
 
@@ -187,13 +187,13 @@ public:
             inCombat = true;
             me->InterruptNonMeleeSpells(true);
             SetCombatMovement(true);
-            pInstance->SetData(TYPE_BALTHARUS, IN_PROGRESS);
+            instance->SetData(TYPE_BALTHARUS, IN_PROGRESS);
             DoScriptText(-1666300,me);
         }
 
         void DamageTaken(Unit* pDoneBy, uint32 &uiDamage)
         {
-            if (!pInstance) return;
+            if (!instance) return;
 
             if (!me || !me->isAlive())
                 return;
@@ -210,7 +210,7 @@ public:
 
         void UpdateAI(const uint32 diff)
         {
-            if (!pInstance) return;
+            if (!instance) return;
 
             if (!inCombat && !me->IsNonMeleeSpellCasted(false))
             {
@@ -316,11 +316,11 @@ public:
     {
         mob_baltharus_cloneAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)pCreature->GetInstanceScript();
             Reset();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
 
         uint32 m_uiBladeTempestTimer;
         uint32 m_uiEnevatingTimer;
@@ -328,7 +328,7 @@ public:
 
         void Reset()
         {
-            if(!pInstance) return;
+            if(!instance) return;
 
             m_uiBladeTempestTimer = 22*IN_MILLISECONDS;
             m_uiEnevatingTimer = urand(10*IN_MILLISECONDS,25*IN_MILLISECONDS);
@@ -351,12 +351,12 @@ public:
 
         void JustDied(Unit* pKiller)
         {
-            if (!pInstance) return;
+            if (!instance) return;
         }
 
-        void EnterCombat(Unit* pWho)
+        void EnterCombat(Unit* who)
         {
-            if (!pInstance) return;
+            if (!instance) return;
 
             SetEquipmentSlots(false, EQUIP_MAIN, EQUIP_OFFHAND, EQUIP_RANGED);
 
@@ -366,9 +366,9 @@ public:
         void UpdateAI(const uint32 diff)
         {
 
-            if (!pInstance) return;
+            if (!instance) return;
 
-            if (pInstance->GetData(TYPE_BALTHARUS) != IN_PROGRESS)
+            if (instance->GetData(TYPE_BALTHARUS) != IN_PROGRESS)
                 me->ForcedDespawn();
 
             if (!UpdateVictim())
@@ -425,11 +425,11 @@ public:
     {
         mob_xerestraszaAI(Creature* pCreature) : ScriptedAI(pCreature)
         {
-            pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            instance = (InstanceScript*)pCreature->GetInstanceScript();
             Reset();
         }
 
-        InstanceScript* pInstance;
+        InstanceScript* instance;
         uint32 nextEvent;
         uint32 nextPoint;
         uint32 UpdateTimer;
@@ -438,14 +438,14 @@ public:
 
         void Reset()
         {
-            if(!pInstance) return;
+            if(!instance) return;
             nextEvent = 0;
             nextPoint = 0;
             movementstarted = false;
             UpdateTimer = 2000;
             me->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
             me->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
-            pInstance->SetData(TYPE_XERESTRASZA, NOT_STARTED);
+            instance->SetData(TYPE_XERESTRASZA, NOT_STARTED);
             me->AddUnitMovementFlag(MOVEMENTFLAG_WALKING);
             me->SetSpeed(MOVE_WALK, 0.8f, true);
             me->SetRespawnDelay(7*DAY);
@@ -457,7 +457,7 @@ public:
             if (id == nextPoint)
             {
                 movementstarted = false;
-                pInstance->SetData(TYPE_EVENT,nextEvent);
+                instance->SetData(TYPE_EVENT,nextEvent);
                 me->GetMotionMaster()->MovementExpired();
             }
         }
@@ -468,7 +468,7 @@ public:
             nextEvent = _nextEvent;
             me->GetMotionMaster()->Clear();
             me->GetMotionMaster()->MovePoint(id, SpawnLocXer[id].x, SpawnLocXer[id].y, SpawnLocXer[id].z);
-            pInstance->SetData(TYPE_EVENT,0);
+            instance->SetData(TYPE_EVENT,0);
             movementstarted = true;
         }
 
@@ -480,38 +480,38 @@ public:
 
         void MoveInLineOfSight(Unit *who)
         {
-            if(!pInstance || !who || who->GetTypeId() != TYPEID_PLAYER)
+            if(!instance || !who || who->GetTypeId() != TYPEID_PLAYER)
                 return;
 
-            if (pInstance->GetData(TYPE_BALTHARUS) != DONE
-                || pInstance->GetData(TYPE_XERESTRASZA) != NOT_STARTED) return;
+            if (instance->GetData(TYPE_BALTHARUS) != DONE
+                || instance->GetData(TYPE_XERESTRASZA) != NOT_STARTED) return;
 
             if(!who->IsWithinDistInMap(me, 60.0f)) return;
 
-            pInstance->SetData(TYPE_XERESTRASZA, IN_PROGRESS);
-            pInstance->SetData(TYPE_EVENT, 30);
+            instance->SetData(TYPE_XERESTRASZA, IN_PROGRESS);
+            instance->SetData(TYPE_EVENT, 30);
             onSessionEvent = true;
         }
 
         void UpdateAI(const uint32 diff)
         {
-            if(!pInstance) return;
+            if(!instance) return;
 
-            if (pInstance->GetData(TYPE_EVENT_NPC) == NPC_XERESTRASZA)
+            if (instance->GetData(TYPE_EVENT_NPC) == NPC_XERESTRASZA)
             {
-                UpdateTimer = pInstance->GetData(TYPE_EVENT_TIMER);
+                UpdateTimer = instance->GetData(TYPE_EVENT_TIMER);
                 if (UpdateTimer <= diff)
                 {
-                    switch (pInstance->GetData(TYPE_EVENT))
+                    switch (instance->GetData(TYPE_EVENT))
                     {
 // Xerestrasza intro
                         case 10:
                               UpdateTimer = 7000;
-                              pInstance->SetData(TYPE_EVENT, 20);
+                              instance->SetData(TYPE_EVENT, 20);
                               break;
                         case 20:
                               DoScriptText(-1666000,me);
-                              pInstance->SetData(TYPE_EVENT,0);
+                              instance->SetData(TYPE_EVENT,0);
                               break;
 // Xerestrasza event
                         case 30:
@@ -526,37 +526,37 @@ public:
                         case 50:
                               DoScriptText(-1666003,me);
                               UpdateTimer = 12000;
-                              pInstance->SetData(TYPE_EVENT,60);
+                              instance->SetData(TYPE_EVENT,60);
                               break;
                         case 60:
                               DoScriptText(-1666004,me);
                               UpdateTimer = 12000;
-                              pInstance->SetData(TYPE_EVENT,70);
+                              instance->SetData(TYPE_EVENT,70);
                               break;
                         case 70:
                               DoScriptText(-1666005,me);
                               UpdateTimer = 10000;
-                              pInstance->SetData(TYPE_EVENT,80);
+                              instance->SetData(TYPE_EVENT,80);
                               break;
                         case 80:
                               DoScriptText(-1666006,me);
                               UpdateTimer = 10000;
-                              pInstance->SetData(TYPE_EVENT,90);
+                              instance->SetData(TYPE_EVENT,90);
                               break;
                         case 90:
                               DoScriptText(-1666007,me);
                               UpdateTimer = 10000;
-                              pInstance->SetData(TYPE_EVENT,100);
+                              instance->SetData(TYPE_EVENT,100);
                               break;
                         case 100:
                               DoScriptText(-1666008,me);
                               UpdateTimer = 4000;
-                              pInstance->SetData(TYPE_EVENT,110);
+                              instance->SetData(TYPE_EVENT,110);
                               break;
                         case 110:
                               UpdateTimer = 2000;
-                              pInstance->SetData(TYPE_EVENT,0);
-                              pInstance->SetData(TYPE_XERESTRASZA, DONE);
+                              instance->SetData(TYPE_EVENT,0);
+                              instance->SetData(TYPE_XERESTRASZA, DONE);
                               me->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
                               me->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
                              // me->SetActive(false);
@@ -565,12 +565,12 @@ public:
                         case 200:
                               //me->SetActive(true);
                               {
-                              Creature* pHalion = me->GetMap()->GetCreature(pInstance->GetData64(NPC_HALION_REAL));
-                              if (pInstance->GetData(TYPE_BALTHARUS) == DONE &&
-                                  pInstance->GetData(TYPE_RAGEFIRE) == DONE &&
-                                  pInstance->GetData(TYPE_XERESTRASZA) == DONE &&
-                                  pInstance->GetData(TYPE_ZARITHRIAN) == DONE &&
-                                  pInstance->GetData(TYPE_HALION) != DONE)
+                              Creature* pHalion = me->GetMap()->GetCreature(instance->GetData64(NPC_HALION_REAL));
+                              if (instance->GetData(TYPE_BALTHARUS) == DONE &&
+                                  instance->GetData(TYPE_RAGEFIRE) == DONE &&
+                                  instance->GetData(TYPE_XERESTRASZA) == DONE &&
+                                  instance->GetData(TYPE_ZARITHRIAN) == DONE &&
+                                  instance->GetData(TYPE_HALION) != DONE)
                                   {
                                   if (!pHalion)
                                       pHalion = me->SummonCreature(NPC_HALION_REAL, SpawnLocXer[3].x, SpawnLocXer[3].y, SpawnLocXer[3].z, 6.23f, TEMPSUMMON_MANUAL_DESPAWN, HOUR*IN_MILLISECONDS);
@@ -581,19 +581,19 @@ public:
                                   }
                               }
                               UpdateTimer = 4000;
-                              pInstance->SetData(TYPE_EVENT,210);
+                              instance->SetData(TYPE_EVENT,210);
                               break;
                         case 210:
                               //me->SetActive(false);
                               UpdateTimer = 2000;
-                              pInstance->SetData(TYPE_EVENT,0);
+                              instance->SetData(TYPE_EVENT,0);
                               break;
 
                         default:
                           break;
                     }
                  } else UpdateTimer -= diff;
-                 pInstance->SetData(TYPE_EVENT_TIMER, UpdateTimer);
+                 instance->SetData(TYPE_EVENT_TIMER, UpdateTimer);
             }
         }
     };

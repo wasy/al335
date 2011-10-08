@@ -233,8 +233,8 @@ public:
             if(m_uiHorrorTimer < uiDiff)
             {
                 DoScriptText(SAY_FALRIC_SP01, me);
-                if(Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM))
-                   DoCast(pTarget, SPELL_IMPENDING_DESPAIR);
+                if(Unit *target = SelectTarget(SELECT_TARGET_RANDOM))
+                   DoCast(target, SPELL_IMPENDING_DESPAIR);
                 m_uiHorrorTimer = (urand(15000, 25000));
             }
             else m_uiHorrorTimer -= uiDiff;
