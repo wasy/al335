@@ -207,9 +207,9 @@ public:
             }
         }
 
-    void AggroAllPlayers(Creature* pTemp)
+    void AggroAllPlayers(Creature* temp)
     {
-        Map::PlayerList const &PlList = pTemp->GetMap()->GetPlayers();
+        Map::PlayerList const &PlList = temp->GetMap()->GetPlayers();
 
         if(PlList.isEmpty())
                 return;
@@ -223,11 +223,11 @@ public:
 
                 if(pPlayer->isAlive())
                 {
-                    pTemp->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
-                    pTemp->SetReactState(REACT_AGGRESSIVE);
-                    pTemp->SetInCombatWith(pPlayer);
-                    pPlayer->SetInCombatWith(pTemp);
-                    pTemp->AddThreat(pPlayer, 0.0f);
+                    temp->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
+                    temp->SetReactState(REACT_AGGRESSIVE);
+                    temp->SetInCombatWith(pPlayer);
+                    pPlayer->SetInCombatWith(temp);
+                    temp->AddThreat(pPlayer, 0.0f);
                 }
             }
         }

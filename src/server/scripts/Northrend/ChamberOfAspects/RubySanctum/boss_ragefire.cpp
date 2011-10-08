@@ -177,8 +177,8 @@ public:
                  SelectTargetList(playerList, RAID_MODE(TARGETS_10,TARGETS_25,TARGETS_10,TARGETS_25), SELECT_TARGET_RANDOM, 0, true);
                  for (std::list<Unit*>::const_iterator itr = playerList.begin(); itr != playerList.end(); ++itr)
                  {
-                     Unit *pTemp = (*itr);
-                     me->CastSpell(pTemp, SPELL_BEACON, true);
+                     Unit *temp = (*itr);
+                     me->CastSpell(temp, SPELL_BEACON, true);
                  }
 
                  conflagated = true;
@@ -189,8 +189,8 @@ public:
 
                  for (std::list<Unit*>::const_iterator itr = playerList.begin(); itr != playerList.end(); ++itr)
                  {
-                     Unit *pTemp = (*itr);
-                     me->CastSpell(pTemp, SPELL_CONFLAGATION_2, true);
+                     Unit *temp = (*itr);
+                     me->CastSpell(temp, SPELL_CONFLAGATION_2, true);
                  }
 
                  playerList.clear();

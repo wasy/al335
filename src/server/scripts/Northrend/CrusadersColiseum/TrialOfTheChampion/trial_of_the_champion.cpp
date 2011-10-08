@@ -661,7 +661,7 @@ public:
             uiBlackKnightGUID = 0;
         }
 
-        void AggroAllPlayers(Creature* pTemp)
+        void AggroAllPlayers(Creature* temp)
         {
             Map::PlayerList const &PlList = me->GetMap()->GetPlayers();
 
@@ -677,12 +677,12 @@ public:
 
                     if (pPlayer->isAlive())
                     {
-                        pTemp->SetHomePosition(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation());
-                        pTemp->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
-                        pTemp->SetReactState(REACT_AGGRESSIVE);
-                        pTemp->SetInCombatWith(pPlayer);
-                        pPlayer->SetInCombatWith(pTemp);
-                        pTemp->AddThreat(pPlayer, 0.0f);
+                        temp->SetHomePosition(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation());
+                        temp->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
+                        temp->SetReactState(REACT_AGGRESSIVE);
+                        temp->SetInCombatWith(pPlayer);
+                        pPlayer->SetInCombatWith(temp);
+                        temp->AddThreat(pPlayer, 0.0f);
                     }
                 }
             }
