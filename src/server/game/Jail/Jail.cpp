@@ -798,7 +798,7 @@ bool Jail::Inhaftierung(ChatHandler * handler, uint32 guid, std::string cname, u
     {
         ++times;
 
-        CharacterDatabase.PExecute("INSERT INTO `jail` (`guid`,`char`,`release`,`reason`,`times`,`gmacc`,`gmchar`,`lasttime`,`duration`) VALUES (%u,'%s',%u,'%s',%u,%u,'%s',%u,%u)",
+        CharacterDatabase.PExecute("INSERT INTO `jail` (`guid`,`char`,`release`,`reason`,`times`,`gmacc`,`gmchar`,`lasttime`,`duration`) VALUES (%u,'%s',%u,'%s',%u, %u,'%s',%u, %u)",
             guid, cname.c_str(), release, jailreason.c_str(), times, handler->GetSession()->GetAccountId(), handler->GetSession()->GetPlayerName(), localtime, jailtime);
 
         JES.BTimes = 0;
@@ -863,7 +863,7 @@ void Jail::BannAccount(uint32 acc_id, uint32 guid, Player * chr)
     else
         btimes = 1;
 
-    LoginDatabase.PExecute("REPLACE INTO `account_banned` (`id`,`bandate`,`unbandate`,`bannedby`,`banreason`) VALUES (%u,%u,%u,'%s','%s')",
+    LoginDatabase.PExecute("REPLACE INTO `account_banned` (`id`,`bandate`,`unbandate`,`bannedby`,`banreason`) VALUES (%u, %u, %u,'%s','%s')",
         acc_id, localtime, banrelease, m_JailKonf.GMChar.c_str(), sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_BAN_REASON));
 
     // Wenn der Account gebannt wurde, mussen die Daten im Jail zuruck gesetzt werden!

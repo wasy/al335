@@ -143,7 +143,7 @@ void Map::LoadMap(int gx, int gy, bool reload)
         if (!m_parentMap->GridMaps[gx][gy])
             m_parentMap->EnsureGridCreated(GridPair(63-gx, 63-gy));
 
-        ((Mainstanced*)(m_parentMap))->AddGridMapReference(GridPair(gx, gy));
+        ((MapInstanced*)(m_parentMap))->AddGridMapReference(GridPair(gx, gy));
         GridMaps[gx][gy] = m_parentMap->GridMaps[gx][gy];
         return;
     }
@@ -992,7 +992,7 @@ bool Map::UnloadGrid(const uint32 x, const uint32 y, bool unloadAll)
             VMAP::VMapFactory::createOrGetVMapManager()->unloadMap(GetId(), gx, gy);
         }
         else
-            ((Mainstanced*)m_parentMap)->RemoveGridMapReference(GridPair(gx, gy));
+            ((MapInstanced*)m_parentMap)->RemoveGridMapReference(GridPair(gx, gy));
 
         GridMaps[gx][gy] = NULL;
     }
@@ -2225,7 +2225,7 @@ bool InstanceMap::CanEnter(Player* player)
 {
     if (player->GetMapRef().getTarget() == this)
     {
-        sLog->outError("InstanceMap::CanEnter - player %s(%u) already in map %d,%d,%d!", player->GetName(), player->GetGUIDLow(), GetId(), GetInstanceId(), GetSpawnMode());
+        sLog->outError("InstanceMap::CanEnter - player %s(%u) already in map %d, %d, %d!", player->GetName(), player->GetGUIDLow(), GetId(), GetInstanceId(), GetSpawnMode());
         //ASSERT(false);
         player->RepopAtGraveyard();
         return false;

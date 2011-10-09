@@ -461,7 +461,7 @@ void GameObject::Update(uint32 diff)
                             if (sScriptMgr->OnGossipHello(ok->ToPlayer(), this))
                                 return;
 
-                        m_cooldownTime = time(NULL) + goInfo->trap.cooldown ? goInfo->trap.cooldown :  uint32(4);   // template or 4 seconds
+                        m_cooldownTime = time(NULL) + (goInfo->trap.cooldown ? goInfo->trap.cooldown :  uint32(4));   // template or 4 seconds
 
                         if (goInfo->trap.type == 1)
                             SetLootState(GO_JUST_DEACTIVATED);
@@ -550,14 +550,12 @@ void GameObject::Update(uint32 diff)
 
             loot.clear();
 
-            if (GetOwnerGUID())
-            {
-                if (Unit* owner = GetOwner())
+            //! If this is summoned by a spell with ie. SPELL_EFFECT_SUMMON_OBJECT_WILD, with or without owner, we check respawn criteria based on spell
+            //! The GetOwnerGUID() check is mostly for compatibility with hacky scripts - 99% of the time summoning should be done trough spells.
+            if (GetSpellId() || GetOwnerGUID())
                 {
-                    owner->RemoveGameObject(this, false);
                     SetRespawnTime(0);
                     Delete();
-                }
                 return;
             }
 
@@ -617,6 +615,8 @@ void GameObject::Delete()
     if (GetOwnerGUID())
         if (Unit* owner = GetOwner())
             owner->RemoveGameObject(this, false);
+        else    //! Owner not in world anymore
+            SetOwnerGUID(0);
 
     ASSERT (!GetOwnerGUID());
     SendObjectDeSpawnAnim(GetGUID());
