@@ -662,6 +662,10 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                                 }
                             }
 
+                            // Glyph of Envenom
+                            if (m_caster->HasAura(64199))
+                                needConsume = false;
+
                             if (needConsume)
                                 for (uint32 i = 0; i < doses; ++i)
                                     unitTarget->RemoveAuraFromStack(spellId);
