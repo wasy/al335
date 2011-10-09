@@ -244,9 +244,9 @@ public:
         if (creature->isQuestGiver() && creature->GetZoneId() != ZONE_DALARAN)
             pPlayer->PrepareQuestMenu(creature->GetGUID());
 
-        if(pPlayer->HasItemCount(ITEM_ACANE_MAGIC_MASTERY,1,false))
+        if(pPlayer->HasItemCount(ITEM_ACANE_MAGIC_MASTERY, 1, false))
         {
-            if(!pPlayer->HasSpell(SPELL_FAMILAR_PET) && !pPlayer->HasItemCount(ITEM_FAMILAR_PET,1,true))
+            if(!pPlayer->HasSpell(SPELL_FAMILAR_PET) && !pPlayer->HasItemCount(ITEM_FAMILAR_PET, 1, true))
                 pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_FAMILIAR_WELCOME, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
         }
         pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
@@ -264,7 +264,7 @@ public:
                 pPlayer->SEND_GOSSIP_MENU(40000, creature->GetGUID());
                 break;
             case GOSSIP_ACTION_INFO_DEF+2:
-                creature->CastSpell(pPlayer,SPELL_CREATE_FAMILAR,false);
+                creature->CastSpell(pPlayer, SPELL_CREATE_FAMILAR, false);
                 pPlayer->CLOSE_GOSSIP_MENU();
                 break;
         }

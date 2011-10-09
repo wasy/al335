@@ -257,7 +257,7 @@ enum Actions
 
 struct SummonLocation
 {
-    float x,y,z,o;
+    float x, y, z, o;
     uint32 entry;
 };
 
@@ -284,110 +284,110 @@ SummonLocation chamberLocations[]=
 {
     // Chamber of the Aspects Illusion
     {2068.97f, -7.30f, 239.760f, 5.85f, 33716}, // Dragons
-    {2070.18f,-45.92f, 239.720f, 0.43f, 33716},
-    {2113.69f,-65.53f, 239.720f, 1.82f, 33717},
-    {2139.57f,-51.13f, 239.750f, 2.40f, 33717},
-    {2146.88f,-33.45f, 239.720f, 3.14f, 33720},
-    {2146.88f,-16.41f, 239.740f, 3.14f, 33720},
+    {2070.18f, -45.92f, 239.720f, 0.43f, 33716},
+    {2113.69f, -65.53f, 239.720f, 1.82f, 33717},
+    {2139.57f, -51.13f, 239.750f, 2.40f, 33717},
+    {2146.88f, -33.45f, 239.720f, 3.14f, 33720},
+    {2146.88f, -16.41f, 239.740f, 3.14f, 33720},
     {2137.49f, -0.26f, 239.720f, 3.83f, 33719},
     {2109.89f, 15.72f, 239.760f, 4.54f, 33719},
-    {2064.12f,-58.09f, 239.720f, 0.64f, 33990}, // Laughing Skull
+    {2064.12f, -58.09f, 239.720f, 0.64f, 33990}, // Laughing Skull
     {2062.18f, 10.04f, 239.803f, 5.51f, 33990},
     {2129.46f, 20.66f, 239.720f, 4.14f, 33990},
-    {2130.60f,-68.93f, 239.720f, 2.09f, 33990},
-    {2091.82f,-25.39f, 242.647f,  0.0f, 33536}, // Alexstrasza
-    {2108.34f,-37.05f, 242.647f, 1.96f, 33535}, // Malygos
-    {2109.43f,-14.25f, 242.647f, 4.29f, 33495}, // Ysera
-    {2117.95f,-25.46f, 242.647f, 3.14f, 33523}  // Neltharion
+    {2130.60f, -68.93f, 239.720f, 2.09f, 33990},
+    {2091.82f, -25.39f, 242.647f,  0.0f, 33536}, // Alexstrasza
+    {2108.34f, -37.05f, 242.647f, 1.96f, 33535}, // Malygos
+    {2109.43f, -14.25f, 242.647f, 4.29f, 33495}, // Ysera
+    {2117.95f, -25.46f, 242.647f, 3.14f, 33523}  // Neltharion
 };
 
 SummonLocation icecrownLocations[]=
 {
     // Icecrown Illusion
-    {1955.67f,-133.19f, 240.0f, 5.75f, 33567}, // Deathsworn Zealot
-    {1958.09f,-140.64f, 240.0f, 5.75f, 33567},
-    {1950.62f,-141.74f, 240.0f, 5.75f, 33567},
+    {1955.67f, -133.19f, 240.0f, 5.75f, 33567}, // Deathsworn Zealot
+    {1958.09f, -140.64f, 240.0f, 5.75f, 33567},
+    {1950.62f, -141.74f, 240.0f, 5.75f, 33567},
     {1897.75f, -99.84f, 240.0f, 2.62f, 33567},
-    {1892.86f,-108.44f, 240.0f, 2.62f, 33567},
-    {1890.07f,-100.78f, 240.0f, 2.62f, 33567},
-    {1910.01f,-137.30f, 240.0f, 4.17f, 33567},
-    {1918.60f,-142.42f, 240.0f, 4.17f, 33567},
-    {1972.79f,-149.09f, 240.0f, 2.62f, 33990}, // Laughing Skull
-    {1941.27f,-169.01f, 240.0f, 1.04f, 33990},
+    {1892.86f, -108.44f, 240.0f, 2.62f, 33567},
+    {1890.07f, -100.78f, 240.0f, 2.62f, 33567},
+    {1910.01f, -137.30f, 240.0f, 4.17f, 33567},
+    {1918.60f, -142.42f, 240.0f, 4.17f, 33567},
+    {1972.79f, -149.09f, 240.0f, 2.62f, 33990}, // Laughing Skull
+    {1941.27f, -169.01f, 240.0f, 1.04f, 33990},
     {1877.66f, -94.06f, 240.0f, 5.78f, 33990},
-    {1873.27f,-129.11f, 240.0f, 1.04f, 33990},
-    {1907.81f,-152.84f, 240.0f, 4.17f, 33441}, // The Lich King
-    {1905.19f,-157.67f, 240.0f, 1.04f, 33442}  // Immolated Champion
+    {1873.27f, -129.11f, 240.0f, 1.04f, 33990},
+    {1907.81f, -152.84f, 240.0f, 4.17f, 33441}, // The Lich King
+    {1905.19f, -157.67f, 240.0f, 1.04f, 33442}  // Immolated Champion
 };
 
 const Position DeathRayPos[12] =
 {
-    {1934.73f,-25.43f,327.82f,0},
-    {1974.43f,-72.74f,329.10f,0},
-    {2016.19f,-16.32f,326.93f,0},
-    {1961.54f,  9.78f,327.55f,0},
-    {1955.90f,-54.43f,326.33f,0},
-    {2011.09f,-54.67f,327.90f,0},
-    {2003.48f, -0.03f,326.40f,0},
-    {1954.04f,  4.59f,327.63f,0},
-    {1943.14f, -5.17f,327.41f,0},
-    {1943.72f,-48.29f,327.10f,0},
-    {1990.30f,-67.09f,328.40f,0},
-    {1980.22f, 12.33f,327.44f,0}
+    {1934.73f, -25.43f, 327.82f, 0},
+    {1974.43f, -72.74f, 329.10f, 0},
+    {2016.19f, -16.32f, 326.93f, 0},
+    {1961.54f,  9.78f, 327.55f, 0},
+    {1955.90f, -54.43f, 326.33f, 0},
+    {2011.09f, -54.67f, 327.90f, 0},
+    {2003.48f, -0.03f, 326.40f, 0},
+    {1954.04f,  4.59f, 327.63f, 0},
+    {1943.14f, -5.17f, 327.41f, 0},
+    {1943.72f, -48.29f, 327.10f, 0},
+    {1990.30f, -67.09f, 328.40f, 0},
+    {1980.22f, 12.33f, 327.44f, 0}
 };
 
 const Position PortalPos[10] =
 {
-    {1956.64f,-25.28f,325.17f,0},
-    {1986.71f, -2.74f,325.17f,0},
-    {2003.67f,-25.73f,325.07f,0},
-    {1983.82f,-48.92f,324.70f,0},
-    {1961.22f,-12.52f,325.02f,0},
-    {1972.70f, -4.15f,324.89f,0},
-    {1998.22f,-10.92f,325.11f,0},
-    {1998.22f,-40.10f,324.89f,0},
-    {1969.66f,-46.10f,324.87f,0},
-    {1959.70f,-37.28f,325.11f,0}
+    {1956.64f, -25.28f, 325.17f, 0},
+    {1986.71f, -2.74f, 325.17f, 0},
+    {2003.67f, -25.73f, 325.07f, 0},
+    {1983.82f, -48.92f, 324.70f, 0},
+    {1961.22f, -12.52f, 325.02f, 0},
+    {1972.70f, -4.15f, 324.89f, 0},
+    {1998.22f, -10.92f, 325.11f, 0},
+    {1998.22f, -40.10f, 324.89f, 0},
+    {1969.66f, -46.10f, 324.87f, 0},
+    {1959.70f, -37.28f, 325.11f, 0}
 };
 
 const Position TentaclesPos[22] =
 {
-    {1986.53f, 14.69f,328.08f,4.44f},
-    {1974.22f, 17.11f,327.86f,4.56f},
-    {1956.55f,  0.83f,326.81f,5.19f},
-    {1928.61f,-37.30f,327.74f,0.30f},
-    {1939.52f,-45.68f,327.14f,0.26f},
-    {1953.44f,-62.17f,327.49f,0.85f},
-    {1976.65f,-76.02f,328.89f,1.48f},
-    {1993.38f,-61.91f,327.60f,1.27f},
-    {2016.65f,-52.52f,327.77f,2.70f},
-    {2026.97f,-28.09f,327.98f,3.32f},
-    {2022.59f,-16.85f,327.59f,3.37f},
-    {1938.22f,-10.54f,328.19f,5.99f},
-    {1944.06f,-38.17f,326.84f,0.36f},
-    {1973.28f,-62.51f,327.32f,1.44f},
-    {1999.19f,-57.96f,327.34f,2.04f},
-    {2017.89f,-25.34f,327.12f,3.14f},
-    {2000.26f,  4.49f,326.98f,4.15f},
-    {2006.91f,-13.70f,326.03f,3.80f},
-    {2007.72f,  3.27f,327.28f,4.02f},
-    {2002.52f, 16.73f,328.80f,4.07f},
-    {1974.55f,  9.30f,326.85f,4.65f},
-    {1945.29f,-25.78f,327.12f,    0}
+    {1986.53f, 14.69f, 328.08f, 4.44f},
+    {1974.22f, 17.11f, 327.86f, 4.56f},
+    {1956.55f,  0.83f, 326.81f, 5.19f},
+    {1928.61f, -37.30f, 327.74f, 0.30f},
+    {1939.52f, -45.68f, 327.14f, 0.26f},
+    {1953.44f, -62.17f, 327.49f, 0.85f},
+    {1976.65f, -76.02f, 328.89f, 1.48f},
+    {1993.38f, -61.91f, 327.60f, 1.27f},
+    {2016.65f, -52.52f, 327.77f, 2.70f},
+    {2026.97f, -28.09f, 327.98f, 3.32f},
+    {2022.59f, -16.85f, 327.59f, 3.37f},
+    {1938.22f, -10.54f, 328.19f, 5.99f},
+    {1944.06f, -38.17f, 326.84f, 0.36f},
+    {1973.28f, -62.51f, 327.32f, 1.44f},
+    {1999.19f, -57.96f, 327.34f, 2.04f},
+    {2017.89f, -25.34f, 327.12f, 3.14f},
+    {2000.26f,  4.49f, 326.98f, 4.15f},
+    {2006.91f, -13.70f, 326.03f, 3.80f},
+    {2007.72f,  3.27f, 327.28f, 4.02f},
+    {2002.52f, 16.73f, 328.80f, 4.07f},
+    {1974.55f,  9.30f, 326.85f, 4.65f},
+    {1945.29f, -25.78f, 327.12f,     0}
 };
 
 const Position SanityWellPos[10] =
 {
-    {2008.38f, 35.41f,331.251f,0},
-    {1990.63f, 50.35f,332.041f,0},
-    {1973.40f, 41.09f,330.989f,0},
-    {1973.12f,-90.27f, 330.14f,0},
-    {1994.26f,-96.62f, 330.62f,0},
-    {2005.41f,-82.88f, 329.50f,0},
-    {2042.09f,-41.70f, 329.12f,0},
-    {1918.06f, 16.50f, 330.97f,0},
-    {1899.59f, -4.87f,332.137f,0},
-    {1897.75f,-48.24f, 332.35f,0}
+    {2008.38f, 35.41f, 331.251f, 0},
+    {1990.63f, 50.35f, 332.041f, 0},
+    {1973.40f, 41.09f, 330.989f, 0},
+    {1973.12f, -90.27f, 330.14f, 0},
+    {1994.26f, -96.62f, 330.62f, 0},
+    {2005.41f, -82.88f, 329.50f, 0},
+    {2042.09f, -41.70f, 329.12f, 0},
+    {1918.06f, 16.50f, 330.97f, 0},
+    {1899.59f, -4.87f, 332.137f, 0},
+    {1897.75f, -48.24f, 332.35f, 0}
 };
 
 
@@ -461,7 +461,7 @@ public:
                     // Phase One wipe
                     if (wipe && phase == PHASE_1)
                     {
-                        if (Creature* pVoice = me->SummonCreature(NPC_YOGG_SARON_VOICE,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),0,TEMPSUMMON_TIMED_DESPAWN,1000))
+                        if (Creature* pVoice = me->SummonCreature(NPC_YOGG_SARON_VOICE, me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),0, TEMPSUMMON_TIMED_DESPAWN, 1000))
                             DoScriptText(WHISP_SARA_INSANITY, pVoice, player);
                     }
                     // Kills insane players
@@ -503,7 +503,7 @@ public:
 
         void EnterCombat(Unit* who)
         {
-            DoScriptText(RAND(SAY_SARA_AGGRO_1,SAY_SARA_AGGRO_2,SAY_SARA_AGGRO_3), me);
+            DoScriptText(RAND(SAY_SARA_AGGRO_1, SAY_SARA_AGGRO_2, SAY_SARA_AGGRO_3), me);
             // Keepers activation
             if (instance)
             {
@@ -570,7 +570,7 @@ public:
                             events.ScheduleEvent(EVENT_BLESSING, urand(10000, 15000), 0, PHASE_1);
                             break;
                         case EVENT_ANGER:
-                            if (Creature* pGuardian = me->FindNearestCreature(NPC_GUARDIAN_OF_YOGGSARON,50,true))
+                            if (Creature* pGuardian = me->FindNearestCreature(NPC_GUARDIAN_OF_YOGGSARON, 50, true))
                                 DoCast(pGuardian, SPELL_SARA_ANGER);
                             events.ScheduleEvent(EVENT_ANGER, urand(15000, 20000), 0, PHASE_1);
                             break;
@@ -667,7 +667,7 @@ public:
                             events.SetPhase(PHASE_2);
                             DoZoneInCombat();
                             me->GetMotionMaster()->MoveJump(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ()+20, 10, 15);
-                            me->SummonCreature(NPC_YOGG_SARON,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),M_PI,TEMPSUMMON_CORPSE_TIMED_DESPAWN,600000);
+                            me->SummonCreature(NPC_YOGG_SARON, me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),M_PI, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 600000);
                             JumpToNextStep(5000);
                             break;
                         case 6:
@@ -797,7 +797,7 @@ public:
                         if (player->isDead() || player->HasAura(SPELL_SANITY) || player->HasAura(SPELL_INSANE))
                             continue;
 
-                        if (Creature* pVoice = me->SummonCreature(NPC_YOGG_SARON_VOICE,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),0,TEMPSUMMON_TIMED_DESPAWN,1000))
+                        if (Creature* pVoice = me->SummonCreature(NPC_YOGG_SARON_VOICE, me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),0, TEMPSUMMON_TIMED_DESPAWN, 1000))
                             DoScriptText(RAND(WHISP_INSANITY_1, WHISP_INSANITY_1), pVoice, player);
 
                         DoCast(player, SPELL_INSANE, true);
@@ -850,7 +850,7 @@ public:
                             events.ScheduleEvent(EVENT_IMMORTAL_GUARDIAN, urand(25000, 30000), 0, PHASE_3);
                             break;
                         case EVENT_SHADOW_BEACON:
-                            if (Creature* pImmortal = me->FindNearestCreature(NPC_IMMORTAL_GUARDIAN,80,true))
+                            if (Creature* pImmortal = me->FindNearestCreature(NPC_IMMORTAL_GUARDIAN, 80, true))
                             {
                                 Map::PlayerList const &players = instance->instance->GetPlayers();
                                 for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
@@ -1093,19 +1093,19 @@ public:
                 case ACTION_CHAMBER_ILLUSION:
                     illusion = 0;
                     for (uint32 i = 0; i < 16; i++)
-                        me->SummonCreature(chamberLocations[i].entry,chamberLocations[i].x,chamberLocations[i].y,chamberLocations[i].z,chamberLocations[i].o);
+                        me->SummonCreature(chamberLocations[i].entry, chamberLocations[i].x, chamberLocations[i].y, chamberLocations[i].z, chamberLocations[i].o);
                     DoCast(SPELL_INDUCE_MADNESS);
                     break;
                 case ACTION_ICECROWN_ILLUSION:
                     illusion = 1;
                     for (uint32 i = 0; i < 14; i++)
-                        me->SummonCreature(icecrownLocations[i].entry,icecrownLocations[i].x,icecrownLocations[i].y,icecrownLocations[i].z,icecrownLocations[i].o);
+                        me->SummonCreature(icecrownLocations[i].entry, icecrownLocations[i].x, icecrownLocations[i].y, icecrownLocations[i].z, icecrownLocations[i].o);
                     DoCast(SPELL_INDUCE_MADNESS);
                     break;
                 case ACTION_STORMWIND_ILLUSION:
                     illusion = 2;
                     for (uint32 i = 0; i < 14; i++)
-                        me->SummonCreature(stormwindLocations[i].entry,stormwindLocations[i].x,stormwindLocations[i].y,stormwindLocations[i].z,stormwindLocations[i].o);
+                        me->SummonCreature(stormwindLocations[i].entry, stormwindLocations[i].x, stormwindLocations[i].y, stormwindLocations[i].z, stormwindLocations[i].o);
                     DoCast(SPELL_INDUCE_MADNESS);
                     break;
             }

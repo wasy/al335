@@ -84,7 +84,7 @@ public:
           SummonCount = 0;
           m_bIsCall = false;
           m_uiGrowlTimer = 20000;
-          m_uiHorrorTimer = urand(14000,20000);
+          m_uiHorrorTimer = urand(14000, 20000);
           m_uiStrikeTimer = 2000;
           m_uiSummonTimer = 11000;
           me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -100,7 +100,7 @@ public:
 
         void KilledUnit(Unit* pVictim)
         {
-            switch(urand(0,1))
+            switch(urand(0, 1))
             {
                 case 0: DoScriptText(SAY_FALRIC_SLAY01, me); break;
                 case 1: DoScriptText(SAY_FALRIC_SLAY02, me); break;
@@ -130,7 +130,7 @@ public:
 
              for(uint8 i = 0; i < 14; i++)
              {
-                switch(urand(0,3))
+                switch(urand(0, 3))
                 {
                    case 0:
                        switch(urand(1, 3))

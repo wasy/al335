@@ -120,7 +120,7 @@ public:
             case 1206: // Buffs
                 player->ADD_GOSSIP_ITEM(5, "Слово силы: Стойкость, Rank 8", GOSSIP_SENDER_MAIN, 4000);
                 player->ADD_GOSSIP_ITEM(5, "Великое благословение королей", GOSSIP_SENDER_MAIN, 4001);
-                player->ADD_GOSSIP_ITEM(5, "Великое благословение могущества", GOSSIP_SENDER_MAIN,4002);
+                player->ADD_GOSSIP_ITEM(5, "Великое благословение могущества", GOSSIP_SENDER_MAIN, 4002);
                 player->ADD_GOSSIP_ITEM(5, "Великое благословение мудрости", GOSSIP_SENDER_MAIN, 4003);
                 player->ADD_GOSSIP_ITEM(5, "Знак дикой природы, Rank 9", GOSSIP_SENDER_MAIN, 4004);
                 player->ADD_GOSSIP_ITEM(5, "Чародейский интеллект, Rank 7", GOSSIP_SENDER_MAIN, 4005);

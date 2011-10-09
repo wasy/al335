@@ -105,7 +105,7 @@ public:
 
              for(uint8 i = 0; i < 14; i++)
              {
-                switch(urand(0,3))
+                switch(urand(0, 3))
                 {
                    case 0:
                        switch(urand(1, 3))
@@ -182,7 +182,7 @@ public:
 
         void KilledUnit(Unit* pVictim)
         {
-            switch(urand(0,1))
+            switch(urand(0, 1))
             {
                 case 0: DoScriptText(SAY_MARWYN_SLAY01, me); break;
                 case 1: DoScriptText(SAY_MARWYN_SLAY02, me); break;

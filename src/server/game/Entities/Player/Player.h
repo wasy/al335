@@ -1004,7 +1004,7 @@ class TradeData
 {
     public:                                                 // constructors
         TradeData(Player* player, Player* trader) :
-            m_player(player),  m_trader(trader), m_accepted(false), m_acceptProccess(false),
+            m_player(player), m_trader(trader), m_accepted(false), m_acceptProccess(false),
             m_money(0), m_spell(0) {}
 
         Player* GetTrader() const { return m_trader; }

@@ -22,7 +22,7 @@
 enum pus
 {
     SAY_1   = -1901000,
-    SAY_2   = -1901001,                     
+    SAY_2   = -1901001,                      
     SAY_3   = -1901002,
     SAY_4   = -1901003,
     SAY_5   = -1901004,
@@ -39,10 +39,10 @@ enum eSpells
 };
 
 
-const Position SpawnPosition1 = {23.019f,-703.442f,-12.642f,3.23f};
-const Position SpawnPosition2 = {22.646f,-691.948f,-12.642f,4.13f};
-const Position SpawnPosition3 = {12.277f,-676.333f,-12.642f,4.97f};
-const Position SpawnPosition4 = {24.416f,-680.573f,-12.642f,4.31f};
+const Position SpawnPosition1 = {23.019f, -703.442f, -12.642f, 3.23f};
+const Position SpawnPosition2 = {22.646f, -691.948f, -12.642f, 4.13f};
+const Position SpawnPosition3 = {12.277f, -676.333f, -12.642f, 4.97f};
+const Position SpawnPosition4 = {24.416f, -680.573f, -12.642f, 4.31f};
 
 
 #define GOSSIP_HELLO "Game? Are your crazy?"
@@ -124,27 +124,27 @@ public:
                 switch(uiPhase)
                 {
                 case 1:
-                    DoScriptText(SAY_1,me);
+                    DoScriptText(SAY_1, me);
                     uiPhase=0;
                     break;
                 case 2:   
-                    DoScriptText(SAY_2,me);
+                    DoScriptText(SAY_2, me);
                     uiPhase=0;
                     break;
                 case 3:
-                    DoScriptText(SAY_3,me);
+                    DoScriptText(SAY_3, me);
                     uiPhase=0;
                     break;
                 case 4:
-                    DoScriptText(SAY_4,me);
+                    DoScriptText(SAY_4, me);
                     uiPhase=0;
                     break;
                 case 5:
-                    DoScriptText(SAY_5,me);
+                    DoScriptText(SAY_5, me);
                     me->setFaction(14);
                     float scale = me->GetFloatValue(OBJECT_FIELD_SCALE_X);
                     me->SetFloatValue(OBJECT_FIELD_SCALE_X, scale * 3);
-                    Unit* target = SelectTarget(SELECT_TARGET_NEAREST,0);
+                    Unit* target = SelectTarget(SELECT_TARGET_NEAREST, 0);
                     me->AI()->AttackStart(target);
                     for(uint8 i = 0; i<5; i++)
                     {
@@ -153,28 +153,28 @@ public:
                         case 1:
                             if (Creature *pImp=me->SummonCreature(NPC_IMP, SpawnPosition1, TEMPSUMMON_CORPSE_DESPAWN, 120000))
                                 {
-                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
                                     pImp->AI()->AttackStart(target);
                                 }
                             break;
                         case 2:
                             if (Creature *pImp=me->SummonCreature(NPC_IMP, SpawnPosition2, TEMPSUMMON_CORPSE_DESPAWN, 120000))
                                 {
-                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
                                     pImp->AI()->AttackStart(target);
                                 }
                             break;
                         case 3:
                             if (Creature *pImp=me->SummonCreature(NPC_IMP, SpawnPosition3, TEMPSUMMON_CORPSE_DESPAWN, 120000))
                                 {
-                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
                                     pImp->AI()->AttackStart(target);
                                 }
                             break;
                         case 4:
                             if (Creature *pImp=me->SummonCreature(NPC_IMP, SpawnPosition4, TEMPSUMMON_CORPSE_DESPAWN, 120000))
                                 {
-                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
                                     pImp->AI()->AttackStart(target);
                                 }
                             break;
@@ -232,7 +232,7 @@ public:
 
     bool OnGossipHello(Player* pPlayer, Creature* creature)
     {
-        npc_pusillinAI* pAI = CAST_AI(npc_pusillinAI,creature->AI());
+        npc_pusillinAI* pAI = CAST_AI(npc_pusillinAI, creature->AI());
         
         switch (pAI->uiGossipStep)
         {
@@ -263,7 +263,7 @@ public:
 
     bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
-        npc_pusillinAI* pAI = CAST_AI(npc_pusillinAI,creature->AI());
+        npc_pusillinAI* pAI = CAST_AI(npc_pusillinAI, creature->AI());
 
         if (!pAI)
             return false;

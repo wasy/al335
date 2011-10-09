@@ -95,8 +95,8 @@ public:
             intro = false;
 
             m_uiChannelTimer = 1*IN_MILLISECONDS;
-            m_uiEnevatingTimer = urand(10*IN_MILLISECONDS,25*IN_MILLISECONDS);
-            m_uiSaberLashTimer = urand(10*IN_MILLISECONDS,15*IN_MILLISECONDS);
+            m_uiEnevatingTimer = urand(10*IN_MILLISECONDS, 25*IN_MILLISECONDS);
+            m_uiSaberLashTimer = urand(10*IN_MILLISECONDS, 15*IN_MILLISECONDS);
 
             if (pDummyTarget = me->GetMap()->GetCreature( instance->GetData64(NPC_BALTHARUS_TARGET)))
             {
@@ -129,7 +129,7 @@ public:
                 !who->IsWithinDistInMap(me, 60.0f)) return;
 
             instance->SetData(TYPE_EVENT, 10);
-            DoScriptText(-1666305,me);
+            DoScriptText(-1666305, me);
             intro = true;
         }
 
@@ -140,18 +140,18 @@ public:
           // if (pDummyTarget && pDummyTarget->isSummon())
           // pDummyTarget->ForcedDespawn();
 
-            DoScriptText(-1666303,me);
+            DoScriptText(-1666303, me);
             instance->SetData(TYPE_BALTHARUS, DONE);
         }
 
         void KilledUnit(Unit* pVictim)
         {
-        switch (urand(0,1)) {
+        switch (urand(0, 1)) {
             case 0:
-                   DoScriptText(-1666301,me,pVictim);
+                   DoScriptText(-1666301, me, pVictim);
                    break;
             case 1:
-                   DoScriptText(-1666302,me,pVictim);
+                   DoScriptText(-1666302, me, pVictim);
                    break;
             }
         }
@@ -188,7 +188,7 @@ public:
             me->InterruptNonMeleeSpells(true);
             SetCombatMovement(true);
             instance->SetData(TYPE_BALTHARUS, IN_PROGRESS);
-            DoScriptText(-1666300,me);
+            DoScriptText(-1666300, me);
         }
 
         void DamageTaken(Unit* pDoneBy, uint32 &uiDamage)
@@ -282,13 +282,13 @@ public:
             if (m_uiEnevatingTimer <= diff)
             {
                 DoCast(SPELL_ENERVATING_BRAND);
-                m_uiEnevatingTimer = urand(10*IN_MILLISECONDS,25*IN_MILLISECONDS);
+                m_uiEnevatingTimer = urand(10*IN_MILLISECONDS, 25*IN_MILLISECONDS);
             } else m_uiEnevatingTimer -= diff;
 
             if (m_uiSaberLashTimer <= diff)
             {
                 DoCast(SPELL_SABER_LASH);
-                m_uiSaberLashTimer = urand(10*IN_MILLISECONDS,15*IN_MILLISECONDS);
+                m_uiSaberLashTimer = urand(10*IN_MILLISECONDS, 15*IN_MILLISECONDS);
             } else m_uiSaberLashTimer -= diff;
 
             DoMeleeAttackIfReady();
@@ -331,20 +331,20 @@ public:
             if(!instance) return;
 
             m_uiBladeTempestTimer = 22*IN_MILLISECONDS;
-            m_uiEnevatingTimer = urand(10*IN_MILLISECONDS,25*IN_MILLISECONDS);
-            m_uiSaberLashTimer = urand(10*IN_MILLISECONDS,15*IN_MILLISECONDS);
+            m_uiEnevatingTimer = urand(10*IN_MILLISECONDS, 25*IN_MILLISECONDS);
+            m_uiSaberLashTimer = urand(10*IN_MILLISECONDS, 15*IN_MILLISECONDS);
 
             me->SetRespawnDelay(7*DAY);
         }
 
         void KilledUnit(Unit* pVictim)
         {
-        switch (urand(0,1)) {
+        switch (urand(0, 1)) {
             case 0:
-                   DoScriptText(-1666301,me,pVictim);
+                   DoScriptText(-1666301, me, pVictim);
                    break;
             case 1:
-                   DoScriptText(-1666302,me,pVictim);
+                   DoScriptText(-1666302, me, pVictim);
                    break;
             }
         }
@@ -376,20 +376,20 @@ public:
 
             if (m_uiBladeTempestTimer <= diff)
             {
-                DoCast(me,SPELL_BLADE_TEMPEST);
+                DoCast(me, SPELL_BLADE_TEMPEST);
                 m_uiBladeTempestTimer = 22*IN_MILLISECONDS;
             } else m_uiBladeTempestTimer -= diff;
 
             if (m_uiEnevatingTimer <= diff)
             {
                 DoCast(SPELL_ENERVATING_BRAND);
-                m_uiEnevatingTimer = urand(10*IN_MILLISECONDS,25*IN_MILLISECONDS);
+                m_uiEnevatingTimer = urand(10*IN_MILLISECONDS, 25*IN_MILLISECONDS);
             } else m_uiEnevatingTimer -= diff;
 
             if (m_uiSaberLashTimer <= diff)
             {
                 DoCast(SPELL_SABER_LASH);
-                m_uiSaberLashTimer = urand(10*IN_MILLISECONDS,15*IN_MILLISECONDS);
+                m_uiSaberLashTimer = urand(10*IN_MILLISECONDS, 15*IN_MILLISECONDS);
             } else m_uiSaberLashTimer -= diff;
 
 
@@ -457,7 +457,7 @@ public:
             if (id == nextPoint)
             {
                 movementstarted = false;
-                instance->SetData(TYPE_EVENT,nextEvent);
+                instance->SetData(TYPE_EVENT, nextEvent);
                 me->GetMotionMaster()->MovementExpired();
             }
         }
@@ -468,7 +468,7 @@ public:
             nextEvent = _nextEvent;
             me->GetMotionMaster()->Clear();
             me->GetMotionMaster()->MovePoint(id, SpawnLocXer[id].x, SpawnLocXer[id].y, SpawnLocXer[id].z);
-            instance->SetData(TYPE_EVENT,0);
+            instance->SetData(TYPE_EVENT, 0);
             movementstarted = true;
         }
 
@@ -510,52 +510,52 @@ public:
                               instance->SetData(TYPE_EVENT, 20);
                               break;
                         case 20:
-                              DoScriptText(-1666000,me);
-                              instance->SetData(TYPE_EVENT,0);
+                              DoScriptText(-1666000, me);
+                              instance->SetData(TYPE_EVENT, 0);
                               break;
 // Xerestrasza event
                         case 30:
                              // me->SetActive(true);
-                              DoScriptText(-1666001,me);
-                              StartMovement(1,40);
+                              DoScriptText(-1666001, me);
+                              StartMovement(1, 40);
                               break;
                         case 40:
-                              DoScriptText(-1666002,me);
-                              StartMovement(2,50);
+                              DoScriptText(-1666002, me);
+                              StartMovement(2, 50);
                               break;
                         case 50:
-                              DoScriptText(-1666003,me);
+                              DoScriptText(-1666003, me);
                               UpdateTimer = 12000;
-                              instance->SetData(TYPE_EVENT,60);
+                              instance->SetData(TYPE_EVENT, 60);
                               break;
                         case 60:
-                              DoScriptText(-1666004,me);
+                              DoScriptText(-1666004, me);
                               UpdateTimer = 12000;
-                              instance->SetData(TYPE_EVENT,70);
+                              instance->SetData(TYPE_EVENT, 70);
                               break;
                         case 70:
-                              DoScriptText(-1666005,me);
+                              DoScriptText(-1666005, me);
                               UpdateTimer = 10000;
-                              instance->SetData(TYPE_EVENT,80);
+                              instance->SetData(TYPE_EVENT, 80);
                               break;
                         case 80:
-                              DoScriptText(-1666006,me);
+                              DoScriptText(-1666006, me);
                               UpdateTimer = 10000;
-                              instance->SetData(TYPE_EVENT,90);
+                              instance->SetData(TYPE_EVENT, 90);
                               break;
                         case 90:
-                              DoScriptText(-1666007,me);
+                              DoScriptText(-1666007, me);
                               UpdateTimer = 10000;
-                              instance->SetData(TYPE_EVENT,100);
+                              instance->SetData(TYPE_EVENT, 100);
                               break;
                         case 100:
-                              DoScriptText(-1666008,me);
+                              DoScriptText(-1666008, me);
                               UpdateTimer = 4000;
-                              instance->SetData(TYPE_EVENT,110);
+                              instance->SetData(TYPE_EVENT, 110);
                               break;
                         case 110:
                               UpdateTimer = 2000;
-                              instance->SetData(TYPE_EVENT,0);
+                              instance->SetData(TYPE_EVENT, 0);
                               instance->SetData(TYPE_XERESTRASZA, DONE);
                               me->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
                               me->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
@@ -581,12 +581,12 @@ public:
                                   }
                               }
                               UpdateTimer = 4000;
-                              instance->SetData(TYPE_EVENT,210);
+                              instance->SetData(TYPE_EVENT, 210);
                               break;
                         case 210:
                               //me->SetActive(false);
                               UpdateTimer = 2000;
-                              instance->SetData(TYPE_EVENT,0);
+                              instance->SetData(TYPE_EVENT, 0);
                               break;
 
                         default:

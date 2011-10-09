@@ -76,7 +76,7 @@ public:
             if (Aura * aur = killed->GetAura(13874))
                 aur->SetDuration(1*MINUTE*IN_MILLISECONDS); // 1 Минута Божественный щит
 
-            uint32 rnd = urand(0,9); 
+            uint32 rnd = urand(0, 9); 
             if (killed->GetTeam() == ALLIANCE)
                 killed->TeleportTo(37, allyPositions[rnd].GetPositionX(), allyPositions[rnd].GetPositionY(), allyPositions[rnd].GetPositionZ(), allyPositions[rnd].GetOrientation());
             else
@@ -101,7 +101,7 @@ public:
             if (Aura * aur = killed->GetAura(13874))
                 aur->SetDuration(1*MINUTE*IN_MILLISECONDS); // 1 Минута Божественный щит
 
-            uint32 rnd = urand(0,9); 
+            uint32 rnd = urand(0, 9); 
             if (killed->GetTeam() == ALLIANCE)
                 killed->TeleportTo(37, allyPositions[rnd].GetPositionX(), allyPositions[rnd].GetPositionY(), allyPositions[rnd].GetPositionZ(), allyPositions[rnd].GetOrientation());
             else

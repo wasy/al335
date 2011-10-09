@@ -80,9 +80,9 @@ public:
             me->SetRespawnDelay(7*DAY);
             if (me->isAlive()) instance->SetData(TYPE_RAGEFIRE, NOT_STARTED);
 
-            m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS,15*IN_MILLISECONDS);
-            m_uiEnrage = urand(20*IN_MILLISECONDS,40*IN_MILLISECONDS);
-            m_uiBeakonTimer = urand(12*IN_MILLISECONDS,22*IN_MILLISECONDS);
+            m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS, 15*IN_MILLISECONDS);
+            m_uiEnrage = urand(20*IN_MILLISECONDS, 40*IN_MILLISECONDS);
+            m_uiBeakonTimer = urand(12*IN_MILLISECONDS, 22*IN_MILLISECONDS);
             m_uiConflagrateTimer = 5*IN_MILLISECONDS;
 
             setStage(0);
@@ -137,12 +137,12 @@ public:
 
         void KilledUnit(Unit* pVictim)
         {
-            switch (urand(0,1)) {
+            switch (urand(0, 1)) {
                 case 0:
-                       DoScriptText(-1666401,me,pVictim);
+                       DoScriptText(-1666401, me, pVictim);
                        break;
                 case 1:
-                       DoScriptText(-1666402,me,pVictim);
+                       DoScriptText(-1666402, me, pVictim);
                        break;
                 }
         }
@@ -159,7 +159,7 @@ public:
 
             instance->SetData(TYPE_RAGEFIRE, IN_PROGRESS);
             me->SetInCombatWithZone();
-            DoScriptText(-1666400,me);
+            DoScriptText(-1666400, me);
         }
 
         void JustDied(Unit *killer)
@@ -167,14 +167,14 @@ public:
             if(!instance) return;
 
             instance->SetData(TYPE_RAGEFIRE, DONE);
-            DoScriptText(-1666403,me);
+            DoScriptText(-1666403, me);
         }
 
         void doBeacon(bool command = false)
         {
             if (command)
             {
-                 SelectTargetList(playerList, RAID_MODE(TARGETS_10,TARGETS_25,TARGETS_10,TARGETS_25), SELECT_TARGET_RANDOM, 0, true);
+                 SelectTargetList(playerList, RAID_MODE(TARGETS_10, TARGETS_25, TARGETS_10, TARGETS_25), SELECT_TARGET_RANDOM, 0, true);
                  for (std::list<Unit*>::const_iterator itr = playerList.begin(); itr != playerList.end(); ++itr)
                  {
                      Unit *temp = (*itr);
@@ -209,14 +209,14 @@ public:
                      if (m_uiFlameBreathTimer <= diff)
                      {
                          DoCast(SPELL_FLAME_BREATH);
-                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS,15*IN_MILLISECONDS);
+                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS, 15*IN_MILLISECONDS);
                      } else m_uiFlameBreathTimer -= diff;
 
                      if (m_uiEnrage <= diff)
                      {
                          DoCast(SPELL_ENRAGE);
-                         m_uiEnrage = urand(20*IN_MILLISECONDS,40*IN_MILLISECONDS);
-                         DoScriptText(-1666405,me);
+                         m_uiEnrage = urand(20*IN_MILLISECONDS, 40*IN_MILLISECONDS);
+                         DoScriptText(-1666405, me);
                      } else m_uiEnrage -= diff;
 
                      if ( HealthBelowPct(81) ) setStage(1);
@@ -234,7 +234,7 @@ public:
                 case 2: // Wait for movement
                      if (MovementStarted) return;
                      DoCast(SPELL_CONFLAGATION);
-                     DoScriptText(-1666404,me);
+                     DoScriptText(-1666404, me);
                      setStage(3);
                      break;
 
@@ -250,14 +250,14 @@ public:
                      if (m_uiFlameBreathTimer <= diff)
                      {
                          DoCast(SPELL_FLAME_BREATH);
-                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS,15*IN_MILLISECONDS);
+                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS, 15*IN_MILLISECONDS);
                      } else m_uiFlameBreathTimer -= diff;
 
                      if (m_uiBeakonTimer <= diff)
                      {
                          doBeacon(true);
                          DoCast(SPELL_CONFLAGATION);
-                         m_uiBeakonTimer = urand(12*IN_MILLISECONDS,22*IN_MILLISECONDS);
+                         m_uiBeakonTimer = urand(12*IN_MILLISECONDS, 22*IN_MILLISECONDS);
                      } else m_uiBeakonTimer -= diff;
 
                      if (m_uiConflagrateTimer <= diff)
@@ -291,14 +291,14 @@ public:
                      if (m_uiFlameBreathTimer <= diff)
                      {
                          DoCast(SPELL_FLAME_BREATH);
-                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS,15*IN_MILLISECONDS);
+                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS, 15*IN_MILLISECONDS);
                      } else m_uiFlameBreathTimer -= diff;
 
                      if (m_uiEnrage <= diff)
                      {
                          DoCast(SPELL_ENRAGE);
-                         m_uiEnrage = urand(20*IN_MILLISECONDS,40*IN_MILLISECONDS);
-                         DoScriptText(-1666405,me);
+                         m_uiEnrage = urand(20*IN_MILLISECONDS, 40*IN_MILLISECONDS);
+                         DoScriptText(-1666405, me);
                      } else m_uiEnrage -= diff;
 
                      if ( HealthBelowPct(41) ) setStage(8);
@@ -316,7 +316,7 @@ public:
                 case 9: // Wait for movement
                      if (MovementStarted) return;
                      DoCast(SPELL_CONFLAGATION);
-                     DoScriptText(-1666404,me);
+                     DoScriptText(-1666404, me);
                      setStage(10);
                      break;
 
@@ -332,14 +332,14 @@ public:
                      if (m_uiFlameBreathTimer <= diff)
                      {
                          DoCast(SPELL_FLAME_BREATH);
-                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS,15*IN_MILLISECONDS);
+                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS, 15*IN_MILLISECONDS);
                      } else m_uiFlameBreathTimer -= diff;
 
                      if (m_uiBeakonTimer <= diff)
                      {
                          doBeacon(true);
                          DoCast(SPELL_CONFLAGATION);
-                         m_uiBeakonTimer = urand(12*IN_MILLISECONDS,22*IN_MILLISECONDS);
+                         m_uiBeakonTimer = urand(12*IN_MILLISECONDS, 22*IN_MILLISECONDS);
                      } else m_uiBeakonTimer -= diff;
 
                      if (m_uiConflagrateTimer <= diff)
@@ -373,14 +373,14 @@ public:
                      if (m_uiFlameBreathTimer <= diff)
                      {
                          DoCast(SPELL_FLAME_BREATH);
-                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS,15*IN_MILLISECONDS);
+                         m_uiFlameBreathTimer = urand(5*IN_MILLISECONDS, 15*IN_MILLISECONDS);
                      } else m_uiFlameBreathTimer -= diff;
 
                      if (m_uiEnrage <= diff)
                      {
                          DoCast(SPELL_ENRAGE);
-                         m_uiEnrage = urand(15*IN_MILLISECONDS,30*IN_MILLISECONDS);
-                         DoScriptText(-1666405,me);
+                         m_uiEnrage = urand(15*IN_MILLISECONDS, 30*IN_MILLISECONDS);
+                         DoScriptText(-1666405, me);
                      } else m_uiEnrage -= diff;
                      break;
 

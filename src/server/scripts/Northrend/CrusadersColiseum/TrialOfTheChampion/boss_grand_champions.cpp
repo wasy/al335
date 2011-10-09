@@ -78,14 +78,14 @@ enum eSeat
 /*
 struct Point
 {
-    float x,y,z;
+    float x, y, z;
 };
 
 const Point MovementPoint[] =
 {
-  {746.84f,623.15f,411.41f},
-  {747.96f,620.29f,411.09f},
-  {750.23f,618.35f,411.09f}
+  {746.84f, 623.15f, 411.41f},
+  {747.96f, 620.29f, 411.09f},
+  {750.23f, 618.35f, 411.09f}
 };
 */
 void AggroAllPlayers(Creature* temp)
@@ -104,7 +104,7 @@ void AggroAllPlayers(Creature* temp)
 
             if(pPlayer->isAlive())
             {
-                temp->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
+                temp->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
                 temp->SetReactState(REACT_AGGRESSIVE);
                 temp->SetInCombatWith(pPlayer);
                 pPlayer->SetInCombatWith(temp);
@@ -171,7 +171,7 @@ public:
         {
             ASSERT(vehicle);
             uiShieldBreakerTimer = 8000;
-            uiBuffTimer = urand(30000,60000);
+            uiBuffTimer = urand(30000, 60000);
 
             vehicle->Reset();
         }
@@ -181,38 +181,38 @@ public:
             switch (uiType)
             {
                 case 1:
-                    AddWaypoint(0,746.45f,647.03f,411.57f);
-                    AddWaypoint(1,771.434f, 642.606f, 411.9f);
-                    AddWaypoint(2,779.807f, 617.535f, 411.716f);
-                    AddWaypoint(3,771.098f, 594.635f, 411.625f);
-                    AddWaypoint(4,746.887f, 583.425f, 411.668f);
-                    AddWaypoint(5,715.176f, 583.782f, 412.394f);
-                    AddWaypoint(6,720.719f, 591.141f, 411.737f);
+                    AddWaypoint(0, 746.45f, 647.03f, 411.57f);
+                    AddWaypoint(1, 771.434f, 642.606f, 411.9f);
+                    AddWaypoint(2, 779.807f, 617.535f, 411.716f);
+                    AddWaypoint(3, 771.098f, 594.635f, 411.625f);
+                    AddWaypoint(4, 746.887f, 583.425f, 411.668f);
+                    AddWaypoint(5, 715.176f, 583.782f, 412.394f);
+                    AddWaypoint(6, 720.719f, 591.141f, 411.737f);
                     uiWaypointPath = 1;
                     break;
                 case 2:
-                    AddWaypoint(0,746.45f,647.03f,411.57f);
-                    AddWaypoint(1,771.434f, 642.606f, 411.9f);
-                    AddWaypoint(2,779.807f, 617.535f, 411.716f);
-                    AddWaypoint(3,771.098f, 594.635f, 411.625f);
-                    AddWaypoint(4,746.887f, 583.425f, 411.668f);
-                    AddWaypoint(5,746.16f, 571.678f, 412.389f);
-                    AddWaypoint(6,746.887f, 583.425f, 411.668f);
+                    AddWaypoint(0, 746.45f, 647.03f, 411.57f);
+                    AddWaypoint(1, 771.434f, 642.606f, 411.9f);
+                    AddWaypoint(2, 779.807f, 617.535f, 411.716f);
+                    AddWaypoint(3, 771.098f, 594.635f, 411.625f);
+                    AddWaypoint(4, 746.887f, 583.425f, 411.668f);
+                    AddWaypoint(5, 746.16f, 571.678f, 412.389f);
+                    AddWaypoint(6, 746.887f, 583.425f, 411.668f);
                     uiWaypointPath = 2;
                     break;
                 case 3:
-                    AddWaypoint(0,746.45f,647.03f,411.57f);
-                    AddWaypoint(1,771.434f, 642.606f, 411.9f);
-                    AddWaypoint(2,779.807f, 617.535f, 411.716f);
-                    AddWaypoint(3,771.098f, 594.635f, 411.625f);
-                    AddWaypoint(4,777.759f, 584.577f, 412.393f);
-                    AddWaypoint(5,772.48f, 592.99f, 411.68f);
+                    AddWaypoint(0, 746.45f, 647.03f, 411.57f);
+                    AddWaypoint(1, 771.434f, 642.606f, 411.9f);
+                    AddWaypoint(2, 779.807f, 617.535f, 411.716f);
+                    AddWaypoint(3, 771.098f, 594.635f, 411.625f);
+                    AddWaypoint(4, 777.759f, 584.577f, 412.393f);
+                    AddWaypoint(5, 772.48f, 592.99f, 411.68f);
                     uiWaypointPath = 3;
                     break;
             }
 
             if (uiType <= 3)
-                Start(false,true,0,NULL);
+                Start(false, true, 0, NULL);
         }
 
         void WaypointReached(uint32 i)
@@ -241,7 +241,7 @@ public:
         void DoCastSpellShield()
         {
             for (uint8 i = 0; i < 3; ++i)
-                DoCast(me,SPELL_SHIELD,true);
+                DoCast(me, SPELL_SHIELD, true);
         }
 
         void UpdateAI(const uint32 uiDiff)
@@ -254,7 +254,7 @@ public:
             if (uiBuffTimer <= uiDiff)
             {
                 DoCastSpellShield();
-                uiBuffTimer = urand(30000,45000);
+                uiBuffTimer = urand(30000, 45000);
             }else uiBuffTimer -= uiDiff;
 
             //dosen't work at all
@@ -268,9 +268,9 @@ public:
                         for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                         {
                             Player* pPlayer = itr->getSource();
-                            if (pPlayer && !pPlayer->isGameMaster() && me->IsInRange(pPlayer,10.0f,30.0f,false))
+                            if (pPlayer && !pPlayer->isGameMaster() && me->IsInRange(pPlayer, 10.0f, 30.0f, false))
                             {
-                                pPassenger->CastSpell(pPlayer,SPELL_SHIELD_BREAKER,true);
+                                pPassenger->CastSpell(pPlayer, SPELL_SHIELD_BREAKER, true);
                                 break;
                             }
                         }
@@ -310,7 +310,7 @@ public:
             uiPhaseTimer = 0;
 
             me->SetReactState(REACT_PASSIVE);
-            me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
         InstanceScript* instance;
@@ -329,9 +329,9 @@ public:
 
         void Reset()
         {
-            uiBladeStormTimer = urand(15000,20000);
+            uiBladeStormTimer = urand(15000, 20000);
             uiInterceptTimer  = 7000;
-            uiMortalStrikeTimer = urand(8000,12000);
+            uiMortalStrikeTimer = urand(8000, 12000);
         }
 
         void JustReachedHome()
@@ -356,11 +356,11 @@ public:
      		DoScriptText(SAY_START_2, me);
 
                 if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
-                    me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
+                    me->SetHomePosition(739.678f, 662.541f, 412.393f, 4.49f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
-                    me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
+                    me->SetHomePosition(746.71f, 661.02f, 411.69f, 4.6f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
-                    me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
+                    me->SetHomePosition(754.34f, 660.70f, 412.39f, 4.79f);
 
                 EnterEvadeMode();
                 bHome = true;
@@ -386,11 +386,11 @@ public:
                     for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                     {
                         Player* pPlayer = itr->getSource();
-                        if (pPlayer && !pPlayer->isGameMaster() && me->IsInRange(pPlayer,8.0f,25.0f,false))
+                        if (pPlayer && !pPlayer->isGameMaster() && me->IsInRange(pPlayer, 8.0f, 25.0f, false))
                         {
                             DoResetThreat();
-                            me->AddThreat(pPlayer,5.0f);
-                            DoCast(pPlayer,SPELL_INTERCEPT);
+                            me->AddThreat(pPlayer, 5.0f);
+                            DoCast(pPlayer, SPELL_INTERCEPT);
                             break;
                         }
                     }
@@ -401,13 +401,13 @@ public:
             if (uiBladeStormTimer <= uiDiff)
             {
                 DoCastVictim(SPELL_BLADESTORM);
-                uiBladeStormTimer = urand(25000,35000);
+                uiBladeStormTimer = urand(25000, 35000);
             } else uiBladeStormTimer -= uiDiff;
 
             if (uiMortalStrikeTimer <= uiDiff)
             {
                 DoCastVictim(SPELL_MORTAL_STRIKE);
-                uiMortalStrikeTimer = urand(22000,26000);
+                uiMortalStrikeTimer = urand(22000, 26000);
             } else uiMortalStrikeTimer -= uiDiff;
 
             DoMeleeAttackIfReady();
@@ -449,7 +449,7 @@ public:
             uiPhaseTimer = 0;
 
             me->SetReactState(REACT_PASSIVE);
-            me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
         InstanceScript* instance;
@@ -493,11 +493,11 @@ public:
                 bDone = true;
 
                 if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
-                    me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
+                    me->SetHomePosition(739.678f, 662.541f, 412.393f, 4.49f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
-                    me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
+                    me->SetHomePosition(746.71f, 661.02f, 411.69f, 4.6f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
-                    me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
+                    me->SetHomePosition(754.34f, 660.70f, 412.39f, 4.79f);
 
                 if (instance)
                     instance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
@@ -526,14 +526,14 @@ public:
 
             if (uiPolymorphTimer <= uiDiff)
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
                     DoCast(target, SPELL_POLYMORPH);
                 uiPolymorphTimer = 22000;
             } else uiPolymorphTimer -= uiDiff;
 
             if (uiBlastWaveTimer <= uiDiff)
             {
-                DoCastAOE(SPELL_BLAST_WAVE,false);
+                DoCastAOE(SPELL_BLAST_WAVE, false);
                 uiBlastWaveTimer = 30000;
             } else uiBlastWaveTimer -= uiDiff;
 
@@ -541,7 +541,7 @@ public:
             {
                 me->InterruptNonMeleeSpells(true);
 
-                DoCast(me,SPELL_HASTE);
+                DoCast(me, SPELL_HASTE);
                 uiHasteTimer = 40000;
             } else uiHasteTimer -= uiDiff;
 
@@ -583,7 +583,7 @@ public:
             uiPhaseTimer = 0;
 
             me->SetReactState(REACT_PASSIVE);
-            me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
         InstanceScript* instance;
@@ -603,14 +603,14 @@ public:
         {
             uiChainLightningTimer = 16000;
             uiHealingWaveTimer = 12000;
-            uiEartShieldTimer = urand(30000,35000);
-            uiHexMendingTimer = urand(20000,25000);
+            uiEartShieldTimer = urand(30000, 35000);
+            uiHexMendingTimer = urand(20000, 25000);
         }
 
         void EnterCombat(Unit* who)
         {
-            DoCast(me,SPELL_EARTH_SHIELD);
-            DoCast(who,SPELL_HEX_OF_MENDING);
+            DoCast(me, SPELL_EARTH_SHIELD);
+            DoCast(who, SPELL_HEX_OF_MENDING);
         };
 
         void JustReachedHome()
@@ -633,11 +633,11 @@ public:
                 bDone = true;
 
                 if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
-                    me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
+                    me->SetHomePosition(739.678f, 662.541f, 412.393f, 4.49f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
-                    me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
+                    me->SetHomePosition(746.71f, 661.02f, 411.69f, 4.6f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
-                    me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
+                    me->SetHomePosition(754.34f, 660.70f, 412.39f, 4.79f);
 
                 if (instance)
                     instance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
@@ -660,38 +660,38 @@ public:
 
             if (uiChainLightningTimer <= uiDiff)
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                    DoCast(target,SPELL_CHAIN_LIGHTNING);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                    DoCast(target, SPELL_CHAIN_LIGHTNING);
 
                 uiChainLightningTimer = 23000;
             } else uiChainLightningTimer -= uiDiff;
 
             if (uiHealingWaveTimer <= uiDiff)
             {
-                bool bChance = urand(0,1);
+                bool bChance = urand(0, 1);
 
                 if (!bChance)
                 {
                     if (Unit* pFriend = DoSelectLowestHpFriendly(40))
-                        DoCast(pFriend,SPELL_HEALING_WAVE);
+                        DoCast(pFriend, SPELL_HEALING_WAVE);
                 } else
-                    DoCast(me,SPELL_HEALING_WAVE);
+                    DoCast(me, SPELL_HEALING_WAVE);
 
                 uiHealingWaveTimer = 19000;
             } else uiHealingWaveTimer -= uiDiff;
 
             if (uiEartShieldTimer <= uiDiff)
             {
-                DoCast(me,SPELL_EARTH_SHIELD);
+                DoCast(me, SPELL_EARTH_SHIELD);
 
-                uiEartShieldTimer = urand(40000,45000);
+                uiEartShieldTimer = urand(40000, 45000);
             } else uiEartShieldTimer -= uiDiff;
 
             if (uiHexMendingTimer <= uiDiff)
             {
-                DoCastVictim(SPELL_HEX_OF_MENDING,true);
+                DoCastVictim(SPELL_HEX_OF_MENDING, true);
 
-                uiHexMendingTimer = urand(30000,35000);
+                uiHexMendingTimer = urand(30000, 35000);
             } else uiHexMendingTimer -= uiDiff;
 
             DoMeleeAttackIfReady();
@@ -732,7 +732,7 @@ public:
             uiPhaseTimer = 0;
 
             me->SetReactState(REACT_PASSIVE);
-            me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
         InstanceScript* instance;
@@ -783,11 +783,11 @@ public:
                 bDone = true;
 
                 if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
-                    me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
+                    me->SetHomePosition(739.678f, 662.541f, 412.393f, 4.49f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
-                    me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
+                    me->SetHomePosition(746.71f, 661.02f, 411.69f, 4.6f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
-                    me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
+                    me->SetHomePosition(754.34f, 660.70f, 412.39f, 4.79f);
 
                 if (instance)
                     instance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
@@ -820,8 +820,8 @@ public:
 
             if (uiLightningArrowsTimer <= uiDiff)
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                    DoCast(target,SPELL_LIGHTNING_ARROWS);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                    DoCast(target, SPELL_LIGHTNING_ARROWS);
 
                 uiLightningArrowsTimer = 15000;
 
@@ -829,7 +829,7 @@ public:
 
             if (uiShootTimer <= uiDiff)
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST,0,30.0f))
+                if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 30.0f))
                 {
                     uiTargetGUID = target->GetGUID();
                     DoCast(target, SPELL_SHOOT);
@@ -844,9 +844,9 @@ public:
                 me->InterruptNonMeleeSpells(true);
                 Unit* target = Unit::GetUnit(*me, uiTargetGUID);
 
-                if (target && me->IsInRange(target,5.0f,30.0f,false))
+                if (target && me->IsInRange(target, 5.0f, 30.0f, false))
                 {
-                    DoCast(target,SPELL_MULTI_SHOT);
+                    DoCast(target, SPELL_MULTI_SHOT);
                 } else
                 {
                     Map::PlayerList const& players = me->GetMap()->GetPlayers();
@@ -855,9 +855,9 @@ public:
                         for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                         {
                             Player* pPlayer = itr->getSource();
-                            if (pPlayer && !pPlayer->isGameMaster() && me->IsInRange(pPlayer,5.0f,30.0f,false))
+                            if (pPlayer && !pPlayer->isGameMaster() && me->IsInRange(pPlayer, 5.0f, 30.0f, false))
                             {
-                                DoCast(target,SPELL_MULTI_SHOT);
+                                DoCast(target, SPELL_MULTI_SHOT);
                                 break;
                             }
                         }
@@ -905,7 +905,7 @@ public:
             uiPhaseTimer = 0;
 
             me->SetReactState(REACT_PASSIVE);
-            me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
         }
 
         InstanceScript* instance;
@@ -946,11 +946,11 @@ public:
                 bDone = true;
 
                 if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_1))
-                    me->SetHomePosition(739.678f,662.541f,412.393f,4.49f);
+                    me->SetHomePosition(739.678f, 662.541f, 412.393f, 4.49f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_2))
-                    me->SetHomePosition(746.71f,661.02f,411.69f,4.6f);
+                    me->SetHomePosition(746.71f, 661.02f, 411.69f, 4.6f);
                 else if (instance && me->GetGUID() == instance->GetData64(DATA_GRAND_CHAMPION_3))
-                    me->SetHomePosition(754.34f,660.70f,412.39f,4.79f);
+                    me->SetHomePosition(754.34f, 660.70f, 412.39f, 4.79f);
 
                 if (instance)
                     instance->SetData(BOSS_GRAND_CHAMPIONS, IN_PROGRESS);
@@ -979,14 +979,14 @@ public:
 
             if (uiFanKivesTimer <= uiDiff)
             {
-                DoCastAOE(SPELL_FAN_OF_KNIVES,false);
+                DoCastAOE(SPELL_FAN_OF_KNIVES, false);
                 uiFanKivesTimer = 20000;
             } else uiFanKivesTimer -= uiDiff;
 
             if (uiPosionBottleTimer <= uiDiff)
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                    DoCast(target,SPELL_POISON_BOTTLE);
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                    DoCast(target, SPELL_POISON_BOTTLE);
 
                 uiPosionBottleTimer = 19000;
             } else uiPosionBottleTimer -= uiDiff;

@@ -2159,7 +2159,7 @@ void Player::TeleportOutOfMap(Map* oldMap)
 
 bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientation, uint32 options)
 {
-    //sAnticheatMgr->DisableAnticheatDetection(this,true);
+    //sAnticheatMgr->DisableAnticheatDetection(this, true);
 
     if (!MapManager::IsValidMapCoord(mapid, x, y, z, orientation))
     {
@@ -3343,7 +3343,7 @@ void Player::InitStatsForLevel(bool reapplyMods)
 
     // save new stats
     for (uint8 i = POWER_MANA; i < MAX_POWERS; ++i)
-        SetMaxPower(Powers(i),  uint32(GetCreatePowers(Powers(i))));
+        SetMaxPower(Powers(i), uint32(GetCreatePowers(Powers(i))));
 
     SetMaxHealth(classInfo.basehealth);                     // stamina bonus will applied later
 
@@ -7397,7 +7397,7 @@ void Player::UpdateKnownTitles()
     uint32 new_title = 0;
     uint32 honor_kills = GetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS);
     uint32 old_title = GetUInt32Value(PLAYER_CHOSEN_TITLE);
-    RemoveFlag64(PLAYER__FIELD_KNOWN_TITLES,PLAYER_TITLE_MASK_ALL_PVP);
+    RemoveFlag64(PLAYER__FIELD_KNOWN_TITLES, PLAYER_TITLE_MASK_ALL_PVP);
     if (honor_kills < 0)
         return;
     bool max_rank = ((honor_kills >= sWorld->pvp_ranks[HKRANKMAX-1]) ? true : false);
@@ -7411,9 +7411,9 @@ void Player::UpdateKnownTitles()
             break;
         }
     }
-    SetFlag64(PLAYER__FIELD_KNOWN_TITLES,uint64(1) << new_title);
+    SetFlag64(PLAYER__FIELD_KNOWN_TITLES, uint64(1) << new_title);
     if (old_title > 0 && old_title < (2*HKRANKMAX-1) && new_title > old_title)
-        SetUInt32Value(PLAYER_CHOSEN_TITLE,new_title);
+        SetUInt32Value(PLAYER_CHOSEN_TITLE, new_title);
 }
 
 void Player::SetHonorPoints(uint32 value)

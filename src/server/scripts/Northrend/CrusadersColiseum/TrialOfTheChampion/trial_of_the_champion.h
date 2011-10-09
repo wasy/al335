@@ -29,7 +29,7 @@ enum Data64
 {
     DATA_ANNOUNCER,
     DATA_MAIN_GATE,
-    DATA_MAIN_GATE1,				
+    DATA_MAIN_GATE1, 				
 
     DATA_GRAND_CHAMPION_VEHICLE_1,
     DATA_GRAND_CHAMPION_VEHICLE_2,
@@ -152,7 +152,7 @@ enum eVehicles
 
     VEHICLE_ARGENT_WARHORSE                         = 35644,
     VEHICLE_ARGENT_BATTLEWORG                       = 36558,
-    VEHICLE_GR                                      = 35492, 
+    VEHICLE_GR                                      = 35492,
 
     VEHICLE_BLACK_KNIGHT                            = 35491
 };

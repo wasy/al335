@@ -126,7 +126,7 @@ public:
                     case AREA_DRAGONBLIGHT:
                         break;
                     default: 
-                        me->DealDamage(me,me->GetHealth());
+                        me->DealDamage(me, me->GetHealth());
                         break;
                     }
 
@@ -139,7 +139,7 @@ public:
                     uint32 area = me->GetAreaId();
                     if(area != AREA_VENOMSPITE)
                     {
-                        me->DealDamage(me,me->GetHealth());
+                        me->DealDamage(me, me->GetHealth());
                     }
                     check_Timer = 5000;
                 }else check_Timer -= diff;
@@ -194,18 +194,18 @@ public:
                 switch(part)
                 {
                 case 1:
-                    DoCast(me,SPELL_SUMMON_ANUBAR_INVADER,true);
+                    DoCast(me, SPELL_SUMMON_ANUBAR_INVADER, true);
                     part++;
                     break;
                 case 2:
-                    DoCast(me,SPELL_SUMMON_ANUBAR_INVADER,true);
-                    DoCast(me,SPELL_SUMMON_ANUBAR_INVADER,true);
+                    DoCast(me, SPELL_SUMMON_ANUBAR_INVADER, true);
+                    DoCast(me, SPELL_SUMMON_ANUBAR_INVADER, true);
                     part++;
                     break;
                 case 3:
-                    DoCast(me,SPELL_SUMMON_ANUBAR_INVADER,true);
-                    DoCast(me,SPELL_SUMMON_ANUBAR_INVADER,true);
-                    DoCast(me,SPELL_SUMMON_ANUBAR_INVADER,true);
+                    DoCast(me, SPELL_SUMMON_ANUBAR_INVADER, true);
+                    DoCast(me, SPELL_SUMMON_ANUBAR_INVADER, true);
+                    DoCast(me, SPELL_SUMMON_ANUBAR_INVADER, true);
                     part++;
                     break;
                 case 4:
@@ -284,13 +284,13 @@ public:
             {
                 Unit* owner = me->GetCharmerOrOwnerOrSelf();
 
-                Creature* target = me->FindNearestCreature(27436,10,true);
+                Creature* target = me->FindNearestCreature(27436, 10, true);
                 if(target && owner->ToPlayer())
-                    owner->ToPlayer()->KilledMonsterCredit(27436,target->GetGUID());
+                    owner->ToPlayer()->KilledMonsterCredit(27436, target->GetGUID());
 
-                target = me->FindNearestCreature(27437,10,true);
+                target = me->FindNearestCreature(27437, 10, true);
                 if(target && owner->ToPlayer())
-                    owner->ToPlayer()->KilledMonsterCredit(27437,target->GetGUID());
+                    owner->ToPlayer()->KilledMonsterCredit(27437, target->GetGUID());
 
                 DoCast(SPELL_WMB_EXPLOSION);
                 Explote_Timer = 9999999;
@@ -459,7 +459,7 @@ public:
                 return;
 
             if(PlayerGUID)
-                if(Player* pPlayer = Unit::GetPlayer(*me,PlayerGUID))
+                if(Player* pPlayer = Unit::GetPlayer(*me, PlayerGUID))
                 {
                     switch (i)
                     {
@@ -508,7 +508,7 @@ public:
 
             if (PlayerGUID)
             {
-                Player* AuraPlayer = Unit::GetPlayer(*me,PlayerGUID);
+                Player* AuraPlayer = Unit::GetPlayer(*me, PlayerGUID);
 
                 if (!AuraPlayer)
                 {
@@ -679,11 +679,11 @@ public:
         {
             if(spell->Id == SPELL_DESTURCTION_TRIGGER)
             {
-                if(Player *owner = Unit::GetPlayer(*me,guid_owner))
-                    owner->KilledMonsterCredit(ENTRY_PLAGUE_PULT_CREDIT,target->GetGUID());
+                if(Player *owner = Unit::GetPlayer(*me, guid_owner))
+                    owner->KilledMonsterCredit(ENTRY_PLAGUE_PULT_CREDIT, target->GetGUID());
                 if(target->ToCreature())
                 {
-                    target->DealDamage(target,target->GetHealth());
+                    target->DealDamage(target, target->GetHealth());
                     //target->ToCreature()->RemoveCorpse();
                 }
             }
@@ -730,25 +730,25 @@ public:
                 switch(phase)
                 {
                 case 0:
-                    if(Unit::GetPlayer(*me,guid_owner))
+                    if(Unit::GetPlayer(*me, guid_owner))
                     {
-                        Creature* pult = me->FindNearestCreature(ENTRY_SCOURGE_PLAGE_CATAPULT,50);
+                        Creature* pult = me->FindNearestCreature(ENTRY_SCOURGE_PLAGE_CATAPULT, 50);
                         if(pult)
                         {
                             guid_pult = pult->GetGUID();
-                            me->GetMotionMaster()->MovePoint(1,pult->GetPositionX(),pult->GetPositionY(),pult->GetPositionZ());
+                            me->GetMotionMaster()->MovePoint(1, pult->GetPositionX(),pult->GetPositionY(),pult->GetPositionZ());
                             phase = 1;
                         }
                     }
-                    else me->DealDamage(me,me->GetHealth());
+                    else me->DealDamage(me, me->GetHealth());
                     break;
                 case 1:
                     return;
                 case 2:
-                    if(Creature* pult = Creature::GetCreature(*me,guid_pult))
+                    if(Creature* pult = Creature::GetCreature(*me, guid_pult))
                     {
-                        me->CastSpell(pult,SPELL_DESTURCTION,true);
-                        me->CastSpell(me,SPELL_PLACE_SCOURGE_DISCOMBOBULATER,false);
+                        me->CastSpell(pult, SPELL_DESTURCTION, true);
+                        me->CastSpell(me, SPELL_PLACE_SCOURGE_DISCOMBOBULATER, false);
                         phase++;
                     }
                     break;
@@ -816,7 +816,7 @@ public:
                     case AREA_THORSONS_POINT:
                         break;
                     default: 
-                        me->DealDamage(me,me->GetHealth());
+                        me->DealDamage(me, me->GetHealth());
                         break;
                     }
 
@@ -829,7 +829,7 @@ public:
                     uint32 area = me->GetAreaId();
                     if(area != AREA_THORSONS_POINT)
                     {
-                        me->DealDamage(me,me->GetHealth());
+                        me->DealDamage(me, me->GetHealth());
                     }
                     check_Timer = 5000;
                 }else check_Timer -= diff;

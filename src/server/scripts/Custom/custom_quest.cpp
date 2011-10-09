@@ -66,7 +66,7 @@ public:
 
     struct npc_blessed_bannerAI : public Scripted_NoMovementAI
     {
-        npc_blessed_bannerAI(Creature* creature) : Scripted_NoMovementAI(creature) , Summons(me)
+        npc_blessed_bannerAI(Creature* creature) : Scripted_NoMovementAI(creature), Summons(me)
         {
             EventStarted = false;
             EventFinished = false;

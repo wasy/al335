@@ -80,8 +80,8 @@ public:
                 return;
 
             m_uiSummonTimer = 45*IN_MILLISECONDS;
-            m_uiCleaveTimer = urand(10*IN_MILLISECONDS,20*IN_MILLISECONDS);
-            m_uiImtimidatingTimer = urand(15*IN_MILLISECONDS,25*IN_MILLISECONDS);
+            m_uiCleaveTimer = urand(10*IN_MILLISECONDS, 20*IN_MILLISECONDS);
+            m_uiImtimidatingTimer = urand(15*IN_MILLISECONDS, 25*IN_MILLISECONDS);
 
             if (me->isAlive())
             {
@@ -102,12 +102,12 @@ public:
 
         void KilledUnit(Unit* pVictim)
         {
-        switch (urand(0,1)) {
+        switch (urand(0, 1)) {
             case 0:
-                   DoScriptText(-1666201,me,pVictim);
+                   DoScriptText(-1666201, me, pVictim);
                    break;
             case 1:
-                   DoScriptText(-1666202,me,pVictim);
+                   DoScriptText(-1666202, me, pVictim);
                    break;
             }
         }
@@ -136,7 +136,7 @@ public:
 
             SetEquipmentSlots(false, EQUIP_MAIN, EQUIP_OFFHAND, EQUIP_RANGED);
             instance->SetData(TYPE_ZARITHRIAN, IN_PROGRESS);
-            DoScriptText(-1666200,me);
+            DoScriptText(-1666200, me);
         }
 
         void JustDied(Unit *killer)
@@ -144,7 +144,7 @@ public:
             if(!instance) return;
 
             instance->SetData(TYPE_ZARITHRIAN, DONE);
-            DoScriptText(-1666203,me);
+            DoScriptText(-1666203, me);
         }
 
         void UpdateAI(const uint32 diff)
@@ -160,20 +160,20 @@ public:
                 if (instance->instance->GetSpawnMode() == RAID_DIFFICULTY_25MAN_NORMAL || instance->instance->GetSpawnMode() == RAID_DIFFICULTY_25MAN_HEROIC)
                     DoCast(SPELL_CALL_FLAMECALLER);
 
-                DoScriptText(-1666204,me);
+                DoScriptText(-1666204, me);
                 m_uiSummonTimer = 45*IN_MILLISECONDS;
             } else m_uiSummonTimer -= diff;
 
             if (m_uiCleaveTimer <= diff)
             {
                 DoCast(SPELL_CLEAVE_ARMOR);
-                m_uiCleaveTimer = urand(10*IN_MILLISECONDS,20*IN_MILLISECONDS);
+                m_uiCleaveTimer = urand(10*IN_MILLISECONDS, 20*IN_MILLISECONDS);
             } else m_uiCleaveTimer -= diff;
 
             if (m_uiImtimidatingTimer <= diff)
             {
                 DoCast(SPELL_IMTIMIDATING_ROAR);
-                m_uiImtimidatingTimer = urand(15*IN_MILLISECONDS,25*IN_MILLISECONDS);
+                m_uiImtimidatingTimer = urand(15*IN_MILLISECONDS, 25*IN_MILLISECONDS);
             } else m_uiImtimidatingTimer -= diff;
 
             DoMeleeAttackIfReady();
@@ -208,8 +208,8 @@ public:
         {
             if(!instance) return;
 
-            m_uiLavaGoutTimer = urand(8*IN_MILLISECONDS,25*IN_MILLISECONDS);
-            m_uiBlastNovaTimer = urand(10*IN_MILLISECONDS,25*IN_MILLISECONDS);
+            m_uiLavaGoutTimer = urand(8*IN_MILLISECONDS, 25*IN_MILLISECONDS);
+            m_uiBlastNovaTimer = urand(10*IN_MILLISECONDS, 25*IN_MILLISECONDS);
             me->SetRespawnDelay(7*DAY);
         }
 
@@ -224,15 +224,15 @@ public:
 
             if (m_uiLavaGoutTimer <= diff)
             {
-                if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                    DoCast(target,SPELL_LAVA_GOUT);
-                m_uiLavaGoutTimer = urand(8*IN_MILLISECONDS,25*IN_MILLISECONDS);
+                if (Unit *target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                    DoCast(target, SPELL_LAVA_GOUT);
+                m_uiLavaGoutTimer = urand(8*IN_MILLISECONDS, 25*IN_MILLISECONDS);
             } else m_uiLavaGoutTimer -= diff;
 
             if (m_uiBlastNovaTimer <= diff)
             {
                 DoCast(SPELL_BLAST_NOVA);
-                m_uiBlastNovaTimer = urand(10*IN_MILLISECONDS,25*IN_MILLISECONDS);
+                m_uiBlastNovaTimer = urand(10*IN_MILLISECONDS, 25*IN_MILLISECONDS);
             } else m_uiBlastNovaTimer -= diff;
 
             DoMeleeAttackIfReady();

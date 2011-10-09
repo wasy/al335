@@ -1176,7 +1176,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
 
                     ((Player*)m_caster)->RemoveSpellCooldown(30452, true);
                     m_caster->CastSpell(m_caster, 30452, true, NULL);
-                    ((Player*)m_caster)->AddSpellCooldown(30452,m_CastItem->GetEntry(), time(NULL)+300);
+                    ((Player*)m_caster)->AddSpellCooldown(30452, m_CastItem->GetEntry(), time(NULL)+300);
                     return;
                 }
                 case 52759:                                 // Ancestral Awakening
@@ -2908,7 +2908,7 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
                     if (!m_caster || m_caster->GetTypeId() != TYPEID_PLAYER)
                         return;
 
-                    m_caster->ToPlayer()->KilledMonsterCredit(22112,0);
+                    m_caster->ToPlayer()->KilledMonsterCredit(22112, 0);
                     return;
                 }
             }
@@ -4741,15 +4741,15 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                                case 62575:
                                {
                                        if(m_caster->GetCharmerOrOwner())
-                                               m_caster->GetCharmerOrOwner()->CastSpell(unitTarget,62626,true );
+                                               m_caster->GetCharmerOrOwner()->CastSpell(unitTarget, 62626, true );
                                                return;
                                }
                                case 62960:
                                {
                                        if (!unitTarget)
                                                return;
-                                       m_caster->CastSpell(unitTarget,62563,true );
-                                       m_caster->CastSpell(unitTarget,68321,true );
+                                       m_caster->CastSpell(unitTarget, 62563, true );
+                                       m_caster->CastSpell(unitTarget, 68321, true );
                                        return;
                                }
                                case 62626:

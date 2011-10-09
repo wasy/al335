@@ -202,7 +202,7 @@ public:
 
                         MailDraft(subject, text)
                             .AddMoney(money)
-                            .SendMailTo(trans, MailReceiver(player,GUID_LOPART(player->GetGUID())),sender);
+                            .SendMailTo(trans, MailReceiver(player, GUID_LOPART(player->GetGUID())),sender);
 
                         CharacterDatabase.CommitTransaction(trans);
                     }
@@ -214,7 +214,7 @@ public:
                         if (chance <= 13)
                             item_id = 49426; // Эмблема льда
                         else
-                            switch (urand(0,2))
+                            switch (urand(0, 2))
                         {
                             case 0:
                                 item_id = 57000; // Красный Ивент-кристалл
@@ -243,7 +243,7 @@ public:
                         }
                         draft.AddMoney(money);
 
-                        draft.SendMailTo(trans, MailReceiver(player,GUID_LOPART(player->GetGUID())),sender);
+                        draft.SendMailTo(trans, MailReceiver(player, GUID_LOPART(player->GetGUID())),sender);
                         CharacterDatabase.CommitTransaction(trans);
                     }
 
@@ -270,7 +270,7 @@ public:
                 if (!(*itr))
                     continue;
 
-                float speed = (rand()/(float(RAND_MAX)+1)) * (2.4f - 0.12f) + 0.12f;//* (max - min) + min;
+                float speed = (rand() / (float(RAND_MAX)+1)) * (2.4f - 0.12f) + 0.12f; //* (max - min) + min;
 
                 (*itr)->SetHomePosition(PosMobEnd[i].GetPositionX(), PosMobEnd[i].GetPositionY(), PosMobEnd[i].GetPositionZ(), 3.12f);
                 (*itr)->SetSpeed(MOVE_WALK, speed, true);

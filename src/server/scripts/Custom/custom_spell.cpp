@@ -46,10 +46,10 @@ public:
             switch(GetSpellInfo()->Id)
             {
             case SPELL_ARGENT_CANNON_SHOOT:
-                GetCaster()->CastSpell(loc->m_positionX, loc->m_positionY, loc->m_positionZ, SPELL_ARGENT_CANNON_SHOOT_TRIGGER , true);
+                GetCaster()->CastSpell(loc->m_positionX, loc->m_positionY, loc->m_positionZ, SPELL_ARGENT_CANNON_SHOOT_TRIGGER, true);
                 break;
             case SPELL_RECONING_BOMB:
-                GetCaster()->CastSpell(loc->m_positionX, loc->m_positionY, loc->m_positionZ, SPELL_RECONING_BOMB_TRIGGER , true);
+                GetCaster()->CastSpell(loc->m_positionX, loc->m_positionY, loc->m_positionZ, SPELL_RECONING_BOMB_TRIGGER, true);
                 break;
             }
 

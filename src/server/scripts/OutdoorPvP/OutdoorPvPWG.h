@@ -32,9 +32,9 @@
 
 const uint32 WintergraspFaction[3] = {1802, 1801, 35};
 const uint32 WG_MARK_OF_HONOR = 43589;
-const uint32 VehNumWorldState[2] = {3680,3490};
-const uint32 MaxVehNumWorldState[2] = {3681,3491};
-const uint32 ClockWorldState[2] = {3781,4354};
+const uint32 VehNumWorldState[2] = {3680, 3490};
+const uint32 MaxVehNumWorldState[2] = {3681, 3491};
+const uint32 ClockWorldState[2] = {3781, 4354};
 const uint8 CapturePointArtKit[3] = {2, 1, 21};
 char const *fmtstring(char const *format, ...);
 const Team TeamId2Team[3] = {ALLIANCE, HORDE, TEAM_OTHER};
@@ -163,17 +163,17 @@ const TeamPair OutdoorPvPWGCreEntryPair[] =
     {32296, 32294}, // Quartermaster
     {39173, 39172}, // Ros'slai & Marshal Magruder
     {32615, 32626}, // Warbringer & Brigadier General
-    {0,0} // Do not delete Used in LoadTeamPair
+    {0, 0} // Do not delete Used in LoadTeamPair
 };
 
 const TeamPair OutdoorPvPWGGODisplayPair[] =
 {
     {5651, 5652},
     {8256, 8257},
-    {0,0} // Do not delete Used in LoadTeamPair
+    {0, 0} // Do not delete Used in LoadTeamPair
 };
 
-const uint32 AreaPOIIconId[3][3] = {{7,8,9},{4,5,6},{1,2,3}};
+const uint32 AreaPOIIconId[3][3] = {{7, 8, 9},{4, 5, 6},{1, 2, 3}};
 typedef std::list<const AreaPOIEntry *> AreaPOIList;
 
 struct BuildingState

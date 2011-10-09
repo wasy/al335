@@ -150,7 +150,7 @@ public:
 					{
 						if(pPlayer->isAlive())
 						{
-							pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_SHOW,0);
+							pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_SHOW, 0);
 							if (pPlayer->HasAura(74807))
 							{
 								pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_COUNT_T, 100 - value);
@@ -159,7 +159,7 @@ public:
 							{
 								pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_COUNT_R, value);
 							}
-							pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_SHOW,1);
+							pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_SHOW, 1);
 						}
 					}
 				}
@@ -172,7 +172,7 @@ public:
 					{
 						if(pPlayer->isAlive())
 						{
-							pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_SHOW,0);
+							pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_SHOW, 0);
 						}
 					}
 				}
@@ -273,11 +273,11 @@ public:
                 case TYPE_COUNTER:
                                     if (uiData == COUNTER_OFF)
                                     {
-                                        UpdateWorldState(false,0);
+                                        UpdateWorldState(false, 0);
                                     }
                                     else 
                                     {
-                                        UpdateWorldState(true,uiData);
+                                        UpdateWorldState(true, uiData);
                                     }
                                     uiData = NOT_STARTED;
                                     break;

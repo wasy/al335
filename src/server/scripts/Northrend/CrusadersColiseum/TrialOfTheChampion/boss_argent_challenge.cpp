@@ -69,7 +69,7 @@ enum eEnums
 {
     SAY_START_10                            = -1999956,
     SAY_START_9                             = -1999955,
-    SAY_START_8                             = -1999941,	
+    SAY_START_8                             = -1999941, 	
     SAY_START_7                             = -1999954,
     SAY_START_6                             = -1999951
 };
@@ -128,8 +128,8 @@ public:
         {
             instance = (InstanceScript*)creature->GetInstanceScript();	
             creature->SetReactState(REACT_PASSIVE);
-            creature->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
-    		creature->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NOT_SELECTABLE);
+            creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+    		creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
         }
 
         InstanceScript* instance;
@@ -147,7 +147,7 @@ public:
             uiRadianceTimer = 16000;
             uiHammerJusticeTimer = 25000;
             uiResetTimer = 5000;
-    		me->GetMotionMaster()->MovePoint(1,746.71f,661.02f,411.69f);
+    		me->GetMotionMaster()->MovePoint(1, 746.71f, 661.02f, 411.69f);
     		me->SetOrientation(4.714f);
 
             bDone = false;
@@ -159,8 +159,8 @@ public:
             {		
                 damage = 0;
                 EnterEvadeMode();
-    			me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
-    			me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NOT_SELECTABLE);
+    			me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+    			me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
     			DoScriptText(SAY_START_8, me);
                 me->setFaction(35);
                 bDone = true;
@@ -183,7 +183,7 @@ public:
         {
             if (bDone && uiResetTimer <= uiDiff)
             {
-                me->GetMotionMaster()->MovePoint(0,746.843f, 695.68f, 412.339f);
+                me->GetMotionMaster()->MovePoint(0, 746.843f, 695.68f, 412.339f);
                 bDone = false;
     			if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
                         instance->HandleGameObject(pGO->GetGUID(),true);
@@ -209,7 +209,7 @@ public:
 
             if (uiVenganceTimer <= uiDiff)
             {
-                DoCast(me,SPELL_VENGEANCE);
+                DoCast(me, SPELL_VENGEANCE);
 
                 uiVenganceTimer = 10000;
             } else uiVenganceTimer -= uiDiff;
@@ -245,8 +245,8 @@ public:
 
             MemoryGUID = 0;
             creature->SetReactState(REACT_PASSIVE);
-            creature->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
-    		creature->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NOT_SELECTABLE);
+            creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+    		creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
             creature->RestoreFaction();
         }
 
@@ -267,13 +267,13 @@ public:
         {
             me->RemoveAllAuras();
 
-            uiHolyFireTimer     = urand(9000,12000);
-            uiHolySmiteTimer    = urand(5000,7000);
-            uiRenewTimer        = urand(2000,5000);
+            uiHolyFireTimer     = urand(9000, 12000);
+            uiHolySmiteTimer    = urand(5000, 7000);
+            uiRenewTimer        = urand(2000, 5000);
 
             uiResetTimer        = 7000;
     		
-    		me->GetMotionMaster()->MovePoint(1,746.71f,661.02f,411.69f);
+    		me->GetMotionMaster()->MovePoint(1, 746.71f, 661.02f, 411.69f);
     		me->SetOrientation(4.714f);
 
             bHealth = false;
@@ -296,8 +296,8 @@ public:
             {
                 damage = 0;
                 EnterEvadeMode();
-    			me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
-    			me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NOT_SELECTABLE);
+    			me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+    			me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
     			DoScriptText(SAY_START_7, me);
                 me->setFaction(35);
                 bDone = true;
@@ -320,7 +320,7 @@ public:
         {
             if (bDone && uiResetTimer <= uiDiff)
             {
-                me->GetMotionMaster()->MovePoint(0,746.843f, 695.68f, 412.339f);
+                me->GetMotionMaster()->MovePoint(0, 746.843f, 695.68f, 412.339f);
                 bDone = false;
     			if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
                         instance->HandleGameObject(pGO->GetGUID(),true);	
@@ -334,12 +334,12 @@ public:
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 250, true))
                 {
                     if (target && target->isAlive())
-                        DoCast(target,SPELL_HOLY_FIRE);
+                        DoCast(target, SPELL_HOLY_FIRE);
                 }
                  if (me->HasAura(SPELL_SHIELD))
                     uiHolyFireTimer = 13000;
                 else
-                    uiHolyFireTimer = urand(9000,12000);
+                    uiHolyFireTimer = urand(9000, 12000);
             } else uiHolyFireTimer -= uiDiff;
 
             if (uiHolySmiteTimer <= uiDiff)
@@ -347,12 +347,12 @@ public:
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 250, true))
                 {
                     if (target && target->isAlive())
-                        DoCast(target,SPELL_SMITE);
+                        DoCast(target, SPELL_SMITE);
                 }
                 if (me->HasAura(SPELL_SHIELD))
                     uiHolySmiteTimer = 9000;
                 else
-                    uiHolySmiteTimer = urand(5000,7000);
+                    uiHolySmiteTimer = urand(5000, 7000);
             } else uiHolySmiteTimer -= uiDiff;
 
             if (me->HasAura(SPELL_SHIELD))
@@ -363,7 +363,7 @@ public:
                     switch (uiTarget)
                     {
                         case 0:
-                            DoCast(me,SPELL_RENEW);
+                            DoCast(me, SPELL_RENEW);
                             break;
                         case 1:
                             if (Creature *pMemory = Unit::GetCreature(*me, MemoryGUID))
@@ -371,7 +371,7 @@ public:
                                     DoCast(pMemory, SPELL_RENEW);
                             break;
                     }
-                    uiRenewTimer = urand(15000,17000);
+                    uiRenewTimer = urand(15000, 17000);
                 } else uiRenewTimer -= uiDiff;
 
 
@@ -379,9 +379,9 @@ public:
             {
     		DoScriptText(SAY_START_6, me);
             me->InterruptNonMeleeSpells(true);
-            DoCastAOE(SPELL_HOLY_NOVA,false);
+            DoCastAOE(SPELL_HOLY_NOVA, false);
             DoCast(me, SPELL_SHIELD);
-            DoCastAOE(SPELL_CONFESS,false);
+            DoCastAOE(SPELL_CONFESS, false);
 
                 bHealth = true;
     			switch(urand(0, 24))
@@ -485,7 +485,7 @@ public:
 
             if (uiOldWoundsTimer <= uiDiff)
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
                 {
                     if (target && target->isAlive())
                         DoCast(target, SPELL_OLD_WOUNDS);
@@ -501,10 +501,10 @@ public:
 
             if (uiShadowsPastTimer <= uiDiff)
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,1))
+                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 1))
                 {
                     if (target && target->isAlive())
-                        DoCast(target,SPELL_SHADOWS_PAST);
+                        DoCast(target, SPELL_SHADOWS_PAST);
                 }
                 uiShadowsPastTimer = 20000;
             }else uiShadowsPastTimer -= uiDiff;
@@ -540,8 +540,8 @@ public:
         {
             instance = (InstanceScript*)creature->GetInstanceScript();	
             me->SetReactState(REACT_DEFENSIVE);
-            me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
-            me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NOT_SELECTABLE);
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
     		if (GameObject* pGO = GameObject::GetGameObject(*me, instance->GetData64(DATA_MAIN_GATE)))
                         instance->HandleGameObject(pGO->GetGUID(),true);
     					
@@ -628,15 +628,15 @@ public:
                     switch (uiType)
                     {
                         case 0:
-    					    AddWaypoint(0,737.14f,655.42f,412.88f);
-                            AddWaypoint(1,712.14f,628.42f,411.88f);
+    					    AddWaypoint(0, 737.14f, 655.42f, 412.88f);
+                            AddWaypoint(1, 712.14f, 628.42f, 411.88f);
                             break;
                         case 1:
-                            AddWaypoint(0,742.44f,650.29f,411.79f);
+                            AddWaypoint(0, 742.44f, 650.29f, 411.79f);
                             break;
                         case 2:
-    					    AddWaypoint(0,756.14f,655.42f,411.88f);
-                            AddWaypoint(1,781.626f, 629.383f, 411.892f);
+    					    AddWaypoint(0, 756.14f, 655.42f, 411.88f);
+                            AddWaypoint(1, 781.626f, 629.383f, 411.892f);
                             break;
                     }
                     break;
@@ -644,15 +644,15 @@ public:
                     switch (uiType)
                     {
                         case 0:
-    					    AddWaypoint(0,737.14f,655.42f,412.88f);
-                            AddWaypoint(1,713.12f,632.97f,411.90f);
+    					    AddWaypoint(0, 737.14f, 655.42f, 412.88f);
+                            AddWaypoint(1, 713.12f, 632.97f, 411.90f);
                             break;
                         case 1:
-                            AddWaypoint(0,746.73f,650.24f,411.56f);
+                            AddWaypoint(0, 746.73f, 650.24f, 411.56f);
                             break;
                         case 2:
-    					    AddWaypoint(0,756.14f,655.42f,411.88f);
-                            AddWaypoint(1,781.351f, 633.146f, 411.907f);
+    					    AddWaypoint(0, 756.14f, 655.42f, 411.88f);
+                            AddWaypoint(1, 781.351f, 633.146f, 411.907f);
                             break;
                     }
                     break;
@@ -660,21 +660,21 @@ public:
                     switch (uiType)
                     {
                         case 0:
-    					    AddWaypoint(0,737.14f,655.42f,412.88f);
-                            AddWaypoint(1,715.06f,637.07f,411.91f);
+    					    AddWaypoint(0, 737.14f, 655.42f, 412.88f);
+                            AddWaypoint(1, 715.06f, 637.07f, 411.91f);
                             break;
                         case 1:
-                            AddWaypoint(0,750.72f,650.20f,411.77f);
+                            AddWaypoint(0, 750.72f, 650.20f, 411.77f);
                             break;
                         case 2:
-    					    AddWaypoint(0,756.14f,655.42f,411.88f);
-                            AddWaypoint(1,780.439f, 636.681f, 411.918f);
+    					    AddWaypoint(0, 756.14f, 655.42f, 411.88f);
+                            AddWaypoint(1, 780.439f, 636.681f, 411.918f);
                             break;
                     }
                     break;
             }
 
-            Start(false,true,0);
+            Start(false, true, 0);
             uiWaypoint = uiType;
         }
 
@@ -691,21 +691,21 @@ public:
     		{
                 if (uiCleaveTimer <= uiDiff)
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(target,SPELL_STRIKE);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                        DoCast(target, SPELL_STRIKE);				
                         uiCleaveTimer = 20000;
                 } else uiCleaveTimer -= uiDiff;	
         		
                 if (uiStrikeTimer <= uiDiff)
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(target,SPELL_CLEAVE);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                        DoCast(target, SPELL_CLEAVE);				
                         uiStrikeTimer = 25000;
                 } else uiStrikeTimer -= uiDiff;	
     			
     			if (uiLightTimer <= uiDiff)
                 {
-                        DoCast(me,SPELL_LIGHT);
+                        DoCast(me, SPELL_LIGHT);
                         uiLightTimer = urand (15000, 17000);
                 } else uiLightTimer -= uiDiff;
     			break;
@@ -714,26 +714,26 @@ public:
     	    {		
     		    if (uiDivineTimer <= uiDiff)
                 {
-                        DoCast(me,SPELL_DIVINE);
+                        DoCast(me, SPELL_DIVINE);
                         uiDivineTimer = 85000;
                 } else uiDivineTimer -= uiDiff;
     			
                 if (uiFinalTimer <= uiDiff)
                 {
-                        DoCast(me,SPELL_FINAL);
+                        DoCast(me, SPELL_FINAL);
                         uiFinalTimer = 70000;
                 } else uiFinalTimer -= uiDiff;
     			
                 if (uiPummelTimer <= uiDiff)
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(target,SPELL_PUMMEL);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                        DoCast(target, SPELL_PUMMEL);				
                         uiPummelTimer = 35000;
                 } else uiPummelTimer -= uiDiff;	
     			
     			if (uiFlurryTimer <= uiDiff)
                 {
-                        DoCast(me,SPELL_FLURRY);
+                        DoCast(me, SPELL_FLURRY);
                         uiFlurryTimer = 22000;
                 } else uiFlurryTimer -= uiDiff;	
     			break;
@@ -742,28 +742,28 @@ public:
     		{
                 if (uiFontTimer <= uiDiff)
                 {
-                        DoCast(me,SPELL_FONT);
+                        DoCast(me, SPELL_FONT);
                         uiFontTimer = urand (15000, 17000);
                 } else uiFontTimer -= uiDiff;
     			
                 if (uiPainTimer <= uiDiff)
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(target,SPELL_PAIN);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                        DoCast(target, SPELL_PAIN);				
                         uiPainTimer = 30000;
                 } else uiPainTimer -= uiDiff;	
     		
                 if (uiMindTimer <= uiDiff)
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(target,SPELL_MIND);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                        DoCast(target, SPELL_MIND);				
                         uiMindTimer = 90000;
                 } else uiMindTimer -= uiDiff;
     	    	
                 if (uiSsmiteTimer <= uiDiff)
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM,0))
-                        DoCast(target,SPELL_SSMITE);				
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                        DoCast(target, SPELL_SSMITE);				
                         uiSsmiteTimer = 25000;
                 } else uiSsmiteTimer -= uiDiff;					
     			break;
@@ -776,7 +776,7 @@ public:
         void JustDied(Unit* pKiller)
         {
                 if (instance)
-                instance->SetData(DATA_ARGENT_SOLDIER_DEFEATED,instance->GetData(DATA_ARGENT_SOLDIER_DEFEATED) + 1);
+                instance->SetData(DATA_ARGENT_SOLDIER_DEFEATED, instance->GetData(DATA_ARGENT_SOLDIER_DEFEATED) + 1);
     		
         }
     };

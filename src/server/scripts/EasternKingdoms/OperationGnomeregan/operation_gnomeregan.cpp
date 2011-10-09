@@ -964,7 +964,7 @@ class npc_og_mekkatorque : public CreatureScript
                                 Cannon[n] = me->SummonCreature(NPC_CANNON, CannonSpawn[n], TEMPSUMMON_MANUAL_DESPAWN);
                                 Cannon[n]->CastSpell(Cannon[n], SPELL_TRIGGER, true);
                             }
-                            me->SummonGameObject(GO_RAD_CONTROL, RadControlSpawn, 0 ,0 ,0 ,0, 0);
+                            me->SummonGameObject(GO_RAD_CONTROL, RadControlSpawn, 0, 0, 0, 0, 0);
                             for (int8 n = 0; n < 3; ++n)
                                 BattleSuit[n] = me->SummonCreature(NPC_BATTLE_SUIT, BattleSuitSpawn[n], TEMPSUMMON_MANUAL_DESPAWN);
                             if (Creature* iTank = me->SummonCreature(NPC_I_TANK, iTankSpawn[3], TEMPSUMMON_MANUAL_DESPAWN))
@@ -1137,7 +1137,7 @@ class npc_og_mekkatorque : public CreatureScript
                         case 53:
                             if (uiSoldiers <= 30)
                             {
-                                if (Creature* pSoldier = me->SummonCreature(urand(0, 1) ? NPC_I_INFANTRY : NPC_I_CAVALRY, iSoldierSpawn[urand(0,5)], TEMPSUMMON_MANUAL_DESPAWN))
+                                if (Creature* pSoldier = me->SummonCreature(urand(0, 1) ? NPC_I_INFANTRY : NPC_I_CAVALRY, iSoldierSpawn[urand(0, 5)], TEMPSUMMON_MANUAL_DESPAWN))
                                 {
                                     pSoldier->GetMotionMaster()->MovePoint(0, -4955.23f, 728.98f, 259.31f);
                                     ++uiSoldiers;
@@ -1908,7 +1908,7 @@ class npc_og_i_infantry : public CreatureScript
                     me->AddThreat(who, 10.0f);
                     me->SetInCombatWith(who);
                     who->SetInCombatWith(me);
-                    if (!urand(0,5))
+                    if (!urand(0, 5))
                         DoStartMovement(who, 20.0f);
                     else
                         DoStartMovement(who, 5.0f);

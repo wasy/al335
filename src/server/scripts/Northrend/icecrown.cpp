@@ -186,7 +186,7 @@ public:
         if (uiAction == GOSSIP_ACTION_INFO_DEF+1)
         {
             pPlayer->CLOSE_GOSSIP_MENU();
-            creature->SummonCreature(NPC_ARGENT_CHAMPION,8545.375f,1087.665f,556.787f,1.063f);
+            creature->SummonCreature(NPC_ARGENT_CHAMPION, 8545.375f, 1087.665f, 556.787f, 1.063f);
         }
         return true;
     }
@@ -205,7 +205,7 @@ public:
     {
         npc_argent_championAI(Creature* creature) : ScriptedAI(creature)
         {
-            creature->GetMotionMaster()->MovePoint(0,8549.995f,1125.671f,556.787f);
+            creature->GetMotionMaster()->MovePoint(0, 8549.995f, 1125.671f, 556.787f);
             creature->setFaction(35); //wrong faction in db?
         }
 
@@ -231,7 +231,7 @@ public:
             if (uiDamage > me->GetHealth() && pDoneBy->GetTypeId() == TYPEID_PLAYER)
             {
                 uiDamage = 0;
-                CAST_PLR(pDoneBy)->KilledMonsterCredit(33708,0);
+                CAST_PLR(pDoneBy)->KilledMonsterCredit(33708, 0);
                 me->setFaction(35);
                 me->DespawnOrUnsummon(5000);
                 me->SetHomePosition(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation());

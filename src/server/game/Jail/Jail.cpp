@@ -449,7 +449,7 @@ bool Jail::ReleaseKommando(ChatHandler * handler, const char * args, bool reset)
             }
 
             // Da der Charakter nicht online ist, setzen wir ihn von Hand zuruck nach hause. ;)
-            CharacterDatabase.PExecute("UPDATE characters c,character_homebind b SET c.position_x=b.posX,c.position_y=b.posY,c.position_z= b.posZ,c.map=b.mapId WHERE c.guid=%u", GUID_LOPART(target_guid));
+            CharacterDatabase.PExecute("UPDATE characters c, character_homebind b SET c.position_x=b.posX, c.position_y=b.posY, c.position_z= b.posZ, c.map=b.mapId WHERE c.guid=%u", GUID_LOPART(target_guid));
 
             sLog->outBasic(fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_FREE), target_name.c_str(), GUID_LOPART(target_guid)));
             sWorld->SendServerMessage(SERVER_MSG_STRING, fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_FREE), target_name.c_str(), GUID_LOPART(target_guid)));
@@ -643,7 +643,7 @@ void Jail::Update()
             CharacterDatabase.PExecute("UPDATE `jail` SET `release`=%u WHERE `guid`=%u LIMIT 1", itr->second.Release, itr->first);
 
             // Da der Charakter nicht online ist, setzen wir ihn von Hand zuruck nach hause. ;)
-            CharacterDatabase.PExecute("UPDATE characters c,character_homebind b SET c.position_x=b.posX,c.position_y=b.posY,c.position_z= b.posZ,c.map=b.mapId WHERE c.guid=%u", itr->first);
+            CharacterDatabase.PExecute("UPDATE characters c, character_homebind b SET c.position_x=b.posX, c.position_y=b.posY, c.position_z= b.posZ, c.map=b.mapId WHERE c.guid=%u", itr->first);
 
             sLog->outBasic(fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_FREE), itr->second.CharName.c_str(), itr->first));
             sWorld->SendServerMessage(SERVER_MSG_STRING, fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_FREE), itr->second.CharName.c_str(), itr->first));
@@ -888,7 +888,7 @@ char const * Jail::fmtstring(char const * format, ...)
     int         len;
 
     va_start(argptr, format);
-    vsnprintf(temp_buffer,MAX_FMT_STRING, format, argptr);
+    vsnprintf(temp_buffer, MAX_FMT_STRING, format, argptr);
     va_end(argptr);
 
     len = strlen(temp_buffer);

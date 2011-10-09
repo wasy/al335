@@ -327,7 +327,7 @@ public:
             {
                 if(check_Timer < diff)
                 {
-                    me->DealDamage(me,me->GetHealth());
+                    me->DealDamage(me, me->GetHealth());
                     check_Timer = 6000;
                 }else check_Timer -= diff;
             }

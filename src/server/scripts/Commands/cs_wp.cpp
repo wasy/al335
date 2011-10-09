@@ -951,12 +951,12 @@ public:
         if (!*args)
             return false;
 
-        float x,y,z;
+        float x, y, z;
 
         Player* Pl = handler->GetSession()->GetPlayer();
-        Pl->GetPosition(x,y,z);
-        sLog->outString("AddWaypoint(, %ff, %ff, %ff);",x,y,z);
-        Pl->SummonGameObject(188650, x, y, z,0,0,0,0,0,0);
+        Pl->GetPosition(x, y, z);
+        sLog->outString("AddWaypoint(, %ff, %ff, %ff);",x, y, z);
+        Pl->SummonGameObject(188650, x, y, z, 0, 0, 0, 0, 0, 0);
         return false;
     }
 };

@@ -164,7 +164,7 @@ public:
         else
             m_pInstance->SetData(DATA_LIDER, 2);
 
-        m_pInstance->SetData64(DATA_ESCAPE_LIDER,creature->GetGUID());
+        m_pInstance->SetData64(DATA_ESCAPE_LIDER, creature->GetGUID());
 
         return true;
     }
@@ -186,7 +186,7 @@ public:
                 break;
         }
 
-        pPlayer->PlayerTalkClass->SendGossipMenu(907,creature->GetGUID());
+        pPlayer->PlayerTalkClass->SendGossipMenu(907, creature->GetGUID());
         return true;
     }
 
@@ -270,7 +270,7 @@ public:
                     JumpNextStep(10000);
                     break;
                 case 5:
-                    if(Creature* target = me->SummonCreature(NPC_ALTAR_TARGET,5309.374f,2006.788f,711.615f,1.37f,TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,360000))
+                    if(Creature* target = me->SummonCreature(NPC_ALTAR_TARGET, 5309.374f, 2006.788f, 711.615f, 1.37f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 360000))
                     {
                         me->SetUInt64Value(UNIT_FIELD_TARGET, target->GetGUID());
                         target->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
@@ -311,7 +311,7 @@ public:
                         JumpNextStep(8000);
                     break;
                 case 9:
-                    if(Creature* Uther = me->SummonCreature(NPC_UTHER,5308.228f,2003.641f,709.341f,4.17f,TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,360000))
+                    if(Creature* Uther = me->SummonCreature(NPC_UTHER, 5308.228f, 2003.641f, 709.341f, 4.17f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 360000))
                     {
                         pUther = Uther;
                         Uther->SetUInt64Value(UNIT_FIELD_TARGET, me->GetGUID());
@@ -504,7 +504,7 @@ public:
                     {
                         pGate->SetGoState(GO_STATE_ACTIVE);
                     }
-                    if(Creature* LichKing = me->SummonCreature(NPC_LICH_KING,5362.469f,2062.342f,707.695f,3.97f,TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,360000))
+                    if(Creature* LichKing = me->SummonCreature(NPC_LICH_KING, 5362.469f, 2062.342f, 707.695f, 3.97f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 360000))
                     {
                         pLichKing = LichKing;
                         LichKing->setActive(true);
@@ -677,7 +677,7 @@ public:
         {
             case GOSSIP_ACTION_INFO_DEF+1:
                 pPlayer->CLOSE_GOSSIP_MENU();
-                ((npc_jaina_and_sylvana_HRextroAI*)creature->AI())->Start(false,true);
+                ((npc_jaina_and_sylvana_HRextroAI*)creature->AI())->Start(false, true);
                 creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
                 creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
                 creature->SetUInt64Value(UNIT_FIELD_TARGET, 0);
@@ -808,7 +808,7 @@ public:
                     CastTimer = 1000;
                     HoldTimer = 30000;
                     SetEscortPaused(true);
-                    if (Creature *pWallTarget = me->SummonCreature(NPC_ICE_WALL,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation(),TEMPSUMMON_MANUAL_DESPAWN,720000))
+                    if (Creature *pWallTarget = me->SummonCreature(NPC_ICE_WALL, me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation(),TEMPSUMMON_MANUAL_DESPAWN, 720000))
                     {
                         m_uipWallTargetGUID = pWallTarget->GetGUID();
                         pWallTarget->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
@@ -836,7 +836,7 @@ public:
                     CastTimer = 1000;
                     HoldTimer = 30000;
                     SetEscortPaused(true);
-                    if (Creature *pWallTarget = me->SummonCreature(NPC_ICE_WALL,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation(),TEMPSUMMON_MANUAL_DESPAWN,720000))
+                    if (Creature *pWallTarget = me->SummonCreature(NPC_ICE_WALL, me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation(),TEMPSUMMON_MANUAL_DESPAWN, 720000))
                     {
                         m_uipWallTargetGUID = pWallTarget->GetGUID();
                         pWallTarget->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
@@ -870,7 +870,7 @@ public:
                     CastTimer = 1000;
                     HoldTimer = 30000;
                     SetEscortPaused(true);
-                    if (Creature *pWallTarget = me->SummonCreature(NPC_ICE_WALL,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation(),TEMPSUMMON_MANUAL_DESPAWN,720000))
+                    if (Creature *pWallTarget = me->SummonCreature(NPC_ICE_WALL, me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation(),TEMPSUMMON_MANUAL_DESPAWN, 720000))
                     {
                         m_uipWallTargetGUID = pWallTarget->GetGUID();
                         pWallTarget->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
@@ -904,7 +904,7 @@ public:
                     CastTimer = 1000;
                     HoldTimer = 30000;
                     SetEscortPaused(true);
-                    if (Creature *pWallTarget = me->SummonCreature(NPC_ICE_WALL,me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation(),TEMPSUMMON_MANUAL_DESPAWN,720000))
+                    if (Creature *pWallTarget = me->SummonCreature(NPC_ICE_WALL, me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation(),TEMPSUMMON_MANUAL_DESPAWN, 720000))
                     {
                         m_uipWallTargetGUID = pWallTarget->GetGUID();
                         pWallTarget->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
@@ -1053,14 +1053,14 @@ public:
 
                     if(pLichKing)
 					{
-                        me->CastSpell(pLichKing, me->GetEntry() == NPC_JAINA_OUTRO ? SPELL_ICE_PRISON_VISUAL : SPELL_DARK_ARROW,true);
+                        me->CastSpell(pLichKing, me->GetEntry() == NPC_JAINA_OUTRO ? SPELL_ICE_PRISON_VISUAL : SPELL_DARK_ARROW, true);
 						pLichKing->AttackStop();
 					}
                     JumpNextStep(2500);
                     break;
                 case 7:
                     if(pLichKing && !pLichKing->HasAura(SPELL_ICE_PRISON))
-                        pLichKing->CastSpell(pLichKing,me->GetEntry() == NPC_JAINA_OUTRO ? SPELL_ICE_PRISON : SPELL_DARK_ARROW,true);
+                        pLichKing->CastSpell(pLichKing, me->GetEntry() == NPC_JAINA_OUTRO ? SPELL_ICE_PRISON : SPELL_DARK_ARROW, true);
 
                     me->SetUInt32Value(UNIT_NPC_EMOTESTATE, EMOTE_STATE_STAND);
                     me->AttackStop();
@@ -1095,15 +1095,15 @@ public:
             switch(Step)
             {
                 case 10:
-                    me->CastSpell(me, SPELL_SHIELD_DISRUPTION,false);
+                    me->CastSpell(me, SPELL_SHIELD_DISRUPTION, false);
                     me->RemoveAurasDueToSpell(SPELL_SILENCE);
                     JumpNextStep(6000);
                     break;
                 case 11:
                     if(GameObject* pCave = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(GO_CAVE)))
                         pCave->SetGoState(GO_STATE_READY);
-                    me->CastSpell(me, SPELL_SHIELD_DISRUPTION,false);
-                    me->GetMotionMaster()->MovePoint(0, 5258.911328f,1652.112f,784.295166f);
+                    me->CastSpell(me, SPELL_SHIELD_DISRUPTION, false);
+                    me->GetMotionMaster()->MovePoint(0, 5258.911328f, 1652.112f, 784.295166f);
                     JumpNextStep(10000);
                     break;
                 case 12:
@@ -1373,7 +1373,7 @@ public:
             if(m_uiShieldTimer < uiDiff)
             {
                 if(Unit *target = SelectTarget(SELECT_TARGET_RANDOM, 0))
-                   DoCast(target,SPELL_SHIELD_THROWN);
+                   DoCast(target, SPELL_SHIELD_THROWN);
                 m_uiShieldTimer = urand(8000, 12000);
             }
             else

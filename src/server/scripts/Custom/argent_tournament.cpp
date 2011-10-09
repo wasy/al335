@@ -40,8 +40,8 @@ public:
                         uint32 ShielTimer;
             void Reset()
             {
-                        me->SetControlled(true,UNIT_STAT_STUNNED);//disable rotate
-                        me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true);//imune to knock aways like blast wave
+                        me->SetControlled(true, UNIT_STAT_STUNNED); //disable rotate
+                        me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true); //imune to knock aways like blast wave
                         me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_STUN, true);
                         ResetTimer = 5000;
                         DespawnTimer = 15000;
@@ -67,7 +67,7 @@ public:
                     return;
             }
 
-                void SpellHit(Unit* caster,const SpellEntry* spell)
+                void SpellHit(Unit* caster, const SpellEntry* spell)
                 {               
                         if(caster->GetCharmerOrOwner())
                         {
@@ -95,10 +95,10 @@ public:
                         if (ShielTimer <= diff)
                         {
                                 if(Npc_Entry == NPC_RANGE)
-                                        me->CastSpell(me,SPELL_DEFEND_AURA,true);
+                                        me->CastSpell(me, SPELL_DEFEND_AURA, true);
 
                         if(Npc_Entry == NPC_CHARGE && !me->GetAura(SPELL_DEFEND_AURA_1))
-                                                me->CastSpell(me,SPELL_DEFEND_AURA_1,true);
+                                                me->CastSpell(me, SPELL_DEFEND_AURA_1, true);
                                 ShielTimer = 8000;
                         }
                         else
@@ -107,7 +107,7 @@ public:
                 if (!UpdateVictim())
                     return;
                 if (!me->HasUnitState(UNIT_STAT_STUNNED))
-                    me->SetControlled(true,UNIT_STAT_STUNNED);//disable rotate
+                    me->SetControlled(true, UNIT_STAT_STUNNED); //disable rotate
                         
                 if (Npc_Entry != NPC_ADVANCED_TARGET_DUMMY && Npc_Entry != NPC_TARGET_DUMMY)
                 {
@@ -140,7 +140,7 @@ public:
 
 /*######
 ## npc_lake_frog
-## UPDATE `creature_template` SET `ScriptName` = 'npc_lake_frog' WHERE `entry` IN (33211,33224);
+## UPDATE `creature_template` SET `ScriptName` = 'npc_lake_frog' WHERE `entry` IN (33211, 33224);
 ######*/
 
 #define NPC_MAIDEN 33220

@@ -170,11 +170,11 @@ public:
                 case NPC_JAEREN:
                     uiAnnouncerGUID = creature->GetGUID();
                     if (TeamInInstance == ALLIANCE)
-                        creature->UpdateEntry(NPC_ARELAS,ALLIANCE);
+                        creature->UpdateEntry(NPC_ARELAS, ALLIANCE);
                     break;
                 case NPC_JAEREN_AN:
                     if (TeamInInstance == ALLIANCE)
-                        creature->UpdateEntry(NPC_ARELAS_AN,ALLIANCE);
+                        creature->UpdateEntry(NPC_ARELAS_AN, ALLIANCE);
                     break;				
                 case VEHICLE_ARGENT_WARHORSE:
                 case VEHICLE_ARGENT_BATTLEWORG:
@@ -223,7 +223,7 @@ public:
 
                 if(pPlayer->isAlive())
                 {
-                    temp->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
+                    temp->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
                     temp->SetReactState(REACT_AGGRESSIVE);
                     temp->SetInCombatWith(pPlayer);
                     pPlayer->SetInCombatWith(temp);
@@ -262,7 +262,7 @@ public:
                         if (Creature* pAnnouncer =  instance->GetCreature(uiAnnouncerGUID))
                         {
 					        if (Creature* pAnnouncer =  instance->GetCreature(uiAnnouncerGUID))
-                            pBlackKnight->CastSpell(pAnnouncer,SPELL_DEATH_RESPITE,true);
+                            pBlackKnight->CastSpell(pAnnouncer, SPELL_DEATH_RESPITE, true);
 						}
 					}
 				}
@@ -298,7 +298,7 @@ public:
                         if (Creature* pAnnouncer =  instance->GetCreature(uiAnnouncerGUID))
                         {
 	                    	pAnnouncer->DisappearAndDie();
-                            if (Creature* pGhoul = pAnnouncer->SummonCreature(NPC_RISEN_JAEREN,pAnnouncer->GetPositionX(),pAnnouncer->GetPositionY(),pAnnouncer->GetPositionZ(),pAnnouncer->GetOrientation()))
+                            if (Creature* pGhoul = pAnnouncer->SummonCreature(NPC_RISEN_JAEREN, pAnnouncer->GetPositionX(),pAnnouncer->GetPositionY(),pAnnouncer->GetPositionZ(),pAnnouncer->GetOrientation()))
                             {
                                 pGhoul->setFaction(14);							
 		                        AggroAllPlayers(pGhoul);
@@ -312,7 +312,7 @@ public:
                 if (uiMovementDone == 3)
                 {
                     if (Creature* pAnnouncer =  instance->GetCreature(uiAnnouncerGUID))
-                        pAnnouncer->AI()->SetData(DATA_IN_POSITION,0);
+                        pAnnouncer->AI()->SetData(DATA_IN_POSITION, 0);
                 }
                 break;
             case BOSS_GRAND_CHAMPIONS:
@@ -331,7 +331,7 @@ public:
                         {
 							DoScriptText(SAY_START_1, pAnnouncer);
                             pAnnouncer->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
-                            pAnnouncer->SummonGameObject(instance->IsHeroic()? GO_CHAMPIONS_LOOT_H : GO_CHAMPIONS_LOOT,746.59f,618.49f,411.09f,1.42f,0, 0, 0, 0,90000000);
+                            pAnnouncer->SummonGameObject(instance->IsHeroic()? GO_CHAMPIONS_LOOT_H : GO_CHAMPIONS_LOOT, 746.59f, 618.49f, 411.09f, 1.42f, 0, 0, 0, 0, 90000000);
 						}
                     }
                 }
@@ -348,8 +348,8 @@ public:
                     if (Creature* pBoss =  instance->GetCreature(uiArgentChampionGUID))
                     {
                         pBoss->setFaction(14);
-                        pBoss->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
-                        pBoss->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NOT_SELECTABLE);
+                        pBoss->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                        pBoss->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
                         pBoss->SetReactState(REACT_AGGRESSIVE);
 						AggroAllPlayers(pBoss);
                     }
@@ -372,8 +372,8 @@ public:
          			DoScriptText(SAY_START_1, pAnnouncer);
 
                     pAnnouncer->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
-					pAnnouncer->GetMotionMaster()->MovePoint(0,740.755f, 636.509f, 411.575f);
-                    pAnnouncer->SummonGameObject(instance->IsHeroic()? GO_EADRIC_LOOT_H : GO_EADRIC_LOOT,746.59f,618.49f,411.09f,1.42f,0, 0, 0, 0,90000000);
+					pAnnouncer->GetMotionMaster()->MovePoint(0, 740.755f, 636.509f, 411.575f);
+                    pAnnouncer->SummonGameObject(instance->IsHeroic()? GO_EADRIC_LOOT_H : GO_EADRIC_LOOT, 746.59f, 618.49f, 411.09f, 1.42f, 0, 0, 0, 0, 90000000);
                 }
                 break;
             case BOSS_ARGENT_CHALLENGE_P:
@@ -388,8 +388,8 @@ public:
                 {
          			DoScriptText(SAY_START_1, pAnnouncer);
                     pAnnouncer->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
-					pAnnouncer->GetMotionMaster()->MovePoint(0,740.755f, 636.509f, 411.575f);
-                    pAnnouncer->SummonGameObject(instance->IsHeroic()? GO_PALETRESS_LOOT_H : GO_PALETRESS_LOOT,746.59f,618.49f,411.09f,1.42f,0, 0, 0, 0,90000000);
+					pAnnouncer->GetMotionMaster()->MovePoint(0, 740.755f, 636.509f, 411.575f);
+                    pAnnouncer->SummonGameObject(instance->IsHeroic()? GO_PALETRESS_LOOT_H : GO_PALETRESS_LOOT, 746.59f, 618.49f, 411.09f, 1.42f, 0, 0, 0, 0, 90000000);
                 }
                 break;
         }

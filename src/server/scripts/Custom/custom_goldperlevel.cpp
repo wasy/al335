@@ -89,7 +89,7 @@ public:
 
             MailDraft(subject, text)
                 .AddMoney(money)
-                .SendMailTo(trans, MailReceiver(player,GUID_LOPART(player->GetGUID())),sender);
+                .SendMailTo(trans, MailReceiver(player, GUID_LOPART(player->GetGUID())),sender);
 
             CharacterDatabase.CommitTransaction(trans);
         }

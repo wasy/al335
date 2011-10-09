@@ -495,7 +495,7 @@ class npc_mekkatorque : public CreatureScript
                     me->ForcedDespawn();
                     return;
                 }
-                _variation = urand (1,3);
+                _variation = urand (1, 3);
                 me->CastSpell(me, SPELL_CREATE_TELEPORTER, true);
             }
 

@@ -169,10 +169,10 @@ public:
             {
             case SPELL_SPEED_RAM_GALLOP:
                 for (i = 0; i < 5; i++)
-                    pCaster->AddAura(SPELL_RAM_FATIGUE,pCaster);
+                    pCaster->AddAura(SPELL_RAM_FATIGUE, pCaster);
                 break;
             case SPELL_SPEED_RAM_CANTER:
-                pCaster->AddAura(SPELL_RAM_FATIGUE,pCaster);
+                pCaster->AddAura(SPELL_RAM_FATIGUE, pCaster);
                 break;
             case SPELL_SPEED_RAM_TROT:
                 if (pCaster->HasAura(SPELL_RAM_FATIGUE))
@@ -207,7 +207,7 @@ public:
             }
             if (pCaster->HasAura(SPELL_RAM_FATIGUE))
                 if (pCaster->GetAura(SPELL_RAM_FATIGUE)->GetStackAmount() >= 100)
-                    pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_EXHAUSED, false);
+                    pCaster->CastSpell(pCaster, SPELL_SPEED_RAM_EXHAUSED, false);
         }
 
         void OnRemove(AuraEffect const * aurEff, AuraEffectHandleModes /*mode*/)
@@ -227,15 +227,15 @@ public:
             {
                 case SPELL_SPEED_RAM_GALLOP:
                     if (!pCaster->HasAura(SPELL_SPEED_RAM_EXHAUSED))
-                        pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_CANTER, false);
+                        pCaster->CastSpell(pCaster, SPELL_SPEED_RAM_CANTER, false);
                     break;
                 case SPELL_SPEED_RAM_CANTER:
                     if (!pCaster->HasAura(SPELL_SPEED_RAM_GALLOP))
-                        pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_TROT, false);
+                        pCaster->CastSpell(pCaster, SPELL_SPEED_RAM_TROT, false);
                     break;
                 case SPELL_SPEED_RAM_TROT:
                     if (!pCaster->HasAura(SPELL_SPEED_RAM_CANTER))
-                        pCaster->CastSpell(pCaster,SPELL_SPEED_RAM_NORMAL, false);
+                        pCaster->CastSpell(pCaster, SPELL_SPEED_RAM_NORMAL, false);
                     break;
             }
         }
@@ -303,7 +303,7 @@ public:
             } else
                 player->SendEquipError(EQUIP_ERR_OUT_OF_RANGE, pItem, NULL);
         } else
-            player->SendEquipError(EQUIP_ERR_CANT_DO_RIGHT_NOW ,pItem, NULL);
+            player->SendEquipError(EQUIP_ERR_CANT_DO_RIGHT_NOW, pItem, NULL);
         return true;
     }
 };
@@ -318,24 +318,24 @@ public:
         if ((player->HasAura(SPELL_BREWFEST_RAM) || player->HasAura(SPELL_RAMSTEIN_SWIFT_WORK_RAM)) && !player->HasAura(SPELL_SPEED_RAM_EXHAUSED))
         {
             if (player->HasAura(SPELL_SPEED_RAM_NORMAL))
-                player->CastSpell(player,SPELL_SPEED_RAM_TROT,false);
+                player->CastSpell(player, SPELL_SPEED_RAM_TROT, false);
             else if (player->HasAura(SPELL_SPEED_RAM_TROT))
             {
                 if (player->GetAura(SPELL_SPEED_RAM_TROT)->GetDuration() < 3000)
                     player->GetAura(SPELL_SPEED_RAM_TROT)->SetDuration(4000);
                 else
-                    player->CastSpell(player,SPELL_SPEED_RAM_CANTER,false);
+                    player->CastSpell(player, SPELL_SPEED_RAM_CANTER, false);
             } else if (player->HasAura(SPELL_SPEED_RAM_CANTER))
             {
                 if (player->GetAura(SPELL_SPEED_RAM_CANTER)->GetDuration() < 3000)
                     player->GetAura(SPELL_SPEED_RAM_CANTER)->SetDuration(4000);
                 else
-                    player->CastSpell(player,SPELL_SPEED_RAM_GALLOP,false);
+                    player->CastSpell(player, SPELL_SPEED_RAM_GALLOP, false);
             } else if (player->HasAura(SPELL_SPEED_RAM_GALLOP))
                 player->GetAura(SPELL_SPEED_RAM_GALLOP)->SetDuration(4000);
         }
         else
-            player->SendEquipError(EQUIP_ERR_CANT_DO_RIGHT_NOW ,pItem, NULL);
+            player->SendEquipError(EQUIP_ERR_CANT_DO_RIGHT_NOW, pItem, NULL);
 
         return true;
     }
@@ -367,10 +367,10 @@ public:
                 return;
             if ((player->HasAura(SPELL_BREWFEST_RAM) || player->HasAura(SPELL_RAMSTEIN_SWIFT_WORK_RAM))
                 && me->GetDistance(player->GetPositionX(),player->GetPositionY(),player->GetPositionZ()) <= 25.0f
-                && !player->HasItemCount(ITEM_BREWFEST_KEG,1))
+                && !player->HasItemCount(ITEM_BREWFEST_KEG, 1))
             {
-                me->CastSpell(player,SPELL_THROW_KEG,false);
-                me->CastSpell(player,42414,false);
+                me->CastSpell(player, SPELL_THROW_KEG, false);
+                me->CastSpell(player, 42414, false);
             }
         }
     };
@@ -412,10 +412,10 @@ public:
 
             if ((player->HasAura(SPELL_BREWFEST_RAM) || player->HasAura(SPELL_RAMSTEIN_SWIFT_WORK_RAM))
                 && me->GetDistance(player->GetPositionX(),player->GetPositionY(),player->GetPositionZ()) <= 5.0f
-                && player->HasItemCount(ITEM_BREWFEST_KEG,1))
+                && player->HasItemCount(ITEM_BREWFEST_KEG, 1))
             {
-                player->CastSpell(me,SPELL_THROW_KEG,true);
-                player->DestroyItemCount(ITEM_BREWFEST_KEG,1,true);
+                player->CastSpell(me, SPELL_THROW_KEG, true);
+                player->DestroyItemCount(ITEM_BREWFEST_KEG, 1, true);
                 if (player->HasAura(SPELL_BREWFEST_RAM))
                     player->GetAura(SPELL_BREWFEST_RAM)->SetDuration(player->GetAura(SPELL_BREWFEST_RAM)->GetDuration() + 30000);
                 if (player->HasAura(SPELL_RAMSTEIN_SWIFT_WORK_RAM))
@@ -423,11 +423,11 @@ public:
                 if (player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_A)
                     || player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_H))
                 {
-                    player->CastSpell(player,SPELL_CREATE_TICKETS,true);
+                    player->CastSpell(player, SPELL_CREATE_TICKETS, true);
                 }
                 else
                 {
-                    player->KilledMonsterCredit(NPC_BREWFEST_DELIVERY_BUNNY,0);
+                    player->KilledMonsterCredit(NPC_BREWFEST_DELIVERY_BUNNY, 0);
                     if (player->GetQuestStatus(QUEST_THERE_AND_BACK_AGAIN_A) == QUEST_STATUS_INCOMPLETE)
                         player->AreaExploredOrEventHappens(QUEST_THERE_AND_BACK_AGAIN_A);
                     if (player->GetQuestStatus(QUEST_THERE_AND_BACK_AGAIN_H) == QUEST_STATUS_INCOMPLETE)
@@ -480,7 +480,7 @@ public:
 
         if ((player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_A)
             || player->GetQuestRewardStatus(QUEST_THERE_AND_BACK_AGAIN_H))
-            && !player->HasItemCount(33306,1,true))
+            && !player->HasItemCount(33306, 1, true))
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_RAM_REINS, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
 
         player->SEND_GOSSIP_MENU(384, creature->GetGUID());
@@ -491,14 +491,14 @@ public:
     {
         if (uiAction == GOSSIP_ACTION_INFO_DEF+1)
         {
-            if (player->HasItemCount(ITEM_BREWFEST_KEG,1))
-                player->DestroyItemCount(ITEM_BREWFEST_KEG,1,true);
-            player->CastSpell(player,SPELL_BREWFEST_SUMMON_RAM,true);
-            player->AddSpellCooldown(SPELL_BREWFEST_SUMMON_RAM,0,time(NULL) + 18*60*60);
+            if (player->HasItemCount(ITEM_BREWFEST_KEG, 1))
+                player->DestroyItemCount(ITEM_BREWFEST_KEG, 1, true);
+            player->CastSpell(player, SPELL_BREWFEST_SUMMON_RAM, true);
+            player->AddSpellCooldown(SPELL_BREWFEST_SUMMON_RAM, 0, time(NULL) + 18*60*60);
         }
         if (uiAction == GOSSIP_ACTION_INFO_DEF+2)
         {
-            player->CastSpell(player,44371,false);
+            player->CastSpell(player, 44371, false);
         }
         return true;
     }

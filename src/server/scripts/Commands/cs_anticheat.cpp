@@ -115,8 +115,8 @@ public:
             return false;
 
         // teleport both to jail.
-        target->TeleportTo(1,16226.5f,16403.6f,-64.5f,3.2f);
-        handler->GetSession()->GetPlayer()->TeleportTo(1,16226.5f,16403.6f,-64.5f,3.2f);
+        target->TeleportTo(1, 16226.5f, 16403.6f, -64.5f, 3.2f);
+        handler->GetSession()->GetPlayer()->TeleportTo(1, 16226.5f, 16403.6f, -64.5f, 3.2f);
 
         WorldLocation loc;
 
@@ -129,7 +129,7 @@ public:
         loc.m_positionZ = -64.5f;
         loc.m_orientation = 3.2f;
 
-        target->SetHomebind(loc,876);
+        target->SetHomebind(loc, 876);
         return true;
     }
 
@@ -198,17 +198,17 @@ public:
 
         float average = sAnticheatMgr->GetAverage(guid);
         uint32 total_reports = sAnticheatMgr->GetTotalReports(guid);
-        uint32 speed_reports = sAnticheatMgr->GetTypeReports(guid,0);
-        uint32 fly_reports = sAnticheatMgr->GetTypeReports(guid,1);
-        uint32 jump_reports = sAnticheatMgr->GetTypeReports(guid,3);
-        uint32 waterwalk_reports = sAnticheatMgr->GetTypeReports(guid,2);
-        uint32 teleportplane_reports = sAnticheatMgr->GetTypeReports(guid,4);
-        uint32 climb_reports = sAnticheatMgr->GetTypeReports(guid,5);
+        uint32 speed_reports = sAnticheatMgr->GetTypeReports(guid, 0);
+        uint32 fly_reports = sAnticheatMgr->GetTypeReports(guid, 1);
+        uint32 jump_reports = sAnticheatMgr->GetTypeReports(guid, 3);
+        uint32 waterwalk_reports = sAnticheatMgr->GetTypeReports(guid, 2);
+        uint32 teleportplane_reports = sAnticheatMgr->GetTypeReports(guid, 4);
+        uint32 climb_reports = sAnticheatMgr->GetTypeReports(guid, 5);
 
         handler->PSendSysMessage("Information about player %s",player->GetName());
-        handler->PSendSysMessage("Average: %f || Total Reports: %u ",average,total_reports);
-        handler->PSendSysMessage("Speed Reports: %u || Fly Reports: %u || Jump Reports: %u ",speed_reports,fly_reports,jump_reports);
-        handler->PSendSysMessage("Walk On Water Reports: %u  || Teleport To Plane Reports: %u",waterwalk_reports,teleportplane_reports);
+        handler->PSendSysMessage("Average: %f || Total Reports: %u ",average, total_reports);
+        handler->PSendSysMessage("Speed Reports: %u || Fly Reports: %u || Jump Reports: %u ",speed_reports, fly_reports, jump_reports);
+        handler->PSendSysMessage("Walk On Water Reports: %u  || Teleport To Plane Reports: %u",waterwalk_reports, teleportplane_reports);
         handler->PSendSysMessage("Climb Reports: %u", climb_reports);
 
         return true;
@@ -230,12 +230,12 @@ public:
 
         if (strCommand.compare("on") == 0)
         {
-            sWorld->setBoolConfig(CONFIG_ANTICHEAT_ENABLE,true);
+            sWorld->setBoolConfig(CONFIG_ANTICHEAT_ENABLE, true);
             handler->SendSysMessage("The Anticheat System is now: Enabled!");
         }
         else if (strCommand.compare("off") == 0)
         {
-            sWorld->setBoolConfig(CONFIG_ANTICHEAT_ENABLE,false);
+            sWorld->setBoolConfig(CONFIG_ANTICHEAT_ENABLE, false);
             handler->SendSysMessage("The Anticheat System is now: Disabled!");
         }
 

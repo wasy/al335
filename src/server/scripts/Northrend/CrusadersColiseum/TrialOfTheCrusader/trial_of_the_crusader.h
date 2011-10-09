@@ -37,14 +37,14 @@ enum
 
 const Position ToCSpawnLoc[]=
 {
-    {563.912f, 261.625f, 394.73f, 4.70437f},  //  0 Center
-    {575.451f, 261.496f, 394.73f,  4.6541f},  //  1 Left
-    {549.951f,  261.55f, 394.73f, 4.74835f},  //  2 Right
+    {563.912f, 261.625f, 394.73f, 4.70437f}, //  0 Center
+    {575.451f, 261.496f, 394.73f,  4.6541f}, //  1 Left
+    {549.951f,  261.55f, 394.73f, 4.74835f}, //  2 Right
 };
 
 const Position ToCCommonLoc[]=
 {
-    {559.257996f, 90.266197f, 395.122986f, 0},  //  0 Barrent
+    {559.257996f, 90.266197f, 395.122986f, 0}, //  0 Barrent
 
     {563.672974f, 139.571f, 393.837006f, 0},    //  1 Center
     {563.833008f, 187.244995f, 394.5f, 0},      //  2 Backdoor
@@ -121,12 +121,12 @@ const Position LichKingLoc[]=
 
 const Position AnubarakLoc[]=
 {
-    {787.932556f, 133.289780f, 142.612152f, 0},  // 0 - Anub'arak start location
-    {695.240051f, 137.834824f, 142.200000f, 0},  // 1 - Anub'arak move point location
-    {694.886353f, 102.484665f, 142.119614f, 0},  // 3 - Nerub Spawn
-    {694.500671f, 185.363968f, 142.117905f, 0},  // 5 - Nerub Spawn
-    {731.987244f, 83.3824690f, 142.119614f, 0},  // 2 - Nerub Spawn
-    {740.184509f, 193.443390f, 142.117584f, 0},  // 4 - Nerub Spawn
+    {787.932556f, 133.289780f, 142.612152f, 0}, // 0 - Anub'arak start location
+    {695.240051f, 137.834824f, 142.200000f, 0}, // 1 - Anub'arak move point location
+    {694.886353f, 102.484665f, 142.119614f, 0}, // 3 - Nerub Spawn
+    {694.500671f, 185.363968f, 142.117905f, 0}, // 5 - Nerub Spawn
+    {731.987244f, 83.3824690f, 142.119614f, 0}, // 2 - Nerub Spawn
+    {740.184509f, 193.443390f, 142.117584f, 0}, // 4 - Nerub Spawn
 };
 
 enum euiWorldStates

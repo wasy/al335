@@ -304,7 +304,7 @@ static BossAndAdd Boss[]=
 const Position SpawnPosition[] =
 {
     {5754.692f, -2939.46f, 286.276123f, 5.156380f},         // stinkbeard || orinoko || korrak
-    {5762.054199f, -2954.385010f, 273.826955f, 5.108289f},  // yggdras
+    {5762.054199f, -2954.385010f, 273.826955f, 5.108289f}, // yggdras
     {5776.855f, -2989.77979f, 272.96814f, 5.194f},          // elementals
     {5774.388672f, -2980.124756f, 273.078613f, 5.156132f}   // vladof butcher
 };
@@ -639,7 +639,7 @@ public:
             DoCast(me, SPELL_BLOOD_PRESENCE, true);
 
             events.ScheduleEvent(EVENT_BLOOD_PLAGUE, 3000);
-            events.ScheduleEvent(EVENT_BLOOD_BOIL, urand(5000,8000));
+            events.ScheduleEvent(EVENT_BLOOD_BOIL, urand(5000, 8000));
             events.ScheduleEvent(EVENT_WHIRLWIND, 10000);
         }
 
