@@ -1398,6 +1398,15 @@ AllowTickets = 1
 DungeonFinder.Enable = 0
 
 #
+#     DungeonFinder.CastDeserter
+#        Description: Enable or disable the deserter spell when a player leaves an heroic dungeon
+#                     or a dungeon, having used the Dungeon Finder
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled)
+
+DungeonFinder.CastDeserter = 1
+
+#
 #   DBC.EnforceItemAttributes
 #        Description: Disallow overriding item attributes stored in DBC files with values from the
 #                     database.
@@ -2850,6 +2859,7 @@ PlayerDump.DisallowPaths = 1
 
 PlayerDump.DisallowOverwrite = 1
 
+###################################################################################################
 #
 #   DuelResetCooldown
 #	Reseting spell cooldowns and restore health and mana with end duel
@@ -2874,7 +2884,10 @@ PreventPlayersAccessToGMIsland = 0
 Armory.Enable = 1
 
 #
+###################################################################################################
 
+###################################################################################################
+#
 #     Anticheat.Enable
 #        Description: Enables or disables the Anticheat System functionality
 #        Default:     1 - (Enabled)
@@ -2908,6 +2921,7 @@ Anticheat.DetectionsEnabled = 31
 
 Anticheat.MaxReportsForDailyReport = 70
 
+#
 ###################################################################################################
 
 ###################################################################################################
