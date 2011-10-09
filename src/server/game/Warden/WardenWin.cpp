@@ -63,8 +63,8 @@ void WardenWin::Init(WorldSession* session, BigNumber *k)
     _inputCrypto.Init(_inputKey);
     _outputCrypto.Init(_outputKey);
     sLog->outWarden("Server side warden for client %u initializing...", session->GetAccountId());
-    sLog->outWarden("C->S Key: %s", ByteArrayToHexStr(_inputKey, 16).c_str());
-    sLog->outWarden("S->C Key: %s", ByteArrayToHexStr(_outputKey, 16).c_str());
+    sLog->outWarden("Client->Server Key: %s", ByteArrayToHexStr(_inputKey, 16).c_str());
+    sLog->outWarden("Server->Client Key: %s", ByteArrayToHexStr(_outputKey, 16).c_str());
     sLog->outWarden("  Seed: %s", ByteArrayToHexStr(_seed, 16).c_str());
     sLog->outWarden("Loading Module...");
 
@@ -142,7 +142,7 @@ void WardenWin::InitializeModule()
 
 void WardenWin::RequestHash()
 {
-    sLog->outWarden("Request hash");
+    sLog->outWarden("Warden: Got a hash request from player %s (Account $u), answering.", _session->GetPlayerName(), _session->GetAccountId());
 
     // Create packet structure
     WardenHashRequest Request;
@@ -166,13 +166,13 @@ void WardenWin::HandleHashResult(ByteBuffer &buff)
     // verify key not equal kick player
     if (memcmp(buff.contents() + 1, validHash, sizeof(validHash)) != 0)
     {
-        sLog->outWarden("Request hash reply: failed");
+        sLog->outWarden("Warden: Request for the client's hash reply failed (Player %s, account %u)", _session->GetPlayerName(), _session->GetAccountId());
         sLog->outError("WARDEN: Player %s (guid: %u, account: %u) failed hash reply. Action: %s",
             _session->GetPlayerName(), _session->GetGuidLow(), _session->GetAccountId(), Penalty().c_str());
         return;
     }
 
-    sLog->outWarden("Request hash reply: succeed");
+    sLog->outWarden("Warden: the client responded to the request of its hash.");
 
     // client 7F96EEFDA5B63D20A4DF8E00CBF48304
     const uint8 client_key[16] = { 0x7F, 0x96, 0xEE, 0xFD, 0xA5, 0xB6, 0x3D, 0x20, 0xA4, 0xDF, 0x8E, 0x00, 0xCB, 0xF4, 0x83, 0x04 };
@@ -194,7 +194,7 @@ void WardenWin::HandleHashResult(ByteBuffer &buff)
 
 void WardenWin::RequestData()
 {
-    sLog->outWarden("Request data");
+    sLog->outWarden("Warden: Requesting data");
 
     // If all checks were done, fill the todo list again
     if (_memChecksTodo.empty())
@@ -333,7 +333,7 @@ void WardenWin::RequestData()
     _dataSent = true;
 
     std::stringstream stream;
-    stream << "Sent check id's: ";
+    stream << "Warden: Sent check id's: ";
     for (std::list<uint32>::iterator itr = _currentChecks.begin(); itr != _currentChecks.end(); ++itr)
         stream << *itr << " ";
     sLog->outWarden(stream.str().c_str());
@@ -341,7 +341,7 @@ void WardenWin::RequestData()
 
 void WardenWin::HandleData(ByteBuffer &buff)
 {
-    sLog->outWarden("Handle data");
+    sLog->outWarden("Warden: Handle received data");
 
     _dataSent = false;
     _clientResponseTimer = 0;
@@ -362,7 +362,7 @@ void WardenWin::HandleData(ByteBuffer &buff)
     if (!IsValidCheckSum(Checksum, buff.contents() + buff.rpos(), Length))
     {
         buff.rpos(buff.wpos());
-        sLog->outWarden("CHECKSUM FAIL");
+        sLog->outWarden("Warden: CHECKSUM FAIL");
         sLog->outError("WARDEN: Player %s (guid: %u, account: %u) failed checksum. Action: %s",
             _session->GetPlayerName(), _session->GetGuidLow(), _session->GetAccountId(), Penalty().c_str());
         return;

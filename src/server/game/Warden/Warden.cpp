@@ -259,17 +259,17 @@ void WorldSession::HandleWardenDataOpcode(WorldPacket& recvData)
             _warden->HandleData(recvData);
             break;
         case WARDEN_CMSG_MEM_CHECKS_RESULT:
-            sLog->outWarden("NYI WARDEN_CMSG_MEM_CHECKS_RESULT received!");
+            sLog->outWarden("Warden: Received WARDEN_CMSG_MEM_CHECKS_RESULT, not implemented!");
             break;
         case WARDEN_CMSG_HASH_RESULT:
             _warden->HandleHashResult(recvData);
             _warden->InitializeModule();
             break;
         case WARDEN_CMSG_MODULE_FAILED:
-            sLog->outWarden("NYI WARDEN_CMSG_MODULE_FAILED received!");
+            sLog->outWarden("Warden: Received WARDEN_CMSG_MODULE_FAILED, not implemented!");
             break;
         default:
-            sLog->outWarden("Got unknown warden opcode %02X of size %u.", opcode, recvData.size() - 1);
+            sLog->outWarden("Warden: Got unknown opcode %02X of size %u.", opcode, recvData.size() - 1);
             break;
     }
 }
