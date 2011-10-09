@@ -2633,33 +2633,33 @@ class npc_recon_pilot : public CreatureScript
 public:
     npc_recon_pilot() : CreatureScript("npc_recon_pilot") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
-        if (pPlayer->GetQuestStatus(QUEST_EMERGENCY_PROTOCOL_C) == QUEST_STATUS_INCOMPLETE)
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_PILOT_1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
+        if (player->GetQuestStatus(QUEST_EMERGENCY_PROTOCOL_C) == QUEST_STATUS_INCOMPLETE)
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_PILOT_1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
 
-        if (pPlayer->GetQuestStatus(QUEST_EMERGENCY_SUPPLIES) == QUEST_STATUS_INCOMPLETE)
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_PILOT_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
+        if (player->GetQuestStatus(QUEST_EMERGENCY_SUPPLIES) == QUEST_STATUS_INCOMPLETE)
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_PILOT_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
 
-        pPlayer->PlayerTalkClass->SendGossipMenu(GOSSIP_TEXT_PILOT, creature->GetGUID());
+        player->PlayerTalkClass->SendGossipMenu(GOSSIP_TEXT_PILOT, creature->GetGUID());
         return true;
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
-        pPlayer->PlayerTalkClass->ClearMenus();
+        player->PlayerTalkClass->ClearMenus();
 
         switch (uiAction)
         {
             case GOSSIP_ACTION_INFO_DEF+1:
-                creature->CastSpell(pPlayer, SPELL_SUMMON_INSIGNIA, true);
+                creature->CastSpell(player, SPELL_SUMMON_INSIGNIA, true);
                 break;
             case GOSSIP_ACTION_INFO_DEF+2:
-                creature->CastSpell(pPlayer, SPELL_GIVE_EMERGENCY_KIT, true);
+                creature->CastSpell(player, SPELL_GIVE_EMERGENCY_KIT, true);
                 break;
         }
 
-        pPlayer->CLOSE_GOSSIP_MENU();
+        player->CLOSE_GOSSIP_MENU();
         creature->DespawnOrUnsummon();
 
         return true;

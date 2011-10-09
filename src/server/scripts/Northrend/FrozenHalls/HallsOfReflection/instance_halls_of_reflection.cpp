@@ -111,8 +111,8 @@ public:
         {
             Map::PlayerList const &players = instance->GetPlayers();
             if (!players.isEmpty())
-                if (Player* pPlayer = players.begin()->getSource())
-                    m_uiTeamInInstance = pPlayer->GetTeam();
+                if (Player* player = players.begin()->getSource())
+                    m_uiTeamInInstance = player->GetTeam();
 
             switch (creature->GetEntry())
             {
@@ -131,7 +131,7 @@ public:
             }
         }
 
-        void OnPlayerEnter(Player *pPlayer)
+        void OnPlayerEnter(Player *player)
         {
 
         enum PhaseControl
@@ -144,17 +144,17 @@ public:
         
          if (!sWorld->getBoolConfig(CONFIG_ALLOW_TWO_SIDE_INTERACTION_GROUP)) return;
 
-            switch (pPlayer->GetTeam())
+            switch (player->GetTeam())
             {
                 case ALLIANCE:
-                      if (pPlayer && pPlayer->IsInWorld() && pPlayer->HasAura(HORDE_CONTROL_PHASE_SHIFT_1))
-                          pPlayer->RemoveAurasDueToSpell(HORDE_CONTROL_PHASE_SHIFT_1);
-                      pPlayer->CastSpell(pPlayer, HORDE_CONTROL_PHASE_SHIFT_2, false);
+                      if (player && player->IsInWorld() && player->HasAura(HORDE_CONTROL_PHASE_SHIFT_1))
+                          player->RemoveAurasDueToSpell(HORDE_CONTROL_PHASE_SHIFT_1);
+                      player->CastSpell(player, HORDE_CONTROL_PHASE_SHIFT_2, false);
                       break;
                 case HORDE:
-                      if (pPlayer && pPlayer->IsInWorld() && pPlayer->HasAura(ALLIANCE_CONTROL_PHASE_SHIFT_1)) 
-                          pPlayer->RemoveAurasDueToSpell(ALLIANCE_CONTROL_PHASE_SHIFT_1);
-                      pPlayer->CastSpell(pPlayer, ALLIANCE_CONTROL_PHASE_SHIFT_2, false);
+                      if (player && player->IsInWorld() && player->HasAura(ALLIANCE_CONTROL_PHASE_SHIFT_1)) 
+                          player->RemoveAurasDueToSpell(ALLIANCE_CONTROL_PHASE_SHIFT_1);
+                      player->CastSpell(player, ALLIANCE_CONTROL_PHASE_SHIFT_2, false);
                       break;
             };
 

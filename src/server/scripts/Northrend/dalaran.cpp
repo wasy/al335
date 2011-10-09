@@ -164,25 +164,25 @@ class npc_arcanist_tybalin : public CreatureScript
 public:
     npc_arcanist_tybalin() : CreatureScript("npc_arcanist_tybalin") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
 	     if (creature->isQuestGiver())
-            	pPlayer->PrepareQuestMenu(creature->GetGUID());
+            	player->PrepareQuestMenu(creature->GetGUID());
 
-	     if (pPlayer->GetQuestStatus(24451)!=QUEST_STATUS_NONE){
-		pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_ARCANIST_TYBALIN, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_TRAIN);
+	     if (player->GetQuestStatus(24451)!=QUEST_STATUS_NONE){
+		player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_ARCANIST_TYBALIN, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_TRAIN);
 	}
-	pPlayer->TalkedToCreature(creature->GetEntry(), creature->GetGUID());
-	pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
+	player->TalkedToCreature(creature->GetEntry(), creature->GetGUID());
+	player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
 	
         return true;
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
-        pPlayer->PlayerTalkClass->ClearMenus();
+        player->PlayerTalkClass->ClearMenus();
         if (uiAction == GOSSIP_ACTION_TRAIN)
-            pPlayer->CastSpell(pPlayer, 69722, true);
+            player->CastSpell(player, 69722, true);
 
         return true;
     }
@@ -194,25 +194,25 @@ class npc_magister_hathorel : public CreatureScript
 public:
     npc_magister_hathorel() : CreatureScript("npc_magister_hathorel") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
 	     if (creature->isQuestGiver())
-            	pPlayer->PrepareQuestMenu(creature->GetGUID());
+            	player->PrepareQuestMenu(creature->GetGUID());
 
-	     if (pPlayer->GetQuestStatus(20439)!=QUEST_STATUS_NONE){
-		pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_MAGISTER_HATHOREL, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_TRAIN);
+	     if (player->GetQuestStatus(20439)!=QUEST_STATUS_NONE){
+		player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_MAGISTER_HATHOREL, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_TRAIN);
 	}
-	pPlayer->TalkedToCreature(creature->GetEntry(), creature->GetGUID());
-	pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
+	player->TalkedToCreature(creature->GetEntry(), creature->GetGUID());
+	player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
 	
         return true;
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
-        pPlayer->PlayerTalkClass->ClearMenus();
+        player->PlayerTalkClass->ClearMenus();
         if (uiAction == GOSSIP_ACTION_TRAIN)
-            pPlayer->CastSpell(pPlayer, 69722, true);
+            player->CastSpell(player, 69722, true);
 
         return true;
     }
@@ -239,33 +239,33 @@ class npc_archmage_vargoth : public CreatureScript
 public:
     npc_archmage_vargoth() : CreatureScript("npc_archmage_vargoth") { }
 
-    bool OnGossipHello (Player* pPlayer, Creature* creature)
+    bool OnGossipHello (Player* player, Creature* creature)
     {
         if (creature->isQuestGiver() && creature->GetZoneId() != ZONE_DALARAN)
-            pPlayer->PrepareQuestMenu(creature->GetGUID());
+            player->PrepareQuestMenu(creature->GetGUID());
 
-        if(pPlayer->HasItemCount(ITEM_ACANE_MAGIC_MASTERY, 1, false))
+        if(player->HasItemCount(ITEM_ACANE_MAGIC_MASTERY, 1, false))
         {
-            if(!pPlayer->HasSpell(SPELL_FAMILAR_PET) && !pPlayer->HasItemCount(ITEM_FAMILAR_PET, 1, true))
-                pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_FAMILIAR_WELCOME, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
+            if(!player->HasSpell(SPELL_FAMILAR_PET) && !player->HasItemCount(ITEM_FAMILAR_PET, 1, true))
+                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_FAMILIAR_WELCOME, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
         }
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
+        player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
         return true;
     }
 
-    bool OnGossipSelect (Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect (Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
-        pPlayer->PlayerTalkClass->ClearMenus();
+        player->PlayerTalkClass->ClearMenus();
 
         switch (uiAction)
         {
             case GOSSIP_ACTION_INFO_DEF+1:
-                pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_FAMILIAR_THANKS, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
-                pPlayer->SEND_GOSSIP_MENU(40000, creature->GetGUID());
+                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_FAMILIAR_THANKS, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
+                player->SEND_GOSSIP_MENU(40000, creature->GetGUID());
                 break;
             case GOSSIP_ACTION_INFO_DEF+2:
-                creature->CastSpell(pPlayer, SPELL_CREATE_FAMILAR, false);
-                pPlayer->CLOSE_GOSSIP_MENU();
+                creature->CastSpell(player, SPELL_CREATE_FAMILAR, false);
+                player->CLOSE_GOSSIP_MENU();
                 break;
         }
         return true;

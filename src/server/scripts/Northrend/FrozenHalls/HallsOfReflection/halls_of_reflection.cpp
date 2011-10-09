@@ -144,7 +144,7 @@ class npc_jaina_and_sylvana_HRintro : public CreatureScript
 public:
     npc_jaina_and_sylvana_HRintro() : CreatureScript("npc_jaina_and_sylvana_HRintro") { }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction)
     {
         InstanceScript* m_pInstance = (InstanceScript*)creature->GetInstanceScript();
 
@@ -154,12 +154,12 @@ public:
         switch (uiAction)
         {
             case GOSSIP_ACTION_INFO_DEF+1:
-                pPlayer->CLOSE_GOSSIP_MENU();
+                player->CLOSE_GOSSIP_MENU();
                 m_pInstance->SetData(TYPE_EVENT, 1);
                 break;
         }
 
-        if(pPlayer->GetTeam() == ALLIANCE)
+        if(player->GetTeam() == ALLIANCE)
             m_pInstance->SetData(DATA_LIDER, 1);
         else
             m_pInstance->SetData(DATA_LIDER, 2);
@@ -169,24 +169,24 @@ public:
         return true;
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
         InstanceScript* m_pInstance = (InstanceScript*)creature->GetInstanceScript();
 
         if(creature->isQuestGiver())
-            pPlayer->PrepareQuestMenu( creature->GetGUID());
+            player->PrepareQuestMenu( creature->GetGUID());
 
         switch(creature->GetEntry())
         {
             case NPC_JAINA:
-                pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Леди Джайна, мы готовы к следующей миссии!", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
+                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Леди Джайна, мы готовы к следующей миссии!", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
                 break;
             case NPC_SYLVANA:
-                pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Леди Сильвана, мы готовы к следующей миссии!", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
+                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Леди Сильвана, мы готовы к следующей миссии!", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
                 break;
         }
 
-        pPlayer->PlayerTalkClass->SendGossipMenu(907, creature->GetGUID());
+        player->PlayerTalkClass->SendGossipMenu(907, creature->GetGUID());
         return true;
     }
 
@@ -670,13 +670,13 @@ class npc_jaina_and_sylvana_HRextro : public CreatureScript
 public:
     npc_jaina_and_sylvana_HRextro() : CreatureScript("npc_jaina_and_sylvana_HRextro") { }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction)
     {
         InstanceScript* m_pInstance = (InstanceScript*)creature->GetInstanceScript();
         switch (uiAction)
         {
             case GOSSIP_ACTION_INFO_DEF+1:
-                pPlayer->CLOSE_GOSSIP_MENU();
+                player->CLOSE_GOSSIP_MENU();
                 ((npc_jaina_and_sylvana_HRextroAI*)creature->AI())->Start(false, true);
                 creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
                 creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
@@ -695,7 +695,7 @@ public:
         }
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
         InstanceScript*   m_pInstance = (InstanceScript*)creature->GetInstanceScript();
 
@@ -706,11 +706,11 @@ public:
             return false;
 
         if(creature->isQuestGiver())
-           pPlayer->PrepareQuestMenu( creature->GetGUID());
+           player->PrepareQuestMenu( creature->GetGUID());
 
-        pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Побежали!", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
+        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Побежали!", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
 
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
+        player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
 
         return true;
     }
@@ -945,19 +945,19 @@ public:
             if(who->GetTypeId() != TYPEID_PLAYER)
                 return;
 
-            Player* pPlayer = (Player *)who;
+            Player* player = (Player *)who;
 
-            if(pPlayer->GetTeam() == ALLIANCE && me->GetEntry() == NPC_SYLVANA_OUTRO)
+            if(player->GetTeam() == ALLIANCE && me->GetEntry() == NPC_SYLVANA_OUTRO)
                 return;
 
-            if(pPlayer->GetTeam() == HORDE && me->GetEntry() == NPC_JAINA_OUTRO)
+            if(player->GetTeam() == HORDE && me->GetEntry() == NPC_JAINA_OUTRO)
                 return;
 
             if(me->IsWithinDistInMap(who, 50.0f)
                 && m_pInstance->GetData(TYPE_FROST_GENERAL) == DONE
                 && m_pInstance->GetData(TYPE_PHASE) == 3)
             {
-                pPlayer = (Player *)who;
+                player = (Player *)who;
                 Event = true;
                 me->setFaction(FACTION);
                 m_pInstance->SetData(TYPE_PHASE, 4);
@@ -1348,8 +1348,8 @@ public:
                 || !me->IsWithinDistInMap(who, 20.0f)
                 ) return;
 
-            if (Player* pPlayer = (Player*)who)
-                if (pPlayer->isGameMaster())
+            if (Player* player = (Player*)who)
+                if (player->isGameMaster())
                     return;
 
             me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);

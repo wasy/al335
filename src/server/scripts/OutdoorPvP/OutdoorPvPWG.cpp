@@ -1300,56 +1300,56 @@ void OutdoorPvPWG::HandlePlayerEnterZone(Player * plr, uint32 zone)
     UpdateTenacityStack();
 }
 
-void OutdoorPvPWG::HandlePlayerResurrects(Player* pPlayer, uint32 zone)
+void OutdoorPvPWG::HandlePlayerResurrects(Player* player, uint32 zone)
 {
     if (!sWorld->getBoolConfig(CONFIG_OUTDOORPVP_WINTERGRASP_ENABLED))
         return;
 
     if (isWarTime())
     {
-        if (pPlayer->getLevel() > 74)
+        if (player->getLevel() > 74)
         {
             // Tenacity
-            if (pPlayer->GetTeamId() == TEAM_ALLIANCE && m_tenacityStack > 0 ||
-                pPlayer->GetTeamId() == TEAM_HORDE && m_tenacityStack < 0)
+            if (player->GetTeamId() == TEAM_ALLIANCE && m_tenacityStack > 0 ||
+                player->GetTeamId() == TEAM_HORDE && m_tenacityStack < 0)
             {
-                if (pPlayer->HasAura(SPELL_TENACITY))
-                    pPlayer->RemoveAurasDueToSpell(SPELL_TENACITY);
+                if (player->HasAura(SPELL_TENACITY))
+                    player->RemoveAurasDueToSpell(SPELL_TENACITY);
 
                 int32 newStack = m_tenacityStack < 0 ? -m_tenacityStack : m_tenacityStack;
                 if (newStack > 20)
                     newStack = 20;
-                pPlayer->SetAuraStack(SPELL_TENACITY, pPlayer, newStack);
+                player->SetAuraStack(SPELL_TENACITY, player, newStack);
             }
 
-            if (pPlayer->GetTeamId() == getAttackerTeam())
+            if (player->GetTeamId() == getAttackerTeam())
             {
                 if (m_towerDestroyedCount[getAttackerTeam()] < 3)
-                    pPlayer->SetAuraStack(SPELL_TOWER_CONTROL, pPlayer, 3 - m_towerDestroyedCount[getAttackerTeam()]);
+                    player->SetAuraStack(SPELL_TOWER_CONTROL, player, 3 - m_towerDestroyedCount[getAttackerTeam()]);
             } else if (m_towerDestroyedCount[getAttackerTeam()])
-                    pPlayer->SetAuraStack(SPELL_TOWER_CONTROL, pPlayer, m_towerDestroyedCount[getAttackerTeam()]);
+                    player->SetAuraStack(SPELL_TOWER_CONTROL, player, m_towerDestroyedCount[getAttackerTeam()]);
         }
     }
-    OutdoorPvP::HandlePlayerResurrects(pPlayer, zone);
+    OutdoorPvP::HandlePlayerResurrects(player, zone);
 }
 
-void OutdoorPvPWG::HandlePlayerLeaveZone(Player* pPlayer, uint32 zone)
+void OutdoorPvPWG::HandlePlayerLeaveZone(Player* player, uint32 zone)
 {
     if (!sWorld->getBoolConfig(CONFIG_OUTDOORPVP_WINTERGRASP_ENABLED))
         return;
 
-    if (!pPlayer->GetSession()->PlayerLogout())
+    if (!player->GetSession()->PlayerLogout())
     {
-        if (pPlayer->GetVehicle())
-            pPlayer->GetVehicle()->Dismiss();
-        pPlayer->RemoveAurasDueToSpell(SPELL_RECRUIT);
-        pPlayer->RemoveAurasDueToSpell(SPELL_CORPORAL);
-        pPlayer->RemoveAurasDueToSpell(SPELL_LIEUTENANT);
-        pPlayer->RemoveAurasDueToSpell(SPELL_TOWER_CONTROL);
-        pPlayer->RemoveAurasDueToSpell(SPELL_SPIRITUAL_IMMUNITY);
+        if (player->GetVehicle())
+            player->GetVehicle()->Dismiss();
+        player->RemoveAurasDueToSpell(SPELL_RECRUIT);
+        player->RemoveAurasDueToSpell(SPELL_CORPORAL);
+        player->RemoveAurasDueToSpell(SPELL_LIEUTENANT);
+        player->RemoveAurasDueToSpell(SPELL_TOWER_CONTROL);
+        player->RemoveAurasDueToSpell(SPELL_SPIRITUAL_IMMUNITY);
     }
-    pPlayer->RemoveAurasDueToSpell(SPELL_TENACITY);
-    OutdoorPvP::HandlePlayerLeaveZone(pPlayer, zone);
+    player->RemoveAurasDueToSpell(SPELL_TENACITY);
+    OutdoorPvP::HandlePlayerLeaveZone(player, zone);
     UpdateTenacityStack();
 }
 

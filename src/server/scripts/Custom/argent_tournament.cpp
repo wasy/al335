@@ -71,19 +71,19 @@ public:
                 {               
                         if(caster->GetCharmerOrOwner())
                         {
-                        Player * pPlayer = caster->GetCharmerOrOwner()->ToPlayer();
+                        Player * player = caster->GetCharmerOrOwner()->ToPlayer();
                         switch (Npc_Entry)
                                 {
                                         case NPC_MELEE: // dummy melee
-                                                if (pPlayer && spell->Id == SPELL_ARGENT_MELEE && (pPlayer->GetQuestStatus(13828) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13829) == QUEST_STATUS_INCOMPLETE))
+                                                if (player && spell->Id == SPELL_ARGENT_MELEE && (player->GetQuestStatus(13828) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13829) == QUEST_STATUS_INCOMPLETE))
                                                         caster->GetCharmerOrOwner()->ToPlayer()->KilledMonsterCredit(CREDIT_MELEE, 0);
                                                                 return;
                                         case NPC_CHARGE: // dummy charge
-                                                if (pPlayer && spell->Id == SPELL_ARGENT_CHARGE && (pPlayer->GetQuestStatus(13837) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13839) == QUEST_STATUS_INCOMPLETE))
+                                                if (player && spell->Id == SPELL_ARGENT_CHARGE && (player->GetQuestStatus(13837) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13839) == QUEST_STATUS_INCOMPLETE))
                                                         caster->GetCharmerOrOwner()->ToPlayer()->KilledMonsterCredit(CREDIT_CHARGE, 0);
                                                                 return;
                                         case NPC_RANGE: // dummy range
-                                                if (pPlayer && spell->Id == SPELL_ARGENT_BREAK_SHIELD && (pPlayer->GetQuestStatus(13835) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13838) == QUEST_STATUS_INCOMPLETE))
+                                                if (player && spell->Id == SPELL_ARGENT_BREAK_SHIELD && (player->GetQuestStatus(13835) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13838) == QUEST_STATUS_INCOMPLETE))
                                                         caster->GetCharmerOrOwner()->ToPlayer()->KilledMonsterCredit(CREDIT_RANGE, 0);
                                                                 return;
                                 }
@@ -169,7 +169,7 @@ public:
         {
         }
 
-        void ReceiveEmote(Player* pPlayer, uint32 emote)
+        void ReceiveEmote(Player* player, uint32 emote)
         {
             switch (emote)
             {
@@ -178,18 +178,18 @@ public:
                     if (me->HasAura(FROG_LOVE))
                         return;
 
-                    if (!pPlayer->HasAura(LIP_BALM_SPELL))
+                    if (!player->HasAura(LIP_BALM_SPELL))
                     {
-                        me->CastSpell(pPlayer, WARTS_SPELL, true);
+                        me->CastSpell(player, WARTS_SPELL, true);
                         return;
                     }
 
-                    if (pPlayer->GetQuestStatus(13603) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13666) == QUEST_STATUS_INCOMPLETE ||
-                        pPlayer->GetQuestStatus(13673) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13741) == QUEST_STATUS_INCOMPLETE ||
-                        pPlayer->GetQuestStatus(13746) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13752) == QUEST_STATUS_INCOMPLETE ||
-                        pPlayer->GetQuestStatus(13757) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13762) == QUEST_STATUS_INCOMPLETE ||
-                        pPlayer->GetQuestStatus(13768) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13773) == QUEST_STATUS_INCOMPLETE ||
-                        pPlayer->GetQuestStatus(13778) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13783) == QUEST_STATUS_INCOMPLETE )
+                    if (player->GetQuestStatus(13603) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13666) == QUEST_STATUS_INCOMPLETE ||
+                        player->GetQuestStatus(13673) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13741) == QUEST_STATUS_INCOMPLETE ||
+                        player->GetQuestStatus(13746) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13752) == QUEST_STATUS_INCOMPLETE ||
+                        player->GetQuestStatus(13757) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13762) == QUEST_STATUS_INCOMPLETE ||
+                        player->GetQuestStatus(13768) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13773) == QUEST_STATUS_INCOMPLETE ||
+                        player->GetQuestStatus(13778) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13783) == QUEST_STATUS_INCOMPLETE )
                     {
                         if (rand()%4 == 1)
                         {

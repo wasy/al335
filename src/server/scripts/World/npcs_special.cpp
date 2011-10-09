@@ -2768,11 +2768,11 @@ class npc_argent_squire : public CreatureScript
 public:
     npc_argent_squire() : CreatureScript("npc_argent_squire") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
         // Argent Pony Bridle options
         const AchievementEntry * achiPonyUp = GetAchievementStore()->LookupEntry(ACHI_PONY_UP);
-        if (pPlayer->GetAchievementMgr().HasAchieved(achiPonyUp))
+        if (player->GetAchievementMgr().HasAchieved(achiPonyUp))
             if (!creature->HasAura(SPELL_SQUIRE_TIRED))
             {
                 uint8 uiBuff = (STATE_BANK | STATE_SHOP | STATE_MAIL);
@@ -2784,71 +2784,71 @@ public:
                     uiBuff = STATE_MAIL;
 
                 if (uiBuff & STATE_BANK)
-                    pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "Visit a bank.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_BANK);
+                    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "Visit a bank.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_BANK);
                 if (uiBuff & STATE_SHOP)
-                    pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_VENDOR, "Visit a trader.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_TRADE);
+                    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_VENDOR, "Visit a trader.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_TRADE);
                 if (uiBuff & STATE_MAIL)
-                    pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Visit a mailbox.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_MAIL);
+                    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Visit a mailbox.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_MAIL);
             }
 
         // Horde
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_SENJIN))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Darkspear Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_SENJIN_PENNANT);
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_UNDERCITY))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Forsaken Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_UNDERCITY_PENNANT);
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_ORGRIMMAR))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Orgrimmar Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_ORGRIMMAR_PENNANT);
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_SILVERMOON))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Silvermoon Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_SILVERMOON_PENNANT);
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_THUNDERBLUFF))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Thunder Bluff Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_THUNDERBLUFF_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_SENJIN))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Darkspear Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_SENJIN_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_UNDERCITY))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Forsaken Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_UNDERCITY_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_ORGRIMMAR))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Orgrimmar Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_ORGRIMMAR_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_SILVERMOON))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Silvermoon Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_SILVERMOON_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_THUNDERBLUFF))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Thunder Bluff Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_THUNDERBLUFF_PENNANT);
 
         //Alliance
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_DARNASSUS))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Darnassus Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_DARNASSUS_PENNANT);
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_EXODAR))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Exodar Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_EXODAR_PENNANT);
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_GNOMEREGAN))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Gnomeregan Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_GNOMEREGAN_PENNANT);
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_IRONFORGE))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Ironforge Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_IRONFORGE_PENNANT);
-        if (pPlayer->GetQuestRewardStatus(QUEST_CHAMP_STORMWIND))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Stormwind Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_STORMWIND_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_DARNASSUS))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Darnassus Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_DARNASSUS_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_EXODAR))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Exodar Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_EXODAR_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_GNOMEREGAN))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Gnomeregan Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_GNOMEREGAN_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_IRONFORGE))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Ironforge Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_IRONFORGE_PENNANT);
+        if (player->GetQuestRewardStatus(QUEST_CHAMP_STORMWIND))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Stormwind Champion's Pennant", GOSSIP_SENDER_MAIN, SPELL_STORMWIND_PENNANT);
 
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
+        player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
         return true;
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
-        pPlayer->PlayerTalkClass->ClearMenus();
+        player->PlayerTalkClass->ClearMenus();
         if (uiAction >= 1000) // remove old pennant aura
             creature->AI()->SetData(0, 0);
         switch (uiAction)
         {
             case GOSSIP_ACTION_BANK:
                 creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BANKER);
-                pPlayer->GetSession()->SendShowBank(creature->GetGUID());
+                player->GetSession()->SendShowBank(creature->GetGUID());
                 if (!creature->HasAura(SPELL_SQUIRE_BANK_ERRAND))
                     creature->AddAura(SPELL_SQUIRE_BANK_ERRAND, creature);
-                if (!pPlayer->HasAura(SPELL_CHECK_TIRED))
-                    pPlayer->AddAura(SPELL_CHECK_TIRED, pPlayer);
+                if (!player->HasAura(SPELL_CHECK_TIRED))
+                    player->AddAura(SPELL_CHECK_TIRED, player);
                 break;
             case GOSSIP_ACTION_TRADE:
                 creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR);
-                pPlayer->GetSession()->SendListInventory(creature->GetGUID());
+                player->GetSession()->SendListInventory(creature->GetGUID());
                 if (!creature->HasAura(SPELL_SQUIRE_SHOP))
                     creature->AddAura(SPELL_SQUIRE_SHOP, creature);
-                if (!pPlayer->HasAura(SPELL_CHECK_TIRED))
-                    pPlayer->AddAura(SPELL_CHECK_TIRED, pPlayer);
+                if (!player->HasAura(SPELL_CHECK_TIRED))
+                    player->AddAura(SPELL_CHECK_TIRED, player);
                 break;
             case GOSSIP_ACTION_MAIL:
                 creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_MAILBOX);
                 creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
                 if (!creature->HasAura(SPELL_SQUIRE_POSTMAN))
                     creature->AddAura(SPELL_SQUIRE_POSTMAN, creature);
-                if (!pPlayer->HasAura(SPELL_CHECK_TIRED))
-                    pPlayer->AddAura(SPELL_CHECK_TIRED, pPlayer);
+                if (!player->HasAura(SPELL_CHECK_TIRED))
+                    player->AddAura(SPELL_CHECK_TIRED, player);
                 break;
 
             case SPELL_SENJIN_PENNANT:
@@ -2864,7 +2864,7 @@ public:
                 creature->AI()->SetData(1, uiAction);
                 break;
         }
-        pPlayer->PlayerTalkClass->SendCloseGossip();
+        player->PlayerTalkClass->SendCloseGossip();
         return true;
     }
 

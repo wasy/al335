@@ -1238,9 +1238,9 @@ class npc_og_mekkatorque : public CreatureScript
                             JumpToNextStep(5000);
                             break;
                         case 72:
-                            if (Player* pPlayer = GetPlayerForEscort())
+                            if (Player* player = GetPlayerForEscort())
                             {
-                                if (Group* group = pPlayer->GetGroup())
+                                if (Group* group = player->GetGroup())
                                 {
                                     for (GroupReference* itr = group->GetFirstMember(); itr != NULL; itr = itr->next())
                                     {
@@ -1254,10 +1254,10 @@ class npc_og_mekkatorque : public CreatureScript
                                 }
                                 else
                                 {
-                                    pPlayer->GetMap()->LoadGrid(ExplosionBunnySpawn.GetPositionX(), ExplosionBunnySpawn.GetPositionY());
+                                    player->GetMap()->LoadGrid(ExplosionBunnySpawn.GetPositionX(), ExplosionBunnySpawn.GetPositionY());
                                     Creature* pCameraVeh = me->SummonCreature(NPC_CAMERA_VEHICLE, -5164.767578f, 556.341125f, 423.753784f, 25.29f, TEMPSUMMON_MANUAL_DESPAWN);
-                                    pPlayer->CastSpell(pPlayer, SPELL_SEE_INVISIBILITY, true);
-                                    pPlayer->CastSpell(pCameraVeh, SPELL_BINDSIGHT, true);
+                                    player->CastSpell(player, SPELL_SEE_INVISIBILITY, true);
+                                    player->CastSpell(pCameraVeh, SPELL_BINDSIGHT, true);
                                 }
                             }
                             JumpToNextStep(1300);
@@ -1346,9 +1346,9 @@ class npc_og_mekkatorque : public CreatureScript
 
             void PartyCast(uint32 spell)
             {
-                if (Player* pPlayer = GetPlayerForEscort())
+                if (Player* player = GetPlayerForEscort())
                 {
-                    if (Group* group = pPlayer->GetGroup())
+                    if (Group* group = player->GetGroup())
                     {
                         for (GroupReference* itr = group->GetFirstMember(); itr != NULL; itr = itr->next())
                         {
@@ -1358,7 +1358,7 @@ class npc_og_mekkatorque : public CreatureScript
                     }
                     else
                     {
-                        pPlayer->CastSpell(pPlayer, spell, true);
+                        player->CastSpell(player, spell, true);
                     }
                 }
             }
@@ -1506,10 +1506,10 @@ class npc_og_mekkatorque : public CreatureScript
 
                 for (Map::PlayerList::const_iterator i = PlList.begin(); i != PlList.end(); ++i)
                 {
-                    if (Player* pPlayer = i->getSource())
+                    if (Player* player = i->getSource())
                     {
-                        if (pPlayer->GetQuestStatus(QUEST_OPERATION_GNOMEREGAN) == QUEST_STATUS_INCOMPLETE)
-                            pPlayer->SendUpdateWorldState(worldstate, value);
+                        if (player->GetQuestStatus(QUEST_OPERATION_GNOMEREGAN) == QUEST_STATUS_INCOMPLETE)
+                            player->SendUpdateWorldState(worldstate, value);
                     }
                 }
             }
@@ -1523,11 +1523,11 @@ class npc_og_mekkatorque : public CreatureScript
 
                 for (Map::PlayerList::const_iterator i = PlList.begin(); i != PlList.end(); ++i)
                 {
-                    if (Player* pPlayer = i->getSource())
+                    if (Player* player = i->getSource())
                     {
-                        if (pPlayer->GetQuestStatus(QUEST_OPERATION_GNOMEREGAN) == QUEST_STATUS_NONE || pPlayer->GetQuestStatus(QUEST_OPERATION_GNOMEREGAN) == QUEST_STATUS_REWARDED|| pPlayer->GetQuestStatus(QUEST_OPERATION_GNOMEREGAN) == QUEST_STATUS_FAILED)
+                        if (player->GetQuestStatus(QUEST_OPERATION_GNOMEREGAN) == QUEST_STATUS_NONE || player->GetQuestStatus(QUEST_OPERATION_GNOMEREGAN) == QUEST_STATUS_REWARDED|| player->GetQuestStatus(QUEST_OPERATION_GNOMEREGAN) == QUEST_STATUS_FAILED)
                             for (int8 n = 0; n < 15; ++n)
-                                pPlayer->SendUpdateWorldState(WorldStates[n], 0);
+                                player->SendUpdateWorldState(WorldStates[n], 0);
                     }
                 }
             }*/
@@ -1591,14 +1591,14 @@ class npc_og_mekkatorque : public CreatureScript
 
 typedef npc_og_mekkatorque::npc_og_mekkatorqueAI MekkAI;
 
-        bool OnQuestAccept(Player* pPlayer, Creature* creature, Quest const* quest)
+        bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest)
         {
             if (quest->GetQuestId() == QUEST_OPERATION_GNOMEREGAN)
             {
                 if (!bProcessing)
                 {
                     CAST_AI(MekkAI, creature->AI())->pEscortQuest = quest;
-                    CAST_AI(MekkAI, creature->AI())->pEscortPlayer = pPlayer;
+                    CAST_AI(MekkAI, creature->AI())->pEscortPlayer = player;
                     creature->MonsterSay(MEK_1_1, LANG_UNIVERSAL, NULL);
                     CAST_AI(MekkAI, creature->AI())->DoPlaySoundToSet(creature, SOUND_MEK_1);
                     for (int8 n = 0; n < 4; ++n)

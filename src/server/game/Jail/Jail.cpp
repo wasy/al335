@@ -548,17 +548,17 @@ bool Jail::ReloadKommando(ChatHandler * handler)
     return false;
 }
 
-void Jail::Kontrolle(Player * pPlayer, bool update)
+void Jail::Kontrolle(Player * player, bool update)
 {
-    if (!pPlayer || !m_JailKonf.Enabled)
+    if (!player || !m_JailKonf.Enabled)
         return;
 
-    if (pPlayer->m_Jailed)
+    if (player->m_Jailed)
     {
         Position pos;
         uint32 map;
 
-        if (pPlayer->GetTeam() == ALLIANCE)
+        if (player->GetTeam() == ALLIANCE)
         {
             map = HoleAllyKnastKarte();
             pos = HoleAllyKnastPos();
@@ -569,14 +569,14 @@ void Jail::Kontrolle(Player * pPlayer, bool update)
             pos = HoleHordeKnastPos();
         }
 
-        if (pPlayer->GetMapId() != map || m_JailKonf.Radius < uint32(pPlayer->GetDistance(pos)))
-            pPlayer->TeleportTo(map, pos.m_positionX, pos.m_positionY, pos.m_positionZ, pos.m_orientation);
+        if (player->GetMapId() != map || m_JailKonf.Radius < uint32(player->GetDistance(pos)))
+            player->TeleportTo(map, pos.m_positionX, pos.m_positionY, pos.m_positionZ, pos.m_orientation);
 
         // Spieler hat sich gerade eingelogt
         if (!update)
         {
-            sLog->outBasic(fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_TELE), pPlayer->GetName(), pPlayer->GetGUIDLow()));
-            sWorld->SendServerMessage(SERVER_MSG_STRING, fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_TELE), pPlayer->GetName(), pPlayer->GetGUIDLow()));
+            sLog->outBasic(fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_TELE), player->GetName(), player->GetGUIDLow()));
+            sWorld->SendServerMessage(SERVER_MSG_STRING, fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_TELE), player->GetName(), player->GetGUIDLow()));
         }
     }
 }
@@ -616,7 +616,7 @@ void Jail::Update()
 
         time_t localtime = time(NULL);
 
-        if (Player * pPlayer = sObjectMgr->GetPlayerByLowGUID(itr->first))
+        if (Player * player = sObjectMgr->GetPlayerByLowGUID(itr->first))
         {
             // Online Char gefunden!
             ++cnt;
@@ -624,13 +624,13 @@ void Jail::Update()
             if (itr->second.Release > localtime)
                 continue;
 
-            pPlayer->m_Jailed = false;
-            pPlayer->m_JailRelease = 0;
-            pPlayer->JailDatenSpeichern();
-            pPlayer->TeleportTo(pPlayer->GetStartPosition());
+            player->m_Jailed = false;
+            player->m_JailRelease = 0;
+            player->JailDatenSpeichern();
+            player->TeleportTo(player->GetStartPosition());
 
-            sLog->outBasic(fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_FREE), pPlayer->GetName(), pPlayer->GetGUIDLow()));
-            sWorld->SendServerMessage(SERVER_MSG_STRING, fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_FREE), pPlayer->GetName(), pPlayer->GetGUIDLow()));
+            sLog->outBasic(fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_FREE), player->GetName(), player->GetGUIDLow()));
+            sWorld->SendServerMessage(SERVER_MSG_STRING, fmtstring(sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_CHAR_FREE), player->GetName(), player->GetGUIDLow()));
 
             continue;
         }
@@ -719,19 +719,19 @@ bool Jail::SendeInaktiv(ChatHandler * handler)
     return false;
 }
 
-void Jail::SendeWarnung(Player * pPlayer)
+void Jail::SendeWarnung(Player * player)
 {
-    if (!pPlayer || !m_JailKonf.Enabled)
+    if (!player || !m_JailKonf.Enabled)
         return;
 
     // Nur warnen, wenn m_MaxJails auch gesetzt ist! ;)
-    if (m_JailKonf.WarnUser && m_JailKonf.MaxJails && (m_JailKonf.MaxJails - pPlayer->m_JailAnzahl) <= 1)
+    if (m_JailKonf.WarnUser && m_JailKonf.MaxJails && (m_JailKonf.MaxJails - player->m_JailAnzahl) <= 1)
     {
         if (m_JailKonf.DelChar)
-            pPlayer->GetSession()->SendNotification(LANG_JAIL_WARNING);
+            player->GetSession()->SendNotification(LANG_JAIL_WARNING);
 
         if (m_JailKonf.BanAcc)
-            pPlayer->GetSession()->SendNotification(LANG_JAIL_WARNING_BAN);
+            player->GetSession()->SendNotification(LANG_JAIL_WARNING_BAN);
     }
 }
 

@@ -115,8 +115,8 @@ public:
 
             if (!players.isEmpty())
             {
-                if (Player* pPlayer = players.begin()->getSource())
-                    TeamInInstance = pPlayer->GetTeam();
+                if (Player* player = players.begin()->getSource())
+                    TeamInInstance = player->GetTeam();
             }
 
             switch (creature->GetEntry())
@@ -216,18 +216,18 @@ public:
 
         for (Map::PlayerList::const_iterator i = PlList.begin(); i != PlList.end(); ++i)
         {
-            if(Player* pPlayer = i->getSource())
+            if(Player* player = i->getSource())
             {
-                if(pPlayer->isGameMaster())
+                if(player->isGameMaster())
                     continue;
 
-                if(pPlayer->isAlive())
+                if(player->isAlive())
                 {
                     temp->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE);
                     temp->SetReactState(REACT_AGGRESSIVE);
-                    temp->SetInCombatWith(pPlayer);
-                    pPlayer->SetInCombatWith(temp);
-                    temp->AddThreat(pPlayer, 0.0f);
+                    temp->SetInCombatWith(player);
+                    player->SetInCombatWith(temp);
+                    temp->AddThreat(player, 0.0f);
                 }
             }
         }

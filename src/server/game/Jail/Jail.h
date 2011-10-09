@@ -92,8 +92,8 @@ public:
     uint32 HoleAllyKnastKarte() const { return m_JailKonf.MapAlly; }
     uint32 HoleHordeKnastKarte() const { return m_JailKonf.MapHorde; }
 
-    void Kontrolle(Player * pPlayer, bool update = false);
-    void SendeWarnung(Player * pPlayer);
+    void Kontrolle(Player * player, bool update = false);
+    void SendeWarnung(Player * player);
 
     JailMap const & HoleJailMap() const { return m_JailMap; }
     void AktualisiereJailMap(uint32 guid, JailEintragStruktur & JES) { m_JailMap[guid] = JES; };

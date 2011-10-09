@@ -146,20 +146,20 @@ public:
 			{
 				for (Map::PlayerList::const_iterator i = players.begin(); i != players.end(); ++i)
 				{
-					if(Player* pPlayer = i->getSource())
+					if(Player* player = i->getSource())
 					{
-						if(pPlayer->isAlive())
+						if(player->isAlive())
 						{
-							pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_SHOW, 0);
-							if (pPlayer->HasAura(74807))
+							player->SendUpdateWorldState(UPDATE_STATE_UI_SHOW, 0);
+							if (player->HasAura(74807))
 							{
-								pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_COUNT_T, 100 - value);
+								player->SendUpdateWorldState(UPDATE_STATE_UI_COUNT_T, 100 - value);
 							}
 							else
 							{
-								pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_COUNT_R, value);
+								player->SendUpdateWorldState(UPDATE_STATE_UI_COUNT_R, value);
 							}
-							pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_SHOW, 1);
+							player->SendUpdateWorldState(UPDATE_STATE_UI_SHOW, 1);
 						}
 					}
 				}
@@ -168,11 +168,11 @@ public:
 			{
 				for (Map::PlayerList::const_iterator i = players.begin(); i != players.end(); ++i)
 				{
-					if(Player* pPlayer = i->getSource())
+					if(Player* player = i->getSource())
 					{
-						if(pPlayer->isAlive())
+						if(player->isAlive())
 						{
-							pPlayer->SendUpdateWorldState(UPDATE_STATE_UI_SHOW, 0);
+							player->SendUpdateWorldState(UPDATE_STATE_UI_SHOW, 0);
 						}
 					}
 				}

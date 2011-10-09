@@ -1430,11 +1430,11 @@ public:
 			Map::PlayerList const &players = m_pInstance->instance->GetPlayers();
 			for(Map::PlayerList::const_iterator i = players.begin(); i != players.end(); ++i)
 			{
-				if(Player* pPlayer = i->getSource())
+				if(Player* player = i->getSource())
 				{
-					if(pPlayer->isAlive() && pPlayer->HasAura(SPELL_MARK_OF_CONSUMPTION))
+					if(player->isAlive() && player->HasAura(SPELL_MARK_OF_CONSUMPTION))
 					{
-						Aura *pAura = pPlayer->GetAura(SPELL_MARK_OF_CONSUMPTION);
+						Aura *pAura = player->GetAura(SPELL_MARK_OF_CONSUMPTION);
 						uint32 stacs;
 						stacs= pAura->GetStackAmount();
 						if(!grow)
@@ -1510,18 +1510,18 @@ public:
 			Map::PlayerList const &players = m_pInstance->instance->GetPlayers();
 			for(Map::PlayerList::const_iterator i = players.begin(); i != players.end(); ++i)
 			{
-				if(Player* pPlayer = i->getSource())
+				if(Player* player = i->getSource())
 				{
-					if(pPlayer->isAlive() && pPlayer->HasAura(SPELL_MARK_OF_COMBUSTION))
+					if(player->isAlive() && player->HasAura(SPELL_MARK_OF_COMBUSTION))
 					{
-						Aura *pAura = pPlayer->GetAura(SPELL_MARK_OF_COMBUSTION);
+						Aura *pAura = player->GetAura(SPELL_MARK_OF_COMBUSTION);
 						uint32 stacs;
 						stacs= pAura->GetStackAmount();
 						if(!grow)
 						{
 							m_Size = (m_Size + (stacs*0.1));
 							me->SetFloatValue(OBJECT_FIELD_SCALE_X, m_Size);
-							me->RemoveAura(SPELL_MARK_OF_COMBUSTION, pPlayer->GetGUID());
+							me->RemoveAura(SPELL_MARK_OF_COMBUSTION, player->GetGUID());
 							m_pInstance->DoRemoveAurasDueToSpellOnPlayers(SPELL_MARK_OF_COMBUSTION);
 							grow = true;
 						}

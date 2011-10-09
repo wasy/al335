@@ -522,11 +522,11 @@ void Vehicle::Relocate(Position pos)
         {
             // relocate/setposition doesn't work for player
             plr->NearTeleportTo(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), pos.GetOrientation());
-            //plr->TeleportTo(pPlayer->GetMapId(), triggerPos.GetPositionX(), triggerPos.GetPositionY(), triggerPos.GetPositionZ(), triggerPos.GetOrientation(), TELE_TO_NOT_LEAVE_COMBAT);
+            //plr->TeleportTo(player->GetMapId(), triggerPos.GetPositionX(), triggerPos.GetPositionY(), triggerPos.GetPositionZ(), triggerPos.GetOrientation(), TELE_TO_NOT_LEAVE_COMBAT);
         }
     }
 
     _me->SetPosition(pos, true);
     // problems, and impossible to do delayed enter
-    //pPlayer->EnterVehicle(veh);
+    //player->EnterVehicle(veh);
 }

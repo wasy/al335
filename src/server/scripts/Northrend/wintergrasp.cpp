@@ -33,39 +33,39 @@ class npc_demolisher_engineerer : public CreatureScript
 public:
     npc_demolisher_engineerer() : CreatureScript("npc_demolisher_engineerer") { }
 
-bool OnGossipHello(Player* pPlayer, Creature* creature)
+bool OnGossipHello(Player* player, Creature* creature)
 {
     if (creature->isQuestGiver())
-        pPlayer->PrepareQuestMenu(creature->GetGUID());
+        player->PrepareQuestMenu(creature->GetGUID());
 
-    if(pPlayer->isGameMaster() || creature->GetZoneScript() && creature->GetZoneScript()->GetData(creature->GetDBTableGUIDLow()))
+    if(player->isGameMaster() || creature->GetZoneScript() && creature->GetZoneScript()->GetData(creature->GetDBTableGUIDLow()))
     {
-        if (pPlayer->HasAura(SPELL_CORPORAL))
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO1, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF);
-        else if (pPlayer->HasAura(SPELL_LIEUTENANT))
+        if (player->HasAura(SPELL_CORPORAL))
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO1, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF);
+        else if (player->HasAura(SPELL_LIEUTENANT))
         {
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO1, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF);
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO2, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF+1);
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO3, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF+2);
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO1, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF);
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO2, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF+1);
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO3, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF+2);
         }
     }
     else
-        pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO4, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF+9);
+        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_HELLO_DEMO4, GOSSIP_SENDER_MAIN,   GOSSIP_ACTION_INFO_DEF+9);
 
-    pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
+    player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
     return true;
 }
 
-bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 uiSender, uint32 uiAction)
+bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction)
 {
-    pPlayer->CLOSE_GOSSIP_MENU();
-    if(pPlayer->isGameMaster() || creature->GetZoneScript() && creature->GetZoneScript()->GetData(creature->GetDBTableGUIDLow()))
+    player->CLOSE_GOSSIP_MENU();
+    if(player->isGameMaster() || creature->GetZoneScript() && creature->GetZoneScript()->GetData(creature->GetDBTableGUIDLow()))
     {
         switch(uiAction - GOSSIP_ACTION_INFO_DEF)
         {
-            case 0: pPlayer->CastSpell(pPlayer, 56663, false, NULL, NULL, creature->GetGUID()); break;
-            case 1: pPlayer->CastSpell(pPlayer, 56575, false, NULL, NULL, creature->GetGUID()); break;
-            case 2: pPlayer->CastSpell(pPlayer, pPlayer->GetTeamId() ? 61408 : 56661, false, NULL, NULL, creature->GetGUID()); break;
+            case 0: player->CastSpell(player, 56663, false, NULL, NULL, creature->GetGUID()); break;
+            case 1: player->CastSpell(player, 56575, false, NULL, NULL, creature->GetGUID()); break;
+            case 2: player->CastSpell(player, player->GetTeamId() ? 61408 : 56661, false, NULL, NULL, creature->GetGUID()); break;
         }
     }
 
@@ -104,7 +104,7 @@ public:
         return new npc_wg_ally_battle_mageAI(creature);
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
         if (!sWorld->getBoolConfig(CONFIG_OUTDOORPVP_WINTERGRASP_ENABLED))
             return false;
@@ -114,16 +114,16 @@ public:
             if (pvpWG->isWarTime())
             {
                 if (pvpWG->getDefenderTeam() == TEAM_HORDE)
-                    pPlayer->SEND_GOSSIP_MENU(14777, creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(14777, creature->GetGUID());
                 else
-                    pPlayer->SEND_GOSSIP_MENU(14781, creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(14781, creature->GetGUID());
             }
             else
             {
                 if (pvpWG->getDefenderTeam() == TEAM_HORDE)
-                    pPlayer->SEND_GOSSIP_MENU(14775, creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(14775, creature->GetGUID());
                 else
-                    pPlayer->SEND_GOSSIP_MENU(14782, creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(14782, creature->GetGUID());
             }
         }
         return true;
@@ -263,7 +263,7 @@ public:
         return new npc_wg_horde_battle_mageAI(creature);
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
         if (!sWorld->getBoolConfig(CONFIG_OUTDOORPVP_WINTERGRASP_ENABLED))
             return false;
@@ -273,16 +273,16 @@ public:
             if (pvpWG->isWarTime())
             {
                 if (pvpWG->getDefenderTeam() == TEAM_HORDE)
-                    pPlayer->SEND_GOSSIP_MENU(14777, creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(14777, creature->GetGUID());
                 else
-                    pPlayer->SEND_GOSSIP_MENU(14781, creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(14781, creature->GetGUID());
             }
             else
             {
                 if (pvpWG->getDefenderTeam() == TEAM_HORDE)
-                    pPlayer->SEND_GOSSIP_MENU(14775, creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(14775, creature->GetGUID());
                 else
-                    pPlayer->SEND_GOSSIP_MENU(14782, creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(14782, creature->GetGUID());
             }
         }
         return true;

@@ -233,15 +233,15 @@ class npc_emissary_brighthoof : public CreatureScript
 public:
     npc_emissary_brighthoof() : CreatureScript("npc_emissary_brighthoof") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
         if (creature->isQuestGiver())
-            pPlayer->PrepareQuestMenu(creature->GetGUID());
+            player->PrepareQuestMenu(creature->GetGUID());
 
-        if (pPlayer->GetQuestRewardStatus(QUEST_BLOOD_OATH_HORDE) && pPlayer->getQuestStatusMap()[QUEST_BLOOD_OATH_HORDE].m_creatureOrGOcount[0] >= 5)
-            pPlayer->CompleteQuest(QUEST_BLOOD_OATH_HORDE);
+        if (player->GetQuestRewardStatus(QUEST_BLOOD_OATH_HORDE) && player->getQuestStatusMap()[QUEST_BLOOD_OATH_HORDE].m_creatureOrGOcount[0] >= 5)
+            player->CompleteQuest(QUEST_BLOOD_OATH_HORDE);
 
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
+        player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
         return true;
     }
 
@@ -459,7 +459,7 @@ public:
                 return;
 
             if(PlayerGUID)
-                if(Player* pPlayer = Unit::GetPlayer(*me, PlayerGUID))
+                if(Player* player = Unit::GetPlayer(*me, PlayerGUID))
                 {
                     switch (i)
                     {
@@ -606,12 +606,12 @@ public:
         }
     };
 
-    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
         switch (uiAction)
         {
             case GOSSIP_ACTION_INFO_DEF + 1:
-                pPlayer->SEND_GOSSIP_MENU(TEXT_2, creature->GetGUID());
+                player->SEND_GOSSIP_MENU(TEXT_2, creature->GetGUID());
                 CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, creature->AI())->StartEvent();
                 break;
         }
@@ -859,37 +859,37 @@ class npc_agent_skully : public CreatureScript
 public:
     npc_agent_skully() : CreatureScript("npc_agent_skully") { }
 
-    bool OnQuestAccept(Player* pPlayer, Creature* creature, Quest const* quest)
+    bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest)
     {
         if (quest->GetQuestId() == QUEST_A_FALL_FROM_GRACE)
         {
-            if (pPlayer->getGender() == GENDER_FEMALE)
-                creature->CastSpell(pPlayer, SPELL_SCARLET_RAVEN_PRIEST_IMAGE_FEMALE, false);
-            if (pPlayer->getGender() == GENDER_MALE)
-                creature->CastSpell(pPlayer, SPELL_SCARLET_RAVEN_PRIEST_IMAGE_MALE, false);
+            if (player->getGender() == GENDER_FEMALE)
+                creature->CastSpell(player, SPELL_SCARLET_RAVEN_PRIEST_IMAGE_FEMALE, false);
+            if (player->getGender() == GENDER_MALE)
+                creature->CastSpell(player, SPELL_SCARLET_RAVEN_PRIEST_IMAGE_MALE, false);
 
             if (Creature *cC = creature->FindNearestCreature(NPC_HIGH_ABBOT_LANDGREN_ENTRY, 30))
             {
                 if (CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID == NULL)
-                    CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID = pPlayer->GetGUID();
+                    CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID = player->GetGUID();
                 else
                 {
                     if (Player* uPlayer = Unit::GetPlayer(*creature, CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID))
                     {
                         if (!uPlayer->IsInWorld() || uPlayer->GetAreaId() != 4180 || uPlayer->GetQuestStatus(QUEST_A_FALL_FROM_GRACE) != QUEST_STATUS_INCOMPLETE)
-                            CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID = pPlayer->GetGUID();
+                            CAST_AI(npc_high_abbot_landgren::npc_high_abbot_landgrenAI, cC->AI())->PlayerGUID = player->GetGUID();
                         else
                         {
-                            creature->MonsterSay(AgentSkullySay[0], LANG_UNIVERSAL, pPlayer->GetGUID());
-                            pPlayer->FailQuest(QUEST_A_FALL_FROM_GRACE);
+                            creature->MonsterSay(AgentSkullySay[0], LANG_UNIVERSAL, player->GetGUID());
+                            player->FailQuest(QUEST_A_FALL_FROM_GRACE);
                         }
                     }
                 }
             }
             else
             {
-                creature->MonsterSay(AgentSkullySay[0], LANG_UNIVERSAL, pPlayer->GetGUID());
-                pPlayer->FailQuest(QUEST_A_FALL_FROM_GRACE);
+                creature->MonsterSay(AgentSkullySay[0], LANG_UNIVERSAL, player->GetGUID());
+                player->FailQuest(QUEST_A_FALL_FROM_GRACE);
             }
         }
         return true;

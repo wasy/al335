@@ -164,28 +164,28 @@ class npc_squire_danny : public CreatureScript
 public:
     npc_squire_danny() : CreatureScript("npc_squire_danny") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
-        if (pPlayer->GetQuestStatus(13699) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13723) == QUEST_STATUS_INCOMPLETE ||
-            pPlayer->GetQuestStatus(13713) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13724) == QUEST_STATUS_INCOMPLETE ||
-            pPlayer->GetQuestStatus(13725) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13726) == QUEST_STATUS_INCOMPLETE ||
-            pPlayer->GetQuestStatus(13727) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13728) == QUEST_STATUS_INCOMPLETE ||
-            pPlayer->GetQuestStatus(13729) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(13731) == QUEST_STATUS_INCOMPLETE)
+        if (player->GetQuestStatus(13699) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13723) == QUEST_STATUS_INCOMPLETE ||
+            player->GetQuestStatus(13713) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13724) == QUEST_STATUS_INCOMPLETE ||
+            player->GetQuestStatus(13725) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13726) == QUEST_STATUS_INCOMPLETE ||
+            player->GetQuestStatus(13727) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13728) == QUEST_STATUS_INCOMPLETE ||
+            player->GetQuestStatus(13729) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(13731) == QUEST_STATUS_INCOMPLETE)
         {
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_SQUIRE__CHAMP_ITEM_1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_SQUIRE__CHAMP_ITEM_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_SQUIRE__CHAMP_ITEM_1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_SQUIRE__CHAMP_ITEM_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
         }
 
-        pPlayer->SEND_GOSSIP_MENU(GOSSIP_TEXTID_SQUIRE_CHAMP, creature->GetGUID());
+        player->SEND_GOSSIP_MENU(GOSSIP_TEXTID_SQUIRE_CHAMP, creature->GetGUID());
         return true;
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
-        pPlayer->PlayerTalkClass->ClearMenus();
+        player->PlayerTalkClass->ClearMenus();
         if (uiAction == GOSSIP_ACTION_INFO_DEF+1)
         {
-            pPlayer->CLOSE_GOSSIP_MENU();
+            player->CLOSE_GOSSIP_MENU();
             creature->SummonCreature(NPC_ARGENT_CHAMPION, 8545.375f, 1087.665f, 556.787f, 1.063f);
         }
         return true;

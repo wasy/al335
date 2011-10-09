@@ -299,25 +299,25 @@ class npc_steamcrank : public CreatureScript
                 }
             }
 
-            void ReceiveEmote(Player* pPlayer, uint32 uiTextEmote)
+            void ReceiveEmote(Player* player, uint32 uiTextEmote)
             {
                 switch(uiTextEmote)
                 {
                     case TEXT_EMOTE_SALUTE:
                         if (_step >= 5 && _step < 8)
-                            me->CastSpell(pPlayer, SPELL_SALUTE_CREDIT, true);
+                            me->CastSpell(player, SPELL_SALUTE_CREDIT, true);
                         break;
                     case TEXT_EMOTE_ROAR:
                         if (_step >= 11 && _step < 14)
-                            me->CastSpell(pPlayer, SPELL_ROAR_CREDIT, true);
+                            me->CastSpell(player, SPELL_ROAR_CREDIT, true);
                         break;
                     case TEXT_EMOTE_CHEER:
                         if (_step >= 17 && _step < 20)
-                            me->CastSpell(pPlayer, SPELL_CHEER_CREDIT, true);
+                            me->CastSpell(player, SPELL_CHEER_CREDIT, true);
                         break;
                     case TEXT_EMOTE_DANCE:
                         if (_step >= 23 && _step < 26)
-                            me->CastSpell(pPlayer, SPELL_DANCE_CREDIT, true);
+                            me->CastSpell(player, SPELL_DANCE_CREDIT, true);
                         break;
                 }
             }

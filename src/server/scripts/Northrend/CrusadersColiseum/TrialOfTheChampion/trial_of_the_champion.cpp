@@ -244,18 +244,18 @@ public:
         return new npc_announcer_toc5AI(creature);
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction)
     {
         if (uiAction == GOSSIP_ACTION_INFO_DEF+1)
         {
-            pPlayer->CLOSE_GOSSIP_MENU();
+            player->CLOSE_GOSSIP_MENU();
             CAST_AI(npc_announcer_toc5AI, creature->AI())->StartEncounter();
         }
 
         return true;
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
         InstanceScript* instance = creature->GetInstanceScript();
 
@@ -272,11 +272,11 @@ public:
             instance->GetData(BOSS_ARGENT_CHALLENGE_E) == NOT_STARTED &&
             instance->GetData(BOSS_ARGENT_CHALLENGE_P) == NOT_STARTED &&
             instance->GetData(BOSS_BLACK_KNIGHT) == NOT_STARTED)
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_START_EVENT1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_START_EVENT1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
         else if (instance)
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_START_EVENT2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_START_EVENT2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
 
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
+        player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
 
         return true;
     }
@@ -670,19 +670,19 @@ public:
 
             for (Map::PlayerList::const_iterator i = PlList.begin(); i != PlList.end(); ++i)
             {
-                if (Player* pPlayer = i->getSource())
+                if (Player* player = i->getSource())
                 {
-                    if (pPlayer->isGameMaster())
+                    if (player->isGameMaster())
                         continue;
 
-                    if (pPlayer->isAlive())
+                    if (player->isAlive())
                     {
                         temp->SetHomePosition(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation());
                         temp->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
                         temp->SetReactState(REACT_AGGRESSIVE);
-                        temp->SetInCombatWith(pPlayer);
-                        pPlayer->SetInCombatWith(temp);
-                        temp->AddThreat(pPlayer, 0.0f);
+                        temp->SetInCombatWith(player);
+                        player->SetInCombatWith(temp);
+                        temp->AddThreat(player, 0.0f);
                     }
                 }
             }
