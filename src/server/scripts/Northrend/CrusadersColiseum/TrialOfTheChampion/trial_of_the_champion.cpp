@@ -407,24 +407,24 @@ public:
             if (pGrandChampion1 && pGrandChampion2 && pGrandChampion3)
             {
                 if (Vehicle* pVehicle = pGrandChampion1->GetVehicleKit())
-                    if (Unit* pUnit = pVehicle->GetPassenger(0))
+                    if (Unit* unit = pVehicle->GetPassenger(0))
                     {
-                        pUnit->setFaction(14);
-                        pUnit->ExitVehicle();
+                        unit->setFaction(14);
+                        unit->ExitVehicle();
                     }
 
                 if (Vehicle* pVehicle = pGrandChampion2->GetVehicleKit())
-                    if (Unit* pUnit = pVehicle->GetPassenger(0))
+                    if (Unit* unit = pVehicle->GetPassenger(0))
                     {
-                        pUnit->setFaction(14);
-                        pUnit->ExitVehicle();
+                        unit->setFaction(14);
+                        unit->ExitVehicle();
                     }
 
                 if (Vehicle* pVehicle = pGrandChampion3->GetVehicleKit())
-                    if (Unit* pUnit = pVehicle->GetPassenger(0))
+                    if (Unit* unit = pVehicle->GetPassenger(0))
                     {
-                        pUnit->setFaction(14);
-                        pUnit->ExitVehicle();
+                        unit->setFaction(14);
+                        unit->ExitVehicle();
                     }
             }
         }

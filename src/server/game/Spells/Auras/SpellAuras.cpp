@@ -1342,11 +1342,11 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                         target->GetRaidMember(unitList, 10);
                         for (std::list<Unit*>::iterator itr = unitList.begin(); itr != unitList.end(); ++itr)
                         {
-                            Unit* pUnit = *itr;
-                            if (!pUnit || pUnit == target)
+                            Unit* unit = *itr;
+                            if (!unit || unit == target)
                                 continue;
 
-                            pUnit->CastSpell(pUnit, 63881, true, 0, 0);
+                            unit->CastSpell(unit, 63881, true, 0, 0);
                             return;
                         }
                         break;
