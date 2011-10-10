@@ -618,8 +618,8 @@ INSERT INTO `game_event_gameobject` (`eventEntry`, `guid`) VALUES
 
 -- Brewfest - Dark Iron Knockback
 DELETE FROM `conditions` WHERE `SourceEntry`=42299 AND `ConditionValue2`=0;
--- INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
--- (13, 0, 42299, 0, 18, 1, 0, 0, 0, '', "Spell Brewfest - Dark Iron Knockback can only be cast at players");
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(17, 0, 42299, 0, 18, 1, 0, 0, 0, '', "Spell Brewfest - Dark Iron Knockback can only be cast at players");
 -- Brewfest Chick Chucks Mug should also add an Complimentary Brewfest Sampler
 DELETE FROM `spell_linked_spell` WHERE `spell_trigger`=42535 AND `spell_effect`=42518;
 INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
@@ -725,11 +725,14 @@ INSERT INTO `creature_template_addon` (`entry`, `mount`, `bytes1`, `bytes2`, `em
 (23709, 0, 0, 0, 0, '42676');
 -- Drunken Master & Dark Iron Retreat
 -- Holiday - Brewfest - Dark Iron Knock-down Power-up
-DELETE FROM `conditions` WHERE `SourceEntry` IN (42695, 42794, 42341) AND `ConditionValue2` IN (23709);
+DELETE FROM `conditions` WHERE `SourceEntry` IN (42695, 42341) AND `ConditionValue2` IN (23709);
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
 (13, 0, 42695, 0, 18, 1, 23709, 0, 0, '', "Spell Holiday - Brewfest - Dark Iron Knock-down Power-up can only be cast at Dark Iron Guzzler"), 
--- (13, 0, 42794, 0, 18, 1, 23709, 0, 0, '', "Spell Holiday - Brewfest - Random Mug Fling can only be cast at Dark Iron Guzzler"), 
 (13, 0, 42341, 0, 18, 1, 23709, 0, 0, '', "Spell Dark Iron Retreat can only be cast at Dark Iron Guzzler");
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=17 AND `SourceEntry`=42794;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(17, 0, 42794, 0, 18, 1, 23709, 0, 0, '', "Spell Holiday - Brewfest - Random Mug Fling can only be cast at Dark Iron Guzzler");
+
 
 -- Бликс Чиништукс <Выдача призов>
 -- http://ru.wowhead.com/npc=24495#english-comments
@@ -1045,7 +1048,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (@ENTRY*100+2, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, "Dark Iron Herald - On Script - Yell Line 3"), 
 (@ENTRY*100+2, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, "Dark Iron Herald - On Script - Call Script Reset"), 
 (@ENTRY*100+2, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, "Dark Iron Herald - On Script - Despawn"), 
-(@ENTRY*100+2, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 45, 1, 1, 0, 0, 0, 11, 23894, 100, 0, 0, 0, 0, 0, 0, "Dark Iron Herald - On Script - Set Data Brewfest Dark Iron Spawn Bunny"); -- Unsummon the spawn bunnies so they won't summon more dwarfs while we are retreating
+(@ENTRY*100+2, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 45, 1, 1, 0, 0, 0, 0, 11, 23894, 100, 0, 0, 0, 0, 0, "Dark Iron Herald - On Script 2 - Set Data Brewfest Dark Iron Spawn Bunny"); -- Unsummon the spawn bunnies so they won't summon more dwarfs while we are retreating
 -- Text
 DELETE FROM `creature_text` WHERE `entry`=@ENTRY;
 INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `comment`) VALUES
