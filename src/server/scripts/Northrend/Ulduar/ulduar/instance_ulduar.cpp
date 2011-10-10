@@ -300,10 +300,6 @@ class instance_ulduar : public InstanceMapScript
                     case GO_HODIR_CHEST:
                         HodirChestGUID = gameObject->GetGUID();
                         break;
-                    case GO_FREYA_CHEST_1_ELDER_10:
-                    case GO_FREYA_CHEST_0_ELDER_10:
-                        FreyaChestGUID = gameObject->GetGUID();
-                        break;
                     case GO_LEVIATHAN_DOOR:
                         AddDoor(gameObject, true);
                         break;
@@ -334,10 +330,10 @@ class instance_ulduar : public InstanceMapScript
                     case GO_MOLE_MACHINE:
                         if (GetBossState(BOSS_RAZORSCALE) == IN_PROGRESS)
                             gameObject->SetGoState(GO_STATE_ACTIVE);
-                    case GO_HODIR_OUT_DOOR_STONE:
+                    case GO_HODIR_DOOR:
                         HodirDoorGUID = gameObject->GetGUID();
                         break;
-                    case GO_HODIR_OUT_DOOR_ICE:
+                    case GO_HODIR_ICE_DOOR:
                         HodirIceDoorGUID = gameObject->GetGUID();
                         break;
                     case GO_ARCHIVUM_DOOR:
