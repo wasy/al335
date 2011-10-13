@@ -6320,7 +6320,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 // Glyph of Shred
                 case 54815:
                 {
-                    if(!target)
+                    if (!target)
                         return false;
 
                     // try to find spell Rip on the target
@@ -8963,12 +8963,6 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, AuraEffect* trigg
         {
             if (HasAura(70718))
                 CastSpell(this, 70721, true);
-            break;
-        }
-        // Bloodthirst (($m/100)% of max health)
-        case 23880:
-        {
-            basepoints0 = int32(CountPctFromMaxHealth(triggerAmount));
             break;
         }
         // Shamanistic Rage triggered spell
