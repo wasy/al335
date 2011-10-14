@@ -1183,7 +1183,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                 }
                 case 51582:                                 //Rocket Boots Engaged (Rocket Boots Xtreme and Rocket Boots Xtreme Lite)
                 {
-                    if (!m_CastItem) 
+                    if (!m_CastItem)
                         return;
 
                     if (Battleground* bg = m_caster->ToPlayer()->GetBattleground())
@@ -4621,7 +4621,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                         unitTarget->CastSpell(unitTarget, 70974, false);
 
                     return;
-                        
+
                 }
                 //Silver Covenant Disguise
                 case 69673:
@@ -4635,7 +4635,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                         unitTarget->CastSpell(unitTarget, 70972, false);
 
                     return;
-                        
+
                 }
                 //Teleport to Lake Wintergrasp
                 case 58622:

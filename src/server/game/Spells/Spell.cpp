@@ -54,7 +54,7 @@
 #include "OutdoorPvPWG.h"
 #include "OutdoorPvPMgr.h"
 #include "InstanceScript.h"
-#include "InstanceSaveMgr.h" 
+#include "InstanceSaveMgr.h"
 #include "SpellInfo.h"
 
 extern pEffect SpellEffects[TOTAL_SPELL_EFFECTS];
@@ -4649,7 +4649,7 @@ void Spell::HandleEffects(Unit* pUnitTarget, Item* pItemTarget, GameObject* pGOT
 
 SpellCastResult Spell::CheckCast(bool strict)
 {
-	OutdoorPvPWG *pvpWG = (OutdoorPvPWG*)sOutdoorPvPMgr->GetOutdoorPvPToZoneId(4197);
+    OutdoorPvPWG *pvpWG = (OutdoorPvPWG*)sOutdoorPvPMgr->GetOutdoorPvPToZoneId(4197);
 
     // check death state
     if (!m_caster->isAlive() && !(m_spellInfo->Attributes & SPELL_ATTR0_PASSIVE) && !((m_spellInfo->Attributes & SPELL_ATTR0_CASTABLE_WHILE_DEAD) || (IsTriggered() && !m_triggeredByAuraSpell)))
@@ -5476,7 +5476,7 @@ SpellCastResult Spell::CheckCast(bool strict)
                         // Wintergrasp Antifly check
                         if (sWorld->getBoolConfig(CONFIG_OUTDOORPVP_WINTERGRASP_ENABLED))
                         {
-	                      OutdoorPvPWG *pvpWG = (OutdoorPvPWG*)sOutdoorPvPMgr->GetOutdoorPvPToZoneId(4197);
+                          OutdoorPvPWG *pvpWG = (OutdoorPvPWG*)sOutdoorPvPMgr->GetOutdoorPvPToZoneId(4197);
                           if (m_originalCaster->GetZoneId() == 4197 && pvpWG && pvpWG != 0  && pvpWG->isWarTime())
                               return (_triggeredCastFlags & TRIGGERED_DONT_REPORT_CAST_ERROR) ? SPELL_FAILED_DONT_REPORT : SPELL_FAILED_NOT_HERE;
                         }

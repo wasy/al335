@@ -2986,6 +2986,12 @@ void SpellMgr::LoadDbcDataCorrections()
             case 36350: //They Must Burn Bomb Aura (self)
                 spellInfo->EffectTriggerSpell[0] = 36325; // They Must Burn Bomb Drop (DND)
                 break;
+            case 32645: // Envenom (Rank 1)
+            case 32684: // Envenom (Rank 2)
+            case 57992: // Envenom (Rank 3)
+            case 57993: // Envenom (Rank 4)
+                spellInfo->Dispel = DISPEL_NONE;
+                break;
             case 49838: // Stop Time
                 spellInfo->AttributesEx3 |= SPELL_ATTR3_NO_INITIAL_AGGRO;
                 break;
@@ -3591,11 +3597,8 @@ void SpellMgr::LoadDbcDataCorrections()
             case 72405: // Broken Frostmourne
                 spellInfo->EffectRadiusIndex[1] = 22;   // 200yd
                 break;
-            case 32645: // Envenom (Rank 1)
-            case 32684: // Envenom (Rank 2)
-            case 57992: // Envenom (Rank 3)
-            case 57993: // Envenom (Rank 4)
-                spellInfo->Dispel = DISPEL_NONE;
+            case 68766: // Desecration
+                spellInfo->rangeIndex = 2;
                 break;
             default:
                 break;

@@ -31,15 +31,16 @@ public:
             { "player",         SEC_GAMEMASTER,     true,  &HandleAntiCheatPlayerCommand,         "", NULL },
             { "delete",         SEC_ADMINISTRATOR,  true,  &HandleAntiCheatDeleteCommand,         "", NULL },
             { "handle",         SEC_ADMINISTRATOR,  true,  &HandleAntiCheatHandleCommand,         "", NULL },
-            { "jail",           SEC_GAMEMASTER,     true,  &HandleAnticheatJailCommand,         "", NULL },
-            { "warn",           SEC_GAMEMASTER,     true,  &HandleAnticheatWarnCommand,         "", NULL },
-            { NULL,             0,                     false, NULL,                                           "", NULL }
+            { "jail",           SEC_GAMEMASTER,     true,  &HandleAnticheatJailCommand,              "", NULL },
+            { "warn",           SEC_GAMEMASTER,     true,  &HandleAnticheatWarnCommand,           "", NULL },
+            { "targetmarker",   SEC_MODERATOR,      true,  &HandleAnticheatTargetMarkerCommand,   "", NULL },
+            { NULL,             0,                  false, NULL,                                  "", NULL }
         };
 
         static ChatCommand commandTable[] =
         {
-            { "anticheat",      SEC_GAMEMASTER,     true, NULL,                     "",  anticheatCommandTable},
-            { NULL,             0,                  false, NULL,                               "", NULL }
+            { "anticheat",      SEC_GAMEMASTER,     true, NULL,                                   "",  anticheatCommandTable},
+            { NULL,             0,                  false, NULL,                                  "", NULL }
         };
 
         return commandTable;
@@ -205,10 +206,10 @@ public:
         uint32 teleportplane_reports = sAnticheatMgr->GetTypeReports(guid, 4);
         uint32 climb_reports = sAnticheatMgr->GetTypeReports(guid, 5);
 
-        handler->PSendSysMessage("Information about player %s",player->GetName());
-        handler->PSendSysMessage("Average: %f || Total Reports: %u ",average, total_reports);
-        handler->PSendSysMessage("Speed Reports: %u || Fly Reports: %u || Jump Reports: %u ",speed_reports, fly_reports, jump_reports);
-        handler->PSendSysMessage("Walk On Water Reports: %u  || Teleport To Plane Reports: %u",waterwalk_reports, teleportplane_reports);
+        handler->PSendSysMessage("Information about player %s", player->GetName());
+        handler->PSendSysMessage("Average: %f || Total Reports: %u ", average, total_reports);
+        handler->PSendSysMessage("Speed Reports: %u || Fly Reports: %u || Jump Reports: %u ", speed_reports, fly_reports, jump_reports);
+        handler->PSendSysMessage("Walk On Water Reports: %u  || Teleport To Plane Reports: %u", waterwalk_reports, teleportplane_reports);
         handler->PSendSysMessage("Climb Reports: %u", climb_reports);
 
         return true;
@@ -251,6 +252,40 @@ public:
         }
 
         sAnticheatMgr->AnticheatGlobalCommand(handler);
+
+        return true;
+    }
+
+    static bool HandleAnticheatTargetMarkerCommand(ChatHandler* handler, const char* args)
+    {
+        Player* target = handler->getSelectedPlayer();
+        if (!target)
+            return false;
+
+        int32 spawntime = 30;
+        char* spawntimeString = strtok((char*)args, " ");
+        if (spawntimeString)
+            spawntime = atoi(spawntimeString);
+
+        GameObject* pGameObj = new GameObject;
+
+        Map* map = target->GetMap();
+
+        float x = target->GetPositionX();
+        float y = target->GetPositionY();
+        float z = target->GetPositionZ();
+
+        if (!pGameObj->Create(sObjectMgr->GenerateLowGuid(HIGHGUID_GAMEOBJECT), 2000000, map, target->GetPhaseMask(), x, y, z, target->GetOrientation(), 0.0f, 0.0f, 0.0f, 0.0f, 100, GO_STATE_READY))
+        {
+            delete pGameObj;
+            return false;
+        }
+        pGameObj->SetRespawnTime(spawntime < 1 ? 1800 : spawntime * MINUTE);
+        pGameObj->m_serverSideVisibility.SetValue(SERVERSIDE_VISIBILITY_GM, SEC_MODERATOR);
+        pGameObj->SetOwnerGUID(handler->GetSession()->GetPlayer()->GetGUID());
+        pGameObj->SetSpawnedByDefault(false);
+
+        map->AddToMap(pGameObj);
 
         return true;
     }

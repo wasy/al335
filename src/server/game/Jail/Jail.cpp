@@ -863,7 +863,7 @@ void Jail::BannAccount(uint32 acc_id, uint32 guid, Player * chr)
     else
         btimes = 1;
 
-    LoginDatabase.PExecute("REPLACE INTO `account_banned` (`id`,`bandate`,`unbandate`,`bannedby`,`banreason`) VALUES (%u, %u, %u,'%s','%s')",
+    LoginDatabase.PExecute("REPLACE INTO `account_banned` (`id`,`bandate`,`unbandate`,`bannedby`,`banreason`) VALUES (%u, %u, %u, '%s', '%s')",
         acc_id, localtime, banrelease, m_JailKonf.GMChar.c_str(), sObjectMgr->GetTrinityStringForDBCLocale(LANG_JAIL_BAN_REASON));
 
     // Wenn der Account gebannt wurde, mussen die Daten im Jail zuruck gesetzt werden!
