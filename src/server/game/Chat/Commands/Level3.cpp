@@ -2944,9 +2944,18 @@ bool ChatHandler::HandleBanHelper(BanMode mode, const char *args)
     {
         case BAN_SUCCESS:
             if (atoi(duration)>0)
+            {
+                if (CONFIG_SHOW_BAN_IN_WORLD)
+                    sWorld->SendWorldText(LANG_BAN_YOUBANNED, nameOrIP.c_str(), secsToTimeString(TimeStringToSecs(duration), true).c_str(), reason);
+                else
                 PSendSysMessage(LANG_BAN_YOUBANNED, nameOrIP.c_str(), secsToTimeString(TimeStringToSecs(duration), true).c_str(), reason);
+            }
+            else {
+                if (CONFIG_SHOW_BAN_IN_WORLD)
+                    sWorld->SendWorldText(LANG_BAN_YOUPERMBANNED, nameOrIP.c_str(), reason);
             else
                 PSendSysMessage(LANG_BAN_YOUPERMBANNED, nameOrIP.c_str(), reason);
+            }
             break;
         case BAN_SYNTAX_ERROR:
             return false;

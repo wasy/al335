@@ -58,6 +58,13 @@ bool ChatHandler::HandleMuteCommand(const char* args)
     if (mutereason != NULL)
          mutereasonstr = mutereason;
 
+    if (!mutereason)
+    {
+        PSendSysMessage("Вы должны ввести причину молчанки");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
     Player* target;
     uint64 target_guid;
     std::string target_name;
@@ -94,6 +101,9 @@ bool ChatHandler::HandleMuteCommand(const char* args)
 
     std::string nameLink = playerLink(target_name);
 
+    if (sWorld->getBoolConfig(CONFIG_SHOW_MUTE_IN_WORLD))
+        sWorld->SendWorldText(target ? LANG_YOU_DISABLE_CHAT : LANG_COMMAND_DISABLE_CHAT_DELAYED, nameLink.c_str(), notspeaktime, mutereasonstr.c_str());
+    else
     PSendSysMessage(target ? LANG_YOU_DISABLE_CHAT : LANG_COMMAND_DISABLE_CHAT_DELAYED, nameLink.c_str(), notspeaktime, mutereasonstr.c_str());
 
     return true;
