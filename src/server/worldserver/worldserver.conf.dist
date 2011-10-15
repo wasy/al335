@@ -26,6 +26,7 @@
 #    CHARACTER DELETE OPTIONS
 #    CUSTOM SERVER OPTIONS
 #    WINTERGRASP BATTLE CONFIGURATION
+#    LOTTERY
 #
 ###################################################################################################
 
@@ -3050,6 +3051,35 @@ OutdoorPvP.Wintergrasp.Antifarm.Atk = 5
 #              (Default: 5)
 
 OutdoorPvP.Wintergrasp.Antifarm.Def = 5
+
+#
+###################################################################################################
+
+###################################################################################################
+#     Lottery.Enable
+#        Description: Enables or disables the Lottery NPC activity.
+#        Default:     0 - (Disabled)
+#                     1 - (Enabled)
+
+Lottery.Enable = 0
+
+#     Lottery.BetCost
+#        Description: Cost of 1 bet in lottery (in copper).
+#        Default:     10000 gold
+
+Lottery.BetCost = 10000
+
+#     Lottery.MaxNumber
+#        Description: Max lottery bet number.
+#        Default:     30
+
+Lottery.MaxNumber = 30
+
+#     Lottery.MinUserLVL
+#        Description: Players with lower level can't take part in lottery.
+#        Default:     60
+
+Lottery.MinUserLVL = 60
 
 #
 ###################################################################################################

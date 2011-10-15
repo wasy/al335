@@ -1251,6 +1251,12 @@ void World::LoadConfigSettings(bool reload)
     m_bool_configs[CONFIG_PDUMP_NO_PATHS] = ConfigMgr::GetBoolDefault("PlayerDump.DisallowPaths", true);
     m_bool_configs[CONFIG_PDUMP_NO_OVERWRITE] = ConfigMgr::GetBoolDefault("PlayerDump.DisallowOverwrite", true);
 
+    // Lottery
+    m_bool_configs[CONFIG_LOTTERY_ENABLE]           = ConfigMgr::GetBoolDefault("Lottery.Enable", false);
+    m_int_configs[CONFIG_LOTTERY_MAXNUMBER]         = ConfigMgr::GetIntDefault("Lottery.MaxNubmer", 30);
+    m_int_configs[CONFIG_LOTTERY_BETCOST]           = ConfigMgr::GetIntDefault("Lottery.BetCost", 10000);
+    m_int_configs[CONFIG_LOTTERY_MINLVL]            = ConfigMgr::GetIntDefault("Lottery.MinUserLVL", 60);
+
     sScriptMgr->OnConfigLoad(reload);
 }
 

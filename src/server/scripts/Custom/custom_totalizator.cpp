@@ -75,7 +75,7 @@ public:
         custom_totalizator_controlerAI(Creature* creature) : ScriptedAI(creature)
         {
             for (uint32 i = 0; i < C_TOTALIZATORMOB_COUNT; ++i)
-                if (Creature *mob = me->SummonCreature(TotalizatorMobIDs[i], PosMobStart[i], TEMPSUMMON_MANUAL_DESPAWN, 0, 0))
+                if (Creature* mob = me->SummonCreature(TotalizatorMobIDs[i], PosMobStart[i], TEMPSUMMON_MANUAL_DESPAWN, 0, 0))
                     TotalizatorMobs.push_back(mob);
         }
 
@@ -88,8 +88,8 @@ public:
         uint64 uiWinner;
         uint64 uiWinnerIdx;
 
-        uint32 uiTotalizator_Timer;
-        uint32 uiReset_Timer;
+        uint32 TotalizatorTimer;
+        uint32 ResetTimer;
 
         void Reset()
         {
@@ -100,41 +100,43 @@ public:
             bAnnounce0 = false;
             uiWinner = 0;
             uiWinnerIdx = 0;
-            uiTotalizator_Timer = 4*MINUTE*IN_MILLISECONDS;
-            uiReset_Timer = 20*IN_MILLISECONDS;
+            TotalizatorTimer = 4*MINUTE*IN_MILLISECONDS;
+            ResetTimer = 20*IN_MILLISECONDS;
         }
 
         void UpdateAI(const uint32 diff)
         {
-            if (uiTotalizator_Timer <= diff)
+            if (TotalizatorTimer <= diff)
             {
                 StartTotalizator();
-                uiTotalizator_Timer = 4*MINUTE*IN_MILLISECONDS;
-            } else uiTotalizator_Timer -= diff;
+                TotalizatorTimer = 4*MINUTE*IN_MILLISECONDS;
+            }
+            else TotalizatorTimer -= diff;
 
-            if (uiTotalizator_Timer <= 3*MINUTE*IN_MILLISECONDS && !bAnnounce3)
+            if (TotalizatorTimer <= 3*MINUTE*IN_MILLISECONDS && !bAnnounce3)
             {
                 me->MonsterSay("До старта осталось 3 минуты...", LANG_UNIVERSAL, NULL);
                 bAnnounce3 = true;
             }
-            else if (uiTotalizator_Timer <= 1*MINUTE*IN_MILLISECONDS && !bAnnounce1)
+            else if (TotalizatorTimer <= 1*MINUTE*IN_MILLISECONDS && !bAnnounce1)
             {
                 me->MonsterSay("До старта осталось 1 минута...", LANG_UNIVERSAL, NULL);
                 bAnnounce1 = true;
             }
-            else if (uiTotalizator_Timer <= 10*IN_MILLISECONDS && !bAnnounce0)
+            else if (TotalizatorTimer <= 10*IN_MILLISECONDS && !bAnnounce0)
             {
                 me->MonsterSay("До старта осталось 10 секунд...", LANG_UNIVERSAL, NULL);
                 bAnnounce0 = true;
             }
 
             if (!bReset)
-                if (uiReset_Timer <= diff)
+                if (ResetTimer <= diff)
                 {
                     ResetTotalizator();
                     bReset = true;
-                    uiReset_Timer = 20*IN_MILLISECONDS;
-                } else uiReset_Timer -= diff;
+                    ResetTimer = 20*IN_MILLISECONDS;
+                }
+                else ResetTimer -= diff;
         }
 
         void AddRate(Player* player, uint32 money, uint32 mob)
@@ -202,7 +204,7 @@ public:
 
                         MailDraft(subject, text)
                             .AddMoney(money)
-                            .SendMailTo(trans, MailReceiver(player, GUID_LOPART(player->GetGUID())),sender);
+                            .SendMailTo(trans, MailReceiver(player, GUID_LOPART(player->GetGUID())), sender);
 
                         CharacterDatabase.CommitTransaction(trans);
                     }
@@ -243,7 +245,7 @@ public:
                         }
                         draft.AddMoney(money);
 
-                        draft.SendMailTo(trans, MailReceiver(player, GUID_LOPART(player->GetGUID())),sender);
+                        draft.SendMailTo(trans, MailReceiver(player, GUID_LOPART(player->GetGUID())), sender);
                         CharacterDatabase.CommitTransaction(trans);
                     }
 
@@ -270,7 +272,7 @@ public:
                 if (!(*itr))
                     continue;
 
-                float speed = (rand() / (float(RAND_MAX)+1)) * (2.4f - 0.12f) + 0.12f; //* (max - min) + min;
+                float speed = (rand() / (float(RAND_MAX) + 1)) * (2.4f - 0.12f) + 0.12f; // * (max - min) + min;
 
                 (*itr)->SetHomePosition(PosMobEnd[i].GetPositionX(), PosMobEnd[i].GetPositionY(), PosMobEnd[i].GetPositionZ(), 3.12f);
                 (*itr)->SetSpeed(MOVE_WALK, speed, true);
@@ -308,7 +310,7 @@ public:
                 if (!(*itr))
                     continue;
 
-                (*itr)->SetHomePosition(PosMobStart[i].GetPositionX(),PosMobStart[i].GetPositionY(),PosMobStart[i].GetPositionZ(), 3.12f);
+                (*itr)->SetHomePosition(PosMobStart[i].GetPositionX(), PosMobStart[i].GetPositionY(), PosMobStart[i].GetPositionZ(), 3.12f);
                 (*itr)->GetMotionMaster()->MoveTargetedHome();
                 ++i;
             }
@@ -378,33 +380,33 @@ public:
 
     bool OnGossipHello(Player* player, Creature* creature)
     {
-        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_TALK, "Ваша ставка в ЗОЛОТЕ:", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
-        //player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "DEBUG: Вознаграждение", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
+        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_TALK, "Ваша ставка в ЗОЛОТЕ:", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
+        //player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "DEBUG: Вознаграждение", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2);
 
         player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
 
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 sender, uint32 action)
     {
         player->PlayerTalkClass->ClearMenus();
 
-        switch (uiAction)
+        switch (action)
         {
-        case GOSSIP_ACTION_INFO_DEF+1:
-            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "На кого вы хотите сделать ставку? 1 ед. = 1 золотому", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
+        case GOSSIP_ACTION_INFO_DEF + 1:
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "На кого вы хотите сделать ставку? 1 ед. = 1 золотому", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
 
-            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Киска", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+11, "Сколько золота вы хотите положить на ставку?", 0, true);
-            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Убийца комаров", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+12, "Сколько золота вы хотите положить на ставку?", 0, true);
-            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Флинк с веслом", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+13, "Сколько золота вы хотите положить на ставку?", 0, true);
-            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Саламандра ", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+14, "Сколько золота вы хотите положить на ставку?", 0, true);
-            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Бырло", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+15, "Сколько золота вы хотите положить на ставку?", 0, true);
-            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Ангелочек", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+16, "Сколько золота вы хотите положить на ставку?", 0, true);
+            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Киска", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 11, "Сколько золота вы хотите положить на ставку?", 0, true);
+            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Убийца комаров", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 12, "Сколько золота вы хотите положить на ставку?", 0, true);
+            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Флинк с веслом", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 13, "Сколько золота вы хотите положить на ставку?", 0, true);
+            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Саламандра ", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 14, "Сколько золота вы хотите положить на ставку?", 0, true);
+            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Бырло", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 15, "Сколько золота вы хотите положить на ставку?", 0, true);
+            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_DOT, "Ангелочек", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 16, "Сколько золота вы хотите положить на ставку?", 0, true);
 
             player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
             break;
-        case GOSSIP_ACTION_INFO_DEF+2:
+        case GOSSIP_ACTION_INFO_DEF + 2:
             player->CLOSE_GOSSIP_MENU();
             //CAST_AI(custom_totalizator_controler::custom_totalizator_controlerAI, creature->AI())->RewardRate(player);
             break;
@@ -413,29 +415,35 @@ public:
         return true;
     }
 
-    bool OnGossipSelectCode(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction, const char* code)
+    bool OnGossipSelectCode(Player* player, Creature* creature, uint32 sender, uint32 action, const char* code)
     {
         player->PlayerTalkClass->ClearMenus();
 
-        if (uiSender == GOSSIP_SENDER_MAIN)
+        if (sender == GOSSIP_SENDER_MAIN)
         {
-            if (uiAction > GOSSIP_ACTION_INFO_DEF+10 && uiAction < GOSSIP_ACTION_INFO_DEF+17 && atoi(code) > 0)
+            if (action > GOSSIP_ACTION_INFO_DEF + 10 && action < GOSSIP_ACTION_INFO_DEF + 17 && atoi(code) > 0)
             {
                 if (player->GetMoney() >= (uint32)atol(code)*10000)
                 {
                     player->ModifyMoney(-1 * (int32)atoi(code)*10000);
-                    uint32 idx = uiAction - 1010;
+                    uint32 idx = action - 1010;
                     CAST_AI(custom_totalizator_controler::custom_totalizator_controlerAI, creature->AI())->AddRate(player, (uint32)atol(code), idx);
 
                     char* mobname = "";
                     switch (idx) //creature_template entry
                     {
-                    case 1: mobname = "Киска"; break;
-                    case 2: mobname = "Убийца комаров"; break;
-                    case 3: mobname = "Флинк с веслом"; break;
-                    case 4: mobname = "Саламандра "; break;
-                    case 5: mobname = "Бырло"; break;
-                    case 6: mobname = "Ангелочек"; break;
+                    case 1: mobname = "Киска";
+                        break;
+                    case 2: mobname = "Убийца комаров";
+                        break;
+                    case 3: mobname = "Флинк с веслом";
+                        break;
+                    case 4: mobname = "Саламандра ";
+                        break;
+                    case 5: mobname = "Бырло";
+                        break;
+                    case 6: mobname = "Ангелочек";
+                        break;
                     default: mobname = "";
                     }
                     char buff[2048];
