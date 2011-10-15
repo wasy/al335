@@ -68,7 +68,7 @@ namespace
     }
 
     // Teleport Player
-    void Teleport(Player * const player, const uint16 &map,
+    void Teleport(Player*  const player, const uint16 &map,
                   const float &X, const float &Y, const float &Z, const float &orient)
     {
         player->CastSpell(player, SPELL_VISUAL_TELEPORT, true);
@@ -76,7 +76,7 @@ namespace
     }
 
     // Display categories
-    void AffichCat(Player * const player, Creature * const creature)
+    void AffichCat(Player*  const player, Creature*  const creature)
     {
         if (PageC[player] > 0)
             player->ADD_GOSSIP_ITEM(7, PREV_PAGE, GOSSIP_PREV_PAGEC, 0);
@@ -95,7 +95,7 @@ namespace
     }
 
     // Display destination categories
-    void AffichDest(Player * const player, Creature * const creature)
+    void AffichDest(Player*  const player, Creature*  const creature)
     {
         if (PageD[player] > 0)
             player->ADD_GOSSIP_ITEM(7, PREV_PAGE, GOSSIP_PREV_PAGED, 0);
@@ -116,7 +116,7 @@ namespace
     }
 
     // Verification before teleportation
-    void ActionTeleport(Player * const player, Creature * const creature, const uint32 &id)
+    void ActionTeleport(Player*  const player, Creature*  const creature, const uint32 &id)
     {
         Dest dest (TabCatDest[Cat[player]].GetDest(id));
 
@@ -146,7 +146,7 @@ class npc_teleport : public CreatureScript
 public:
     npc_teleport() : CreatureScript("npc_teleport") {}
 
-bool OnGossipHello(Player *player, Creature *creature)
+bool OnGossipHello(Player* player, Creature* creature)
 {
     PageC(player) = PageD(player) = Cat(player) = 0;
 
@@ -160,7 +160,7 @@ bool OnGossipHello(Player *player, Creature *creature)
     return true;
 }
 
-bool OnGossipSelect(Player *player, Creature *creature, uint32 sender, uint32 param)
+bool OnGossipSelect(Player* player, Creature* creature, uint32 sender, uint32 param)
 {
     player->PlayerTalkClass->ClearMenus();
     switch(sender)

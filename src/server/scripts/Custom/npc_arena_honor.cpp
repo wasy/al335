@@ -37,17 +37,17 @@ class npc_arena_honor : public CreatureScript
 public:
     npc_arena_honor() : CreatureScript("npc_arena_honor") { }
 
-    bool OnGossipHello(Player* player, Creature *_Creature)
+    bool OnGossipHello(Player* player, Creature* creature)
     {
         player->ADD_GOSSIP_ITEM(0, GOSSIP_ITEM_HONOR_TO_ARENA,  GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
         player->ADD_GOSSIP_ITEM(0, GOSSIP_ITEM_HONOR_TO_ARENA1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2);
         player->ADD_GOSSIP_ITEM(0, GOSSIP_ITEM_ARENA_TO_HONOR,  GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 3);
         player->ADD_GOSSIP_ITEM(0, GOSSIP_ITEM_ARENA_TO_HONOR1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 4);
-        player->SEND_GOSSIP_MENU(3961, _Creature->GetGUID());
+        player->SEND_GOSSIP_MENU(3961, creature->GetGUID());
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature *_Creature, uint32 sender, uint32 action)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 sender, uint32 action)
     {
         if (action == GOSSIP_ACTION_INFO_DEF + 1)
         {
@@ -58,7 +58,7 @@ public:
             } 
             else 
             {
-                      _Creature->MonsterSay("Недостаточно очков чести!", LANG_UNIVERSAL, 0);
+                      creature->MonsterSay("Недостаточно очков чести!", LANG_UNIVERSAL, 0);
             }
         }
         if (action == GOSSIP_ACTION_INFO_DEF + 2)
@@ -70,7 +70,7 @@ public:
             } 
             else 
             {
-                      _Creature->MonsterSay("Недостаточно очков чести!", LANG_UNIVERSAL, 0);
+                      creature->MonsterSay("Недостаточно очков чести!", LANG_UNIVERSAL, 0);
             }
         }
         if (action == GOSSIP_ACTION_INFO_DEF + 3)
@@ -82,7 +82,7 @@ public:
             } 
             else 
             {
-                     _Creature->MonsterSay("Недостаточно очков арены!", LANG_UNIVERSAL, 0);
+                     creature->MonsterSay("Недостаточно очков арены!", LANG_UNIVERSAL, 0);
             }
         }
 	    if (action == GOSSIP_ACTION_INFO_DEF + 4)
@@ -94,7 +94,7 @@ public:
             } 
             else 
             {
-                     _Creature->MonsterSay("Недостаточно очков арены!", LANG_UNIVERSAL, 0);
+                     creature->MonsterSay("Недостаточно очков арены!", LANG_UNIVERSAL, 0);
             }
         }
         player->CLOSE_GOSSIP_MENU();

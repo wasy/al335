@@ -29,7 +29,7 @@ public:
                 
         struct npc_training_dummy_argentAI : Scripted_NoMovementAI
         {
-            npc_training_dummy_argentAI(Creature *creature) : Scripted_NoMovementAI(creature)
+            npc_training_dummy_argentAI(Creature* creature) : Scripted_NoMovementAI(creature)
             {
                         Npc_Entry = creature->GetEntry();
             }
@@ -71,7 +71,7 @@ public:
                 {               
                         if(caster->GetCharmerOrOwner())
                         {
-                        Player * player = caster->GetCharmerOrOwner()->ToPlayer();
+                        Player*  player = caster->GetCharmerOrOwner()->ToPlayer();
                         switch (Npc_Entry)
                                 {
                                         case NPC_MELEE: // dummy melee

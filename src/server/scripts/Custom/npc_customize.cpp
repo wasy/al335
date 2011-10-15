@@ -28,7 +28,7 @@ End*/
 uint32 RemoveByteFlag;
 bool IsReset;
 // Instance Unbind
-Field *fields;
+Field* fields;
 uint16 id;
 
 class npc_customize_doctor : public CreatureScript
@@ -53,14 +53,14 @@ public:
         }
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 sender, uint32 action)
     {
-        if (uiSender != GOSSIP_SENDER_MAIN)
+        if (sender != GOSSIP_SENDER_MAIN)
             return false;
 
         player->PlayerTalkClass->ClearMenus();
 
-        switch (uiAction)
+        switch (action)
         {
         case 1001:
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Стоимость услуги по смене имени 1500 Золотых. Вас устраивает?", GOSSIP_SENDER_MAIN, 1013);
@@ -131,7 +131,7 @@ public:
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Восстановление маны.", GOSSIP_SENDER_MAIN, 1005);
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Сброс КД заклинаний.", GOSSIP_SENDER_MAIN, 1006);
 
-            switch(player->GetTeam())
+            switch (player->GetTeam())
             {
             case ALLIANCE:
                 player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Удалить Изнеможение.", GOSSIP_SENDER_MAIN, 1007);
@@ -148,14 +148,14 @@ public:
         }
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 sender, uint32 action)
     {
-        if (uiSender != GOSSIP_SENDER_MAIN)
+        if (sender != GOSSIP_SENDER_MAIN)
             return false;
 
         player->PlayerTalkClass->ClearMenus();
 
-        switch (uiAction)
+        switch (action)
         {
         case 1004:
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Стоимость услуги по Восстановлению здоровья 10 меди. Вас устраивает?", GOSSIP_SENDER_MAIN, 1016);
@@ -267,14 +267,14 @@ public:
         }
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 sender, uint32 action)
     {
-        if (uiSender != GOSSIP_SENDER_MAIN)
+        if (sender != GOSSIP_SENDER_MAIN)
             return false;
 
         player->PlayerTalkClass->ClearMenus();
 
-        switch (uiAction)
+        switch (action)
         {
         case 1009:
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Стоимость услуги по Удалению всех аур 5 меди. Вас устраивает?", GOSSIP_SENDER_MAIN, 1021);
@@ -330,7 +330,7 @@ public:
                     Player::BoundInstancesMap &binds = player->GetBoundInstances(Difficulty(i));
                     for (Player::BoundInstancesMap::iterator itr = binds.begin(); itr != binds.end();)
                     {
-                        if(itr->first != player->GetMapId())
+                        if (itr->first != player->GetMapId())
                         {
                             player->UnbindInstance(itr, Difficulty(i));
                             player->CLOSE_GOSSIP_MENU();

@@ -859,7 +859,7 @@ void World::LoadConfigSettings(bool reload)
 
     rate_values[RATE_PVP_RANK_EXTRA_HONOR] = ConfigMgr::GetFloatDefault("PvPRank.Rate.ExtraHonor", 1);
     std::string s_pvp_ranks = ConfigMgr::GetStringDefault("PvPRank.HKPerRank", "10, 50, 100, 200, 450, 750, 1300, 2000, 3500, 6000, 9500, 15000, 21000, 30000");
-    char *c_pvp_ranks = const_cast<char*>(s_pvp_ranks.c_str());
+    char* c_pvp_ranks = const_cast<char*>(s_pvp_ranks.c_str());
     for (int i = 0; i !=HKRANKMAX; i++)
     {
         if (i==0)
@@ -1173,6 +1173,8 @@ void World::LoadConfigSettings(bool reload)
 
     m_bool_configs[CONFIG_NO_RESET_TALENT_COST] = ConfigMgr::GetBoolDefault("NoResetTalentsCost", false);
     m_bool_configs[CONFIG_SHOW_KICK_IN_WORLD] = ConfigMgr::GetBoolDefault("ShowKickInWorld", false);
+    m_bool_configs[CONFIG_SHOW_MUTE_IN_WORLD] = ConfigMgr::GetBoolDefault("ShowMuteInWorld", false);
+    m_bool_configs[CONFIG_SHOW_BAN_IN_WORLD] = ConfigMgr::GetBoolDefault("ShowBanInWorld", false);
     m_int_configs[CONFIG_INTERVAL_LOG_UPDATE] = ConfigMgr::GetIntDefault("RecordUpdateTimeDiffInterval", 60000);
     m_int_configs[CONFIG_MIN_LOG_UPDATE] = ConfigMgr::GetIntDefault("MinRecordUpdateTimeDiff", 100);
     m_int_configs[CONFIG_NUMTHREADS] = ConfigMgr::GetIntDefault("MapUpdate.Threads", 1);

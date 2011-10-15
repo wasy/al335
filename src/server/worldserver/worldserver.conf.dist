@@ -61,7 +61,7 @@ RealmID = 1
 #        Example:     "@prefix@/share/trinitycore"
 #        Default:     "."
 
-DataDir = "."
+DataDir = "./data"
 
 #
 #    LogsDir
@@ -70,7 +70,7 @@ DataDir = "."
 #                     Logs directory must exists, or log file creation will be disabled.
 #        Default:     "" - (Log files will be stored in the current path)
 
-LogsDir = ""
+LogsDir = "./logs"
 
 #
 #    LoginDatabaseInfo
@@ -205,7 +205,7 @@ MaxOverspeedPings = 2
 #        Default:     1 - (enable, Unload grids)
 #                     0 - (disable, Do not unload grids)
 
-GridUnload = 1
+GridUnload = 0
 
 #
 #    SocketTimeOutTime
@@ -247,9 +247,9 @@ ChangeWeatherInterval = 600000
 #
 #    PlayerSaveInterval
 #        Description: Time (in milliseconds) for player save interval.
-#        Default:     900000 - (15 min)
+#        Default:     600000 - (10 min)
 
-PlayerSaveInterval = 900000
+PlayerSaveInterval = 600000
 
 #
 #    PlayerSave.Stats.MinLevel
@@ -639,7 +639,7 @@ SQLDriverQueryLogging = 0
 #        Example:     "13 11 9 5" - (Enabled)
 #        Default:     ""          - (Disabled)
 
-LogColors = ""
+LogColors = "13 11 9 5"
 
 #
 #    EnableLogDB
@@ -1355,7 +1355,7 @@ Event.Announce = 0
 #        Default:     1 - (Enabled)
 #                     0 - (Disabled)
 
-BeepAtStart = 1
+BeepAtStart = 0
 
 #
 #    Motd

@@ -145,6 +145,8 @@ enum WorldBoolConfigs
     CONFIG_PVP_TOKEN_ENABLE,
     CONFIG_NO_RESET_TALENT_COST,
     CONFIG_SHOW_KICK_IN_WORLD,
+    CONFIG_SHOW_MUTE_IN_WORLD,
+    CONFIG_SHOW_BAN_IN_WORLD,
     CONFIG_CHATLOG_CHANNEL,
     CONFIG_CHATLOG_WHISPER,
     CONFIG_CHATLOG_SYSCHAN,
@@ -405,11 +407,11 @@ enum Rates
     RATE_DURABILITY_LOSS_PARRY,
     RATE_DURABILITY_LOSS_ABSORB,
     RATE_DURABILITY_LOSS_BLOCK,
-    RATE_PVP_RANK_EXTRA_HONOR,   
+    RATE_PVP_RANK_EXTRA_HONOR,
     RATE_MOVESPEED,
     MAX_RATES
 };
-	
+
 enum HonorKillPvPRank
 {
     HKRANK00,
@@ -799,7 +801,7 @@ class World
 
         uint32 GetCleaningFlags() const { return m_CleaningFlags; }
         void   SetCleaningFlags(uint32 flags) { m_CleaningFlags = flags; }
-		
+
         uint32 GetWintergrapsTimer() { return m_WintergrapsTimer; }
         uint32 GetWintergrapsState() { return m_WintergrapsState; }
         uint32 m_WintergrapsTimer;

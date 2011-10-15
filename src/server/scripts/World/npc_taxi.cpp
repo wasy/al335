@@ -31,14 +31,14 @@ EndScriptData
 #define GOSSIP_BRAZEN           "I am ready to go to Durnholde Keep."
 #define GOSSIP_IRONWING         "I'd like to take a flight around Stormwind Harbor."
 #define GOSSIP_DABIREE1         "Fly me to Murketh and Shaadraz Gateways"
-#define GOSSIP_DABIREE2         "Fly me to Shatter Point"
+#define GOSSIP_DABIREE2         "Fly me to Shatter point"
 #define GOSSIP_WINDBELLOW1      "Fly me to The Abyssal Shelf"
-#define GOSSIP_WINDBELLOW2      "Fly me to Honor Point"
+#define GOSSIP_WINDBELLOW2      "Fly me to Honor point"
 #define GOSSIP_BRACK1           "Fly me to Murketh and Shaadraz Gateways"
 #define GOSSIP_BRACK2           "Fly me to The Abyssal Shelf"
 #define GOSSIP_BRACK3           "Fly me to Spinebreaker Post"
 #define GOSSIP_IRENA            "Fly me to Skettis please"
-#define GOSSIP_CLOUDBREAKER1    "Speaking of uiAction, I've been ordered to undertake an air strike."
+#define GOSSIP_CLOUDBREAKER1    "Speaking of action, I've been ordered to undertake an air strike."
 #define GOSSIP_CLOUDBREAKER2    "I need to intercept the Dawnblade reinforcements."
 #define GOSSIP_DRAGONHAWK       "<Ride the dragonhawk to Sun's Reach>"
 #define GOSSIP_VERONIA          "Fly me to Manaforge Coruu please"
@@ -165,7 +165,7 @@ public:
             break;
         case 23704: // Dustwallow Marsh - Cassa Crimsonwing
             if (player->GetQuestStatus(11142) == QUEST_STATUS_INCOMPLETE)
-                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_CRIMSONWING, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+25);
+                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_CRIMSONWING, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 25);
             break;
         case 26602:
             if (creature->isTaxi())

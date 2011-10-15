@@ -83,7 +83,7 @@ public:
                 break;
             }
             player->CLOSE_GOSSIP_MENU();
-            switch(player->getRace())
+            switch (player->getRace())
             {
             /*Horde*/
             case RACE_ORC:
@@ -125,9 +125,9 @@ public:
         }
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 uiAction)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 sender, uint32 uiAction)
     {
-        if (uiSender == GOSSIP_SENDER_MAIN)
+        if (sender == GOSSIP_SENDER_MAIN)
             SendDefaultMenu_npc_mount(player, creature, uiAction);
         return true;
     }

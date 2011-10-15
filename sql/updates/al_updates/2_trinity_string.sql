@@ -293,3 +293,5 @@ UPDATE `trinity_string` SET `content_loc8` = 'Нет данной фракции
 UPDATE `trinity_string` SET `content_loc8` = 'Тюрьма активирована.' WHERE `entry` =12197;
 UPDATE `trinity_string` SET `content_loc8` = 'Тюрьма деактивирована.' WHERE `entry` =12198;
 UPDATE `trinity_string` SET `content_loc8` = 'Тюрьма не активирована!' WHERE `entry` =12199;
+
+UPDATE `trinity_string` SET `content_loc8` = 'Персонаж %s $gисключен:исключена; с игрового мира.' WHERE `entry` =282;

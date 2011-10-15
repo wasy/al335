@@ -128,7 +128,7 @@ public:
 
             if(!EventStarted)
             {
-                Creature *tempsum;
+                Creature* tempsum;
 
                 if(tempsum = DoSummon(ENTRY_CRUSADER_LORD_DALFORS, ScourgePos, 600000, TEMPSUMMON_TIMED_DESPAWN))
                 {
@@ -191,7 +191,7 @@ public:
                 {
                     if(PhaseCount == 9)
                     {
-                        Creature *tempsum;
+                        Creature* tempsum;
 
                         if(tempsum = DoSummon(ENTRY_SCOURGE_DRUDGE, ScourgePos, 10000, TEMPSUMMON_CORPSE_TIMED_DESPAWN))
                         {
@@ -211,7 +211,7 @@ public:
                         }
                     }else
                     {
-                        Creature *tempsum;
+                        Creature* tempsum;
 
                         if(urand(0, 1) == 0)
                         {
@@ -289,7 +289,7 @@ public:
         }
     };
 
-    CreatureAI *GetAI(Creature *creature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
         return new npc_blessed_bannerAI(creature);
     }
