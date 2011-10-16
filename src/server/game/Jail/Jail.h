@@ -59,10 +59,10 @@ private:
     JailMap             m_JailMap;  // UNORDERED_MAP aller Jaileintrage
 
     void Amnestie(); // Prufen ob jemand Amnestie bekommen muss.
-    bool SendeInaktiv(ChatHandler * handler);
-    bool Inhaftierung(ChatHandler * handler, Player * chr, std::string cname, uint32 jailtime, std::string jailreason, uint32 acc_id, std::string announce);
-    bool Inhaftierung(ChatHandler * handler, uint32 guid, std::string cname, uint32 jailtime, std::string jailreason, uint32 acc_id, std::string announce);
-    void BannAccount(uint32 acc_id, uint32 guid, Player * chr = NULL);
+    bool SendeInaktiv(ChatHandler* handler);
+    bool Inhaftierung(ChatHandler* handler, Player* chr, std::string cname, uint32 jailtime, std::string jailreason, uint32 acc_id, std::string announce);
+    bool Inhaftierung(ChatHandler* handler, uint32 guid, std::string cname, uint32 jailtime, std::string jailreason, uint32 acc_id, std::string announce);
+    void BannAccount(uint32 acc_id, uint32 guid, Player* chr = NULL);
     char const * fmtstring(char const * format, ...);
 
 public:
@@ -76,15 +76,15 @@ public:
     void Update();
 
     // Kommandos aus jail_commandscript bearbeiten
-    bool InfoKommando(ChatHandler * handler);
-    bool GotoKommando(ChatHandler * handler, const char * args);
-    bool PInfoKommando(ChatHandler * handler, const char * args);
-    bool ArrestKommando(ChatHandler * handler, const char * args);
-    bool ReleaseKommando(ChatHandler * handler, const char * args, bool reset = false);
-    bool ResetKommando(ChatHandler * handler, const char * args, bool force = false);
-    bool ReloadKommando(ChatHandler * handler);
-    bool EnableKommando(ChatHandler * handler);
-    bool DisableKommando(ChatHandler * handler);
+    bool InfoKommando(ChatHandler* handler);
+    bool GotoKommando(ChatHandler* handler, const char * args);
+    bool PInfoKommando(ChatHandler* handler, const char * args);
+    bool ArrestKommando(ChatHandler* handler, const char * args);
+    bool ReleaseKommando(ChatHandler* handler, const char * args, bool reset = false);
+    bool ResetKommando(ChatHandler* handler, const char * args, bool force = false);
+    bool ReloadKommando(ChatHandler* handler);
+    bool EnableKommando(ChatHandler* handler);
+    bool DisableKommando(ChatHandler* handler);
 
     Position HoleAllyKnastPos() const { return m_JailKonf.AllyPos; }
     Position HoleHordeKnastPos() const { return m_JailKonf.HordePos; }
@@ -92,8 +92,8 @@ public:
     uint32 HoleAllyKnastKarte() const { return m_JailKonf.MapAlly; }
     uint32 HoleHordeKnastKarte() const { return m_JailKonf.MapHorde; }
 
-    void Kontrolle(Player * player, bool update = false);
-    void SendeWarnung(Player * player);
+    void Kontrolle(Player* player, bool update = false);
+    void SendeWarnung(Player* player);
 
     JailMap const & HoleJailMap() const { return m_JailMap; }
     void AktualisiereJailMap(uint32 guid, JailEintragStruktur & JES) { m_JailMap[guid] = JES; };
