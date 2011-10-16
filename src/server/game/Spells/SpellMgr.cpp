@@ -3507,7 +3507,6 @@ void SpellMgr::LoadDbcDataCorrections()
             case 75553: // Emergency Recall [Camera trigger]
                 spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_TARGET_ANY;
                 break;
-            // Lich King
             case 71614: // Ice Lock
                 spellInfo->Mechanic = MECHANIC_STUN;
                 break;

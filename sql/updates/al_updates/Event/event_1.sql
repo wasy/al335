@@ -1,7 +1,7 @@
 DELETE FROM `game_event` WHERE `eventEntry` IN (74, 75);
 INSERT INTO `game_event` (`eventEntry`, `start_time`, `end_time`, `occurence`, `length`, `holiday`, `description`, `world_event`) VALUES
-(74, '2011-09-28 20:00:00', '2011-09-28 23:45:00', 1440, 1400, 0, 'Тухлопузы Атакуют! Или Во Имя Короля Лича. - Орда', 0),
-(75, '2011-09-28 20:00:00', '2011-09-28 23:45:00', 1440, 1400, 0, 'Гниломорды Атакуют! Или Во Имя Короля Лича. - Альянс', 0);
+(74, '2011-09-28 19:00:00', '2011-09-28 19:45:00', 1440, 1400, 0, 'Тухлопузы Атакуют! Или Во Имя Короля Лича. - Орда', 0),
+(75, '2011-09-28 19:00:00', '2011-09-28 19:45:00', 1440, 1400, 0, 'Гниломорды Атакуют! Или Во Имя Короля Лича. - Альянс', 0);
 
 DELETE FROM `game_event_creature` WHERE `eventEntry` IN (74, 75);
 REPLACE INTO `game_event_creature` (`eventEntry`, `guid`) VALUES
