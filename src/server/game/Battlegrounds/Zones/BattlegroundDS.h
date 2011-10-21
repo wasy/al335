@@ -46,7 +46,7 @@ enum BattlegroundDSData
 { // These values are NOT blizzlike... need the correct data!
     BG_DS_WATERFALL_TIMER_MIN                    = 30000,
     BG_DS_WATERFALL_TIMER_MAX                    = 60000,
-    BG_DS_WATERFALL_DURATION                     = 10000,
+    BG_DS_WATERFALL_DURATION                     = 15000,
     BG_DS_WATERFALL_RADIUS                       = 4,
 };
 
@@ -78,7 +78,6 @@ class BattlegroundDS : public Battleground
         bool HandlePlayerUnderMap(Player* plr);
     private:
         virtual void PostUpdateImpl(uint32 diff);
-    protected:
         uint8 m_waterFallStatus;
         uint32 m_waterFall;
         uint32 m_teleport;

@@ -121,6 +121,26 @@ void BattlegroundDS::PostUpdateImpl(uint32 diff)
     }
     else
         m_waterFall -= diff;
+
+    // Players should get knocked if the approach too much to the active waterfall
+    if (m_waterFallStatus == 2)
+        for (BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
+        {
+            Player* plr = ObjectAccessor::FindPlayer(itr->first);
+            if (!plr || plr->IsFalling())
+                continue;
+
+            if (plr->GetDistance2d(1291.56f, 790.837f) <= BG_DS_WATERFALL_RADIUS)
+            {
+                plr->KnockbackFrom(1291.56f, 790.837f, 20.0f, 7.0f);
+            }
+            else if (plr->GetDistance2d(1291.56f, 790.837f) <= BG_DS_WATERFALL_RADIUS + 4.0f)
+            {
+                // Calculation for knockback horizontal factor
+                float horizontalFactor = 20.0f * (1/(plr->GetDistance2d(1291.56f, 790.837f) - BG_DS_WATERFALL_RADIUS));
+                plr->KnockbackFrom(1291.56f, 790.837f, horizontalFactor, 10.0f);
+            }
+        }
 }
 
 void BattlegroundDS::StartingEventCloseDoors()
