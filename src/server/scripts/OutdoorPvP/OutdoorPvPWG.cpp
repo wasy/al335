@@ -1114,7 +1114,7 @@ bool OutdoorPvPWG::UpdateCreatureInfo(Creature *creature)
                     {
                         if (getDefenderTeam() == TEAM_ALLIANCE)
                             creature->SetPhaseMask(1, true);
-                        else 
+                        else
                             creature->SetPhaseMask(2, true);
                         break;
                     }
@@ -1123,7 +1123,7 @@ bool OutdoorPvPWG::UpdateCreatureInfo(Creature *creature)
                     {
                         if (getDefenderTeam() == TEAM_ALLIANCE)
                             creature->SetPhaseMask(2, true);
-                        else 
+                        else
                             creature->SetPhaseMask(1, true);
                         break;
                     }
@@ -1171,7 +1171,7 @@ bool OutdoorPvPWG::UpdateQuestGiverPosition(uint32 guid, Creature *creature)
         if (creature->GetEntry() != 30400 || creature->GetEntry() != 30499)
             creature->SetReactState(REACT_AGGRESSIVE);
         creature->DestroyForNearbyPlayers();
-        if (!creature->GetMap()->IsLoaded(pos.GetPositionX(), pos.GetPositionY()))
+        if (!creature->GetMap()->IsGridLoaded(pos.GetPositionX(), pos.GetPositionY()))
             creature->GetMap()->LoadGrid(pos.GetPositionX(), pos.GetPositionY());
         creature->GetMap()->CreatureRelocation(creature, pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), pos.GetOrientation());
         if (!creature->isAlive())
