@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -80,6 +80,7 @@ class AuraEffect
         bool IsPeriodic() const { return m_isPeriodic; }
         void SetPeriodic(bool isPeriodic) { m_isPeriodic = isPeriodic; }
         bool IsAffectedOnSpell(SpellInfo const* spell) const;
+        bool HasSpellClassMask() const { return m_spellInfo->Effects[m_effIndex].SpellClassMask; }
 
         void SendTickImmune(Unit* target, Unit* caster) const;
         void PeriodicTick(AuraApplication * aurApp, Unit* caster) const;
@@ -94,18 +95,19 @@ class AuraEffect
         Aura* const m_base;
 
         SpellInfo const* const m_spellInfo;
-        uint8 const m_effIndex;
         int32 const m_baseAmount;
 
         int32 m_amount;
-        bool m_canBeRecalculated;
 
         SpellModifier* m_spellmod;
 
-        bool m_isPeriodic;
         int32 m_periodicTimer;
         int32 m_amplitude;
         uint32 m_tickNumber;
+
+        uint8 const m_effIndex;
+        bool m_canBeRecalculated;
+        bool m_isPeriodic;
     private:
         bool IsPeriodicTickCrit(Unit* target, Unit const* caster) const;
 

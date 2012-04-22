@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -38,12 +38,12 @@ enum BattlegroundRVObjectTypes
     BG_RV_OBJECT_PILAR_4,
     BG_RV_OBJECT_PULLEY_1,
     BG_RV_OBJECT_PULLEY_2,
-/*
+
     BG_RV_OBJECT_PILAR_COLLISION_1,
     BG_RV_OBJECT_PILAR_COLLISION_2,
     BG_RV_OBJECT_PILAR_COLLISION_3,
     BG_RV_OBJECT_PILAR_COLLISION_4,
-*/
+
     BG_RV_OBJECT_ELEVATOR_1,
     BG_RV_OBJECT_ELEVATOR_2,
     BG_RV_OBJECT_MAX,
@@ -64,12 +64,12 @@ enum BattlegroundRVObjects
     BG_RV_OBJECT_TYPE_GEAR_2                     = 192394,
     BG_RV_OBJECT_TYPE_ELEVATOR_1                 = 194582,
     BG_RV_OBJECT_TYPE_ELEVATOR_2                 = 194586,
-/*
+
     BG_RV_OBJECT_TYPE_PILAR_COLLISION_1          = 194580, // axe
     BG_RV_OBJECT_TYPE_PILAR_COLLISION_2          = 194579, // arena
     BG_RV_OBJECT_TYPE_PILAR_COLLISION_3          = 194581, // lightning
     BG_RV_OBJECT_TYPE_PILAR_COLLISION_4          = 194578, // ivory
-*/
+
     BG_RV_OBJECT_TYPE_PILAR_1                    = 194583, // axe
     BG_RV_OBJECT_TYPE_PILAR_2                    = 194584, // arena
     BG_RV_OBJECT_TYPE_PILAR_3                    = 194585, // lightning
@@ -105,17 +105,17 @@ class BattlegroundRV : public Battleground
         ~BattlegroundRV();
 
         /* inherited from BattlegroundClass */
-        virtual void AddPlayer(Player* plr);
+        virtual void AddPlayer(Player* player);
         virtual void StartingEventCloseDoors();
         virtual void StartingEventOpenDoors();
         virtual void Reset();
         virtual void FillInitialWorldStates(WorldPacket &d);
 
-        void RemovePlayer(Player* plr, uint64 guid, uint32 team);
+        void RemovePlayer(Player* player, uint64 guid, uint32 team);
         void HandleAreaTrigger(Player* Source, uint32 Trigger);
         bool SetupBattleground();
         void HandleKillPlayer(Player* player, Player* killer);
-        bool HandlePlayerUnderMap(Player* plr);
+        bool HandlePlayerUnderMap(Player* player);
 
     private:
         uint32 Timer;
@@ -129,5 +129,6 @@ class BattlegroundRV : public Battleground
 
         uint32 getState() { return State; };
         void setState(uint32 state) { State = state; };
+        void TogglePillarCollision(bool apply);
 };
 #endif

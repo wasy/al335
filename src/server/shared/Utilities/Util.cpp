@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -16,6 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
 #include "Util.h"
 #include "utf8.h"
 #ifdef USE_SFMT_FOR_RNG
@@ -30,17 +31,22 @@
 typedef ACE_TSS<SFMTRand> SFMTRandTSS;
 static SFMTRandTSS sfmtRand;
 
-int32 irand (int32 min, int32 max)
+int32 irand(int32 min, int32 max)
 {
     return int32(sfmtRand->IRandom(min, max));
 }
 
-uint32 urand (uint32 min, uint32 max)
+uint32 urand(uint32 min, uint32 max)
 {
     return sfmtRand->URandom(min, max);
 }
 
-int32 rand32 ()
+float frand(float min, float max)
+{
+    return float(sfmtRand->Random() * (max - min) + min);
+}
+
+int32 rand32()
 {
     return int32(sfmtRand->BRandom());
 }
@@ -50,27 +56,33 @@ double rand_norm(void)
     return sfmtRand->Random();
 }
 
-double rand_chance (void)
+double rand_chance(void)
 {
     return sfmtRand->Random() * 100.0;
 }
+
 #else
 typedef ACE_TSS<MTRand> MTRandTSS;
 static MTRandTSS mtRand;
 
 int32 irand(int32 min, int32 max)
 {
-    return int32(mtRand->randInt (max - min)) + min;
+    return int32(mtRand->randInt(max - min)) + min;
 }
 
 uint32 urand(uint32 min, uint32 max)
 {
-    return mtRand->randInt (max - min) + min;
+    return mtRand->randInt(max - min) + min;
+}
+
+float frand(float min, float max)
+{
+    return float(mtRand->randExc(max - min) + min);
 }
 
 int32 rand32()
 {
-    return mtRand->randInt ();
+    return mtRand->randInt();
 }
 
 double rand_norm(void)
@@ -518,3 +530,15 @@ void hexEncodeByteArray(uint8* bytes, uint32 arrayLen, std::string& result)
     result = ss.str();
 }
 
+std::string ByteArrayToHexStr(uint8* bytes, uint32 length)
+{
+    std::ostringstream ss;
+    for (uint32 i = 0; i < length; ++i)
+    {
+        char buffer[4];
+        sprintf(buffer, "%02X ", bytes[i]);
+        ss << buffer;
+    }
+
+    return ss.str();
+}

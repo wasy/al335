@@ -90,7 +90,7 @@ bool npc_escortAI::AssistPlayerInCombat(Unit* who)
 
 void npc_escortAI::MoveInLineOfSight(Unit* who)
 {
-    if (!me->HasUnitState(UNIT_STAT_STUNNED) && who->isTargetableForAttack() && who->isInAccessiblePlaceFor(me))
+    if (!me->HasUnitState(UNIT_STATE_STUNNED) && who->isTargetableForAttack() && who->isInAccessiblePlaceFor(me))
     {
         if (HasEscortState(STATE_ESCORT_ESCORTING) && AssistPlayerInCombat(who))
             return;
@@ -543,7 +543,6 @@ bool npc_escortAI::GetWaypointPosition(uint32 pointId, float& x, float& y, float
     if (waypoints.empty())
         return false;
 
-    ScriptPointVector::const_iterator itrEnd = waypoints.end();
     for (ScriptPointVector::const_iterator itr = waypoints.begin(); itr != waypoints.end(); ++itr)
     {
         if (itr->uiPointId == pointId)

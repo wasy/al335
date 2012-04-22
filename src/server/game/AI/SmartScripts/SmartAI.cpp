@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -46,7 +46,7 @@ SmartAI::SmartAI(Creature* c) : CreatureAI(c)
 
     // spawn in run mode
     me->RemoveUnitMovementFlag(MOVEMENTFLAG_WALKING);
-    mRun = true;
+    mRun = false;
 
     me->GetPosition(&mLastOOCPos);
 
@@ -68,6 +68,7 @@ SmartAI::SmartAI(Creature* c) : CreatureAI(c)
     mFollowCredit = 0;
     mFollowArrivedEntry = 0;
     mFollowCreditType = 0;
+    mInvinceabilityHpLevel = 0;
 }
 
 void SmartAI::UpdateDespawn(const uint32 diff)
@@ -89,7 +90,7 @@ void SmartAI::UpdateDespawn(const uint32 diff)
 void SmartAI::Reset()
 {
     if (!HasEscortState(SMART_ESCORT_ESCORTING))//dont mess up escort movement after combat
-        SetRun(true);
+        SetRun(mRun);
     GetScript()->OnReset();
 }
 
@@ -431,12 +432,25 @@ void SmartAI::MovementInform(uint32 MovementType, uint32 Data)
     MovepointReached(Data);
 }
 
+void SmartAI::RemoveAuras()
+{
+    // Only loop throught the applied auras, because here is where all auras on the current unit are stored
+    Unit::AuraApplicationMap appliedAuras = me->GetAppliedAuras();
+    for (Unit::AuraApplicationMap::iterator iter = appliedAuras.begin(); iter != appliedAuras.end(); ++iter)
+    {
+        Aura const* aura = iter->second->GetBase();
+        if (!aura->GetSpellInfo()->IsPassive() && !aura->GetSpellInfo()->HasAura(SPELL_AURA_CONTROL_VEHICLE) && aura->GetCaster() != me)
+            me->RemoveAurasDueToSpell(aura->GetId());
+    }
+}
+
 void SmartAI::EnterEvadeMode()
 {
     if (!me->isAlive())
         return;
 
-    me->RemoveAllAuras();
+    RemoveAuras();
+
     me->DeleteThreatList();
     me->CombatStop(true);
     me->LoadCreaturesAddon();
@@ -450,12 +464,14 @@ void SmartAI::EnterEvadeMode()
     {
         AddEscortState(SMART_ESCORT_RETURNING);
         ReturnToLastOOCPos();
-    } else if (mFollowGuid){
+    }
+    else if (mFollowGuid)
+    {
         if (Unit* target = me->GetUnit(*me, mFollowGuid))
             me->GetMotionMaster()->MoveFollow(target, mFollowDist, mFollowAngle);
-    } else {
-        me->GetMotionMaster()->MoveTargetedHome();
     }
+    else
+        me->GetMotionMaster()->MoveTargetedHome();
 
     Reset();
 }
@@ -464,15 +480,15 @@ void SmartAI::MoveInLineOfSight(Unit* who)
 {
     if (!who)
         return;
-    
+
     GetScript()->OnMoveInLineOfSight(who);
-    
+
     if (me->HasReactState(REACT_PASSIVE) || AssistPlayerInCombat(who))
         return;
 
     if (!CanAIAttack(who))
         return;
-    
+
     if (!me->canStartAttack(who, false))
         return;
 
@@ -622,6 +638,8 @@ void SmartAI::SpellHitTarget(Unit* target, const SpellInfo* spellInfo)
 void SmartAI::DamageTaken(Unit* doneBy, uint32& damage)
 {
     GetScript()->ProcessEventsFor(SMART_EVENT_DAMAGED, doneBy, damage);
+    if ((me->GetHealth() - damage) <= mInvinceabilityHpLevel)
+        damage -= mInvinceabilityHpLevel;
 }
 
 void SmartAI::HealReceived(Unit* doneBy, uint32& addhealth)
@@ -705,12 +723,24 @@ void SmartAI::SetRun(bool run)
         me->RemoveUnitMovementFlag(MOVEMENTFLAG_WALKING);
     else
         me->AddUnitMovementFlag(MOVEMENTFLAG_WALKING);
+
     mRun = run;
 }
 
 void SmartAI::SetFly(bool fly)
 {
+    if (fly)
+    {
+        me->AddUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
+        me->SetByteFlag(UNIT_FIELD_BYTES_1, 3, 0x01);
+    }
+    else
+    {
+        me->RemoveUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
+        me->RemoveByteFlag(UNIT_FIELD_BYTES_1, 3, 0x01);
+    }
     me->SetFlying(fly);
+    me->SendMovementFlagUpdate();
 }
 
 void SmartAI::SetSwim(bool swim)
@@ -719,6 +749,7 @@ void SmartAI::SetSwim(bool swim)
         me->AddUnitMovementFlag(MOVEMENTFLAG_SWIMMING);
     else
         me->RemoveUnitMovementFlag(MOVEMENTFLAG_SWIMMING);
+    me->SendMovementFlagUpdate();
 }
 
 void SmartAI::sGossipHello(Player* player)
@@ -781,8 +812,8 @@ void SmartAI::SetFollow(Unit* target, float dist, float angle, uint32 credit, ui
         return;
     SetRun(mRun);
     mFollowGuid = target->GetGUID();
-    mFollowDist = dist;
-    mFollowAngle = angle;
+    mFollowDist = dist ? dist : PET_FOLLOW_DIST;
+    mFollowAngle = angle ? angle : me->GetFollowAngle();
     mFollowArrivedTimer = 1000;
     mFollowCredit = credit;
     mFollowArrivedEntry = end;
@@ -796,6 +827,12 @@ void SmartAI::SetScript9(SmartScriptHolder& e, uint32 entry, Unit* invoker)
         GetScript()->mLastInvoker = invoker->GetGUID();
     GetScript()->SetScript9(e, entry);
 }
+
+void SmartAI::sOnGameEvent(bool start, uint16 eventId)
+{
+    GetScript()->ProcessEventsFor(start ? SMART_EVENT_GAME_EVENT_START : SMART_EVENT_GAME_EVENT_END, NULL, eventId);
+}
+
 /*
 SMART_EVENT_UPDATE_OOC
 SMART_EVENT_SPELLHIT
@@ -898,17 +935,27 @@ void SmartGameObjectAI::SetScript9(SmartScriptHolder& e, uint32 entry, Unit* inv
     GetScript()->SetScript9(e, entry);
 }
 
+void SmartGameObjectAI::OnGameEvent(bool start, uint16 eventId)
+{
+    GetScript()->ProcessEventsFor(start ? SMART_EVENT_GAME_EVENT_START : SMART_EVENT_GAME_EVENT_END, NULL, eventId);
+}
+
+void SmartGameObjectAI::OnStateChanged(uint32 state, Unit* unit)
+{
+    GetScript()->ProcessEventsFor(SMART_EVENT_GO_STATE_CHANGED, unit, state);
+}
+
 class SmartTrigger : public AreaTriggerScript
 {
     public:
 
-        SmartTrigger()
-            : AreaTriggerScript("SmartTrigger")
-        {
-        }
+        SmartTrigger() : AreaTriggerScript("SmartTrigger") {}
 
         bool OnTrigger(Player* player, AreaTriggerEntry const* trigger)
         {
+            if (!player->isAlive())
+                return false;
+
             sLog->outDebug(LOG_FILTER_DATABASE_AI, "AreaTrigger %u is using SmartTrigger script", trigger->id);
             SmartScript script;
             script.OnInitialize(NULL, trigger);

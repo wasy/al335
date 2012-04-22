@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -55,7 +55,7 @@ enum SpellCastFlags
     CAST_FLAG_UNKNOWN_15         = 0x00004000,
     CAST_FLAG_UNKNOWN_16         = 0x00008000,
     CAST_FLAG_UNKNOWN_17         = 0x00010000,
-    CAST_FLAG_UNKNOWN_18         = 0x00020000,
+    CAST_FLAG_ADJUST_MISSILE     = 0x00020000,
     CAST_FLAG_UNKNOWN_19         = 0x00040000,
     CAST_FLAG_UNKNOWN_20         = 0x00080000,
     CAST_FLAG_UNKNOWN_21         = 0x00100000,
@@ -405,6 +405,7 @@ class Spell
         void WriteAmmoToPacket(WorldPacket* data);
 
         void InitExplicitTargets(SpellCastTargets const& targets);
+        void SelectExplicitTargets();
         void SelectSpellTargets();
         void SelectEffectTypeImplicitTargets(uint8 effIndex);
         uint32 SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur);
@@ -453,7 +454,7 @@ class Spell
 
         UsedSpellMods m_appliedMods;
 
-        int32 CalcCastTime() const { return m_casttime; }
+        int32 GetCastTime() const { return m_casttime; }
         bool IsAutoRepeat() const { return m_autoRepeat; }
         void SetAutoRepeat(bool rep) { m_autoRepeat = rep; }
         void ReSetTimer() { m_timer = m_casttime > 0 ? m_casttime : 0; }
@@ -624,6 +625,9 @@ class Spell
 
         // Scripting system
         void LoadScripts();
+        void CallScriptBeforeCastHandlers();
+        void CallScriptOnCastHandlers();
+        void CallScriptAfterCastHandlers();
         SpellCastResult CallScriptCheckCastHandlers();
         void PrepareScriptHitHandlers();
         bool CallScriptEffectHandlers(SpellEffIndex effIndex, SpellEffectHandleMode mode);
@@ -640,14 +644,14 @@ class Spell
 
         // effect helpers
         void GetSummonPosition(uint32 i, Position &pos, float radius = 0.0f, uint32 count = 0);
-        void SummonGuardian(uint32 i, uint32 entry, SummonPropertiesEntry const* properties);
+        void SummonGuardian(uint32 i, uint32 entry, SummonPropertiesEntry const* properties, uint32 numSummons);
         void CalculateJumpSpeeds(uint8 i, float dist, float & speedxy, float & speedz);
 
         SpellCastResult CanOpenLock(uint32 effIndex, uint32 lockid, SkillType& skillid, int32& reqSkillValue, int32& skillValue);
         // -------------------------------------------
 
         uint32 m_spellState;
-        uint32 m_timer;
+        int32 m_timer;
 
         TriggerCastFlags _triggeredCastFlags;
 

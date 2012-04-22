@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -61,7 +61,7 @@ namespace Trinity
 
     struct PlayerRelocationNotifier : public VisibleNotifier
     {
-        PlayerRelocationNotifier(Player &pl) : VisibleNotifier(pl) {}
+        PlayerRelocationNotifier(Player &player) : VisibleNotifier(player) {}
 
         template<class T> void Visit(GridRefManager<T> &m) { VisibleNotifier::Visit(m); }
         void Visit(CreatureMapType &);
@@ -137,16 +137,16 @@ namespace Trinity
         void Visit(DynamicObjectMapType &m);
         template<class SKIP> void Visit(GridRefManager<SKIP> &) {}
 
-        void SendPacket(Player* plr)
+        void SendPacket(Player* player)
         {
             // never send packet to self
-            if (plr == i_source || (team && plr->GetTeam() != team) || skipped_receiver == plr)
+            if (player == i_source || (team && player->GetTeam() != team) || skipped_receiver == player)
                 return;
 
-            if (!plr->HaveAtClient(i_source))
+            if (!player->HaveAtClient(i_source))
                 return;
 
-            if (WorldSession* session = plr->GetSession())
+            if (WorldSession* session = player->GetSession())
                 session->SendPacket(i_message);
         }
     };
@@ -530,21 +530,37 @@ namespace Trinity
     class RaiseDeadObjectCheck
     {
         public:
-            RaiseDeadObjectCheck(Unit* funit, float range) : i_funit(funit), i_range(range) {}
+            RaiseDeadObjectCheck(Unit* source, float range) : _source(source), _range(range) {}
             bool operator()(Creature* u)
             {
-                if (i_funit->GetTypeId() != TYPEID_PLAYER || !((Player*)i_funit)->isHonorOrXPTarget(u) ||
-                    u->getDeathState() != CORPSE || u->isInFlight() ||
+                if (_source->GetTypeId() != TYPEID_PLAYER || !((Player*)_source)->isHonorOrXPTarget(u) ||
+                     u->getDeathState() != CORPSE ||
                     (u->GetCreatureTypeMask() & (1 << (CREATURE_TYPE_HUMANOID-1))) == 0 ||
                     (u->GetDisplayId() != u->GetNativeDisplayId()))
                     return false;
 
-                return i_funit->IsWithinDistInMap(u, i_range);
+                return _source->IsWithinDistInMap(u, _range);
+            }
+            bool operator()(Player* u)
+            {
+                if (_source == u || _source->GetTypeId() != TYPEID_PLAYER || !((Player*)_source)->isHonorOrXPTarget(u) ||
+                    u->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_GHOST) || u->isInFlight() || !u->isDead() ||
+                    (u->GetCreatureTypeMask() & (1 << (CREATURE_TYPE_HUMANOID-1))) == 0)
+                    return false;
+                return _source->IsWithinDistInMap(u, _range);
+            }
+
+            bool operator()(Corpse* u)
+            {
+                if (_source->GetTypeId() != TYPEID_PLAYER || u->GetType() == CORPSE_BONES)
+                    return false;
+
+                return _source->IsWithinDistInMap(u, _range);
             }
             template<class NOT_INTERESTED> bool operator()(NOT_INTERESTED*) { return false; }
         private:
-            Unit* const i_funit;
-            float i_range;
+            Unit* const _source;
+            float _range;
     };
 
     class ExplodeCorpseObjectCheck
@@ -746,7 +762,7 @@ namespace Trinity
             bool operator()(Unit* u)
             {
                 if (u->isAlive() && u->isInCombat() && !i_obj->IsHostileTo(u) && i_obj->IsWithinDistInMap(u, i_range) &&
-                    (u->isFeared() || u->isCharmed() || u->isFrozen() || u->HasUnitState(UNIT_STAT_STUNNED) || u->HasUnitState(UNIT_STAT_CONFUSED)))
+                    (u->isFeared() || u->isCharmed() || u->isFrozen() || u->HasUnitState(UNIT_STATE_STUNNED) || u->HasUnitState(UNIT_STATE_CONFUSED)))
                 {
                     return true;
                 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -33,6 +33,7 @@ enum ConnectionFlags
 {
     CONNECTION_ASYNC = 0x1,
     CONNECTION_SYNCH = 0x2,
+    CONNECTION_BOTH = CONNECTION_ASYNC | CONNECTION_SYNCH,
 };
 
 struct MySQLConnectionInfo
@@ -59,13 +60,6 @@ struct MySQLConnectionInfo
     std::string database;
     std::string host;
     std::string port_or_socket;
-};
-
-struct PreparedStatementTable
-{
-    uint32 index;
-    const char* query;
-    ConnectionFlags type;
 };
 
 typedef std::map<uint32 /*index*/, std::pair<const char* /*query*/, ConnectionFlags /*sync/async*/> > PreparedStatementMap;

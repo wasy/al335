@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -769,7 +769,7 @@ OpcodeHandler opcodeTable[NUM_MSG_TYPES] =
     /*0x2E4*/ { "SMSG_AREA_SPIRIT_HEALER_TIME",                 STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_ServerSide               },
     /*0x2E5*/ { "CMSG_GM_UNTEACH",                              STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_NULL                     },
     /*0x2E6*/ { "SMSG_WARDEN_DATA",                             STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_ServerSide               },
-    /*0x2E7*/ { "CMSG_WARDEN_DATA",                             STATUS_LOGGEDIN, PROCESS_THREADUNSAFE, &WorldSession::HandleWardenDataOpcode          },
+    /*0x2E7*/ { "CMSG_WARDEN_DATA",                             STATUS_AUTHED,   PROCESS_THREADUNSAFE, &WorldSession::HandleWardenDataOpcode          },
     /*0x2E8*/ { "SMSG_GROUP_JOINED_BATTLEGROUND",               STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_ServerSide               },
     /*0x2E9*/ { "MSG_BATTLEGROUND_PLAYER_POSITIONS",            STATUS_LOGGEDIN, PROCESS_THREADUNSAFE, &WorldSession::HandleBattlegroundPlayerPositionsOpcode},
     /*0x2EA*/ { "CMSG_PET_STOP_ATTACK",                         STATUS_LOGGEDIN, PROCESS_THREADUNSAFE, &WorldSession::HandlePetStopAttack             },
@@ -1329,7 +1329,7 @@ OpcodeHandler opcodeTable[NUM_MSG_TYPES] =
     /*0x514*/ { "SMSG_SEND_ALL_COMBAT_LOG",                     STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_ServerSide               },
     /*0x515*/ { "SMSG_OPEN_LFG_DUNGEON_FINDER",                 STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_ServerSide               },
     /*0x516*/ { "SMSG_MOVE_SET_COLLISION_HGT",                  STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_ServerSide               },
-    /*0x517*/ { "CMSG_MOVE_SET_COLLISION_HGT_ACK",              STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_NULL                     },
+    /*0x517*/ { "CMSG_MOVE_SET_COLLISION_HGT_ACK",              STATUS_UNHANDLED, PROCESS_INPLACE,      &WorldSession::Handle_NULL                     },
     /*0x518*/ { "MSG_MOVE_SET_COLLISION_HGT",                   STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_NULL                     },
     /*0x519*/ { "CMSG_CLEAR_RANDOM_BG_WIN_TIME",                STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_NULL                     },
     /*0x51A*/ { "CMSG_CLEAR_HOLIDAY_BG_WIN_TIME",               STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_NULL                     },

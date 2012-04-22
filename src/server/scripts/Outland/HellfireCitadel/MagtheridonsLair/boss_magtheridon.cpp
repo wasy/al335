@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -252,8 +252,8 @@ class boss_magtheridon : public CreatureScript
 
                 me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
                 me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
-                me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
-                me->AddUnitState(UNIT_STAT_STUNNED);
+                me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IMMUNE_TO_PC);
+                me->AddUnitState(UNIT_STATE_STUNNED);
                 DoCast(me, SPELL_SHADOW_CAGE_C, true);
             }
 
@@ -334,7 +334,7 @@ class boss_magtheridon : public CreatureScript
 
             void AttackStart(Unit* who)
             {
-                if (!me->HasUnitState(UNIT_STAT_STUNNED))
+                if (!me->HasUnitState(UNIT_STATE_STUNNED))
                     ScriptedAI::AttackStart(who);
             }
 
@@ -388,7 +388,7 @@ class boss_magtheridon : public CreatureScript
                 if (BlastNova_Timer <= diff)
                 {
                     // to avoid earthquake interruption
-                    if (!me->HasUnitState(UNIT_STAT_STUNNED))
+                    if (!me->HasUnitState(UNIT_STATE_STUNNED))
                     {
                         DoScriptText(EMOTE_BLASTNOVA, me);
                         DoCast(me, SPELL_BLASTNOVA);
@@ -424,14 +424,14 @@ class boss_magtheridon : public CreatureScript
                             summon->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
                         }
                     }
-                    Blaze_Timer = 20000 + rand()%20000;
+                    Blaze_Timer = urand(20000, 40000);
                 }
                 else
                     Blaze_Timer -= diff;
 
                 if (!Phase3 && HealthBelowPct(30)
                     && !me->IsNonMeleeSpellCasted(false) // blast nova
-                    && !me->HasUnitState(UNIT_STAT_STUNNED)) // shadow cage and earthquake
+                    && !me->HasUnitState(UNIT_STATE_STUNNED)) // shadow cage and earthquake
                 {
                     Phase3 = true;
                     DoScriptText(SAY_CHAMBER_DESTROY, me);
@@ -497,10 +497,10 @@ class mob_hellfire_channeler : public CreatureScript
 
             void Reset()
             {
-                ShadowBoltVolley_Timer = 8000 + rand()%2000;
+                ShadowBoltVolley_Timer = urand(8000, 10000);
                 DarkMending_Timer = 10000;
-                Fear_Timer = 15000 + rand()%5000;
-                Infernal_Timer = 10000 + rand()%40000;
+                Fear_Timer = urand(15000, 20000);
+                Infernal_Timer = urand(10000, 50000);
 
                 Check_Timer = 5000;
             }
@@ -547,7 +547,7 @@ class mob_hellfire_channeler : public CreatureScript
                 if (ShadowBoltVolley_Timer <= diff)
                 {
                     DoCast(me, SPELL_SHADOW_BOLT_VOLLEY);
-                    ShadowBoltVolley_Timer = 10000 + rand()%10000;
+                    ShadowBoltVolley_Timer = urand(10000, 20000);
                 }
                 else
                     ShadowBoltVolley_Timer -= diff;
@@ -565,7 +565,7 @@ class mob_hellfire_channeler : public CreatureScript
                 {
                     if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 1))
                         DoCast(target, SPELL_FEAR);
-                    Fear_Timer = 25000 + rand()%15000;
+                    Fear_Timer = urand(25000, 40000);
                 }
                 else
                     Fear_Timer -= diff;
@@ -574,7 +574,7 @@ class mob_hellfire_channeler : public CreatureScript
                 {
                     if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
                         DoCast(target, SPELL_BURNING_ABYSSAL, true);
-                    Infernal_Timer = 30000 + rand()%10000;
+                    Infernal_Timer = urand(30000, 40000);
                 }
                 else
                     Infernal_Timer -= diff;

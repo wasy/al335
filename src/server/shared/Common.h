@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -203,4 +203,17 @@ typedef std::vector<std::string> StringVector;
 #endif
 
 #define MAX_QUERY_LEN 32*1024
+
+#define TRINITY_GUARD(MUTEX, LOCK) \
+  ACE_Guard< MUTEX > TRINITY_GUARD_OBJECT (LOCK); \
+    if (TRINITY_GUARD_OBJECT.locked() == 0) ASSERT(false);
+
+# define TRINITY_WRITE_GUARD(MUTEX, LOCK) \
+  ACE_Write_Guard< MUTEX > TRINITY_GUARD_OBJECT (LOCK); \
+    if (TRINITY_GUARD_OBJECT.locked() == 0) ASSERT(false);
+
+# define TRINITY_READ_GUARD(MUTEX, LOCK) \
+  ACE_Read_Guard< MUTEX > TRINITY_GUARD_OBJECT (LOCK); \
+    if (TRINITY_GUARD_OBJECT.locked() == 0) ASSERT(false);
+
 #endif

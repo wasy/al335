@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -31,7 +31,6 @@ Script Data End */
 #include "eye_of_eternity.h"
 #include "ScriptedEscortAI.h"
 
-// not implemented
 enum Achievements
 {
     ACHIEV_TIMED_START_EVENT                      = 20387,
@@ -240,6 +239,11 @@ public:
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
 
             _cannotMove = true;
+
+            me->SetFlying(true);
+            
+            if (instance)
+                instance->DoStopTimedAchievement(ACHIEVEMENT_TIMED_TYPE_EVENT, ACHIEV_TIMED_START_EVENT);
         }
 
         uint32 GetData(uint32 data)
@@ -351,11 +355,16 @@ public:
             _EnterCombat();
 
             me->RemoveUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
+            me->SetFlying(false);
+
             me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
 
             Talk(SAY_AGGRO_P_ONE);
 
-            DoCast(SPELL_BERSEKER);
+            DoCast(SPELL_BERSEKER); // periodic aura, first tick in 10 minutes
+            
+            if (instance)
+                instance->DoStartTimedAchievement(ACHIEVEMENT_TIMED_TYPE_EVENT, ACHIEV_TIMED_START_EVENT);
         }
 
         void KilledUnit(Unit* who)
@@ -404,6 +413,7 @@ public:
         void PrepareForVortex()
         {
             me->AddUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
+            me->SetFlying(true);
 
             me->GetMotionMaster()->MovementExpired();
             me->GetMotionMaster()->MovePoint(MOVE_VORTEX, MalygosPositions[1].GetPositionX(), MalygosPositions[1].GetPositionY(), MalygosPositions[1].GetPositionZ());
@@ -439,6 +449,7 @@ public:
                     me->SetInCombatWithZone();
                     break;
                 case MOVE_CENTER_PLATFORM:
+                    // Malygos is already flying here, there is no need to set it again.
                     _cannotMove = false;
                     // malygos will move into center of platform and then he does not chase dragons, he just turns to his current target.
                     me->GetMotionMaster()->MoveIdle();
@@ -451,22 +462,21 @@ public:
             SetPhase(PHASE_TWO, true);
 
             me->AddUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
+            me->SetFlying(true);
 
             me->GetMotionMaster()->MoveIdle();
             me->GetMotionMaster()->MovePoint(MOVE_DEEP_BREATH_ROTATION, MalygosPhaseTwoWaypoints[0]);
 
-            Creature* summon = me->SummonCreature(NPC_HOVER_DISK_CASTER, HoverDiskWaypoints[MAX_HOVER_DISK_WAYPOINTS-1]);
-            if (summon && summon->IsAIEnabled)
-                summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_2);
-            summon = me->SummonCreature(NPC_HOVER_DISK_CASTER, HoverDiskWaypoints[0]);
-            if (summon && summon->IsAIEnabled)
-                summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_1);
-
             for (uint8 i = 0; i < 2; i++)
             {
+                // Starting position. One starts from the first waypoint and another from the last.
+                uint8 pos = !i ? MAX_HOVER_DISK_WAYPOINTS-1 : 0;
+                if (Creature* summon = me->SummonCreature(NPC_HOVER_DISK_CASTER, HoverDiskWaypoints[pos]))
+                    if (summon->IsAIEnabled)
+                        summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_1+i);
+
                 // not sure about its position.
-                summon = me->SummonCreature(NPC_HOVER_DISK_MELEE, HoverDiskWaypoints[0]);
-                if (summon)
+                if (Creature* summon = me->SummonCreature(NPC_HOVER_DISK_MELEE, HoverDiskWaypoints[0]))
                     summon->SetInCombatWithZone();
             }
         }
@@ -518,7 +528,7 @@ public:
                 return;
 
             // We can't cast if we are casting already.
-            if (me->HasUnitState(UNIT_STAT_CASTING))
+            if (me->HasUnitState(UNIT_STATE_CASTING))
                 return;
 
             while (uint32 eventId = events.ExecuteEvent())
@@ -695,6 +705,7 @@ class spell_malygos_vortex_visual : public SpellScriptLoader
                         malygos->SetInCombatWithZone();
 
                         malygos->RemoveUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
+                        malygos->SetFlying(false);
 
                         malygos->GetMotionMaster()->MoveChase(caster->getVictim());
                         malygos->RemoveAura(SPELL_VORTEX_1);
@@ -832,7 +843,7 @@ public:
                     return;
                 }
 
-                if (me->GetMotionMaster()->GetCurrentMovementGeneratorType() != TARGETED_MOTION_TYPE)
+                if (me->GetMotionMaster()->GetCurrentMovementGeneratorType() != CHASE_MOTION_TYPE)
                     me->GetMotionMaster()->MoveFollow(malygos, 0.0f, 0.0f);
             }
         }

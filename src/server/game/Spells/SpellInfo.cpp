@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -503,7 +503,7 @@ bool SpellEffectInfo::IsAura(AuraType aura) const
     return IsAura() && ApplyAuraName == aura;
 }
 
-bool SpellEffectInfo::IsArea() const
+bool SpellEffectInfo::IsTargetingArea() const
 {
     return TargetA.IsArea() || TargetB.IsArea();
 }
@@ -1061,10 +1061,19 @@ bool SpellInfo::IsAbilityOfSkillType(uint32 skillType) const
     return false;
 }
 
-bool SpellInfo::IsAOE() const
+bool SpellInfo::IsAffectingArea() const
 {
     for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
-        if (Effects[i].IsEffect() && Effects[i].IsArea())
+        if (Effects[i].IsEffect() && (Effects[i].IsTargetingArea() || Effects[i].IsEffect(SPELL_EFFECT_PERSISTENT_AREA_AURA) || Effects[i].IsAreaAuraEffect()))
+            return true;
+    return false;
+}
+
+// checks if spell targets are selected from area, doesn't include spell effects in check (like area wide auras for example)
+bool SpellInfo::IsTargetingArea() const
+{
+    for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+        if (Effects[i].IsEffect() && Effects[i].IsTargetingArea())
             return true;
     return false;
 }
@@ -1604,7 +1613,7 @@ SpellCastResult SpellInfo::CheckTarget(Unit const* caster, Unit const* target, b
     }
 
     // not allow casting on flying player
-    if (target->HasUnitState(UNIT_STAT_IN_FLIGHT))
+    if (target->HasUnitState(UNIT_STATE_IN_FLIGHT))
         return SPELL_FAILED_BAD_TARGETS;
 
     if (TargetAuraState && !target->HasAuraState(AuraStateType(TargetAuraState), this, caster))
@@ -1735,6 +1744,17 @@ uint32 SpellInfo::GetEffectMechanicMask(uint8 effIndex) const
     return mask;
 }
 
+uint32 SpellInfo::GetSpellMechanicMaskByEffectMask(uint32 effectMask) const
+{
+    uint32 mask = 0;
+    if (Mechanic)
+        mask |= 1<< Mechanic;
+    for (int i = 0; i < MAX_SPELL_EFFECTS; ++i)
+        if ((effectMask & (1 << i)) && Effects[i].Mechanic)
+            mask |= 1<< Effects[i].Mechanic;
+    return mask;
+}
+
 Mechanics SpellInfo::GetEffectMechanic(uint8 effIndex) const
 {
     if (Effects[effIndex].IsEffect() && Effects[effIndex].Mechanic)
@@ -1742,6 +1762,14 @@ Mechanics SpellInfo::GetEffectMechanic(uint8 effIndex) const
     if (Mechanic)
         return Mechanics(Mechanic);
     return MECHANIC_NONE;
+}
+
+bool SpellInfo::HasAnyEffectMechanic() const
+{
+    for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+        if (Effects[i].Mechanic)
+            return true;
+    return false;
 }
 
 uint32 SpellInfo::GetDispelMask() const
@@ -2292,6 +2320,19 @@ bool SpellInfo::_IsPositiveEffect(uint8 effIndex, bool deep) const
         case SPELLFAMILY_SHAMAN:
             if (Id == 30708)
                 return false;
+            break;
+        case SPELLFAMILY_ROGUE:
+            switch (Id)
+            {
+                // Envenom must be considered as a positive effect even though it deals damage
+                case 32645:     // Envenom (Rank 1)
+                case 32684:     // Envenom (Rank 2)
+                case 57992:     // Envenom (Rank 3)
+                case 57993:     // Envenom (Rank 4)
+                    return true;
+                default:
+                    break;
+            }
             break;
         default:
             break;

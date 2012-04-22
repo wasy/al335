@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -774,7 +774,7 @@ public:
     {
         bool res = false;
         npcTextId = textId;
-        if (player->GetBaseSkillValue(SKILL_ENGINERING) >= skillValue && player->HasSpell(reqSpellId))
+        if (player->GetBaseSkillValue(SKILL_ENGINEERING) >= skillValue && player->HasSpell(reqSpellId))
         {
             if (!player->HasSpell(spellId))
                 res = true;
@@ -790,7 +790,7 @@ public:
         std::string gossipItem;
         bool canLearn = false;
 
-        if (player->HasSkill(SKILL_ENGINERING))
+        if (player->HasSkill(SKILL_ENGINEERING))
         {
             switch (creature->GetEntry())
             {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -641,7 +641,7 @@ public:
 
         void EnterCombat(Unit* /*who*/) {}
 
-        void BeginEvent(Player* pl)
+        void BeginEvent(Player* player)
         {
             if (!instance)
                 return;
@@ -662,7 +662,7 @@ public:
                 me->CombatStart(Shade);
                 Shade->SetUInt32Value(UNIT_NPC_EMOTESTATE, EMOTE_STATE_NONE);
                 Shade->SetTarget(me->GetGUID());
-                if (pl) Shade->AddThreat(pl, 1.0f);
+                if (player) Shade->AddThreat(player, 1.0f);
                 DoZoneInCombat(Shade);
                 EventBegun = true;
             }

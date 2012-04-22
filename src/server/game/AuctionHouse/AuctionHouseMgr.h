@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -30,6 +30,7 @@ class Player;
 class WorldPacket;
 
 #define MIN_AUCTION_TIME (12*HOUR)
+#define MAX_AUCTION_ITEMS 160
 
 enum AuctionError
 {

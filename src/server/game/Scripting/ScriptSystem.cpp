@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -22,25 +22,6 @@
 #include "DatabaseEnv.h"
 
 ScriptPointVector const SystemMgr::_empty;
-
-void SystemMgr::LoadVersion()
-{
-    // Get Version information
-    QueryResult result = WorldDatabase.Query("SELECT script_version FROM version LIMIT 1");
-
-    if (result)
-    {
-        Field* fields = result->Fetch();
-
-        sLog->outString("TSCR: Database version is: %s", fields[0].GetCString());
-        sLog->outString();
-    }
-    else
-    {
-        sLog->outError("TSCR: Missing `version`.`script_version` information.");
-        sLog->outString();
-    }
-}
 
 void SystemMgr::LoadScriptTexts()
 {

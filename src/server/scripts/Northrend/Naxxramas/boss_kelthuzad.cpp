@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -486,7 +486,7 @@ public:
                     else uiGuardiansOfIcecrownTimer -= diff;
                 }
 
-                if (me->HasUnitState(UNIT_STAT_CASTING))
+                if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
 
                 if (uint32 eventId = events.GetEvent())
@@ -683,7 +683,7 @@ public:
 
             // Note: summon must be done by trigger and not by KT.
             // Otherwise, they attack immediately as KT is in combat.
-            for (uint8 i = 0; i <= MAX_ABOMINATIONS; ++i)
+            for (uint8 i = 0; i < MAX_ABOMINATIONS; ++i)
             {
                 if (Creature* sum = trigger->SummonCreature(NPC_ABOMINATION, PosAbominations[i]))
                 {
@@ -692,7 +692,7 @@ public:
                     sum->SetReactState(REACT_DEFENSIVE);
                 }
             }
-            for (uint8 i = 0; i <= MAX_WASTES; ++i)
+            for (uint8 i = 0; i < MAX_WASTES; ++i)
             {
                 if (Creature* sum = trigger->SummonCreature(NPC_WASTE, PosWastes[i]))
                 {
@@ -701,7 +701,7 @@ public:
                     sum->SetReactState(REACT_DEFENSIVE);
                 }
             }
-            for (uint8 i = 0; i <= MAX_WEAVERS; ++i)
+            for (uint8 i = 0; i < MAX_WEAVERS; ++i)
             {
                 if (Creature* sum = trigger->SummonCreature(NPC_WEAVER, PosWeavers[i]))
                 {

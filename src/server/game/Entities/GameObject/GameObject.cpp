@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -30,7 +30,10 @@
 #include "CreatureAISelector.h"
 #include "Group.h"
 
-GameObject::GameObject() : WorldObject(), m_goValue(new GameObjectValue), m_AI(NULL)
+#include "GameObjectModel.h"
+#include "DynamicTree.h"
+
+GameObject::GameObject() : WorldObject(false), m_model(NULL), m_goValue(new GameObjectValue), m_AI(NULL)
 {
     m_objectType |= TYPEMASK_GAMEOBJECT;
     m_objectTypeId = TYPEID_GAMEOBJECT;
@@ -62,6 +65,7 @@ GameObject::~GameObject()
 {
     delete m_goValue;
     delete m_AI;
+    delete m_model;
     //if (m_uint32Values)                                      // field array can be not exist if GameOBject not loaded
     //    CleanupsBeforeDelete();
 }
@@ -91,27 +95,31 @@ void GameObject::CleanupsBeforeDelete(bool /*finalCleanup*/)
         RemoveFromWorld();
 
     if (m_uint32Values)                                      // field array can be not exist if GameOBject not loaded
+        RemoveFromOwner();
+}
+
+void GameObject::RemoveFromOwner()
+{
+    uint64 ownerGUID = GetOwnerGUID();
+    if (!ownerGUID)
+        return;
+
+    if (Unit* owner = ObjectAccessor::GetUnit(*this, ownerGUID))
     {
-        // Possible crash at access to deleted GO in Unit::m_gameobj
-        if (uint64 owner_guid = GetOwnerGUID())
-        {
-            Unit* owner = ObjectAccessor::GetUnit(*this, owner_guid);
-
-            if (owner)
-                owner->RemoveGameObject(this, false);
-            else
-            {
-                const char * ownerType = "creature";
-                if (IS_PLAYER_GUID(owner_guid))
-                    ownerType = "player";
-                else if (IS_PET_GUID(owner_guid))
-                    ownerType = "pet";
-
-                sLog->outError("Delete GameObject (GUID: %u Entry: %u SpellId %u LinkedGO %u) that lost references to owner (GUID %u Type '%s') GO list. Crash possible later.",
-                    GetGUIDLow(), GetGOInfo()->entry, m_spellId, GetGOInfo()->GetLinkedGameObjectEntry(), GUID_LOPART(owner_guid), ownerType);
-            }
-        }
+        owner->RemoveGameObject(this, false);
+        ASSERT(!GetOwnerGUID());
+        return;
     }
+
+    const char * ownerType = "creature";
+    if (IS_PLAYER_GUID(ownerGUID))
+        ownerType = "player";
+    else if (IS_PET_GUID(ownerGUID))
+        ownerType = "pet";
+
+    sLog->outCrash("Delete GameObject (GUID: %u Entry: %u SpellId %u LinkedGO %u) that lost references to owner (GUID %u Type '%s') GO list. Crash possible later.",
+        GetGUIDLow(), GetGOInfo()->entry, m_spellId, GetGOInfo()->GetLinkedGameObjectEntry(), GUID_LOPART(ownerGUID), ownerType);
+    SetOwnerGUID(0);
 }
 
 void GameObject::AddToWorld()
@@ -123,6 +131,13 @@ void GameObject::AddToWorld()
             m_zoneScript->OnGameObjectCreate(this);
 
         sObjectAccessor->AddObject(this);
+        bool startOpen = (GetGoType() == GAMEOBJECT_TYPE_DOOR || GetGoType() == GAMEOBJECT_TYPE_BUTTON ? GetGOInfo()->door.startOpen : false);
+        bool toggledState = (GetGOData() ? GetGOData()->go_state == GO_STATE_ACTIVE : false);
+        if (m_model)
+            GetMap()->Insert(*m_model);
+        if ((startOpen && !toggledState) || (!startOpen && toggledState))
+            EnableCollision(false);
+
         WorldObject::AddToWorld();
     }
 }
@@ -135,14 +150,10 @@ void GameObject::RemoveFromWorld()
         if (m_zoneScript)
             m_zoneScript->OnGameObjectRemove(this);
 
-        // Possible crash at access to deleted GO in Unit::m_gameobj
-        if (uint64 owner_guid = GetOwnerGUID())
-        {
-            if (Unit* owner = GetOwner())
-                owner->RemoveGameObject(this, false);
-            else
-                sLog->outError("Delete GameObject (GUID: %u Entry: %u, Name: %s) that have references in not found creature %u GO list. Crash possible later.", GetGUIDLow(), GetGOInfo()->entry, GetGOInfo()->name.c_str(), GUID_LOPART(owner_guid));
-        }
+        RemoveFromOwner();
+        if (m_model)
+            if (GetMap()->Contains(*m_model))
+                GetMap()->Remove(*m_model);
         WorldObject::RemoveFromWorld();
         sObjectAccessor->RemoveObject(this);
     }
@@ -202,14 +213,16 @@ bool GameObject::Create(uint32 guidlow, uint32 name_id, Map* map, uint32 phaseMa
     // set name for logs usage, doesn't affect anything ingame
     SetName(goinfo->name);
 
-    SetUInt32Value(GAMEOBJECT_DISPLAYID, goinfo->displayId);
+    SetDisplayId(goinfo->displayId);
 
+    m_model = GameObjectModel::Create(*this);
     // GAMEOBJECT_BYTES_1, index at 0, 1, 2 and 3
-    SetGoState(go_state);
     SetGoType(GameobjectTypes(goinfo->type));
+    SetGoState(go_state);
 
     SetGoArtKit(0);                                         // unknown what this is
     SetByteValue(GAMEOBJECT_BYTES_1, 2, artKit);
+
 
     switch (goinfo->type)
     {
@@ -231,13 +244,13 @@ bool GameObject::Create(uint32 guidlow, uint32 name_id, Map* map, uint32 phaseMa
             if (GetGOInfo()->trap.stealthed)
             {
                 m_stealth.AddFlag(STEALTH_TRAP);
-                m_stealth.AddValue(STEALTH_TRAP, 300);
+                m_stealth.AddValue(STEALTH_TRAP, 70);
             }
 
             if (GetGOInfo()->trap.invisible)
             {
                 m_invisibility.AddFlag(INVISIBILITY_TRAP);
-                m_invisibility.AddValue(INVISIBILITY_TRAP, 70);
+                m_invisibility.AddValue(INVISIBILITY_TRAP, 300);
             }
 
             break;
@@ -601,15 +614,8 @@ void GameObject::AddUniqueUse(Player* player)
 void GameObject::Delete()
 {
     SetLootState(GO_NOT_READY);
-    if (GetOwnerGUID())
-    {
-        if (Unit* owner = GetOwner())
-            owner->RemoveGameObject(this, false);
-        else    //! Owner not in world anymore
-            SetOwnerGUID(0);
-    }
+    RemoveFromOwner();
 
-    ASSERT (!GetOwnerGUID());
     SendObjectDeSpawnAnim(GetGUID());
 
     SetGoState(GO_STATE_READY);
@@ -705,7 +711,7 @@ void GameObject::SaveToDB(uint32 mapid, uint8 spawnMask, uint32 phaseMask)
     WorldDatabase.CommitTransaction(trans);
 }
 
-bool GameObject::LoadFromDB(uint32 guid, Map* map)
+bool GameObject::LoadGameObjectFromDB(uint32 guid, Map* map, bool addToMap)
 {
     GameObjectData const* data = sObjectMgr->GetGOData(guid);
 
@@ -770,6 +776,9 @@ bool GameObject::LoadFromDB(uint32 guid, Map* map)
 
     m_goData = data;
 
+    if (addToMap && !GetMap()->AddToMap(this))
+        return false;
+
     return true;
 }
 
@@ -777,8 +786,18 @@ void GameObject::DeleteFromDB()
 {
     sObjectMgr->RemoveGORespawnTime(m_DBTableGuid, GetInstanceId());
     sObjectMgr->DeleteGOData(m_DBTableGuid);
-    WorldDatabase.PExecute("DELETE FROM gameobject WHERE guid = '%u'", m_DBTableGuid);
-    WorldDatabase.PExecute("DELETE FROM game_event_gameobject WHERE guid = '%u'", m_DBTableGuid);
+
+    PreparedStatement* stmt = WorldDatabase.GetPreparedStatement(WORLD_DEL_GAMEOBJECT);
+
+    stmt->setUInt32(0, m_DBTableGuid);
+
+    WorldDatabase.Execute(stmt);
+
+    stmt = WorldDatabase.GetPreparedStatement(WORLD_DEL_EVENT_GAMEOBJECT);
+
+    stmt->setUInt32(0, m_DBTableGuid);
+
+    WorldDatabase.Execute(stmt);
 }
 
 GameObject* GameObject::GetGameObject(WorldObject& object, uint64 guid)
@@ -846,6 +865,20 @@ bool GameObject::IsAlwaysVisibleFor(WorldObject const* seer) const
 
     if (IsTransport())
         return true;
+
+    if (!seer)
+        return false;
+
+    // Always seen by owner and friendly units
+    if (uint64 guid = GetOwnerGUID())
+    {
+        if (seer->GetGUID() == guid)
+            return true;
+
+        Unit* owner = GetOwner();
+        if (owner && seer->isType(TYPEMASK_UNIT) && owner->IsFriendlyTo(((Unit*)seer)))
+            return true;
+    }
 
     return false;
 }
@@ -971,7 +1004,7 @@ void GameObject::ResetDoorOrButton()
     m_cooldownTime = 0;
 }
 
-void GameObject::UseDoorOrButton(uint32 time_to_restore, bool alternative /* = false */)
+void GameObject::UseDoorOrButton(uint32 time_to_restore, bool alternative /* = false */, Unit* user /*=NULL*/)
 {
     if (m_lootState != GO_READY)
         return;
@@ -980,7 +1013,7 @@ void GameObject::UseDoorOrButton(uint32 time_to_restore, bool alternative /* = f
         time_to_restore = GetGOInfo()->GetAutoCloseTime();
 
     SwitchDoorOrButton(true, alternative);
-    SetLootState(GO_ACTIVATED);
+    SetLootState(GO_ACTIVATED, user);
 
     m_cooldownTime = time(NULL) + time_to_restore;
 }
@@ -1050,7 +1083,7 @@ void GameObject::Use(Unit* user)
         case GAMEOBJECT_TYPE_DOOR:                          //0
         case GAMEOBJECT_TYPE_BUTTON:                        //1
             //doors/buttons never really despawn, only reset to default state/flags
-            UseDoorOrButton();
+            UseDoorOrButton(0, false, user);
 
             // activate script
             GetMap()->ScriptsStart(sGameObjectScripts, GetDBTableGUIDLow(), spellCaster, this);
@@ -1203,7 +1236,7 @@ void GameObject::Use(Unit* user)
                 TriggeringLinkedGameObject(trapEntry, user);
 
             SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_IN_USE);
-            SetLootState(GO_ACTIVATED);
+            SetLootState(GO_ACTIVATED, user);
 
             // this appear to be ok, however others exist in addition to this that should have custom (ex: 190510, 188692, 187389)
             if (info->goober.customAnim)
@@ -1284,8 +1317,9 @@ void GameObject::Use(Unit* user)
                     {
                         player->UpdateFishingSkill();
 
+                        //TODO: I do not understand this hack. Need some explanation.
                         // prevent removing GO at spell cancel
-                        player->RemoveGameObject(this, false);
+                        RemoveFromOwner();
                         SetOwnerGUID(player->GetGUID());
 
                         //TODO: find reasonable value for fishing hole search
@@ -1775,7 +1809,7 @@ void GameObject::SetDestructibleState(GameObjectDestructibleState state, Player*
     {
         case GO_DESTRUCTIBLE_INTACT:
             RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_DAMAGED | GO_FLAG_DESTROYED);
-            SetUInt32Value(GAMEOBJECT_DISPLAYID, m_goInfo->displayId);
+            SetDisplayId(m_goInfo->displayId);
             if (setHealth)
             {
                 m_goValue->Building.Health = m_goValue->Building.MaxHealth;
@@ -1797,7 +1831,7 @@ void GameObject::SetDestructibleState(GameObjectDestructibleState state, Player*
             if (DestructibleModelDataEntry const* modelData = sDestructibleModelDataStore.LookupEntry(m_goInfo->building.destructibleData))
                 if (modelData->DamagedDisplayId)
                     modelId = modelData->DamagedDisplayId;
-            SetUInt32Value(GAMEOBJECT_DISPLAYID, modelId);
+            SetDisplayId(modelId);
 
             if (setHealth)
             {
@@ -1830,7 +1864,7 @@ void GameObject::SetDestructibleState(GameObjectDestructibleState state, Player*
             if (DestructibleModelDataEntry const* modelData = sDestructibleModelDataStore.LookupEntry(m_goInfo->building.destructibleData))
                 if (modelData->DestroyedDisplayId)
                     modelId = modelData->DestroyedDisplayId;
-            SetUInt32Value(GAMEOBJECT_DISPLAYID, modelId);
+            SetDisplayId(modelId);
 
             if (setHealth)
             {
@@ -1848,7 +1882,7 @@ void GameObject::SetDestructibleState(GameObjectDestructibleState state, Player*
             if (DestructibleModelDataEntry const* modelData = sDestructibleModelDataStore.LookupEntry(m_goInfo->building.destructibleData))
                 if (modelData->RebuildingDisplayId)
                     modelId = modelData->RebuildingDisplayId;
-            SetUInt32Value(GAMEOBJECT_DISPLAYID, modelId);
+            SetDisplayId(modelId);
 
             // restores to full health
             if (setHealth)
@@ -1859,4 +1893,80 @@ void GameObject::SetDestructibleState(GameObjectDestructibleState state, Player*
             break;
         }
     }
+}
+
+void GameObject::SetLootState(LootState state, Unit* unit)
+{
+    m_lootState = state;
+    AI()->OnStateChanged(state, unit);
+    if (m_model)
+    {
+        // startOpen determines whether we are going to add or remove the LoS on activation
+        bool startOpen = (GetGoType() == GAMEOBJECT_TYPE_DOOR || GetGoType() == GAMEOBJECT_TYPE_BUTTON ? GetGOInfo()->door.startOpen : false);
+
+        if (GetGOData() && GetGOData()->go_state == GO_NOT_READY)
+            startOpen = !startOpen;
+
+        if (state == GO_ACTIVATED || state == GO_JUST_DEACTIVATED)
+            EnableCollision(startOpen);
+        else if (state == GO_READY)
+            EnableCollision(!startOpen);
+    }
+}
+
+void GameObject::SetGoState(GOState state)
+{
+    SetByteValue(GAMEOBJECT_BYTES_1, 0, state);
+    if (m_model)
+    {
+        if (!IsInWorld())
+            return;
+
+        // startOpen determines whether we are going to add or remove the LoS on activation
+        bool startOpen = (GetGoType() == GAMEOBJECT_TYPE_DOOR || GetGoType() == GAMEOBJECT_TYPE_BUTTON ? GetGOInfo()->door.startOpen : false);
+
+        if (GetGOData() && GetGOData()->go_state == GO_NOT_READY)
+            startOpen = !startOpen;
+
+        if (state == GO_STATE_ACTIVE || state == GO_STATE_ACTIVE_ALTERNATIVE)
+            EnableCollision(startOpen);
+        else if (state == GO_STATE_READY)
+            EnableCollision(!startOpen);
+    }
+}
+
+void GameObject::SetDisplayId(uint32 displayid)
+{
+    SetUInt32Value(GAMEOBJECT_DISPLAYID, displayid);
+    UpdateModel();
+}
+
+void GameObject::SetPhaseMask(uint32 newPhaseMask, bool update)
+{
+    WorldObject::SetPhaseMask(newPhaseMask, update);
+    EnableCollision(true);
+}
+
+void GameObject::EnableCollision(bool enable)
+{
+    if (!m_model)
+        return;
+
+    /*if (enable && !GetMap()->Contains(*m_model))
+        GetMap()->Insert(*m_model);*/
+
+    m_model->enable(enable ? GetPhaseMask() : 0);
+}
+
+void GameObject::UpdateModel()
+{
+    if (!IsInWorld())
+        return;
+    if (m_model)
+        if (GetMap()->Contains(*m_model))
+            GetMap()->Remove(*m_model);
+    delete m_model;
+    m_model = GameObjectModel::Create(*this);
+    if (m_model)
+        GetMap()->Insert(*m_model);
 }

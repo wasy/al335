@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -56,7 +56,7 @@ public:
                 break;
             case GOSSIP_ACTION_INFO_DEF+11:
                 player->CLOSE_GOSSIP_MENU();
-                creature->CastSpell(player, SPELL_LEARN_SMELT, false);
+                player->CastSpell(player, SPELL_LEARN_SMELT, false);
                 break;
             case GOSSIP_ACTION_INFO_DEF+2:
                 player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_TEACH_3, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 22);
@@ -117,7 +117,7 @@ public:
                 player->CLOSE_GOSSIP_MENU();
                 //start event here
                 creature->setFaction(FACTION_HOSTILE);
-                creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+                creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IMMUNE_TO_PC);
                 creature->AI()->AttackStart(player);
                 InstanceScript* instance = creature->GetInstanceScript();
                 if (instance)
@@ -165,7 +165,7 @@ public:
             me->setFaction(FACTION_FRIEND);
 
             // was set before event start, so set again
-            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IMMUNE_TO_PC);
 
             if (instance)
             {

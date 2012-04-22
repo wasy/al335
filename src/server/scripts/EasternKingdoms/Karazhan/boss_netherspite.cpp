@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -136,9 +136,9 @@ public:
         {
             uint8 r = rand()%4;
             uint8 pos[3];
-            pos[RED_PORTAL] = (r%2 ? (r>1 ? 2: 1): 0);
-            pos[GREEN_PORTAL] = (r%2 ? 0: (r>1 ? 2: 1));
-            pos[BLUE_PORTAL] = (r>1 ? 1: 2); // Blue Portal not on the left side (0)
+            pos[RED_PORTAL] = ((r % 2) ? (r > 1 ? 2 : 1) : 0);
+            pos[GREEN_PORTAL] = ((r % 2) ? 0 : (r > 1 ? 2 : 1));
+            pos[BLUE_PORTAL] = (r > 1 ? 1 : 2); // Blue Portal not on the left side (0)
 
             for (int i=0; i<3; ++i)
                 if (Creature* portal = me->SummonCreature(PortalID[i], PortalCoord[pos[i]][0], PortalCoord[pos[i]][1], PortalCoord[pos[i]][2], 0, TEMPSUMMON_TIMED_DESPAWN, 60000))

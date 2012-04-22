@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -176,10 +176,12 @@ enum BG_AB_Objectives
     AB_OBJECTIVE_DEFEND_BASE            = 123
 };
 
-#define BG_AB_NotABBGWeekendHonorTicks      330
-#define BG_AB_ABBGWeekendHonorTicks         200
-#define BG_AB_NotABBGWeekendReputationTicks 200
-#define BG_AB_ABBGWeekendReputationTicks    150
+#define BG_AB_NotABBGWeekendHonorTicks      260
+#define BG_AB_ABBGWeekendHonorTicks         160
+#define BG_AB_NotABBGWeekendReputationTicks 160
+#define BG_AB_ABBGWeekendReputationTicks    120
+
+#define AB_EVENT_START_BATTLE               9158 // Achievement: Let's Get This Done
 
 // x, y, z, o
 const float BG_AB_NodePositions[BG_AB_DYNAMIC_NODES_COUNT][4] = {
@@ -245,10 +247,10 @@ class BattlegroundAB : public Battleground
         BattlegroundAB();
         ~BattlegroundAB();
 
-        void AddPlayer(Player* plr);
+        void AddPlayer(Player* player);
         virtual void StartingEventCloseDoors();
         virtual void StartingEventOpenDoors();
-        void RemovePlayer(Player* plr, uint64 guid, uint32 team);
+        void RemovePlayer(Player* player, uint64 guid, uint32 team);
         void HandleAreaTrigger(Player* Source, uint32 Trigger);
         virtual bool SetupBattleground();
         virtual void Reset();

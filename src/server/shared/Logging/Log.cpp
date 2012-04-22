@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -29,7 +29,7 @@ extern LoginDatabaseWorkerPool LoginDatabase;
 
 Log::Log() :
     raLogfile(NULL), logfile(NULL), gmLogfile(NULL), charLogfile(NULL),
-    dberLogfile(NULL), chatLogfile(NULL), arenaLogFile(NULL), sqlLogFile(NULL), sqlDevLogFile(NULL),
+    dberLogfile(NULL), chatLogfile(NULL), arenaLogFile(NULL), sqlLogFile(NULL), sqlDevLogFile(NULL), wardenLogFile(NULL),
     m_gmlog_per_account(false), m_enableLogDBLater(false),
     m_enableLogDB(false), m_colored(false)
 {
@@ -73,6 +73,10 @@ Log::~Log()
     if (sqlDevLogFile != NULL)
         fclose(sqlDevLogFile);
     sqlDevLogFile = NULL;
+
+    if (wardenLogFile != NULL)
+        fclose(wardenLogFile);
+    wardenLogFile = NULL;
 }
 
 void Log::SetLogLevel(char *Level)
@@ -166,6 +170,7 @@ void Log::Initialize()
     arenaLogFile = openLogFile("ArenaLogFile", NULL, "a");
     sqlLogFile = openLogFile("SQLDriverLogFile", NULL, "a");
     sqlDevLogFile = openLogFile("SQLDeveloperLogFile", NULL, "a");
+    wardenLogFile = openLogFile("Warden.LogFile",NULL,"a");
 
     // Main log file settings
     m_logLevel     = ConfigMgr::GetIntDefault("LogLevel", LOGL_NORMAL);
@@ -370,13 +375,17 @@ void Log::outDB(LogTypes type, const char * str)
     if (!str || type >= MAX_LOG_TYPES)
          return;
 
-    std::string new_str(str);
-    if (new_str.empty())
+    std::string logStr(str);
+    if (logStr.empty())
         return;
-    LoginDatabase.EscapeString(new_str);
 
-    LoginDatabase.PExecute("INSERT INTO logs (time, realm, type, string) "
-        "VALUES (" UI64FMTD ", %u, %u, '%s');", uint64(time(0)), realm, type, new_str.c_str());
+    PreparedStatement* stmt = LoginDatabase.GetPreparedStatement(LOGIN_INS_LOG);
+
+    stmt->setInt32(0, realm);
+    stmt->setInt32(1, type);
+    stmt->setString(2, logStr);
+
+    LoginDatabase.Execute(stmt);
 }
 
 void Log::outString(const char * str, ...)
@@ -556,10 +565,10 @@ void Log::outSQLDriver(const char* str, ...)
     {
         outTimestamp(sqlLogFile);
 
-        va_list ap;
-        va_start(ap, str);
-        vfprintf(sqlLogFile, str, ap);
-        va_end(ap);
+        va_list apSQL;
+        va_start(apSQL, str);
+        vfprintf(sqlLogFile, str, apSQL);
+        va_end(apSQL);
 
         fprintf(sqlLogFile, "\n");
         fflush(sqlLogFile);
@@ -646,11 +655,11 @@ void Log::outBasic(const char * str, ...)
         if (logfile)
         {
             outTimestamp(logfile);
-            va_list ap;
-            va_start(ap, str);
-            vfprintf(logfile, str, ap);
+            va_list ap2;
+            va_start(ap2, str);
+            vfprintf(logfile, str, ap2);
             fprintf(logfile, "\n" );
-            va_end(ap);
+            va_end(ap2);
             fflush(logfile);
         }
     }
@@ -690,10 +699,10 @@ void Log::outDetail(const char * str, ...)
         if (logfile)
         {
             outTimestamp(logfile);
-            va_list ap;
-            va_start(ap, str);
-            vfprintf(logfile, str, ap);
-            va_end(ap);
+            va_list ap2;
+            va_start(ap2, str);
+            vfprintf(logfile, str, ap2);
+            va_end(ap2);
 
             fprintf(logfile, "\n");
             fflush(logfile);
@@ -720,10 +729,10 @@ void Log::outDebugInLine(const char * str, ...)
 
         if (logfile)
         {
-            va_list ap;
-            va_start(ap, str);
-            vfprintf(logfile, str, ap);
-            va_end(ap);
+            va_list ap2;
+            va_start(ap2, str);
+            vfprintf(logfile, str, ap2);
+            va_end(ap2);
         }
     }
 }
@@ -742,10 +751,10 @@ void Log::outSQLDev(const char* str, ...)
 
     if (sqlDevLogFile)
     {
-        va_list ap;
-        va_start(ap, str);
-        vfprintf(sqlDevLogFile, str, ap);
-        va_end(ap);
+        va_list ap2;
+        va_start(ap2, str);
+        vfprintf(sqlDevLogFile, str, ap2);
+        va_end(ap2);
 
         fprintf(sqlDevLogFile, "\n");
         fflush(sqlDevLogFile);
@@ -790,10 +799,10 @@ void Log::outDebug(DebugLogFilters f, const char * str, ...)
         if (logfile)
         {
             outTimestamp(logfile);
-            va_list ap;
-            va_start(ap, str);
-            vfprintf(logfile, str, ap);
-            va_end(ap);
+            va_list ap2;
+            va_start(ap2, str);
+            vfprintf(logfile, str, ap2);
+            va_end(ap2);
 
             fprintf(logfile, "\n" );
             fflush(logfile);
@@ -835,10 +844,10 @@ void Log::outStaticDebug(const char * str, ...)
         if (logfile)
         {
             outTimestamp(logfile);
-            va_list ap;
-            va_start(ap, str);
-            vfprintf(logfile, str, ap);
-            va_end(ap);
+            va_list ap2;
+            va_start(ap2, str);
+            vfprintf(logfile, str, ap2);
+            va_end(ap2);
 
             fprintf(logfile, "\n" );
             fflush(logfile);
@@ -900,11 +909,11 @@ void Log::outCommand(uint32 account, const char * str, ...)
         if (logfile)
         {
             outTimestamp(logfile);
-            va_list ap;
-            va_start(ap, str);
-            vfprintf(logfile, str, ap);
+            va_list ap2;
+            va_start(ap2, str);
+            vfprintf(logfile, str, ap2);
             fprintf(logfile, "\n" );
-            va_end(ap);
+            va_end(ap2);
             fflush(logfile);
         }
     }
@@ -1050,4 +1059,21 @@ void Log::outErrorST(const char * str, ...)
 
     ACE_Stack_Trace st;
     outError("%s [Stacktrace: %s]", nnew_str, st.c_str());
+}
+
+void Log::outWarden(const char * str, ...)
+{
+    if (!str)
+        return;
+
+    if (wardenLogFile)
+    {
+        outTimestamp(wardenLogFile);
+        va_list ap;
+        va_start(ap, str);
+        vfprintf(wardenLogFile, str, ap);
+        fprintf(wardenLogFile, "\n" );
+        fflush(wardenLogFile);
+        va_end(ap);
+    }
 }

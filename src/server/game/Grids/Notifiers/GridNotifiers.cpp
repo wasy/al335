@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -30,8 +30,7 @@
 
 using namespace Trinity;
 
-void
-VisibleNotifier::SendToSelf()
+void VisibleNotifier::SendToSelf()
 {
     // at this moment i_clientGUIDs have guids that not iterate at grid level checks
     // but exist one case when this possible and object not out of range: transports
@@ -56,9 +55,9 @@ VisibleNotifier::SendToSelf()
 
         if (IS_PLAYER_GUID(*it))
         {
-            Player* plr = ObjectAccessor::FindPlayer(*it);
-            if (plr && plr->IsInWorld() && !plr->isNeedNotify(NOTIFY_VISIBILITY_CHANGED))
-                plr->UpdateVisibilityOf(&i_player);
+            Player* player = ObjectAccessor::FindPlayer(*it);
+            if (player && player->IsInWorld() && !player->isNeedNotify(NOTIFY_VISIBILITY_CHANGED))
+                player->UpdateVisibilityOf(&i_player);
         }
     }
 
@@ -73,10 +72,9 @@ VisibleNotifier::SendToSelf()
         i_player.SendInitialVisiblePackets(*it);
 }
 
-void
-VisibleChangesNotifier::Visit(PlayerMapType &m)
+void VisibleChangesNotifier::Visit(PlayerMapType &m)
 {
-    for (PlayerMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
+    for (PlayerMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
         if (iter->getSource() == &i_object)
             continue;
@@ -91,8 +89,7 @@ VisibleChangesNotifier::Visit(PlayerMapType &m)
     }
 }
 
-void
-VisibleChangesNotifier::Visit(CreatureMapType &m)
+void VisibleChangesNotifier::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
         if (!iter->getSource()->GetSharedVisionList().empty())
@@ -102,8 +99,7 @@ VisibleChangesNotifier::Visit(CreatureMapType &m)
                     (*i)->UpdateVisibilityOf(&i_object);
 }
 
-void
-VisibleChangesNotifier::Visit(DynamicObjectMapType &m)
+void VisibleChangesNotifier::Visit(DynamicObjectMapType &m)
 {
     for (DynamicObjectMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
         if (IS_PLAYER_GUID(iter->getSource()->GetCasterGUID()))
@@ -117,7 +113,7 @@ inline void CreatureUnitRelocationWorker(Creature* c, Unit* u)
     if (!u->isAlive() || !c->isAlive() || c == u || u->isInFlight())
         return;
 
-    if (c->HasReactState(REACT_AGGRESSIVE) && !c->HasUnitState(UNIT_STAT_SIGHTLESS))
+    if (c->HasReactState(REACT_AGGRESSIVE) && !c->HasUnitState(UNIT_STATE_SIGHTLESS))
         if (c->IsAIEnabled && c->canSeeOrDetect(u, false, true))
             c->AI()->MoveInLineOfSight_Safe(u);
 }
@@ -126,16 +122,16 @@ void PlayerRelocationNotifier::Visit(PlayerMapType &m)
 {
     for (PlayerMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
     {
-        Player* plr = iter->getSource();
+        Player* player = iter->getSource();
 
-        vis_guids.erase(plr->GetGUID());
+        vis_guids.erase(player->GetGUID());
 
-        i_player.UpdateVisibilityOf(plr, i_data, i_visibleNow);
+        i_player.UpdateVisibilityOf(player, i_data, i_visibleNow);
 
-        if (plr->m_seer->isNeedNotify(NOTIFY_VISIBILITY_CHANGED))
+        if (player->m_seer->isNeedNotify(NOTIFY_VISIBILITY_CHANGED))
             continue;
 
-        plr->UpdateVisibilityOf(&i_player);
+        player->UpdateVisibilityOf(&i_player);
     }
 }
 
@@ -160,12 +156,12 @@ void CreatureRelocationNotifier::Visit(PlayerMapType &m)
 {
     for (PlayerMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
     {
-        Player* pl = iter->getSource();
+        Player* player = iter->getSource();
 
-        if (!pl->m_seer->isNeedNotify(NOTIFY_VISIBILITY_CHANGED))
-            pl->UpdateVisibilityOf(&i_creature);
+        if (!player->m_seer->isNeedNotify(NOTIFY_VISIBILITY_CHANGED))
+            player->UpdateVisibilityOf(&i_creature);
 
-        CreatureUnitRelocationWorker(&i_creature, pl);
+        CreatureUnitRelocationWorker(&i_creature, player);
     }
 }
 
@@ -241,8 +237,7 @@ void AIRelocationNotifier::Visit(CreatureMapType &m)
     }
 }
 
-void
-MessageDistDeliverer::Visit(PlayerMapType &m)
+void MessageDistDeliverer::Visit(PlayerMapType &m)
 {
     for (PlayerMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
@@ -312,17 +307,17 @@ void MessageDistDeliverer::Visit(DynamicObjectMapType &m)
 
 /*
 void
-MessageDistDeliverer::VisitObject(Player* plr)
+MessageDistDeliverer::VisitObject(Player* player)
 {
-    if (!i_ownTeamOnly || (i_source.GetTypeId() == TYPEID_PLAYER && plr->GetTeam() == ((Player&)i_source).GetTeam()))
+    if (!i_ownTeamOnly || (i_source.GetTypeId() == TYPEID_PLAYER && player->GetTeam() == ((Player&)i_source).GetTeam()))
     {
-        SendPacket(plr);
+        SendPacket(player);
     }
 }
 */
 
-template<class T> void
-ObjectUpdater::Visit(GridRefManager<T> &m)
+template<class T>
+void ObjectUpdater::Visit(GridRefManager<T> &m)
 {
     for (typename GridRefManager<T>::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
@@ -349,7 +344,7 @@ bool AnyDeadUnitObjectInRangeCheck::operator()(Creature* u)
 bool AnyDeadUnitSpellTargetInRangeCheck::operator()(Player* u)
 {
     return AnyDeadUnitObjectInRangeCheck::operator()(u)
-        && i_spellInfo->CheckTarget(i_searchObj, u, true)
+        && (i_spellInfo->CheckTarget(i_searchObj, u, true) == SPELL_CAST_OK)
         && i_searchObj->IsTargetMatchingCheck(u, i_check);
 }
 
@@ -357,14 +352,14 @@ bool AnyDeadUnitSpellTargetInRangeCheck::operator()(Corpse* u)
 {
     Player* owner = ObjectAccessor::FindPlayer(u->GetOwnerGUID());
     return owner && AnyDeadUnitObjectInRangeCheck::operator()(u)
-        && i_spellInfo->CheckTarget(i_searchObj, owner, true)
+        && (i_spellInfo->CheckTarget(i_searchObj, owner, true) == SPELL_CAST_OK)
         && i_searchObj->IsTargetMatchingCheck(owner, i_check);
 }
 
 bool AnyDeadUnitSpellTargetInRangeCheck::operator()(Creature* u)
 {
     return AnyDeadUnitObjectInRangeCheck::operator()(u)
-        && i_spellInfo->CheckTarget(i_searchObj, u, true)
+        && (i_spellInfo->CheckTarget(i_searchObj, u, true) == SPELL_CAST_OK)
         && i_searchObj->IsTargetMatchingCheck(u, i_check);
 }
 

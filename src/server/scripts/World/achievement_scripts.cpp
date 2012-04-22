@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -23,24 +23,6 @@
 #include "BattlegroundSA.h"
 #include "BattlegroundAV.h"
 #include "Vehicle.h"
-
-class achievement_storm_glory : public AchievementCriteriaScript
-{
-    public:
-        achievement_storm_glory() : AchievementCriteriaScript("achievement_storm_glory") { }
-
-        bool OnCheck(Player* source, Unit* /*target*/)
-        {
-            if (source->GetBattlegroundTypeId() != BATTLEGROUND_EY)
-                return false;
-
-            Battleground* pEotS = source->GetBattleground();
-            if (!pEotS)
-                return false;
-
-            return pEotS->IsAllNodesConrolledByTeam(source->GetTeam());
-        }
-};
 
 class achievement_resilient_victory : public AchievementCriteriaScript
 {
@@ -93,11 +75,14 @@ class achievement_save_the_day : public AchievementCriteriaScript
 
             if (Player const* player = target->ToPlayer())
             {
-                if (source->GetBattlegroundTypeId() != BATTLEGROUND_WS || !source->GetBattleground())
+                Battleground* bg = source->GetBattleground();
+                if (!bg)
                     return false;
 
-                BattlegroundWS* pWSG = static_cast<BattlegroundWS*>(source->GetBattleground());
-                if (pWSG->GetFlagState(player->GetTeam()) == BG_WS_FLAG_STATE_ON_BASE)
+                if (bg->GetTypeID(true) != BATTLEGROUND_WS)
+                    return false;
+
+                if (static_cast<BattlegroundWS*>(bg)->GetFlagState(player->GetTeam()) == BG_WS_FLAG_STATE_ON_BASE)
                     return true;
             }
             return false;
@@ -219,7 +204,7 @@ class achievement_everything_counts : public AchievementCriteriaScript
             if (!bg)
                 return false;
 
-            if (source->GetBattlegroundTypeId() != BATTLEGROUND_AV)
+            if (bg->GetTypeID(true) != BATTLEGROUND_AV)
                 return false;
 
             if (static_cast<BattlegroundAV*>(bg)->IsBothMinesControlledByTeam(source->GetTeam()))
@@ -240,7 +225,7 @@ class achievement_bg_av_perfection : public AchievementCriteriaScript
             if (!bg)
                 return false;
 
-            if (source->GetBattlegroundTypeId() != BATTLEGROUND_AV)
+            if (bg->GetTypeID(true) != BATTLEGROUND_AV)
                 return false;
 
             if (static_cast<BattlegroundAV*>(bg)->IsAllTowersControlledAndCaptainAlive(source->GetTeam()))
@@ -300,9 +285,36 @@ class achievement_bg_sa_defense_of_ancients : public AchievementCriteriaScript
         }
 };
 
+enum ArgentTournamentAreas
+{
+    AREA_ARGENT_TOURNAMENT_FIELDS  = 4658,
+    AREA_RING_OF_ASPIRANTS         = 4670,
+    AREA_RING_OF_ARGENT_VALIANTS   = 4671,
+    AREA_RING_OF_ALLIANCE_VALIANTS = 4672,
+    AREA_RING_OF_HORDE_VALIANTS    = 4673,
+    AREA_RING_OF_CHAMPIONS         = 4669,
+};
+
+class achievement_tilted : public AchievementCriteriaScript
+{
+    public:
+        achievement_tilted() : AchievementCriteriaScript("achievement_tilted") {}
+
+        bool OnCheck(Player* player, Unit* /*target*/)
+        {
+            bool checkArea = player->GetAreaId() == AREA_ARGENT_TOURNAMENT_FIELDS ||
+                                player->GetAreaId() == AREA_RING_OF_ASPIRANTS ||
+                                player->GetAreaId() == AREA_RING_OF_ARGENT_VALIANTS ||
+                                player->GetAreaId() == AREA_RING_OF_ALLIANCE_VALIANTS ||
+                                player->GetAreaId() == AREA_RING_OF_HORDE_VALIANTS ||
+                                player->GetAreaId() == AREA_RING_OF_CHAMPIONS;
+
+            return player && checkArea && player->duel && player->duel->isMounted;
+        }
+};
+
 void AddSC_achievement_scripts()
 {
-    new achievement_storm_glory();
     new achievement_resilient_victory();
     new achievement_bg_control_all_nodes();
     new achievement_save_the_day();
@@ -318,4 +330,5 @@ void AddSC_achievement_scripts()
     new achievement_arena_kills("achievement_arena_3v3_kills", ARENA_TYPE_3v3);
     new achievement_arena_kills("achievement_arena_5v5_kills", ARENA_TYPE_5v5);
     new achievement_bg_sa_defense_of_ancients();
+    new achievement_tilted();
 }

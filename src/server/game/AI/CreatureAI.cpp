@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -59,8 +59,8 @@ void CreatureAI::DoZoneInCombat(Creature* creature /*= NULL*/, float maxRangeToN
 
     if (!creature->HasReactState(REACT_PASSIVE) && !creature->getVictim())
     {
-        if (Unit* target = creature->SelectNearestTarget(maxRangeToNearestTarget))
-            creature->AI()->AttackStart(target);
+        if (Unit* nearTarget = creature->SelectNearestTarget(maxRangeToNearestTarget))
+            creature->AI()->AttackStart(nearTarget);
         else if (creature->isSummon())
         {
             if (Unit* summoner = creature->ToTempSummon()->GetSummoner())

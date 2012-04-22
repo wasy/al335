@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -102,9 +102,7 @@ uint32 LootStore::LoadLootTable()
     QueryResult result = WorldDatabase.PQuery("SELECT entry, item, ChanceOrQuestChance, lootmode, groupid, mincountOrRef, maxcount FROM %s", GetName());
 
     if (!result)
-    {
         return 0;
-}
 
     uint32 count = 0;
 
@@ -341,7 +339,7 @@ LootItem::LootItem(LootStoreItem const& li)
 bool LootItem::AllowedForPlayer(Player const* player) const
 {
     // DB conditions check
-    if (!sConditionMgr->IsPlayerMeetToConditions(const_cast<Player*>(player), conditions))
+    if (!sConditionMgr->IsObjectMeetToConditions(const_cast<Player*>(player), conditions))
         return false;
 
     ItemTemplate const* pProto = sObjectMgr->GetItemTemplate(itemid);
@@ -436,8 +434,8 @@ bool Loot::FillLoot(uint32 lootId, LootStore const& store, Player* lootOwner, bo
         roundRobinPlayer = lootOwner->GetGUID();
 
         for (GroupReference* itr = group->GetFirstMember(); itr != NULL; itr = itr->next())
-            if (Player* pl = itr->getSource())   // should actually be looted object instead of lootOwner but looter has to be really close so doesnt really matter
-                FillNotNormalLootFor(pl, pl->IsAtGroupRewardDistance(lootOwner));
+            if (Player* player = itr->getSource())   // should actually be looted object instead of lootOwner but looter has to be really close so doesnt really matter
+                FillNotNormalLootFor(player, player->IsAtGroupRewardDistance(lootOwner));
 
         for (uint8 i = 0; i < items.size(); ++i)
         {
@@ -453,28 +451,28 @@ bool Loot::FillLoot(uint32 lootId, LootStore const& store, Player* lootOwner, bo
     return true;
 }
 
-void Loot::FillNotNormalLootFor(Player* pl, bool presentAtLooting)
+void Loot::FillNotNormalLootFor(Player* player, bool presentAtLooting)
 {
-    uint32 plguid = pl->GetGUIDLow();
+    uint32 plguid = player->GetGUIDLow();
 
     QuestItemMap::const_iterator qmapitr = PlayerQuestItems.find(plguid);
     if (qmapitr == PlayerQuestItems.end())
-        FillQuestLoot(pl);
+        FillQuestLoot(player);
 
     qmapitr = PlayerFFAItems.find(plguid);
     if (qmapitr == PlayerFFAItems.end())
-        FillFFALoot(pl);
+        FillFFALoot(player);
 
     qmapitr = PlayerNonQuestNonFFAConditionalItems.find(plguid);
     if (qmapitr == PlayerNonQuestNonFFAConditionalItems.end())
-        FillNonQuestNonFFAConditionalLoot(pl, presentAtLooting);
+        FillNonQuestNonFFAConditionalLoot(player, presentAtLooting);
 
     // if not auto-processed player will have to come and pick it up manually
     if (!presentAtLooting)
         return;
 
     // Process currency items
-    uint32 max_slot = GetMaxSlotInLootFor(pl);
+    uint32 max_slot = GetMaxSlotInLootFor(player);
     LootItem const* item = NULL;
     uint32 itemsSize = uint32(items.size());
     for (uint32 i = 0; i < max_slot; ++i)
@@ -484,10 +482,10 @@ void Loot::FillNotNormalLootFor(Player* pl, bool presentAtLooting)
         else
             item = &quest_items[i-itemsSize];
 
-        if (!item->is_looted && item->freeforall && item->AllowedForPlayer(pl))
+        if (!item->is_looted && item->freeforall && item->AllowedForPlayer(player))
             if (ItemTemplate const* proto = sObjectMgr->GetItemTemplate(item->itemid))
                 if (proto->BagFamily & BAG_FAMILY_MASK_CURRENCY_TOKENS)
-                    pl->StoreLootItem(i, this);
+                    player->StoreLootItem(i, this);
     }
 }
 
@@ -592,8 +590,8 @@ void Loot::NotifyItemRemoved(uint8 lootIndex)
     {
         i_next = i;
         ++i_next;
-        if (Player* pl = ObjectAccessor::FindPlayer(*i))
-            pl->SendNotifyLootItemRemoved(lootIndex);
+        if (Player* player = ObjectAccessor::FindPlayer(*i))
+            player->SendNotifyLootItemRemoved(lootIndex);
         else
             PlayersLooting.erase(i);
     }
@@ -607,8 +605,8 @@ void Loot::NotifyMoneyRemoved()
     {
         i_next = i;
         ++i_next;
-        if (Player* pl = ObjectAccessor::FindPlayer(*i))
-            pl->SendNotifyLootMoneyRemoved();
+        if (Player* player = ObjectAccessor::FindPlayer(*i))
+            player->SendNotifyLootMoneyRemoved();
         else
             PlayersLooting.erase(i);
     }
@@ -626,9 +624,9 @@ void Loot::NotifyQuestItemRemoved(uint8 questIndex)
     {
         i_next = i;
         ++i_next;
-        if (Player* pl = ObjectAccessor::FindPlayer(*i))
+        if (Player* player = ObjectAccessor::FindPlayer(*i))
         {
-            QuestItemMap::const_iterator pq = PlayerQuestItems.find(pl->GetGUIDLow());
+            QuestItemMap::const_iterator pq = PlayerQuestItems.find(player->GetGUIDLow());
             if (pq != PlayerQuestItems.end() && pq->second)
             {
                 // find where/if the player has the given item in it's vector
@@ -640,7 +638,7 @@ void Loot::NotifyQuestItemRemoved(uint8 questIndex)
                         break;
 
                 if (j < pql.size())
-                    pl->SendNotifyLootItemRemoved(items.size()+j);
+                    player->SendNotifyLootItemRemoved(items.size()+j);
             }
         }
         else
@@ -1366,7 +1364,7 @@ bool LootTemplate::addConditionItem(Condition* cond)
     {
         for (LootStoreItemList::iterator i = Entries.begin(); i != Entries.end(); ++i)
         {
-            if (i->itemid == cond->mSourceEntry)
+            if (i->itemid == uint32(cond->SourceEntry))
             {
                 i->conditions.push_back(cond);
                 return true;
@@ -1382,7 +1380,7 @@ bool LootTemplate::addConditionItem(Condition* cond)
             {
                 for (LootStoreItemList::iterator i = itemList->begin(); i != itemList->end(); ++i)
                 {
-                    if ((*i).itemid == cond->mSourceEntry)
+                    if ((*i).itemid == uint32(cond->SourceEntry))
                     {
                         (*i).conditions.push_back(cond);
                         return true;
@@ -1394,7 +1392,7 @@ bool LootTemplate::addConditionItem(Condition* cond)
             {
                 for (LootStoreItemList::iterator i = itemList->begin(); i != itemList->end(); ++i)
                 {
-                    if ((*i).itemid == cond->mSourceEntry)
+                    if ((*i).itemid == uint32(cond->SourceEntry))
                     {
                         (*i).conditions.push_back(cond);
                         return true;
